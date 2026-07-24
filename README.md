@@ -1,5 +1,7 @@
 # Inno Agent Hub
 
+[中文](README.md) | [Magyar](README.hu.md)
+
 > Inno Agent 的文档、Skill 与工作区模板合集 —— 一个让你**快速上手、按场景取用、随时贡献**的资源仓库。
 
 [![主项目](https://img.shields.io/badge/main--repo-inno--agent-blue)](https://github.com/hhyqhh/inno-agent)
