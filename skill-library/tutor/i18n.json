@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Universal Tutor",
+      "description": "Teach any subject like an excellent human tutor: build transferable understanding instead of giving answers."
+    },
+    "zh-CN": {
+      "name": "通用家教",
+      "description": "像优秀的人类家教一样教任何学科：建立可迁移的理解，而不是直接给答案。"
+    },
+    "hu": {
+      "name": "Általános oktató",
+      "description": "Bármely tantárgy tanulását támogatja: tartósan alkalmazható megértést épít, nem csak kész válaszokat ad."
+    }
+  }
+}

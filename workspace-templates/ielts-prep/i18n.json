@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "IELTS Preparation",
+      "description": "Academic English preparation workspace: vocabulary, complex sentences, writing and Anki card export.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "雅思备考",
+      "description": "学术英语备考工作区：生词中文释义、长难句结构标注与翻译、改错与仿写练习，以及 Anki CSV 导出。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "IELTS-felkészítő",
+      "description": "Akadémiai angol nyelvvizsga-felkészítő munkatér: szókincs, összetett mondatok, íráskészség és Anki-kártyaexport.",
+      "category": "Oktatás"
+    }
+  }
+}
