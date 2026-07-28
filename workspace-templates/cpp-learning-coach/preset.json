@@ -1,0 +1,7 @@
+{
+  "id": "cpp-learning-coach",
+  "name": "C++ Learning Coach",
+  "description": "Guided C++20 learning with diagnostic assessment, step-by-step exercises, compilation, and constructive code feedback.",
+  "category": "Programming",
+  "icon": "code-2"
+}
