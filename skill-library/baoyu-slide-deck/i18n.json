@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "baoyu-slide-deck",
+      "description": "Generate professional slide deck images from content: first produces an outline with style notes, then generates slide images page by page. Use when quickly creating a presentation or sharing deck."
+    },
+    "zh-CN": {
+      "name": "baoyu-slide-deck",
+      "description": "从内容生成专业幻灯片图像：先产出带风格说明的提纲，再逐页生成幻灯片图（产物为图片，区别于可编辑的 pptx）。需要快速做一套演示/分享页时使用。触发词：幻灯片、演示、做 slides, slide deck, 分享页；presentation, generate deck."
+    },
+    "hu": {
+      "name": "baoyu-slide-deck",
+      "description": "Professzionális diakép-készítés tartalomból: először stílusjegyzetekkel ellátott vázlatot készít, majd oldalanként diaképeket generál. Akkor használd, amikor gyorsan kell egy bemutató vagy megosztó prezentáció."
+    }
+  }
+}

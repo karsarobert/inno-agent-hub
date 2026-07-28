@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "pptx",
+      "description": "Create, read, parse and extract PowerPoint (.pptx) content: make presentation/pitch slides or extract text from existing pptx. Use for any scenario involving .pptx files."
+    },
+    "zh-CN": {
+      "name": "pptx",
+      "description": "创建、读取、解析与提取 PowerPoint（.pptx）内容：制作演示/路演幻灯片，或从已有 pptx 抽取文字。任何涉及 .pptx 的场景都使用本技能。触发词：PPT、幻灯片、演示文稿、.pptx、做一套 slides；pptx, slide deck, presentation."
+    },
+    "hu": {
+      "name": "pptx",
+      "description": "PowerPoint (.pptx) tartalom létrehozása, olvasása, elemzése és kinyerése: bemutató/pitch diák készítése vagy szöveg kinyerése meglévő pptx-ből. Bármilyen .pptx fájlokat érintő feladathoz használd."
+    }
+  }
+}

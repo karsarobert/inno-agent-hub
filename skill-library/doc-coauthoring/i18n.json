@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "doc-coauthoring",
+      "description": "Guide users through a structured collaborative writing workflow to co-author documents, proposals, technical specs, decision records, etc. Use when systematically writing a formal document (instruction-only, no bundled scripts)."
+    },
+    "zh-CN": {
+      "name": "doc-coauthoring",
+      "description": "引导用户走一套结构化的协作写作流程，共同撰写文档、提案、技术规范、决策记录等。需要系统地写一份正式文档时使用（纯指令型，无捆绑脚本）。触发词：写文档、协作写作、技术规范、提案、文档共创；documentation, co-authoring, technical spec."
+    },
+    "hu": {
+      "name": "doc-coauthoring",
+      "description": "Strukturált kooperatív írási munkafolyamat végigvezetése a felhasználónak, dokumentumok, javaslatok, műszaki specifikációk, döntési jegyzőkönyvek közös szerkesztéséhez. Akkor használd, amikor szisztematikusan írsz egy formális dokumentumot (csak utasításalapú, csomagolt szkriptek nélkül)."
+    }
+  }
+}

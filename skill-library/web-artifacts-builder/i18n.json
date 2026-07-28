@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "web-artifacts-builder",
+      "description": "Build complex multi-component claude.ai HTML artifacts using modern frontend technologies like React, Tailwind CSS, and shadcn/ui. Use when creating interactive web works or visualization pages."
+    },
+    "zh-CN": {
+      "name": "web-artifacts-builder",
+      "description": "用 React、Tailwind CSS、shadcn/ui 等现代前端技术，构建复杂的多组件 claude.ai HTML artifact。需要做交互式网页作品或可视化页面时使用。触发词：HTML artifact、交互网页、React 组件、可视化页面；build artifact, interactive web."
+    },
+    "hu": {
+      "name": "web-artifacts-builder",
+      "description": "Összetett, többkomponenses claude.ai HTML artifactok építése modern frontend technológiákkal, mint a React, Tailwind CSS és shadcn/ui. Akkor használd, amikor interaktív webes műveket vagy vizualizációs oldalakat készítesz."
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "tavily-search",
+      "description": "Real-time web search via Tavily API to get the latest information beyond the model's training cutoff. Use when users ask about recent events, real-time data, current status, prices, version numbers, or explicitly request a search."
+    },
+    "zh-CN": {
+      "name": "tavily-search",
+      "description": "通过 Tavily API 进行实时联网搜索，获取模型训练截止日期之后的最新信息。当用户询问近期事件、实时数据、当前状态、价格、版本号等容易过时的事实，或明确要求「搜一下 / 查一下 / 帮我搜索」时使用；纯概念解释、闲聊、基于已有上下文即可完成的推理不要调用。"
+    },
+    "hu": {
+      "name": "tavily-search",
+      "description": "Valós idejű webes keresés Tavily API-n keresztül a modell tréningvágás utáni legfrissebb információkért. Akkor használd, amikor a felhasználó friss eseményekről, valós idejű adatokról, aktuális állapotról, árakról, verziószámokról kérdez, vagy kifejezetten keresést kér."
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Backwards Design Unit Planner",
+      "description": "Plan instructional units using Wiggins & McTighe's Understanding by Design (UbD): work backwards from desired learning outcomes through assessment evidence to learning activities, producing a complete unit plan with big ideas, essential questions, assessment blueprint, WHERETO sequence, and alignment self-check."
+    },
+    "zh-CN": {
+      "name": "逆向设计单元规划器",
+      "description": "用 Wiggins & McTighe 的逆向设计（UbD）规划教学单元：从期望学习成果 → 评估证据 → 学习活动三阶段倒推，产出含大概念/基本问题、评估蓝图、WHERETO 教学序列与对齐自检的完整单元计划。"
+    },
+    "hu": {
+      "name": "Visszafelé tervező egységtervező",
+      "description": "Tanítási egységek tervezése a Wiggins & McTighe-féle visszafelé tervezéssel (UbD): a kívánt tanulási eredményektől az értékelési bizonyítékokon át a tanulási tevékenységekig haladva, teljes egységtervet készít kulcsfogalmakkal, alapvető kérdésekkel, értékelési tervvel, WHERETO sorrenddel és illesztés-ellenőrzéssel."
+    }
+  }
+}

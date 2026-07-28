@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "theme-factory",
+      "description": "Apply preset themes to unify colors and fonts across artifacts (slides, documents, HTML landing pages, etc.). 10 built-in themes, also customizable. Use when giving works a unified visual style."
+    },
+    "zh-CN": {
+      "name": "theme-factory",
+      "description": "用预设主题为各类产物（幻灯片、文档、HTML 落地页等）统一配色与字体，内置 10 套主题，也可自定义。需要给作品套统一视觉风格时使用。触发词：主题、配色、视觉风格、美化幻灯片、美化文档；theme, styling, color scheme."
+    },
+    "hu": {
+      "name": "theme-factory",
+      "description": "Előre beállított témák alkalmazása a színek és betűtípusok egységesítésére munkák között (diák, dokumentumok, HTML landing oldalak stb.). 10 beépített téma, testreszabható. Akkor használd, amikor egységes vizuális stílust szeretnél adni a műnek."
+    }
+  }
+}

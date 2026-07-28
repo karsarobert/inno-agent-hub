@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Learning Opportunities",
+      "description": "Deliberately build real skills during AI-assisted coding: after structural work, proactively offer 10-15 minute evidence-based learning exercises (predict-observe-reflect, retrieval check-in, teach-back) to counter the fluency illusion and skill erosion from vibe coding."
+    },
+    "zh-CN": {
+      "name": "学习机会",
+      "description": "在 AI 辅助编码中刻意培养真实技能:完成架构性工作(新建文件、改 schema、重构)后,主动提供 10-15 分钟的循证学习练习(预测-观察-反思、主动回忆 check-in、teach-back 等),用学习科学对抗“vibe coding”带来的流畅幻觉与能力退化。"
+    },
+    "hu": {
+      "name": "Tanulási lehetőségek",
+      "description": "Tudatos kézségfejlesztés AI-asszisztált kódolás közben: strukturális munka (új fájl, séma módosítás, refaktorálás) után proaktívan 10-15 perces bizonyítékalapú tanulási gyakorlatokat ajánl (jóslás-megfigyelés-reflexió, aktív felidézés, teach-back), a tanulástudomány segítségével szembeállítva a vibe coding okozta folyékonyság-illúziót és kézségromlást."
+    }
+  }
+}

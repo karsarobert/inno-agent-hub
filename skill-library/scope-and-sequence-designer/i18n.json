@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Scope and Sequence Designer",
+      "description": "Designs course scope and sequence (scope & sequence): vertical progression and horizontal articulation across grades and semesters, including prerequisite dependencies, knowledge type diagnosis, hard and advisory ordering constraints, step-by-step teaching sequence with rationale, and coherence checks. Use when building new courses, restructuring subject systems, or mapping progression paths."
+    },
+    "zh-CN": {
+      "name": "课程范围与进度设计器",
+      "description": "设计课程的范围与进度（scope & sequence）：跨年级、跨学期的纵向进阶与横向衔接，含先修依赖、知识类型诊断、硬性与建议的排序约束、逐条带理由的教学顺序与连贯性检查。搭建新课程、重构学科体系或梳理进阶路径时使用。"
+    },
+    "hu": {
+      "name": "Tananyag és ütemterv tervező",
+      "description": "A tananyag körének és ütemezésének tervezése (scope & sequence): függőleges előrehaladás és vízszintes illesztés évfolyamok és félévek között, beleértve az előfeltétel-függőségeket, az tudásmozzanat-tipizálást, a kötelező és ajánlott sorrendiség feltételeit, az indoklással ellátott lépésenkénti tanítási sorrendet és a koherencia-ellenőrzéseket. Új tananyagok építésekor, tantárgyi rendszerek átszervezésekor vagy az előrehaladási útvonalak feltérképezésekor használható."
+    }
+  }
+}

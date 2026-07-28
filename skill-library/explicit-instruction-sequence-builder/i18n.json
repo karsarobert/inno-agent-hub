@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Explicit Instruction Sequence Builder",
+      "description": "Build a complete explicit-instruction lesson sequence: teacher modeling (I Do) → guided practice (We Do) → independent practice (You Do), with comprehension checkpoints, time allocation, examples, and common pitfalls at each stage, based on the gradual release of responsibility model."
+    },
+    "zh-CN": {
+      "name": "显性教学课时序列构建器",
+      "description": "构建完整的显性教学课时序列：教师示范（I Do）→ 引导练习（We Do）→ 独立练习（You Do），含各阶段理解检查点、时间分配、示例与常见误区，基于渐进释放责任模型。"
+    },
+    "hu": {
+      "name": "Explicit tanítási füzér építő",
+      "description": "Teljes explicit tanítási órai sorozat felépítése: tanári bemutatás (Én csinálom) → irányított gyakorlás (Mi csináljuk) → önálló gyakorlás (Te csinálod), megértési ellenőrzőpontokkal, időkeretekkel, példákkal és gyakori hibákkal minden szakaszban, a felelősség fokozatos átadása modell alapján."
+    }
+  }
+}

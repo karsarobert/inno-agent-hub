@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "algorithmic-art",
+      "description": "Create algorithmic generative art with p5.js: reproducible randomness via random seeds, with interactive parameter exploration. Use when generating art through code or creating generative visual works."
+    },
+    "zh-CN": {
+      "name": "algorithmic-art",
+      "description": "用 p5.js 创作算法生成艺术：基于随机种子的可复现随机性，配合交互式参数探索。当用户想用代码生成艺术、做生成式视觉作品时使用。触发词：生成艺术、算法艺术、p5.js、创意编程；generative art, algorithmic art, creative coding."
+    },
+    "hu": {
+      "name": "algorithmic-art",
+      "description": "Algoritmikus generatív művészet készítése p5.js-sel: véletlenszerűségi mag alapú reprodukálhatóság interaktív paraméter-felfedezéssel. Akkor használd, amikor a felhasználó kóddal szeretne művészetet generálni vagy generatív vizuális műveket létrehozni."
+    }
+  }
+}

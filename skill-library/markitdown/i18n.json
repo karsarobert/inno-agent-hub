@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "markitdown",
+      "description": "Convert various file types to Markdown using MarkItDown: PDF, Word/PPT/Excel, images (OCR), audio (transcription), HTML, CSV/JSON/XML, ZIP, YouTube links, EPub, etc. Use when converting files to Markdown for note-taking or feeding to models."
+    },
+    "zh-CN": {
+      "name": "markitdown",
+      "description": "用 MarkItDown 把各类文件转成 Markdown：PDF、Word/PPT/Excel、图片（OCR）、音频（转写）、HTML、CSV/JSON/XML、ZIP、YouTube 链接、EPub 等。做笔记或喂给模型前先转 Markdown 时使用。触发词：转 Markdown、文档转换、提取文本、PDF 转 md；convert to markdown, markitdown."
+    },
+    "hu": {
+      "name": "markitdown",
+      "description": "Különböző fájltípusok Markdown-ká konvertálása MarkItDown segítségével: PDF, Word/PPT/Excel, képek (OCR), hang (átírás), HTML, CSV/JSON/XML, ZIP, YouTube linkek, EPub stb. Akkor használd, amikor fájlokat konvertálsz Markdown-ba jegyzeteléshez vagy modellbe töltéshez."
+    }
+  }
+}

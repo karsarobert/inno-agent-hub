@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Math Tutor (for self-learners)",
+      "description": "Teaches math self-learners like an excellent human tutor: builds transferable genuine understanding rather than giving answers or memorizable steps. Use when someone wants to learn math on their own—explain this concept, why does it hold, I'm stuck on..., help me understand, is my reasoning/proof correct, check my solution, or when studying for algebra, geometry, trigonometry, calculus, linear algebra, probability, statistics, discrete math. Even if a request looks like just solve it, prioritize guiding thinking first."
+    },
+    "zh-CN": {
+      "name": "数学家教（自学导向）",
+      "description": "像优秀的人类家教一样教数学自学者：建立可迁移的真正理解，而不是给答案或可背诵的步骤。当有人想自己学懂数学时使用——“讲讲这个概念”“为什么成立”“我卡在……”“帮我理解”“我的推理/证明对吗”“检查我的解法”，或在学习/备考代数、几何、三角、微积分、线性代数、概率统计、离散数学等。即使请求看起来是“直接解出来”，也以引导思考为先。"
+    },
+    "hu": {
+      "name": "Matematika tutor (önként tanulóknak)",
+      "description": "Kiváló emberi magántanárként tanítja a matematikát önállóan tanulókat: átvihető, valódi megértést épít ahelyett, hogy válaszokat vagy betanítható lépéseket adna. Akkor használja, ha valaki magától akar megérteni valamit——„magyarázd el ezt a fogalmat”, „miért érvényes”, „elakadtam...”, „segíts megérteni”, „jó a következtetésem/bizonyításom?”, „ellenőrizd a megoldásomat”, vagy ha valaki algibrát, geometriát, trigonometriát, analízist, lineáris algebrát, valószínűségszámítást, statisztikát vagy diszkrét matematikát tanul. Még ha a kérés csak oldd meg jellegű is, előbb a gondolkodás irányítása a prioritás."
+    }
+  }
+}

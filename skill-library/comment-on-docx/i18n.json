@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Add Comments to Word Documents",
+      "description": "Add comment-style feedback to Word (.docx) documents: locate specific words and phrases, insert native Word comments without modifying the body text, and save a copy. Ideal for grading essays, reviewing papers, and giving assignment feedback."
+    },
+    "zh-CN": {
+      "name": "Word 文档批注",
+      "description": "给 Word（.docx）文档添加批注式反馈：按批注规范定位到具体词句，以原生 Word 批注写回原文而不改动正文，并另存副本。适合作文/论文/作业批改与文稿评审。"
+    },
+    "hu": {
+      "name": "Word-dokumentum kommentelés",
+      "description": "Megjegyzés-stílusú visszajelzések hozzáadása Word (.docx) dokumentumokhoz: pontos szavak és kifejezések megjelölése, natív Word-megjegyzések beszúrása a szövegtörzs módosítása nélkül, másolat mentése. Esszék, dolgozatok és házi feladatok értékeléséhez, illetve kéziratok lektorálásához."
+    }
+  }
+}

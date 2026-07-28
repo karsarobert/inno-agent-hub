@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "paper-lookup",
+      "description": "Search 10 academic literature databases via REST API (PubMed, PMC full text, bioRxiv, medRxiv, arXiv, OpenAlex, Crossref, Semantic Scholar, CORE, Unpaywall) to find papers, preprints and academic articles."
+    },
+    "zh-CN": {
+      "name": "paper-lookup",
+      "description": "通过 REST API 检索 10 个学术文献库（PubMed、PMC 全文、bioRxiv、medRxiv、arXiv、OpenAlex、Crossref、Semantic Scholar、CORE、Unpaywall），查找论文、预印本与学术文章。触发词：查论文、文献检索、找 paper, arXiv, PubMed, 综述检索；search papers, literature search."
+    },
+    "hu": {
+      "name": "paper-lookup",
+      "description": "10 tudományos irodalmi adatbázis keresése REST API-n keresztül (PubMed, PMC teljes szöveg, bioRxiv, medRxiv, arXiv, OpenAlex, Crossref, Semantic Scholar, CORE, Unpaywall) tanulmányok, preprintek és tudományos cikkek keresésére."
+    }
+  }
+}
