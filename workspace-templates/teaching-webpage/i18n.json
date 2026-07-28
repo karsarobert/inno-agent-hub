@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Teaching Webpage",
+      "description": "Generate a minimal interactive webpage for a lesson, ready for the classroom big screen, with concept display, in-class quizzes, live Q&A tools, and a wrap-up in a single index.html file.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "教学网页",
+      "description": "为本节课生成可在教室大屏使用的极简互动网页：知识点展示、随堂答题、课堂问答与小结，导出为单文件 index.html。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "Oktatási weboldal",
+      "description": "Egyórás tananyaghoz minimális, interaktív, tantermi nagykijelzőre kész weboldalt hoz létre fogalomismertetővel, órai kvízekkel, élő kérdés-válasz eszközökkel és összegzéssel, egyetlen index.html fájlban.",
+      "category": "Oktatás"
+    }
+  }
+}

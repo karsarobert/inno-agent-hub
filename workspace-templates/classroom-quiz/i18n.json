@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Classroom Quiz",
+      "description": "Generate an in-class exercise set around this lesson's concepts, with varied question types, tiered difficulty, and per-question learning objectives, answers, and detailed explanations.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "课堂出题",
+      "description": "围绕本节课知识点生成一套随堂练习：题型丰富、分层出题，逐题附知识点、参考答案与详细解析。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "Órai feladatsor",
+      "description": "Készíts változatos, szintezett órai gyakorló feladatsort az adott óra ismeretanyagához; minden feladathoz tartozzon tanulási cél, megoldás és részletes magyarázat.",
+      "category": "Oktatás"
+    }
+  }
+}

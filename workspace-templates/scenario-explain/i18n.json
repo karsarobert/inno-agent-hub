@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Scenario-Based Problem Explanation",
+      "description": "Explain a problem through a real-life scenario: break down the reasoning, guide the learner step by step, and generate related variations and practice exercises.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "情景化讲题",
+      "description": "把题目放进贴近生活的情景中讲解：拆解思路、分步引导、生成同类变式与练习。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "Kontextusba helyezett feladatmagyarázat",
+      "description": "Életszerű helyzeten keresztül magyaráz meg egy feladatot: lebontja a gondolatmenetet, lépésről lépésre vezeti a tanulót, és rokon feladatváltozatokat, gyakorlófeladatokat készít.",
+      "category": "Oktatás"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Lesson Plan Generator",
+      "description": "Create a structured, complete lesson plan from a topic, educational level, and lesson duration, including objectives, key challenges, teaching flow, and homework design.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "教案生成",
+      "description": "根据课题、学段与课时，生成结构化教案：教学目标、重难点、教学流程与作业设计。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "Óratervkészítő",
+      "description": "Témából, oktatási szintből és óratartamból strukturált, teljes óratervet készít tanulási célokkal, kulcskérdésekkel, tanítási folyamattal és házi feladattal.",
+      "category": "Oktatás"
+    }
+  }
+}

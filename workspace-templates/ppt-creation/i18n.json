@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "PPT Creation",
+      "description": "Generate a structured presentation from a topic or source material, including an outline, slide titles and key points, speaker notes, and export to the workspace.",
+      "category": "Presentation"
+    },
+    "zh-CN": {
+      "name": "PPT 制作",
+      "description": "从主题或资料一键生成结构化演示文稿：大纲、每页标题与要点、演讲者备注，并可导出到工作区。",
+      "category": "演示"
+    },
+    "hu": {
+      "name": "PPT-készítés",
+      "description": "Témából vagy forrásanyagból strukturált bemutatót készít vázlattal, diacímekkel és kulcspontokkal, előadói jegyzetekkel és munkaterületre exportálással.",
+      "category": "Prezentáció"
+    }
+  }
+}

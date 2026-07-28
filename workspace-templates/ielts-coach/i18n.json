@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "IELTS Prep Coach",
+      "description": "A closed-loop IELTS coaching workspace: grade essays against the official four criteria, practise authentic reading question types, turn vocabulary into Anki cards, and revisit weak areas in weekly reviews.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "IELTS 备考教练",
+      "description": "闭环式 IELTS 备考辅导工作区：按官方四项标准批改作文，练习真实阅读题型，将生词制成 Anki 卡片，并在每周复习中巩固薄弱环节。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "IELTS-felkészítő coach",
+      "description": "Zárt ciklusú IELTS-felkészítő munkatér: esszék értékelése a hivatalos négy szempont szerint, valósághű olvasási feladattípusok gyakorlása, szókincsből Anki-kártyák készítése és heti ismétlés a gyenge pontok megerősítésére.",
+      "category": "Oktatás"
+    }
+  }
+}

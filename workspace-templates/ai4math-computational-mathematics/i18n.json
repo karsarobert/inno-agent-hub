@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "AI4Math Computational Mathematics",
+      "description": "Computational mathematics workspace: finite-element analysis, invariant computation, least-squares fitting, research-code reproduction, and visualization.",
+      "category": "verymath"
+    },
+    "zh-CN": {
+      "name": "AI4Math 计算数学",
+      "description": "计算数学工作区：有限元分析、不变量计算、最小二乘拟合、科研代码复现与可视化。",
+      "category": "verymath"
+    },
+    "hu": {
+      "name": "AI4Math számítási matematika",
+      "description": "Számítási matematikai munkatér: végeselemes elemzés, invariánsok számítása, legkisebb négyzetes illesztés, kutatási kód reprodukálása és vizualizáció.",
+      "category": "verymath"
+    }
+  }
+}

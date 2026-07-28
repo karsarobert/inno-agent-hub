@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "AI4Math Paper Reading",
+      "description": "Mathematical paper-reading workspace: PDF ingestion, structural analysis, paper-to-Skill workflows, and a mathematical paper-reading assistant.",
+      "category": "VeryMath"
+    },
+    "zh-CN": {
+      "name": "AI4Math 数学论文阅读",
+      "description": "数学论文阅读工作区：PDF 摄入、结构拆解、论文转 Skill 工作流，以及数学论文阅读助手模块。",
+      "category": "verymath"
+    },
+    "hu": {
+      "name": "AI4Math matematikai cikkolvasás",
+      "description": "Matematikai publikációk olvasására szolgáló munkatér: PDF-ek feldolgozása, szerkezeti elemzés, publikációból Skill munkafolyamatok és matematikai cikkolvasó asszisztens.",
+      "category": "VeryMath"
+    }
+  }
+}

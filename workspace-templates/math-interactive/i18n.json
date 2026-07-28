@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Interactive Math Solver",
+      "description": "Turn analytic or solid geometry problems into interactive teaching webpages with a 2D Canvas or 3D model, step-by-step solutions, exact sympy computation, and text, random, or image input.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "数学交互解题",
+      "description": "把解析几何或立体几何题变成可交互的教学网页：2D Canvas 或 3D 模型加分步解析，由 sympy 精确计算驱动，支持文字、随机和图片输入。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "Interaktív matematikai feladatmegoldó",
+      "description": "Analitikus és térgeometriai feladatokat alakít interaktív oktatási weboldallá 2D Canvas-szal vagy 3D modellel, lépésről lépésre vezetett megoldással, pontos sympy-számítással, szöveges, véletlen vagy képes bemenettel.",
+      "category": "Oktatás"
+    }
+  }
+}

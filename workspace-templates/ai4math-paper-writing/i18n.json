@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "AI4Math Paper Writing",
+      "description": "Mathematical paper-writing workspace: draft, revise, structure, and respond to reviewers using notes, proofs, experiment logs, and references.",
+      "category": "VeryMath"
+    },
+    "zh-CN": {
+      "name": "AI4Math 数学论文写作",
+      "description": "数学论文写作工作区：从笔记、证明、实验日志、参考文献出发，起草、修订、结构化与审稿回复。",
+      "category": "verymath"
+    },
+    "hu": {
+      "name": "AI4Math matematikai publikációírás",
+      "description": "Matematikai publikációk írására szolgáló munkatér: jegyzetek, bizonyítások, kísérleti naplók és hivatkozások alapján szövegezés, javítás, strukturálás és válaszadás a bírálóknak.",
+      "category": "VeryMath"
+    }
+  }
+}

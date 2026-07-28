@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Template Example (Copy Me)",
+      "description": "When creating a new workspace template, copy this directory, rename it, then edit preset.json / agent.md / .skills. This text appears on the app's preset card; use one sentence to clearly explain what the template helps users do.",
+      "category": "Teaching"
+    },
+    "zh-CN": {
+      "name": "模板示例(复制我)",
+      "description": "新建工作区模板时,复制本目录、改名,然后编辑 preset.json / agent.md / .skills。这段文字会显示在 App 的预设卡片上,建议一句话讲清这个模板帮用户做什么。",
+      "category": "教学"
+    },
+    "hu": {
+      "name": "Mintapélda (másold le)",
+      "description": "Új munkatérsablon létrehozásakor másold le ezt a könyvtárat, nevezd át, majd szerkeszd a preset.json / agent.md / .skills fájlokat. Ez a szöveg az alkalmazás sablonkártyáján jelenik meg; egy mondatban írd le világosan, miben segít a sablon.",
+      "category": "Oktatás"
+    }
+  }
+}
