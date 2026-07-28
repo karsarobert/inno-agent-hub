@@ -14,7 +14,7 @@
     "hu": {
       "name": "AI4Math Lean-formalizálás",
       "description": "Lean 4-formalizálási munkatér: tételek formalizálása, bizonyítások javítása, `sorry` kitöltése és patch-ek felülvizsgálata; igény szerint Numina és más szakértői backendek használatával.",
-      "category": "verymath"
+      "category": "Matematika"
     }
   }
 }

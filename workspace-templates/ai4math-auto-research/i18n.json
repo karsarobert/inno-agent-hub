@@ -14,7 +14,7 @@
     "hu": {
       "name": "AI4Math automatikus kutatás",
       "description": "Automatizált matematikai kutatási munkatér: az Agent Laboratory beállítása és futtatása, problémák feltárása és sejtések generálása, bizonyítási vázlatok készítése és felülvizsgálata.",
-      "category": "verymath"
+      "category": "Matematika"
     }
   }
 }

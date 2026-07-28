@@ -14,7 +14,7 @@
     "hu": {
       "name": "AI4Math matematikai optimalizálás",
       "description": "Matematikai optimalizálási munkatér: lineáris programozás, vegyes egészértékű programozás, SOCP, CDOpt-sokaságoptimalizálás, valamint megoldó kiválasztása és futtatása.",
-      "category": "verymath"
+      "category": "Matematika"
     }
   }
 }
