@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "mcp-builder",
-      "description": "Build high-quality MCP (Model Context Protocol) servers that let LLMs access external services through well-designed tools. Use when adding external capabilities to AI or writing MCP tools."
+      "description": "Build high-quality MCP (Model Context Protocol) servers that let LLMs access external services through well-designed tools. Use when adding external capabilities to AI or writing MCP tools.",
+      "category": "Developer tools"
     },
     "zh-CN": {
       "name": "mcp-builder",
-      "description": "构建高质量的 MCP（Model Context Protocol）服务器，让大模型通过设计良好的工具接入外部服务。想给 AI 接外部能力或写 MCP 工具时使用。触发词：MCP, Model Context Protocol, MCP 服务器, 给 AI 加工具；build mcp, tool server."
+      "description": "构建高质量的 MCP（Model Context Protocol）服务器，让大模型通过设计良好的工具接入外部服务。想给 AI 接外部能力或写 MCP 工具时使用。触发词：MCP, Model Context Protocol, MCP 服务器, 给 AI 加工具；build mcp, tool server.",
+      "category": "开发工具"
     },
     "hu": {
       "name": "mcp-builder",
-      "description": "Kiváló minőségű MCP (Model Context Protocol) szerverek építése, amelyek lehetővé teszik a nagy nyelvi modellek számára, hogy jól megtervezett eszközökön keresztül külső szolgáltatásokhoz hozzáférjenek. Akkor használd, amikor külső képességeket adsz az AI-hoz vagy MCP eszközöket írsz."
+      "description": "Kiváló minőségű MCP (Model Context Protocol) szerverek építése, amelyek lehetővé teszik a nagy nyelvi modellek számára, hogy jól megtervezett eszközökön keresztül külső szolgáltatásokhoz hozzáférjenek. Akkor használd, amikor külső képességeket adsz az AI-hoz vagy MCP eszközöket írsz.",
+      "category": "Fejlesztőeszközök"
     }
   }
 }

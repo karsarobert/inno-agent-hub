@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "smart-illustrator",
-      "description": "Smart illustration and PPT infographic generator with three modes: (1) Article illustration — analyzes articles to generate images; (2) PPT/Slides — batch-generate infographics; (3) Cover — generate cover images. Supports Bento Grid feature showcase style."
+      "description": "Smart illustration and PPT infographic generator with three modes: (1) Article illustration — analyzes articles to generate images; (2) PPT/Slides — batch-generate infographics; (3) Cover — generate cover images. Supports Bento Grid feature showcase style.",
+      "category": "Content creation"
     },
     "zh-CN": {
       "name": "smart-illustrator",
-      "description": "智能配图与 PPT 信息图生成器，三种模式：(1) 文章配图——分析文章生成插图；(2) PPT/Slides——批量生成信息图；(3) Cover——生成封面图。默认出图，--prompt-only 只出 prompt，支持 Bento Grid 功能展示图风格（--style bento）。触发词：配图、插图、PPT、slides、封面图、thumbnail、cover、bento grid、功能展示图；feature showcase."
+      "description": "智能配图与 PPT 信息图生成器，三种模式：(1) 文章配图——分析文章生成插图；(2) PPT/Slides——批量生成信息图；(3) Cover——生成封面图。默认出图，--prompt-only 只出 prompt，支持 Bento Grid 功能展示图风格（--style bento）。触发词：配图、插图、PPT、slides、封面图、thumbnail、cover、bento grid、功能展示图；feature showcase.",
+      "category": "内容创作"
     },
     "hu": {
       "name": "smart-illustrator",
-      "description": "Intelligens illusztráció- és PPT infografika-készítő három móddal: (1) Cikkillusztráció — cikkeket elemez és képeket generál; (2) PPT/Diák — kötegelt infografikák; (3) Borító — borítóképek generálása. Támogatja a Bento Grid funkció-bemutató stílust."
+      "description": "Intelligens illusztráció- és PPT infografika-készítő három móddal: (1) Cikkillusztráció — cikkeket elemez és képeket generál; (2) PPT/Diák — kötegelt infografikák; (3) Borító — borítóképek generálása. Támogatja a Bento Grid funkció-bemutató stílust.",
+      "category": "Tartalomkészítés"
     }
   }
 }

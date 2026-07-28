@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "prompt-engineer",
-      "description": "Write, refactor and evaluate LLM prompts: produce optimized prompt templates, structured output schemas, evaluation rubrics and test suites. Use when designing prompts for new applications, improving existing prompts, or troubleshooting trigger accuracy."
+      "description": "Write, refactor and evaluate LLM prompts: produce optimized prompt templates, structured output schemas, evaluation rubrics and test suites. Use when designing prompts for new applications, improving existing prompts, or troubleshooting trigger accuracy.",
+      "category": "Developer tools"
     },
     "zh-CN": {
       "name": "prompt-engineer",
-      "description": "编写、重构与评估 LLM 提示词：产出优化的提示模板、结构化输出 schema、评估量表与测试套件。为新应用设计提示词、改进已有提示或排查触发不准时使用。触发词：提示词、prompt、提示工程、优化 prompt、结构化输出；prompt engineering, refactor prompt."
+      "description": "编写、重构与评估 LLM 提示词：产出优化的提示模板、结构化输出 schema、评估量表与测试套件。为新应用设计提示词、改进已有提示或排查触发不准时使用。触发词：提示词、prompt、提示工程、优化 prompt、结构化输出；prompt engineering, refactor prompt.",
+      "category": "开发工具"
     },
     "hu": {
       "name": "prompt-engineer",
-      "description": "LLM promptok írása, refaktorálása és értékelése: optimalizált prompt sablonok, strukturált kimeneti sémák, értékelési rubrikák és tesztcsomagok készítése. Új alkalmazások promptjának tervezéséhez, meglévő promptok javításához vagy trigger pontosság hibaelhárításához."
+      "description": "LLM promptok írása, refaktorálása és értékelése: optimalizált prompt sablonok, strukturált kimeneti sémák, értékelési rubrikák és tesztcsomagok készítése. Új alkalmazások promptjának tervezéséhez, meglévő promptok javításához vagy trigger pontosság hibaelhárításához.",
+      "category": "Fejlesztőeszközök"
     }
   }
 }

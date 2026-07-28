@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "baoyu-infographic",
-      "description": "Professional infographic generator: 21 built-in layouts × 21 visual styles, analyzes content and recommends layout × style combinations, then produces ready-to-publish infographics. Use when visualizing key points or data as infographics."
+      "description": "Professional infographic generator: 21 built-in layouts × 21 visual styles, analyzes content and recommends layout × style combinations, then produces ready-to-publish infographics. Use when visualizing key points or data as infographics.",
+      "category": "Content creation"
     },
     "zh-CN": {
       "name": "baoyu-infographic",
-      "description": "专业信息图生成：内置 21 种布局 × 21 种视觉风格，先分析内容并推荐布局×风格组合，再产出可直接发布的信息图。把要点或数据可视化成信息图时使用。触发词：信息图、infographic、可视化海报、图解、知识卡片；visual summary."
+      "description": "专业信息图生成：内置 21 种布局 × 21 种视觉风格，先分析内容并推荐布局×风格组合，再产出可直接发布的信息图。把要点或数据可视化成信息图时使用。触发词：信息图、infographic、可视化海报、图解、知识卡片；visual summary.",
+      "category": "内容创作"
     },
     "hu": {
       "name": "baoyu-infographic",
-      "description": "Professzionális infografika-készítő: 21 beépített elrendezés × 21 vizuális stílus, elemzi a tartalmat és javasol elrendezés × stílus kombinációt, majd közzétételre kész infografikát állít elő. Akkor használd, amikor kulcspontokat vagy adatokat infografikaként vizualizálsz."
+      "description": "Professzionális infografika-készítő: 21 beépített elrendezés × 21 vizuális stílus, elemzi a tartalmat és javasol elrendezés × stílus kombinációt, majd közzétételre kész infografikát állít elő. Akkor használd, amikor kulcspontokat vagy adatokat infografikaként vizualizálsz.",
+      "category": "Tartalomkészítés"
     }
   }
 }

@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "docx",
-      "description": "Create, read and edit Word documents (.docx): formatted formal documents, styles, revisions, etc. Use for any task involving Word documents."
+      "description": "Create, read and edit Word documents (.docx): formatted formal documents, styles, revisions, etc. Use for any task involving Word documents.",
+      "category": "Document processing"
     },
     "zh-CN": {
       "name": "docx",
-      "description": "创建、读取和编辑 Word 文档（.docx）：带格式的正式文稿、样式、修订等。凡涉及 Word 文档的任务都使用本技能。触发词：Word, Word 文档, .docx, 写一份文档, 公文, 报告；word document, docx."
+      "description": "创建、读取和编辑 Word 文档（.docx）：带格式的正式文稿、样式、修订等。凡涉及 Word 文档的任务都使用本技能。触发词：Word, Word 文档, .docx, 写一份文档, 公文, 报告；word document, docx.",
+      "category": "文档处理"
     },
     "hu": {
       "name": "docx",
-      "description": "Word dokumentumok (.docx) létrehozása, olvasása és szerkesztése: formázott hivatalos dokumentumok, stílusok, revíziók stb. Bármilyen Word dokumentumot érintő feladathoz használd."
+      "description": "Word dokumentumok (.docx) létrehozása, olvasása és szerkesztése: formázott hivatalos dokumentumok, stílusok, revíziók stb. Bármilyen Word dokumentumot érintő feladathoz használd.",
+      "category": "Dokumentumfeldolgozás"
     }
   }
 }

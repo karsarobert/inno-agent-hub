@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "understand",
-      "description": "Analyze a codebase and generate an interactive knowledge graph to help understand its architecture, components and relationships. Use when wanting to quickly understand a project or codebase."
+      "description": "Analyze a codebase and generate an interactive knowledge graph to help understand its architecture, components and relationships. Use when wanting to quickly understand a project or codebase.",
+      "category": "Developer tools"
     },
     "zh-CN": {
       "name": "understand",
-      "description": "分析一个代码库，生成交互式知识图谱，帮助理解其架构、组件与相互关系。想快速读懂一个项目或代码库时使用。触发词：理解代码库、读懂项目、代码架构、知识图谱、代码导览；understand codebase, code map."
+      "description": "分析一个代码库，生成交互式知识图谱，帮助理解其架构、组件与相互关系。想快速读懂一个项目或代码库时使用。触发词：理解代码库、读懂项目、代码架构、知识图谱、代码导览；understand codebase, code map.",
+      "category": "开发工具"
     },
     "hu": {
       "name": "understand",
-      "description": "Kódbázis elemzése és interaktív tudástérkép generálása, amely segíti az architektúra, komponensek és kapcsolatok megértését. Akkor használd, amikor gyorsan meg szeretnéd érteni egy projektet vagy kódbázist."
+      "description": "Kódbázis elemzése és interaktív tudástérkép generálása, amely segíti az architektúra, komponensek és kapcsolatok megértését. Akkor használd, amikor gyorsan meg szeretnéd érteni egy projektet vagy kódbázist.",
+      "category": "Fejlesztőeszközök"
     }
   }
 }

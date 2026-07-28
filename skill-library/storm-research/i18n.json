@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "storm-research",
-      "description": "Conduct sourced, traceable deep research. Multi-perspective questioning + real web search + mandatory citations, producing Wikipedia-style comprehensive research reports. Triggers on requests like 'deep research', 'research topic X', 'write a sourced review', 'multi-angle research'."
+      "description": "Conduct sourced, traceable deep research. Multi-perspective questioning + real web search + mandatory citations, producing Wikipedia-style comprehensive research reports. Triggers on requests like 'deep research', 'research topic X', 'write a sourced review', 'multi-angle research'.",
+      "category": "Research and information retrieval"
     },
     "zh-CN": {
       "name": "storm-research",
-      "description": "做带来源、可追溯的深度研究。多视角提问 + 真实联网检索 + 强制引用，产出维基百科式的完整研究报告。当用户说\u201c深度调研\u201d\u201c帮我研究一下 X 这个主题\u201d\u201c写一篇带来源的综述\u201d\u201c多角度研究\u201d时触发。"
+      "description": "做带来源、可追溯的深度研究。多视角提问 + 真实联网检索 + 强制引用，产出维基百科式的完整研究报告。当用户说“深度调研”“帮我研究一下 X 这个主题”“写一篇带来源的综述”“多角度研究”时触发。",
+      "category": "研究检索"
     },
     "hu": {
       "name": "storm-research",
-      "description": "Forrásalapú, nyomon követhető mélykutatás. Több nézőpontú kérdéskitűzés + valós webes keresés + kötelező hivatkozások, Wikipédia-stílusú átfogó kutatási jelentést állít elő. Akkor indul, ha a felhasználó 'mélykutatást', 'kutass X témát', 'forrásolt áttekintést' vagy 'több szemszögű kutatást' kér."
+      "description": "Forrásalapú, nyomon követhető mélykutatás. Több nézőpontú kérdéskitűzés + valós webes keresés + kötelező hivatkozások, Wikipédia-stílusú átfogó kutatási jelentést állít elő. Akkor indul, ha a felhasználó 'mélykutatást', 'kutass X témát', 'forrásolt áttekintést' vagy 'több szemszögű kutatást' kér.",
+      "category": "Kutatás és információkeresés"
     }
   }
 }

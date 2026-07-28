@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "K-12 Lesson Differentiation",
-      "description": "Adapt an existing K-12 lesson (math, ELA, science, social studies) for below-, at-, and above-grade-level students, producing a teacher differentiation plan and ready-to-use tiered student materials as editable Word documents in a single pass."
+      "description": "Adapt an existing K-12 lesson (math, ELA, science, social studies) for below-, at-, and above-grade-level students, producing a teacher differentiation plan and ready-to-use tiered student materials as editable Word documents in a single pass.",
+      "category": "Teaching and tutoring"
     },
     "zh-CN": {
       "name": "K-12 课堂分层教学",
-      "description": "把一节已有的 K-12 课（数学、语文/英语 ELA、科学、社会与历史）按学生水平做分层适配：低于/达到/高于年级水平，一次性产出教师用分层方案与学生可直接用的分层材料，均为可编辑 Word 文档。"
+      "description": "把一节已有的 K-12 课（数学、语文/英语 ELA、科学、社会与历史）按学生水平做分层适配：低于/达到/高于年级水平，一次性产出教师用分层方案与学生可直接用的分层材料，均为可编辑 Word 文档。",
+      "category": "教学辅导"
     },
     "hu": {
       "name": "K-12 óra differenciálás",
-      "description": "Meglévő K-12 óra (matematika, anyanyelv, természet- és társadalomtudományok) rétegzése az évfolyamszint alatt/előtt/felett teljesítő tanulók számára: egy lépésben készít tanári differenciálási tervet és azonnal használható, rétegzett tanulói anyagokat, szerkeszthető Word-dokumentumokként."
+      "description": "Meglévő K-12 óra (matematika, anyanyelv, természet- és társadalomtudományok) rétegzése az évfolyamszint alatt/előtt/felett teljesítő tanulók számára: egy lépésben készít tanári differenciálási tervet és azonnal használható, rétegzett tanulói anyagokat, szerkeszthető Word-dokumentumokként.",
+      "category": "Oktatás és tutorálás"
     }
   }
 }

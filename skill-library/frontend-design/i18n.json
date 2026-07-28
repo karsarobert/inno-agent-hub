@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "frontend-design",
-      "description": "Craft design-conscious, production-grade frontend interfaces, pages, and components. Use when building high-quality Web components, pages, or application interfaces (design-guide type, no bundled scripts)."
+      "description": "Craft design-conscious, production-grade frontend interfaces, pages, and components. Use when building high-quality Web components, pages, or application interfaces (design-guide type, no bundled scripts).",
+      "category": "Content creation"
     },
     "zh-CN": {
       "name": "frontend-design",
-      "description": "打造有设计感、达到生产级品质的前端界面、页面与组件。当用户要做高质量的 Web 组件、页面或应用界面时使用（设计指南型，无捆绑脚本）。触发词：前端设计、UI 界面、网页组件、生产级前端；frontend design, ui design, web interface."
+      "description": "打造有设计感、达到生产级品质的前端界面、页面与组件。当用户要做高质量的 Web 组件、页面或应用界面时使用（设计指南型，无捆绑脚本）。触发词：前端设计、UI 界面、网页组件、生产级前端；frontend design, ui design, web interface.",
+      "category": "内容创作"
     },
     "hu": {
       "name": "frontend-design",
-      "description": "Tervezői szemléletű, production-minőségű frontend felületek, oldalak és komponensek készítése. Akkor használd, amikor a felhasználó kiváló minőségű webes komponenst, oldalt vagy alkalmazásfelületet szeretne készíteni (tervezési útmutató típus, csomagolt szkriptek nélkül)."
+      "description": "Tervezői szemléletű, production-minőségű frontend felületek, oldalak és komponensek készítése. Akkor használd, amikor a felhasználó kiváló minőségű webes komponenst, oldalt vagy alkalmazásfelületet szeretne készíteni (tervezési útmutató típus, csomagolt szkriptek nélkül).",
+      "category": "Tartalomkészítés"
     }
   }
 }

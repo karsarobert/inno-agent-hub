@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "Homework Grader",
-      "description": "Rubric-driven AI homework grading system: scores subjective questions and assignments by rubric, supports text, image, and mixed submissions, with batch processing of hundreds of papers. Grading includes evidence citations and bias mitigation, built-in PDCA quality loop, generates personalized comments, and can calibrate AI scores against teacher samples for consistency (Cohen's κ / Spearman ρ / MAD), with one-click Excel export of grades."
+      "description": "Rubric-driven AI homework grading system: scores subjective questions and assignments by rubric, supports text, image, and mixed submissions, with batch processing of hundreds of papers. Grading includes evidence citations and bias mitigation, built-in PDCA quality loop, generates personalized comments, and can calibrate AI scores against teacher samples for consistency (Cohen's κ / Spearman ρ / MAD), with one-click Excel export of grades.",
+      "category": "Teaching and tutoring"
     },
     "zh-CN": {
       "name": "作业批改系统",
-      "description": "量规驱动的 AI 作业批改系统：按评分量规给主观题/作业打分，支持文本、图片与图文混合提交，可批量处理上百份；打分带证据引用与偏见缓解，内置 PDCA 质量闭环，生成个性化评语，并能把 AI 评分与教师样本做一致性校准（Cohen's κ / Spearman ρ / MAD），成绩一键导出 Excel。"
+      "description": "量规驱动的 AI 作业批改系统：按评分量规给主观题/作业打分，支持文本、图片与图文混合提交，可批量处理上百份；打分带证据引用与偏见缓解，内置 PDCA 质量闭环，生成个性化评语，并能把 AI 评分与教师样本做一致性校准（Cohen's κ / Spearman ρ / MAD），成绩一键导出 Excel。",
+      "category": "教学辅导"
     },
     "hu": {
       "name": "Házi feladat értékelő",
-      "description": "Értékelőrubrika-vezérelt AI házifeladat-értékelő rendszer: rubrika alapján pontozza a szubjektív kérdéseket és feladatokat, támogatja a szöveges, képi és vegyes benyújtást, több száz dolgozat tömeges feldolgozását. Az értékelés bizonyítékokat idéz és mérsékeli a torzítást, beépített PDCA minőség-ellenőrzési ciklussal rendelkezik, személyre szabott értékeléseket generál, és képes az AI pontszámok konzisztencia-kalibrálására tanári mintákkal (Cohen's κ / Spearman ρ / MAD), egykattintásos Excel-exportálással."
+      "description": "Értékelőrubrika-vezérelt AI házifeladat-értékelő rendszer: rubrika alapján pontozza a szubjektív kérdéseket és feladatokat, támogatja a szöveges, képi és vegyes benyújtást, több száz dolgozat tömeges feldolgozását. Az értékelés bizonyítékokat idéz és mérsékeli a torzítást, beépített PDCA minőség-ellenőrzési ciklussal rendelkezik, személyre szabott értékeléseket generál, és képes az AI pontszámok konzisztencia-kalibrálására tanári mintákkal (Cohen's κ / Spearman ρ / MAD), egykattintásos Excel-exportálással.",
+      "category": "Oktatás és tutorálás"
     }
   }
 }

@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "K-12 Lesson Planning",
-      "description": "Create a complete lesson package from scratch for K-12 teachers: lesson plan + student materials + classroom observation form, covering math, ELA, science, and social studies, as editable Word documents."
+      "description": "Create a complete lesson package from scratch for K-12 teachers: lesson plan + student materials + classroom observation form, covering math, ELA, science, and social studies, as editable Word documents.",
+      "category": "Teaching and tutoring"
     },
     "zh-CN": {
       "name": "K-12 备课",
-      "description": "为 K-12 教师从零创建一节课的完整教学包：教案 + 学生用材料 + 课堂观察表，覆盖数学、语文/英语（ELA）、科学、社会与历史四科，产出可编辑的 Word 文档。"
+      "description": "为 K-12 教师从零创建一节课的完整教学包：教案 + 学生用材料 + 课堂观察表，覆盖数学、语文/英语（ELA）、科学、社会与历史四科，产出可编辑的 Word 文档。",
+      "category": "教学辅导"
     },
     "hu": {
       "name": "K-12 óraterv-készítés",
-      "description": "Teljes órai csomag készítése nulláról K-12 tanároknak: óraterv + tanulói anyagok + osztálytermi megfigyelőlap, lefedve a matematikát, anyanyelvet, természet- és társadalomtudományokat, szerkeszthető Word-dokumentumokként."
+      "description": "Teljes órai csomag készítése nulláról K-12 tanároknak: óraterv + tanulói anyagok + osztálytermi megfigyelőlap, lefedve a matematikát, anyanyelvet, természet- és társadalomtudományokat, szerkeszthető Word-dokumentumokként.",
+      "category": "Oktatás és tutorálás"
     }
   }
 }

@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "claude-api",
-      "description": "Build, debug and optimize Claude API / Anthropic SDK based applications, covering prompt caching, tool calling, streaming, migration and upgrades. Includes multi-language examples in Go/Python/TypeScript/Java/PHP. Use when learning or developing AI applications."
+      "description": "Build, debug and optimize Claude API / Anthropic SDK based applications, covering prompt caching, tool calling, streaming, migration and upgrades. Includes multi-language examples in Go/Python/TypeScript/Java/PHP. Use when learning or developing AI applications.",
+      "category": "Developer tools"
     },
     "zh-CN": {
       "name": "claude-api",
-      "description": "构建、调试与优化基于 Claude API / Anthropic SDK 的应用，涵盖 prompt caching、工具调用、流式、迁移升级等，内置 Go/Python/TypeScript/Java/PHP 等多语言示例。学习或开发 AI 应用时使用。触发词：Claude API, Anthropic SDK, 调用大模型, prompt caching, 模型迁移；build with claude, llm app."
+      "description": "构建、调试与优化基于 Claude API / Anthropic SDK 的应用，涵盖 prompt caching、工具调用、流式、迁移升级等，内置 Go/Python/TypeScript/Java/PHP 等多语言示例。学习或开发 AI 应用时使用。触发词：Claude API, Anthropic SDK, 调用大模型, prompt caching, 模型迁移；build with claude, llm app.",
+      "category": "开发工具"
     },
     "hu": {
       "name": "claude-api",
-      "description": "Claude API / Anthropic SDK alapú alkalmazások építése, hibakeresése és optimalizálása, beleértve prompt caching, eszközhívás, streaming, migráció és frissítések. Többnyelvű példák: Go/Python/TypeScript/Java/PHP. Akkor használd, amikor AI alkalmazást tanulsz vagy fejlesztesz."
+      "description": "Claude API / Anthropic SDK alapú alkalmazások építése, hibakeresése és optimalizálása, beleértve prompt caching, eszközhívás, streaming, migráció és frissítések. Többnyelvű példák: Go/Python/TypeScript/Java/PHP. Akkor használd, amikor AI alkalmazást tanulsz vagy fejlesztesz.",
+      "category": "Fejlesztőeszközök"
     }
   }
 }

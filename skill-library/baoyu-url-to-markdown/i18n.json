@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "baoyu-url-to-markdown",
-      "description": "Fetch any web page and convert to Markdown using baoyu-fetch (Chrome CDP-based), with built-in adapters for X/Twitter, YouTube transcripts, Hacker News, and general pages (Defuddle). Can handle login/CAPTCHA. Use when clipping web pages into notes."
+      "description": "Fetch any web page and convert to Markdown using baoyu-fetch (Chrome CDP-based), with built-in adapters for X/Twitter, YouTube transcripts, Hacker News, and general pages (Defuddle). Can handle login/CAPTCHA. Use when clipping web pages into notes.",
+      "category": "Document processing"
     },
     "zh-CN": {
       "name": "baoyu-url-to-markdown",
-      "description": "用 baoyu-fetch（基于 Chrome CDP）抓取任意网页转成 Markdown，内置 X/Twitter、YouTube 字幕、Hacker News、通用页面（Defuddle）等适配器，可处理登录/验证码。把网页剪藏成笔记时使用。触发词：网页转 Markdown、抓取网页、剪藏、保存文章；url to markdown, fetch page."
+      "description": "用 baoyu-fetch（基于 Chrome CDP）抓取任意网页转成 Markdown，内置 X/Twitter、YouTube 字幕、Hacker News、通用页面（Defuddle）等适配器，可处理登录/验证码。把网页剪藏成笔记时使用。触发词：网页转 Markdown、抓取网页、剪藏、保存文章；url to markdown, fetch page.",
+      "category": "文档处理"
     },
     "hu": {
       "name": "baoyu-url-to-markdown",
-      "description": "Bármilyen weboldal lekérése és Markdown-ká konvertálása baoyu-fetch (Chrome CDP alapú) segítségével, beépített adapterekkel X/Twitter, YouTube feliratok, Hacker News és általános oldalak (Defuddle) kezelésére. Kezeli a bejelentkezést/CAPTCHA-t. Akkor használd, amikor weboldalakat jegzetekbe mentsz."
+      "description": "Bármilyen weboldal lekérése és Markdown-ká konvertálása baoyu-fetch (Chrome CDP alapú) segítségével, beépített adapterekkel X/Twitter, YouTube feliratok, Hacker News és általános oldalak (Defuddle) kezelésére. Kezeli a bejelentkezést/CAPTCHA-t. Akkor használd, amikor weboldalakat jegzetekbe mentsz.",
+      "category": "Dokumentumfeldolgozás"
     }
   }
 }

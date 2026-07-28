@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "citation-management",
-      "description": "Academic citation management: search Google Scholar and PubMed, extract and validate reference metadata, generate properly formatted BibTeX entries. Use when managing references, verifying citations, or generating BibTeX."
+      "description": "Academic citation management: search Google Scholar and PubMed, extract and validate reference metadata, generate properly formatted BibTeX entries. Use when managing references, verifying citations, or generating BibTeX.",
+      "category": "Research and information retrieval"
     },
     "zh-CN": {
       "name": "citation-management",
-      "description": "学术引用管理：检索 Google Scholar 与 PubMed，抽取并校验文献元数据，生成规范的 BibTeX 条目。需要管理参考文献、核对引用、生成 BibTeX 时使用。触发词：参考文献、引用管理、BibTeX、文献校验、引文；citation, bibtex, references."
+      "description": "学术引用管理：检索 Google Scholar 与 PubMed，抽取并校验文献元数据，生成规范的 BibTeX 条目。需要管理参考文献、核对引用、生成 BibTeX 时使用。触发词：参考文献、引用管理、BibTeX、文献校验、引文；citation, bibtex, references.",
+      "category": "研究检索"
     },
     "hu": {
       "name": "citation-management",
-      "description": "Tudományos hivatkozáskezelés: Google Scholar és PubMed keresés, referenciametaadatok kinyerése és ellenőrzése, szabályos BibTeX bejegyzések generálása. Akkor használd, amikor referenciákat kezelsz, hivatkozásokat ellenőrzöl vagy BibTeX-et generálsz."
+      "description": "Tudományos hivatkozáskezelés: Google Scholar és PubMed keresés, referenciametaadatok kinyerése és ellenőrzése, szabályos BibTeX bejegyzések generálása. Akkor használd, amikor referenciákat kezelsz, hivatkozásokat ellenőrzöl vagy BibTeX-et generálsz.",
+      "category": "Kutatás és információkeresés"
     }
   }
 }

@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "Exam2Knowledge",
-      "description": "Reverse-engineer exam questions into high-frequency knowledge points and reusable solution patterns (universal templates + Top-3 error library), focusing on pattern recognition and method application rather than systematic learning."
+      "description": "Reverse-engineer exam questions into high-frequency knowledge points and reusable solution patterns (universal templates + Top-3 error library), focusing on pattern recognition and method application rather than systematic learning.",
+      "category": "Teaching and tutoring"
     },
     "zh-CN": {
       "name": "考题逆向拆解",
-      "description": "把考试题目逆向拆解成高频考点与可复用的解题模式（通用解题模板 + Top3 错题库），重在「识别模式 → 套用方法」的应试反射，而非系统性学习。"
+      "description": "把考试题目逆向拆解成高频考点与可复用的解题模式（通用解题模板 + Top3 错题库），重在「识别模式 → 套用方法」的应试反射，而非系统性学习。",
+      "category": "教学辅导"
     },
     "hu": {
       "name": "Vizsgakérdés-elemző",
-      "description": "A vizsgafeladatokat visszafejti a gyakori tudáselemekre és az újrafelhasználható megoldási sémákra (általános sablonok + Top-3 hibatár), a mintafelismerés és a módszeralkalmazás gyakoroltatására fókuszálva a rendszerszintű tanulás helyett."
+      "description": "A vizsgafeladatokat visszafejti a gyakori tudáselemekre és az újrafelhasználható megoldási sémákra (általános sablonok + Top-3 hibatár), a mintafelismerés és a módszeralkalmazás gyakoroltatására fókuszálva a rendszerszintű tanulás helyett.",
+      "category": "Oktatás és tutorálás"
     }
   }
 }

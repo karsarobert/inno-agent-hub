@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "Differentiation Adapter",
-      "description": "Adapt a lesson's tasks to different learner needs while keeping core objectives unchanged: adjust difficulty and scaffolding for struggling, gifted, ADHD, dyslexic, anxious, or EAL students. Explicitly rejects the disproved 'learning styles' theory."
+      "description": "Adapt a lesson's tasks to different learner needs while keeping core objectives unchanged: adjust difficulty and scaffolding for struggling, gifted, ADHD, dyslexic, anxious, or EAL students. Explicitly rejects the disproved 'learning styles' theory.",
+      "category": "Teaching and tutoring"
     },
     "zh-CN": {
       "name": "差异化适配器",
-      "description": "把同一堂课的任务按不同学习者需求做差异化适配,同时保持核心学习目标不变:为学困、超常、注意力障碍(ADHD)、读写障碍、焦虑或二语(EAL)学生调整难度入口与支架,输出改了什么、保留了什么、目标核验与实施建议(明确排斥已被证伪的“学习风格”理论)。"
+      "description": "把同一堂课的任务按不同学习者需求做差异化适配,同时保持核心学习目标不变:为学困、超常、注意力障碍(ADHD)、读写障碍、焦虑或二语(EAL)学生调整难度入口与支架,输出改了什么、保留了什么、目标核验与实施建议(明确排斥已被证伪的“学习风格”理论)。",
+      "category": "教学辅导"
     },
     "hu": {
       "name": "Differenciált oktatás adapter",
-      "description": "Egy óra feladatainak differenciált adaptálása a tanulók eltérő szükségleteihez, a tanulási cél változatlanul tartása mellett: nehézség és támogatás igazítása tanulási nehézségekkel, kiemelkedő képességekkel, ADHD-val, diszlexiával, szorongással vagy második nyelvként tanuló (EAL) diákokkal küzdőknek. Egyértelműen elutasítja a megcáfolt tanulási stílusok elméletét."
+      "description": "Egy óra feladatainak differenciált adaptálása a tanulók eltérő szükségleteihez, a tanulási cél változatlanul tartása mellett: nehézség és támogatás igazítása tanulási nehézségekkel, kiemelkedő képességekkel, ADHD-val, diszlexiával, szorongással vagy második nyelvként tanuló (EAL) diákokkal küzdőknek. Egyértelműen elutasítja a megcáfolt tanulási stílusok elméletét.",
+      "category": "Oktatás és tutorálás"
     }
   }
 }

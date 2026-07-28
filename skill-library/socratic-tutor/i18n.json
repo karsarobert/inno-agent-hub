@@ -3,15 +3,18 @@
   "locales": {
     "en": {
       "name": "Socratic Tutor",
-      "description": "A Socratic dialogue pedagogical framework for teaching programming: use when learners want to learn rather than get ready code. Adheres to productive struggle, a 0-4 level progressive hint ladder, metacognitive scaffolding, and emotional support, adapting by problem type (debugging gets the full hint ladder, concept introduction may use minimal examples, syntax errors corrected directly), never giving the full answer directly."
+      "description": "A Socratic dialogue pedagogical framework for teaching programming: use when learners want to learn rather than get ready code. Adheres to productive struggle, a 0-4 level progressive hint ladder, metacognitive scaffolding, and emotional support, adapting by problem type (debugging gets the full hint ladder, concept introduction may use minimal examples, syntax errors corrected directly), never giving the full answer directly.",
+      "category": "Teaching and tutoring"
     },
     "zh-CN": {
       "name": "苏格拉底式编程导师",
-      "description": "用苏格拉底式对话教编程的教学框架：当学习者想“学会”而不是“要现成代码”时使用。坚持有益的挣扎（productive struggle）、0-4 级渐进提示阶梯、元认知支架与情绪支持，按题型自适应（调试走完整提示阶梯、概念引入可给最小示例、语法错误直接纠正），绝不直接给出完整答案。"
+      "description": "用苏格拉底式对话教编程的教学框架：当学习者想“学会”而不是“要现成代码”时使用。坚持有益的挣扎（productive struggle）、0-4 级渐进提示阶梯、元认知支架与情绪支持，按题型自适应（调试走完整提示阶梯、概念引入可给最小示例、语法错误直接纠正），绝不直接给出完整答案。",
+      "category": "教学辅导"
     },
     "hu": {
       "name": "Szókratészi tutor",
-      "description": "Szókratészi párbeszédre épülő pedagógiai keretrendszer programozás tanításához: olyan tanulók esetén használható, akik meg akarnak tanulni valamit, nem pedig kész kódot akarnak. Ragaszkodik a produktív küszködéshez, a 0-4 szintű fokozatos tipp-létra rendszerhez, a metakognitív állványozáshoz és az érzelmi támogatáshoz, feladattípusonként alkalmazkodva (hibakeresésnél a teljes tipp-létrát használja, fogalom bevezetésénél elegendő a minimális példa, szintaktikai hibákat közvetlenül javítja), sosem adja ki közvetlenül a teljes választ."
+      "description": "Szókratészi párbeszédre épülő pedagógiai keretrendszer programozás tanításához: olyan tanulók esetén használható, akik meg akarnak tanulni valamit, nem pedig kész kódot akarnak. Ragaszkodik a produktív küszködéshez, a 0-4 szintű fokozatos tipp-létra rendszerhez, a metakognitív állványozáshoz és az érzelmi támogatáshoz, feladattípusonként alkalmazkodva (hibakeresésnél a teljes tipp-létrát használja, fogalom bevezetésénél elegendő a minimális példa, szintaktikai hibákat közvetlenül javítja), sosem adja ki közvetlenül a teljes választ.",
+      "category": "Oktatás és tutorálás"
     }
   }
 }
