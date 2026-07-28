@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "localOnly": true,
+  "studentAlias": null,
+  "consent": {
+    "shareTeacherReport": false,
+    "approvedAt": null
+  },
+  "course": {
+    "title": "C++ alapok",
+    "target": null,
+    "weeklyMinutes": null
+  },
+  "lastUpdated": null,
+  "modules": {
+    "00-basics": { "status": "not_started", "evidence": [], "lastReviewed": null },
+    "01-control-flow": { "status": "not_started", "evidence": [], "lastReviewed": null },
+    "02-functions": { "status": "not_started", "evidence": [], "lastReviewed": null }
+  },
+  "competencies": {
+    "variables": { "level": "not_started", "evidence": [] },
+    "control_flow": { "level": "not_started", "evidence": [] },
+    "functions": { "level": "not_started", "evidence": [] },
+    "standard_library": { "level": "not_started", "evidence": [] },
+    "debugging": { "level": "not_started", "evidence": [] }
+  },
+  "submissions": [],
+  "recurringDifficulties": [],
+  "nextSuggestedStep": null
+}
