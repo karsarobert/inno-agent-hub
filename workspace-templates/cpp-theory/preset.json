@@ -1,0 +1,7 @@
+{
+  "id": "cpp-theory",
+  "name": "C++ Theory",
+  "description": "A focused C++20 theory workspace with guided explanations, prediction questions, and small runnable examples.",
+  "category": "Programming",
+  "icon": "book-open"
+}
