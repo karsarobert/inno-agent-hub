@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Quadratic Function — Learner",
+      "description": "Guided learner workspace for the introductory lesson on the quadratic function f(x) = x²: theory notes, leveled exercises, and self-check.",
+      "category": "Teaching"
+    },
+    "hu": {
+      "name": "Másodfokú függvény — tanulói",
+      "description": "A másodfokú függvény (f(x) = x²) bevezető leckéjének vezetett feldolgozása: elméleti jegyzet, szintezett gyakorlatok és önellenőrzés.",
+      "category": "Oktatás"
+    }
+  }
+}
