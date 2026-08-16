@@ -1,0 +1,7 @@
+{
+  "id": "c-bevezeto-bsc",
+  "name": "C Bevezeto BSc Learner",
+  "description": "Guided learner workspace for an introductory C programming course (BSc): algorithmic thinking, theory notes, leveled exercises with gcc compile-run, and self-check.",
+  "category": "Programming",
+  "icon": "code-2"
+}

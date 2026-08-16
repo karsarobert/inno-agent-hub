@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C Introduction — BSc Learner",
+      "description": "Guided learner workspace for an introductory C programming course (BSc): algorithmic thinking, theory notes, leveled exercises with gcc compile-run, and self-check.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C programozás bevezető — tanulói",
+      "description": "Bevezető C programozási kurzus (BSc) vezetett feldolgozása: algoritmikus gondolkodás, elméleti jegyzet, szintezett gyakorlatok gcc-fordítással és önellenőrzés.",
+      "category": "Programozás"
+    }
+  }
+}
