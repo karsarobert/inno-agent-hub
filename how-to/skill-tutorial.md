@@ -1,187 +1,203 @@
-# 用 Inno Agent 搭建专属学习 Agent
+# Saját tanulási Agent létrehozása az Inno Agenttel
 
-**版本** v0.2.3 · 2026-06-07 · 华东师范大学上海智能教育研究院
+**Verzió:** v0.2.3 · 2026. június 7. · A Kelet-kínai Tanárképző Egyetem Sanghaji Intelligens Oktatási Kutatóintézete
 
-本文以「英语备考工作区」为例，说明如何用 `agent.md` 定义工作区上下文，用 `.skills/` 添加专项能力，在一个具体工作区里搭建有专属行为的学习 Agent。
+Ez az útmutató egy „angol nyelvvizsgára felkészítő munkaterület” példáján mutatja be, hogyan határozható meg a munkaterület kontextusa az `agent.md` fájllal, hogyan adhatók hozzá speciális képességek a `.skills/` könyvtárban, és hogyan hozható létre egyedi viselkedésű tanulási Agent egy konkrét munkaterületen.
 
 ---
 
-## 一、设计思路
+## 1. Tervezési alapelvek
 
-系统提示词由两个阶段拼装，注入时机不同：
+A rendszerüzenet két szakaszban áll össze, amelyek eltérő időpontban kerülnek be a kontextusba:
 
 ```
-━━ 会话创建时固定（Pi SDK）━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━ A beszélgetés létrehozásakor rögzítve (Pi SDK) ━━━━━━━━━━━━━━━
 
-  INNO 基础系统提示词
+  INNO alap-rendszerüzenet
     ↓
-  全局 Skills               ← Skills 面板安装，所有工作区共享
-    ↓
-  当前日期 + 工作目录
+  Globális Skillek           ← A Készségek panelen telepíthetők,
+    ↓                            minden munkaterület közösen használja őket
+  Aktuális dátum + munkakönyvtár
 
-━━ 每轮对话动态注入（before_agent_start 钩子）━━━━━━━━━━━━━━━
+━━ Dinamikus beillesztés minden körben (before_agent_start hook) ━━
 
-  L1 上下文包（学习目标 / 掌握度 / 误解 / 偏好）
+  L1 kontextuscsomag (tanulási célok / tudásszint / tévképzetek / preferenciák)
     ↓
-  工作区上下文              ← 跟着工作区走，每轮重新读取
-    ├── agent.md            workspace 根目录，直接写，无需上传
-    └── .skills/            workspace 工具栏 ✦ 按钮上传的 skill 包
+  Munkaterület-kontextus      ← A munkaterülethez tartozik,
+    ├── agent.md                 minden körben újra beolvasódik
+    │                            a munkaterület gyökerében, közvetlenül írható,
+    │                            nem kell feltölteni
+    └── .skills/              ← A munkaterület eszköztárának ✦ gombjával
+    ↓                            feltöltött Skill-csomagok
+  L3 beszélgetések közötti felidézés
     ↓
-  L3 跨对话召回
-    ↓
-  最近一次代码运行记录
+  A legutóbbi kódfuttatás adatai
 ```
 
-**两个文件，两个入口，不能混用：**
+**Két fájl, két külön belépési pont — nem cserélhetők fel:**
 
-| 文件 | 放哪里 | 怎么创建 | 定义什么 |
+| Fájl | Helye | Létrehozása | Mit határoz meg? |
 |---|---|---|---|
-| `agent.md` | workspace 根目录 | 让 Agent 创建，或对话中直接写 | 工作区人格：学习背景、偏好、文件说明 |
-| `.skills/<名>/SKILL.md` | workspace `.skills/` 子目录 | 工具栏 ✦ 按钮上传 `.md` 或 `.zip` | 专项能力：触发条件、格式规范、操作流程 |
+| `agent.md` | A munkaterület gyökérkönyvtára | Létrehozhatja az Agent, vagy közvetlenül megírható a beszélgetésben | A munkaterület személyisége: tanulási háttér, preferenciák, fájlok leírása |
+| `.skills/<név>/SKILL.md` | A munkaterület `.skills/` alkönyvtára | `.md` vagy `.zip` feltöltése az eszköztár ✦ gombjával | Speciális képesség: aktiválási feltételek, formátumszabályok, munkafolyamatok |
 
 ---
 
-## 二、新建工作区
+## 2. Új munkaterület létrehozása
 
-1. 点击左侧会话栏**底部**「**+ 新建会话**」
-2. 选择「**新建工作区**」，名称填写 `ielts-prep`
-3. 点击「创建」
+1. Kattints a bal oldali beszélgetéssáv **alján** az „**+ Új beszélgetés**” gombra.
+2. Válaszd az „**Új munkaterület**” lehetőséget, és add meg az `ielts-prep` nevet.
+3. Kattints a „Létrehozás” gombra.
 
-![新建工作区弹窗，输入 ielts-prep 并点击「创建」](./assets/01_new_workspace.png)
+![Új munkaterület párbeszédablaka: az ielts-prep név megadása, majd a Létrehozás gomb](./assets/01_new_workspace.png)
 
 ---
 
-## 三、创建 agent.md
+## 3. Az agent.md létrehozása
 
-`agent.md` 放在 workspace **根目录**，不经过 skill 上传流程。有两种创建方式：
+Az `agent.md` fájl a munkaterület **gyökérkönyvtárába** kerül, és nem a Skill-feltöltési folyamaton keresztül kell hozzáadni. Kétféleképpen hozható létre:
 
-**方式 A：让 Agent 代为创建（推荐）**
+**A módszer: létrehozás az Agenttel (ajánlott)**
 
-在新会话的输入框里，把模板内容直接粘贴进去发送：
+Másold be az alábbi sablont egy új beszélgetés beviteli mezőjébe, majd küldd el:
 
 ```
-帮我在当前工作区根目录创建 agent.md，内容如下：
+Hozd létre az agent.md fájlt az aktuális munkaterület gyökérkönyvtárában
+az alábbi tartalommal:
 
-## 英语备考工作区
+## Angol nyelvvizsgára felkészítő munkaterület
 
-学习者背景：大学英语六级已通过，目标雅思 7 分，备考周期约 3 个月。
-学习重点：学术词汇积累、长难句理解、大作文写作。
+A tanuló háttere: középfokú angol nyelvtudás, a cél IELTS 7-es eredmény,
+a felkészülési idő körülbelül 3 hónap.
+Fő tanulási területek: tudományos szókincs, összetett mondatok megértése,
+hosszabb esszék írása.
 
-### 教学偏好
-- 生词解释：先给中文释义和词性，再附一个来自原文的例句
-- 长难句：先标注句子结构（主/谓/宾/状），再整句翻译
-- 练习：以改错题和仿写句子为主，少用选择题
+### Tanítási preferenciák
+- Új szavak: először a magyar jelentés és a szófaj, majd egy példamondat
+  az eredeti szövegből
+- Összetett mondatok: először a mondatszerkezet jelölése
+  (alany/állítmány/tárgy/határozó), majd a teljes mondat fordítása
+- Gyakorlás: főként hibajavítás és mondatalkotás, kevés feleletválasztós feladat
 
-### 工作区文件
-- cards/   词汇复习卡片（Anki CSV 格式）
-- notes/   文章精读笔记
+### A munkaterület fájljai
+- cards/   Szókincsismétlő kártyák (Anki CSV-formátum)
+- notes/   Részletes szövegfeldolgozási jegyzetek
 ```
 
-Agent 调用文件写入工具，`agent.md` 出现在右侧工作区文件树的根目录。
+Az Agent meghívja a fájlíró eszközt, az `agent.md` pedig megjelenik a jobb oldali munkaterületi fájlfában, a gyökérkönyvtárban.
 
-**方式 B：用文本编辑器手动创建**
+**B módszer: kézi létrehozás szövegszerkesztővel**
 
-用任意文本编辑器（VS Code、记事本等）把上面的模板内容保存为 `agent.md`，然后把文件拖拽到右侧工作区文件树面板的空白区域（确保文件树里没有选中任何子目录，文件会上传到工作区根目录；若选中了 `.skills/` 目录则会被当作 skill 包处理）。
+Mentsd el a fenti sablont `agent.md` néven egy tetszőleges szövegszerkesztővel — például a VS Code-dal vagy a Jegyzettömbbel —, majd húzd a fájlt a jobb oldali munkaterületi fájlfa üres területére. Ügyelj arra, hogy ne legyen kijelölve alkönyvtár: így a fájl a munkaterület gyökérkönyvtárába kerül. Ha a `.skills/` könyvtár van kijelölve, a rendszer Skill-csomagként dolgozza fel.
 
-![Agent 完成创建，右侧文件树显示 agent.md，对话区展示文件内容摘要](./assets/02_agent_create.png)
+![Az Agent létrehozta az agent.md fájlt; a jobb oldali fájlfa és a beszélgetés a fájl összefoglalóját mutatja](./assets/02_agent_create.png)
 
-> **注意**：`agent.md` 是普通 Markdown 文件，无需任何 frontmatter。系统注入时会自动加上 `# 工作区上下文 (agent.md)` 标题。
+> **Megjegyzés:** Az `agent.md` egyszerű Markdown-fájl, nincs szüksége frontmatterre. Beillesztéskor a rendszer automatikusan hozzáadja a `# Munkaterület-kontextus (agent.md)` címet.
 
 ---
 
-## 四、上传词汇卡片 Skill
+## 4. Szókártyakészítő Skill feltöltése
 
-卡片生成器是一项专项能力，通过 workspace 工具栏的 **✦ 按钮**上传，安装到 `.skills/` 目录。
+A kártyagenerátor egy speciális képesség. A munkaterület eszköztárának **✦ gombjával** tölthető fel, és a `.skills/` könyvtárba települ.
 
-### 4.1 准备 skill 文件
+### 4.1. A Skill-fájl előkészítése
 
-用文本编辑器新建一个文件，命名为 `card-maker.md`，按自己的需求编写内容。下面是一份可以直接复制使用的示例。唯一的硬性要求是顶部必须有 `---` 包裹的 frontmatter，否则上传后系统会自动生成通用描述，导致 Agent 无法准确识别这项能力：
+Hozz létre egy `card-maker.md` nevű fájlt egy szövegszerkesztőben, és írd meg a saját igényeid szerint. Az alábbi példa közvetlenül kimásolható és használható. Az egyetlen kötelező követelmény, hogy a fájl elején szerepeljen egy `---` jelek közé zárt frontmatter. Enélkül a rendszer feltöltéskor általános leírást hoz létre, ezért az Agent nem tudja pontosan felismerni a képességet.
 
 ````markdown
 ---
 name: card-maker
-description: 把英语学习材料中的生词整理成 Anki 兼容的词汇卡片
+description: Az angol tananyag új szavait Anki-kompatibilis szókártyákká alakítja
 ---
 
-## 词汇卡片生成器
+## Szókártyakészítő
 
-### 触发条件
+### Aktiválási feltételek
 
-用户说「做成卡片」「整理生词」「生成单词卡」「Anki 卡片」时，进入卡片生成模式。
+Amikor a felhasználó azt kéri, hogy „készíts belőle kártyákat”,
+„gyűjtsd ki az új szavakat”, „készíts szókártyákat” vagy „Anki-kártyákat kérek”,
+kapcsolj kártyakészítő módba.
 
-### 卡片格式
+### Kártyaformátum
 
-每张卡片格式：`单词或短语;词性 中文释义 | 原文例句;标签`
+Minden kártya formátuma: `szó vagy kifejezés;szófaj magyar jelentés | eredeti példamondat;címkék`
 
-示例行：
+Példasor:
 
 ```
-ubiquitous;adj. 无处不在的 | Smartphones have become ubiquitous in daily life.;ielts academic
+ubiquitous;adj. mindenütt jelen lévő | Smartphones have become ubiquitous in daily life.;ielts academic
 ```
 
-规则：
-- 例句优先取自用户提供的原文；无原文时自造贴近雅思语境的句子
-- 标签固定含 `ielts`，再加内容标签（如 `technology`、`environment`）
-- 单次最多 20 张；短语正面写完整短语，不拆开
+Szabályok:
+- A példamondat lehetőleg a felhasználó által megadott eredeti szövegből származzon.
+  Ha nincs eredeti szöveg, alkoss az IELTS témavilágához illő mondatot.
+- A címkék mindig tartalmazzák az `ielts` címkét és egy tartalmi címkét,
+  például `technology` vagy `environment`.
+- Egyszerre legfeljebb 20 kártya készülhet. Kifejezés esetén a teljes kifejezés
+  kerüljön a kártya előoldalára; ne bontsd részekre.
 
-### 文件操作
+### Fájlműveletek
 
-写入 `cards/<来源主题>.csv`，文件头固定为：
+Írd az eredményt a `cards/<forrás-témája>.csv` fájlba. A fájl fejléce mindig:
 
 ```
 #separator:Semicolon
 #html:false
-单词或短语;释义与例句;标签
+Szó vagy kifejezés;Jelentés és példamondat;Címkék
 ```
 
-生成后告知路径、卡片数，以及 Anki 导入方法（File → Import，分隔符「;」）。
+Elkészítés után közöld a fájl elérési útját és a kártyák számát, valamint írd le
+az Anki-importálás módját: File → Import, elválasztójel: „;”.
 
-### 记忆联动
+### Kapcsolódás a memóriához
 
-- 来源文章调用 `l2_archive` 归档，标题格式 `[雅思阅读] 文章主题`
-- 调用 `record_learning_event` 记录 `concept_explained` 事件，`mastery_delta` 设为 0.01
+- Archiváld a forrásszöveget az `l2_archive` meghívásával,
+  `[IELTS-olvasás] A szöveg témája` címformátumban.
+- Hívd meg a `record_learning_event` eszközt `concept_explained` eseménnyel,
+  a `mastery_delta` értéke legyen 0.01.
 ````
 
-### 4.2 上传到 workspace
+### 4.2. Feltöltés a munkaterületre
 
-1. 右侧切换到「**预览**」标签页，打开工作区文件树
-2. 点击文件树工具栏右上角的 **✦**（Sparkles）按钮，tooltip 显示「上传技能包 (.zip/.md) 到 .skills」
-3. 选择 `card-maker.md`
-4. 上传完成后，文件树出现 `.skills/card-maker/SKILL.md`
+1. Válts a jobb oldali „**Előnézet**” lapra, és nyisd meg a munkaterületi fájlfát.
+2. Kattints a fájlfa eszköztárának jobb felső **✦** (Sparkles) gombjára. Az elemleírás szövege: „Skill-csomag (.zip/.md) feltöltése a .skills könyvtárba”.
+3. Válaszd ki a `card-maker.md` fájlt.
+4. A feltöltés után megjelenik a fájlfában a `.skills/card-maker/SKILL.md` fájl.
 
-![上传后文件树展示 .skills/card-maker/SKILL.md，右侧预览显示 skill 内容](./assets/03_skill_uploaded.png)
+![Feltöltés után a fájlfa a .skills/card-maker/SKILL.md fájlt, az előnézeti panel pedig a Skill tartalmát mutatja](./assets/03_skill_uploaded.png)
 
-上传后的目录结构：
+A feltöltés utáni könyvtárszerkezet:
 
 ```
 workspace/
 └── ielts-prep/
-    ├── agent.md              ← 工作区上下文（步骤三创建）
+    ├── agent.md              ← Munkaterület-kontextus (a 3. lépésben létrehozva)
     └── .skills/
         └── card-maker/
-            └── SKILL.md      ← 词汇卡片能力（步骤四上传）
+            └── SKILL.md      ← Szókártyakészítő képesség (a 4. lépésben feltöltve)
 ```
 
-### 4.3 验证
+### 4.3. Ellenőrzés
 
-**新建一个会话**并绑定 `ielts-prep` 工作区，发送：
+Hozz létre **új beszélgetést**, rendeld hozzá az `ielts-prep` munkaterülethez, majd küldd el ezt az üzenetet:
 
 ```
-你在这个工作区有哪些专项能力？
+Milyen speciális képességeid vannak ezen a munkaterületen?
 ```
 
-Agent 应该同时描述出：工作区的英语备考背景（来自 `agent.md`）和词汇卡片生成能力（来自 `.skills/card-maker/`）。
+Az Agent válaszának egyaránt ismertetnie kell az angol nyelvvizsgára felkészítő munkaterület hátterét — az `agent.md` alapján — és a `.skills/card-maker/` könyvtárból származó szókártyakészítő képességet.
 
 ---
 
-## 五、端到端演示
+## 5. Teljes folyamat bemutatása
 
-### 5.1 精读文章片段
+### 5.1. Egy szövegrészlet részletes feldolgozása
 
-发送：
+Küldd el ezt az üzenetet:
 
 ```
-帮我精读这段文章，重点解释生词：
+Dolgozd fel részletesen az alábbi szöveget, különös figyelmet fordítva
+az új szavak magyarázatára:
 
 The proliferation of renewable energy sources has been one of the most
 significant developments in addressing climate change. Solar and wind power,
@@ -190,146 +206,148 @@ fossil fuels, have become increasingly competitive due to technological
 advancements and economies of scale.
 ```
 
-Agent 按照 `agent.md` 里的偏好回答——遇到 `proliferation`、`intermittent`、`viable` 等生词，先给中文释义和词性，再引用原句作例句。
+Az Agent az `agent.md` fájlban megadott preferenciák szerint válaszol: a `proliferation`, `intermittent`, `viable` és más új szavaknál először megadja a magyar jelentést és a szófajt, majd példaként idézi az eredeti mondatot.
 
-![Agent 逐词解释生词，格式符合 agent.md 设定的「中文释义 + 原文例句」风格](./assets/04_vocab_explain.png)
+![Az Agent szavanként magyarázza el az új kifejezéseket az agent.md fájlban beállított „magyar jelentés + eredeti példamondat” formátumban](./assets/04_vocab_explain.png)
 
-### 5.2 生成词汇卡片
+### 5.2. Szókártyák létrehozása
 
-精读完后发送：
-
-```
-帮我把这篇文章的生词整理成卡片
-```
-
-Agent 触发 card-maker 能力，输出类似：
+A részletes feldolgozás után küldd el ezt az üzenetet:
 
 ```
-已生成 6 张词汇卡片，写入：cards/climate-change.csv
+Készíts szókártyákat a szöveg új szavaiból.
+```
 
-预览：
+Az Agent aktiválja a `card-maker` képességet, és például a következő eredményt adja:
+
+```
+Elkészült 6 szókártya. Fájl: cards/climate-change.csv
+
+Előnézet:
 1. proliferation
-   → n. 激增；扩散 | The proliferation of renewable energy sources has been significant.
-   标签：ielts environment
+   → n. gyors elterjedés; megsokszorozódás | The proliferation of renewable energy sources has been significant.
+   Címkék: ielts environment
 
 2. intermittent
-   → adj. 间歇性的 | Solar power was once considered too intermittent to be viable.
-   标签：ielts environment
-...（共 6 张）
+   → adj. időszakos; szakaszos | Solar power was once considered too intermittent to be viable.
+   Címkék: ielts environment
+… (összesen 6 kártya)
 
-来源已归档：[雅思阅读] Climate Change and Renewable Energy
-Anki 导入：File → Import → cards/climate-change.csv，分隔符「;」
+A forrás archiválva: [IELTS-olvasás] Climate Change and Renewable Energy
+Anki-importálás: File → Import → cards/climate-change.csv, elválasztójel: „;”
 ```
 
-![卡片生成结果汇总表，右侧文件树出现 cards/climate-change.csv](./assets/05_cards_result.png)
+![A kártyagenerálás összefoglaló táblázata; a jobb oldali fájlfában megjelent a cards/climate-change.csv](./assets/05_cards_result.png)
 
 ---
 
-## 六、迭代与维护
+## 6. Továbbfejlesztés és karbantartás
 
-| 修改需求 | 操作方式 |
+| Módosítási igény | Teendő |
 |---|---|
-| 调整学习背景、教学偏好 | 直接编辑 `agent.md`，新建会话生效 |
-| 修改卡片格式、触发条件 | 在工作区文件树点击 `.skills/card-maker/SKILL.md` → 右侧编辑器修改 → 保存，新建会话生效 |
-| 添加新的专项能力 | 准备新的 `<名称>.md`（含 frontmatter），✦ 按钮上传 |
-| 禁用某项能力 | 删除 `.skills/<名称>/` 目录 |
+| Tanulási háttér vagy tanítási preferenciák módosítása | Szerkeszd közvetlenül az `agent.md` fájlt; a változás új beszélgetésben lép életbe. |
+| A kártyaformátum vagy az aktiválási feltételek módosítása | Kattints a munkaterületi fájlfában a `.skills/card-maker/SKILL.md` fájlra, módosítsd a jobb oldali szerkesztőben, majd mentsd. A változás új beszélgetésben lép életbe. |
+| Új speciális képesség hozzáadása | Készíts egy új, frontmattert tartalmazó `<név>.md` fájlt, majd töltsd fel a ✦ gombbal. |
+| Egy képesség letiltása | Töröld a `.skills/<név>/` könyvtárat. |
 
-两个文件都在每轮 `before_agent_start` 时实时读取，修改后无需重启服务。
+A rendszer mindkét fájlt valós időben, minden `before_agent_start` eseménynél újra beolvassa, ezért a módosítások után nem kell újraindítani a szolgáltatást.
 
 ---
 
-## 七、全局 Skill：跨工作区通用能力
+## 7. Globális Skill: minden munkaterületen használható képesség
 
-工作区的 `agent.md` 和 `.skills/` 只对绑定了该工作区的会话生效。如果一项能力需要在**所有工作区都用到**，应该安装为全局 Skill。
+A munkaterület `agent.md` fájlja és `.skills/` könyvtára csak az adott munkaterülethez kapcsolt beszélgetésekre érvényes. Ha egy képességre **minden munkaterületen szükség van**, globális Skillként kell telepíteni.
 
-### 7.1 适合做成全局 Skill 的场景
+### 7.1. Mikor érdemes globális Skillt használni?
 
-| 场景 | 说明 |
+| Felhasználási helyzet | Leírás |
 |---|---|
-| 通用工具 | 网页搜索、文档格式转换、代码执行辅助等 |
-| 跨项目学习规范 | 例如「所有工作区都要求 Agent 在讲完概念后主动出一道练习题」 |
-| 组织/团队共享规范 | 多人共用一套 Inno 实例时，统一的回答风格或操作规范 |
+| Általános eszközök | Webes keresés, dokumentumformátumok átalakítása, kódfuttatás támogatása stb. |
+| Projektek közötti tanulási szabályok | Például: „Az Agent minden munkaterületen adjon automatikusan egy gyakorlófeladatot a fogalom elmagyarázása után.” |
+| Szervezeti vagy csapatszintű szabályok | Több felhasználó közös Inno-példánya esetén egységes válaszstílus vagy munkafolyamat. |
 
-不适合做全局 Skill 的：项目专属的格式规范、特定工作区的学习背景——这些用 `agent.md` 或工作区 `.skills/` 更合适。
+Nem érdemes globális Skillként kezelni a projektspecifikus formátumszabályokat vagy egy adott munkaterület tanulási hátterét. Ezekhez az `agent.md` vagy a munkaterület `.skills/` könyvtára a megfelelő hely.
 
-### 7.2 创建与上传
+### 7.2. Létrehozás és feltöltés
 
-全局 Skill 文件格式与工作区 Skill 完全相同，同样需要 frontmatter：
+A globális Skill fájlformátuma teljesen megegyezik a munkaterületi Skillével, és ugyanúgy kötelező a frontmatter:
 
 ```markdown
 ---
 name: grammar-checker
-description: 检查用户英文写作中的语法错误并给出改正建议
+description: Ellenőrzi az angol szöveg nyelvtani hibáit, és javítási javaslatokat ad
 ---
 
-## 语法检查器
+## Nyelvtani ellenőrző
 
-用户提交英文句子或段落时，逐条列出语法错误，说明错误类型，给出修正后的句子。
+Ha a felhasználó angol mondatot vagy bekezdést küld, sorold fel külön-külön
+a nyelvtani hibákat, nevezd meg a hibatípust, és add meg a javított mondatot.
 ```
 
-上传步骤：
+A feltöltés lépései:
 
-1. 点击右侧面板顶部「**技能**」标签页
-2. 点击右上角「**上传**」按钮
-3. 选择 `.md` 或 `.zip` 文件
-4. Skill 出现在列表中，状态为「已启用」
+1. Kattints a jobb oldali panel tetején a „**Készségek**” lapra.
+2. Kattints a jobb felső „**Feltöltés**” gombra.
+3. Válaszd ki a `.md` vagy `.zip` fájlt.
+4. A Skill megjelenik a listában, „Engedélyezve” állapottal.
 
-![技能面板，grammar-checker 已安装，右上角「上传」和刷新按钮清晰可见](./assets/06_skills_panel.png)
+![Készségek panel: a grammar-checker telepítve van; a jobb felső Feltöltés és Újratöltés gomb jól látható](./assets/06_skills_panel.png)
 
-### 7.3 注入时机与工作区 Skill 的区别
+### 7.3. Beillesztési időpont és eltérés a munkaterületi Skilltől
 
-| | 全局 Skill | 工作区 `.skills/` |
+| | Globális Skill | Munkaterületi `.skills/` |
 |---|---|---|
-| 安装位置 | `~/.inno-agent/skills/` | `workspace/<名>/.skills/` |
-| 上传入口 | 右侧「技能」标签页「上传」按钮 | 工作区文件树 ✦ 按钮 |
-| 注入时机 | **会话创建时固定**，之后不变 | 每轮 `before_agent_start` 动态读取 |
-| 生效范围 | 所有工作区的所有会话 | 仅绑定该工作区的会话 |
-| 修改生效 | 需要重新上传 + **新建会话** | 直接编辑文件 + 新建会话 |
+| Telepítési hely | `~/.inno-agent/skills/` | `workspace/<név>/.skills/` |
+| Feltöltési hely | A jobb oldali Készségek lap Feltöltés gombja | A munkaterületi fájlfa ✦ gombja |
+| Beillesztés időpontja | **A beszélgetés létrehozásakor rögzül**, utána nem változik | Minden `before_agent_start` eseménynél dinamikusan beolvasódik |
+| Hatókör | Minden munkaterület minden beszélgetése | Csak az adott munkaterülethez kapcsolt beszélgetések |
+| Módosítás érvényesítése | Újra fel kell tölteni, majd **új beszélgetést** kell létrehozni | A fájl közvetlenül szerkeszthető, majd új beszélgetést kell létrehozni |
 
-> **注意**：全局 Skill 在会话创建时注入，在会话中途修改或重新上传不会影响已有会话，需要新建会话才能用上新版本。
+> **Megjegyzés:** A globális Skill a beszélgetés létrehozásakor kerül a kontextusba. Ha egy beszélgetés közben módosítod vagy újra feltöltöd, a már létező beszélgetésre ez nem lesz hatással; az új verzió használatához új beszélgetést kell létrehozni.
 
-### 7.4 启用 / 禁用与删除
+### 7.4. Engedélyezés, letiltás és törlés
 
-在「技能」面板的 Skill 列表中：
+A Készségek panel Skill-listájában:
 
-- **启用/禁用**：点击条目右侧的开关，下次新建会话生效
-- **删除**：点击删除图标，从全局 skills 目录移除
-- **刷新**：点击工具栏「刷新」按钮，重新加载全部 Skill（已有会话不受影响）
+- **Engedélyezés/letiltás:** kattints az elem jobb oldalán lévő kapcsolóra. A beállítás a következő új beszélgetésben lép életbe.
+- **Törlés:** kattints a törlés ikonra; ezzel eltávolítod a Skillt a globális skills könyvtárból.
+- **Újratöltés:** kattints az eszköztár „Újratöltés” gombjára az összes Skill ismételt betöltéséhez. A meglévő beszélgetéseket ez nem érinti.
 
 ---
 
-## 八、常见问题
+## 8. Gyakori kérdések
 
-**Q：上传 skill 后为什么 description 显示「Project skill uploaded for...」这样的通用描述？**
+**K: Miért jelenik meg a Skill feltöltése után a description mezőben egy általános, „Project skill uploaded for...” jellegű leírás?**
 
-上传的 `.md` 文件缺少 frontmatter，系统自动生成了描述。在文件顶部加上以下内容再重新上传即可：
+A feltöltött `.md` fájlból hiányzik a frontmatter, ezért a rendszer automatikusan általános leírást készített. Add hozzá a fájl elejéhez az alábbi részt, majd töltsd fel újra:
 
 ```
 ---
-name: 你的-skill-名称
-description: 这个 skill 的功能描述
+name: a-skill-neve
+description: A Skill funkciójának leírása
 ---
 ```
 
-**Q：不小心把 agent.md 的内容上传成了 skill，怎么清理？**
+**K: Véletlenül Skillként töltöttem fel az agent.md tartalmát. Hogyan törölhetem?**
 
-在工作区文件树里找到 `.skills/agent/` 目录，删除整个目录。然后按第三节的方式让 Agent 在根目录重新创建 `agent.md`。
+Keresd meg a munkaterületi fájlfában a `.skills/agent/` könyvtárat, és töröld az egész könyvtárat. Ezután a 3. fejezetben leírt módon hozd létre újra az `agent.md` fájlt a gyökérkönyvtárban az Agent segítségével.
 
-**Q：修改了 agent.md 或 SKILL.md，但新会话里没有生效？**
+**K: Módosítottam az agent.md vagy a SKILL.md fájlt, de a változás az új beszélgetésben sem jelent meg. Mi lehet az oka?**
 
-确认：
-1. 文件保存到了正确路径（`agent.md` 在根目录，`SKILL.md` 在 `.skills/<名>/SKILL.md`）
-2. 会话绑定的是 `ielts-prep` 工作区
-3. 是**新建的会话**，不是同一个会话继续聊
+Ellenőrizd a következőket:
 
-**Q：agent.md 里可以写多长？**
+1. A fájl a megfelelő elérési útra került: az `agent.md` a gyökérkönyvtárban, a `SKILL.md` pedig a `.skills/<név>/SKILL.md` útvonalon található.
+2. A beszélgetés az `ielts-prep` munkaterülethez van kapcsolva.
+3. Valóban **új beszélgetést** hoztál létre, nem a korábbit folytattad.
 
-专注「背景和偏好」，300 字以内。具体操作规范（格式、触发条件）交给 `.skills/`，`agent.md` 只留那些每次对话都需要让 Agent 知道的信息。
+**K: Milyen hosszú lehet az agent.md?**
 
-**Q：✦ 按钮只接受 .md 吗？**
+Összpontosíts a háttérre és a preferenciákra; lehetőleg maradjon 300 szó alatt. A részletes műveleti szabályokat — formátumokat és aktiválási feltételeket — helyezd a `.skills/` könyvtárba. Az `agent.md` csak azokat az információkat tartalmazza, amelyeket az Agentnek minden beszélgetésben ismernie kell.
 
-接受 `.md` 和 `.zip`。`.zip` 里要有一个 `SKILL.md` 文件，适合把 skill 和它依赖的辅助文件打包在一起。
+**K: A ✦ gomb csak .md fájlokat fogad el?**
+
+Nem. `.md` és `.zip` fájlok is feltölthetők. A `.zip` csomagnak tartalmaznia kell egy `SKILL.md` fájlt; ez akkor hasznos, ha a Skillt és a hozzá tartozó segédfájlokat együtt szeretnéd csomagolni.
 
 ---
 
-*Inno Agent v0.2.3 · 华东师范大学上海智能教育研究院*
+*Inno Agent v0.2.3 · A Kelet-kínai Tanárképző Egyetem Sanghaji Intelligens Oktatási Kutatóintézete*
