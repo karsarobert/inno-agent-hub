@@ -94,8 +94,10 @@ function Install-InnoAgent {
     }
     Write-Step 'Install' 'repo ready'
 
+    # The inno-agent repo root IS the app (npm monorepo: package.json at root).
+    $AppDir = $InnoHome
+
     # ── 4. Dependencies + build ──
-    $AppDir = Join-Path $InnoHome 'app'
     if ($InnoSkipBuild) {
         Write-Step 'Build' 'skipped (INNO_SKIP_BUILD=1)'
     } else {
@@ -117,22 +119,32 @@ function Install-InnoAgent {
     $RuntimeDir = Join-Path $AppDir 'runtime'
     New-Item -ItemType Directory -Force -Path (Join-Path $RuntimeDir 'config'), (Join-Path $RuntimeDir 'data'), (Join-Path $RuntimeDir 'skills'), (Join-Path $AppDir 'workspace') | Out-Null
 
-    $DefaultProvider = ''
+    $DefaultProvider = 'default'
     $DefaultModel = ''
     $Providers = @{}
-    if ($InnoProviderBaseUrl -and $InnoProviderApiKey) {
+    if ($InnoProviderBaseUrl) {
+        $ModelId = if ($InnoProviderModel) { $InnoProviderModel } else { 'placeholder-model' }
         $Providers['default'] = @{
             id = 'default'
             baseUrl = $InnoProviderBaseUrl
             api = 'openai-completions'
             apiKey = $InnoProviderApiKey
-            models = @(@{ id = $InnoProviderModel; name = $InnoProviderModel; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
+            models = @(@{ id = $ModelId; name = $ModelId; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
         }
-        $DefaultProvider = 'default'
-        $DefaultModel = $InnoProviderModel
+        $DefaultModel = $ModelId
         Write-Step 'Config' 'provider configured via INNO_PROVIDER_*'
     } else {
-        Write-Step 'Config' 'no provider configured; set one in Settings UI'
+        # The app requires at least one provider (baseUrl + model); apiKey may
+        # be empty. Ship a placeholder the user completes in the Settings UI.
+        $Providers['default'] = @{
+            id = 'default'
+            baseUrl = 'http://127.0.0.1:8000/v1'
+            api = 'openai-completions'
+            apiKey = ''
+            models = @(@{ id = 'placeholder-model'; name = 'Placeholder model - set up in Settings'; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
+        }
+        $DefaultModel = 'placeholder-model'
+        Write-Step 'Config' 'placeholder provider written; set the real one in Settings UI'
     }
 
     $Config = [ordered]@{

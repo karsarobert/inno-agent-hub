@@ -133,34 +133,43 @@ else
 fi
 step "Install" "repo ready"
 
+# The inno-agent repo root IS the app (npm monorepo: package.json at root).
+APP_DIR="$INNO_HOME"
+
 # ── 5. Dependencies + build ──
 if [ "$INNO_SKIP_BUILD" = "1" ]; then
     step "Build" "skipped (INNO_SKIP_BUILD=1)"
 else
     step "Build" "npm install (this can take a while)..."
-    ( cd "$INNO_HOME/app" && npm ci >/dev/null 2>&1 ) || ( cd "$INNO_HOME/app" && npm install )
+    ( cd "$APP_DIR" && npm ci >/dev/null 2>&1 ) || ( cd "$APP_DIR" && npm install )
     step "Build" "npm run build..."
-    ( cd "$INNO_HOME/app" && npm run build >/dev/null 2>&1 ) || die "build failed; re-run with INNO_SKIP_BUILD=1 to skip"
+    ( cd "$APP_DIR" && npm run build >/dev/null 2>&1 ) || die "build failed; re-run with INNO_SKIP_BUILD=1 to skip"
     step "Build" "built"
 fi
 
 # ── 6. Clean runtime config ──
 step "Config" "writing clean runtime config..."
-mkdir -p "$INNO_HOME/app/runtime/config" "$INNO_HOME/app/runtime/data" "$INNO_HOME/app/runtime/skills" "$INNO_HOME/app/workspace"
-if [ -n "$INNO_PROVIDER_BASE_URL" ] && [ -n "$INNO_PROVIDER_API_KEY" ]; then
+mkdir -p "$APP_DIR/runtime/config" "$APP_DIR/runtime/data" "$APP_DIR/runtime/skills" "$APP_DIR/workspace"
+# The app requires at least one provider with a baseUrl and a model; the
+# apiKey may be empty. Without INNO_PROVIDER_* we ship a placeholder
+# provider that the user completes in the Settings UI.
+if [ -n "$INNO_PROVIDER_BASE_URL" ]; then
     PROVIDER_ID="default"
-    PROVIDER_JSON="{\"id\":\"$PROVIDER_ID\",\"baseUrl\":\"$INNO_PROVIDER_BASE_URL\",\"api\":\"openai-completions\",\"apiKey\":\"$INNO_PROVIDER_API_KEY\",\"models\":[{\"id\":\"$INNO_PROVIDER_MODEL\",\"name\":\"$INNO_PROVIDER_MODEL\",\"input\":[\"text\"],\"contextWindow\":128000,\"maxTokens\":8192}]}"
+    PROVIDER_BASE_URL="$INNO_PROVIDER_BASE_URL"
+    PROVIDER_API_KEY="${INNO_PROVIDER_API_KEY:-}"
+    PROVIDER_MODEL="${INNO_PROVIDER_MODEL:-placeholder-model}"
+    PROVIDER_JSON="{\"id\":\"$PROVIDER_ID\",\"baseUrl\":\"$PROVIDER_BASE_URL\",\"api\":\"openai-completions\",\"apiKey\":\"$PROVIDER_API_KEY\",\"models\":[{\"id\":\"$PROVIDER_MODEL\",\"name\":\"$PROVIDER_MODEL\",\"input\":[\"text\"],\"contextWindow\":128000,\"maxTokens\":8192}]}"
     PROVIDERS_JSON="{\"$PROVIDER_ID\":$PROVIDER_JSON}"
     DEFAULT_PROVIDER="\"$PROVIDER_ID\""
-    DEFAULT_MODEL="\"$INNO_PROVIDER_MODEL\""
+    DEFAULT_MODEL="\"$PROVIDER_MODEL\""
     step "Config" "provider configured via INNO_PROVIDER_*"
 else
-    PROVIDERS_JSON="{}"
-    DEFAULT_PROVIDER="\"\""
-    DEFAULT_MODEL="\"\""
-    step "Config" "no provider configured; set one in Settings UI"
+    PROVIDERS_JSON="{\"default\":{\"id\":\"default\",\"baseUrl\":\"http://127.0.0.1:8000/v1\",\"api\":\"openai-completions\",\"apiKey\":\"\",\"models\":[{\"id\":\"placeholder-model\",\"name\":\"Placeholder model - set up in Settings\",\"input\":[\"text\"],\"contextWindow\":128000,\"maxTokens\":8192}]}}"
+    DEFAULT_PROVIDER="\"default\""
+    DEFAULT_MODEL="\"placeholder-model\""
+    step "Config" "placeholder provider written; set the real one in Settings UI"
 fi
-cat > "$INNO_HOME/app/runtime/config/config.json" <<EOF
+cat > "$APP_DIR/runtime/config/config.json" <<EOF
 {
     "defaultProvider": $DEFAULT_PROVIDER,
     "defaultModel": $DEFAULT_MODEL,
@@ -178,7 +187,7 @@ if [ "$INNO_SKIP_START" = "1" ]; then
     step "Start" "skipped (INNO_SKIP_START=1)"
 else
     step "Start" "starting Inno Agent on :$INNO_PORT..."
-    ( cd "$INNO_HOME/app" && nohup npm run server -- --home ./runtime --workspace ./workspace --port "$INNO_PORT" >"$INNO_HOME/inno-agent.log" 2>&1 & echo $! > "$INNO_HOME/inno-agent.pid" )
+    ( cd "$APP_DIR" && nohup npm run server -- --home ./runtime --workspace ./workspace --port "$INNO_PORT" >"$INNO_HOME/inno-agent.log" 2>&1 & echo $! > "$INNO_HOME/inno-agent.pid" )
     _tries=0
     while [ "$_tries" -lt 30 ]; do
         if curl -fsS "http://127.0.0.1:$INNO_PORT/health" >/dev/null 2>&1; then
@@ -204,12 +213,12 @@ if [ "$INNO_SKIP_START" != "1" ]; then
     substep "Web UI:  http://localhost:$INNO_PORT"
 fi
 substep "Install: $INNO_HOME"
-substep "Config:  $INNO_HOME/app/runtime/config/config.json"
+substep "Config:  $INNO_HOME/runtime/config/config.json"
 substep "Log:     $INNO_HOME/inno-agent.log"
 if [ "$INNO_SKIP_START" = "1" ]; then
-    substep "Start:   cd $INNO_HOME/app && npm run server -- --home ./runtime --workspace ./workspace --port $INNO_PORT"
+    substep "Start:   cd $INNO_HOME && npm run server -- --home ./runtime --workspace ./workspace --port $INNO_PORT"
 fi
-substep "Update:  cd $INNO_HOME && git pull && cd app && npm ci && npm run build"
+substep "Update:  cd $INNO_HOME && git pull && npm ci && npm run build"
 echo ""
 substep "Clean install: content hub is DISABLED (no skills, no preset cards)."
 substep "To enable a hub later, use Settings > Content Hub in the UI."
