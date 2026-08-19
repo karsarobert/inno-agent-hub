@@ -15,6 +15,11 @@
 # SPDX-License-Identifier: MIT
 function Install-InnoAgent {
     $ErrorActionPreference = "Stop"
+    # PowerShell 7.3+ treats native stderr output as an error record when
+    # $ErrorActionPreference=Stop, so harmless npm/node warnings (e.g.
+    # "npm warn deprecated ...") would abort the installer. Disable that
+    # so only $LASTEXITCODE decides success. No-op on Windows PowerShell 5.1.
+    $PSNativeCommandUseErrorActionPreference = $false
     # A profile that sets 'None' for $PSModuleAutoLoadingPreference makes
     # ConvertTo-Json / Invoke-WebRequest stop resolving on PowerShell 7.
     $PSModuleAutoLoadingPreference = 'All'
@@ -83,14 +88,14 @@ function Install-InnoAgent {
         Write-Step 'Install' 'updating existing checkout...'
         Push-Location $InnoHome
         try {
-            & git fetch origin $InnoBranch 2>$null
-            & git checkout -q $InnoBranch
-            & git pull -q --ff-only
+            & git fetch origin $InnoBranch 2>&1 | Out-Null
+            & git checkout -q $InnoBranch 2>&1 | Out-Null
+            & git pull -q --ff-only 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) { Write-Err 'git pull failed.' }
         } finally { Pop-Location }
     } else {
         New-Item -ItemType Directory -Force -Path (Split-Path $InnoHome) | Out-Null
-        & git clone -q --depth 1 --branch $InnoBranch $InnoRepoUrl $InnoHome
+        & git clone -q --depth 1 --branch $InnoBranch $InnoRepoUrl $InnoHome 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) { Write-Err "git clone failed: $InnoRepoUrl" }
     }
     Write-Step 'Install' 'repo ready'
@@ -105,11 +110,11 @@ function Install-InnoAgent {
         Write-Step 'Build' 'npm install (this can take a while)...'
         Push-Location $AppDir
         try {
-            & npm ci 2>$null
-            if ($LASTEXITCODE -ne 0) { & npm install }
+            & npm ci 2>&1 | Out-Null
+            if ($LASTEXITCODE -ne 0) { & npm install 2>&1 | Out-Null }
             if ($LASTEXITCODE -ne 0) { Write-Err 'npm install failed.' }
             Write-Step 'Build' 'npm run build...'
-            & npm run build 2>$null
+            & npm run build 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) { Write-Err 'build failed; re-run with INNO_SKIP_BUILD=1 to skip' }
         } finally { Pop-Location }
         Write-Step 'Build' 'built'
