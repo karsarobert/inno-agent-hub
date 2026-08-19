@@ -1,0 +1,194 @@
+# Inno Agent Installer for Windows PowerShell
+#
+# One-line usage:
+#   irm https://<host>/install.ps1 | iex
+#
+# A piped install takes options as environment variables set beforehand
+# (INNO_HOME, INNO_REPO_URL, INNO_PORT, ...) because the web entry point
+# cannot forward arguments; a local run accepts the same variables.
+# Install dir priority: INNO_HOME > $USERPROFILE\.local\opt\inno-agent
+#
+# The installation is CLEAN by default: the content hub is disabled
+# (contentHub type "none"), so the app ships with no skill library and no
+# preset cards. Nothing is fetched from any hub at runtime.
+#
+# SPDX-License-Identifier: MIT
+function Install-InnoAgent {
+    $ErrorActionPreference = "Stop"
+    # A profile that sets 'None' for $PSModuleAutoLoadingPreference makes
+    # ConvertTo-Json / Invoke-WebRequest stop resolving on PowerShell 7.
+    $PSModuleAutoLoadingPreference = 'All'
+    # 5.1 redraws the IWR progress bar on every read; that redraw sets the
+    # download rate. Kill it before any download in this script.
+    $ProgressPreference = 'SilentlyContinue'
+
+    function Write-Step([string]$Label, [string]$Message, [string]$Color = 'Green') {
+        Write-Host ("  {0,-15} {1}" -f $Label, $Message) -ForegroundColor $Color
+    }
+    function Write-SubStep([string]$Message) {
+        Write-Host ("  {0,-15} {1}" -f '', $Message) -ForegroundColor 'DarkGray'
+    }
+    function Write-Err([string]$Message) {
+        Write-Host "ERROR: $Message" -ForegroundColor 'Red'
+        exit 1
+    }
+
+    # ── Options (env vars; defaults for a clean install) ──
+    $InnoHome = if ($env:INNO_HOME) { $env:INNO_HOME } else { Join-Path $env:USERPROFILE '.local\opt\inno-agent' }
+    $InnoRepoUrl = if ($env:INNO_REPO_URL) { $env:INNO_REPO_URL } else { 'https://github.com/karsarobert/inno-agent.git' }
+    $InnoBranch = if ($env:INNO_BRANCH) { $env:INNO_BRANCH } else { 'main' }
+    $InnoPort = if ($env:INNO_PORT) { $env:INNO_PORT } else { '3000' }
+    $InnoSkipBuild = $env:INNO_SKIP_BUILD -eq '1'
+    $InnoSkipStart = $env:INNO_SKIP_START -eq '1'
+    $InnoHubType = if ($env:INNO_HUB_TYPE) { $env:INNO_HUB_TYPE } else { 'none' }
+    $InnoProviderBaseUrl = if ($env:INNO_PROVIDER_BASE_URL) { $env:INNO_PROVIDER_BASE_URL } else { '' }
+    $InnoProviderApiKey = if ($env:INNO_PROVIDER_API_KEY) { $env:INNO_PROVIDER_API_KEY } else { '' }
+    $InnoProviderModel = if ($env:INNO_PROVIDER_MODEL) { $env:INNO_PROVIDER_MODEL } else { '' }
+
+    $Rule = '─' * 52
+    Write-Host ""
+    Write-Host $Rule -ForegroundColor 'DarkCyan'
+    Write-Host "  Inno Agent installer" -ForegroundColor 'DarkCyan'
+    Write-Host $Rule -ForegroundColor 'DarkCyan'
+    Write-Host ""
+
+    # ── 1. Prerequisites: git ──
+    Write-Step 'Prereq' 'checking git...'
+    $Git = Get-Command git -ErrorAction SilentlyContinue
+    if (-not $Git) { Write-Err 'git is required but not installed. Install Git for Windows (https://git-scm.com/download/win) and re-run.' }
+    Write-Step 'Prereq' ("git {0}" -f (& git --version))
+
+    # ── 2. Node.js >= 20.6 ──
+    Write-Step 'Prereq' 'checking Node.js (>=20.6)...'
+    $Node = Get-Command node -ErrorAction SilentlyContinue
+    $NodeOk = $false
+    if ($Node) {
+        $NodeVer = (& node --version) -replace '^v', ''
+        $NodeMajor = [int]($NodeVer.Split('.')[0])
+        $NodeMinor = [int]($NodeVer.Split('.')[1])
+        if ($NodeMajor -gt 20 -or ($NodeMajor -eq 20 -and $NodeMinor -ge 6)) { $NodeOk = $true }
+    }
+    if (-not $NodeOk) {
+        Write-Err "Node.js >= 20.6 is required but not found (got: $(if ($Node) { & node --version } else { 'none' })). Install it from https://nodejs.org (LTS 22+) and re-run, or set INNO_SKIP_NODE_CHECK=1 if a suitable node is already on PATH."
+    }
+    Write-Step 'Prereq' ("node {0}" -f (& node --version))
+    $Npm = Get-Command npm -ErrorAction SilentlyContinue
+    if (-not $Npm) { Write-Err 'npm is required but not installed.' }
+    Write-Step 'Prereq' ("npm {0}" -f (& npm --version))
+
+    # ── 3. Clone / update the repo ──
+    Write-Step 'Install' "preparing $InnoHome..."
+    if (Test-Path (Join-Path $InnoHome '.git')) {
+        Write-Step 'Install' 'updating existing checkout...'
+        Push-Location $InnoHome
+        try {
+            & git fetch origin $InnoBranch 2>$null
+            & git checkout -q $InnoBranch
+            & git pull -q --ff-only
+            if ($LASTEXITCODE -ne 0) { Write-Err 'git pull failed.' }
+        } finally { Pop-Location }
+    } else {
+        New-Item -ItemType Directory -Force -Path (Split-Path $InnoHome) | Out-Null
+        & git clone -q --depth 1 --branch $InnoBranch $InnoRepoUrl $InnoHome
+        if ($LASTEXITCODE -ne 0) { Write-Err "git clone failed: $InnoRepoUrl" }
+    }
+    Write-Step 'Install' 'repo ready'
+
+    # ── 4. Dependencies + build ──
+    $AppDir = Join-Path $InnoHome 'app'
+    if ($InnoSkipBuild) {
+        Write-Step 'Build' 'skipped (INNO_SKIP_BUILD=1)'
+    } else {
+        Write-Step 'Build' 'npm install (this can take a while)...'
+        Push-Location $AppDir
+        try {
+            & npm ci 2>$null
+            if ($LASTEXITCODE -ne 0) { & npm install }
+            if ($LASTEXITCODE -ne 0) { Write-Err 'npm install failed.' }
+            Write-Step 'Build' 'npm run build...'
+            & npm run build 2>$null
+            if ($LASTEXITCODE -ne 0) { Write-Err 'build failed; re-run with INNO_SKIP_BUILD=1 to skip' }
+        } finally { Pop-Location }
+        Write-Step 'Build' 'built'
+    }
+
+    # ── 5. Clean runtime config ──
+    Write-Step 'Config' 'writing clean runtime config...'
+    $RuntimeDir = Join-Path $AppDir 'runtime'
+    New-Item -ItemType Directory -Force -Path (Join-Path $RuntimeDir 'config'), (Join-Path $RuntimeDir 'data'), (Join-Path $RuntimeDir 'skills'), (Join-Path $AppDir 'workspace') | Out-Null
+
+    $DefaultProvider = ''
+    $DefaultModel = ''
+    $Providers = @{}
+    if ($InnoProviderBaseUrl -and $InnoProviderApiKey) {
+        $Providers['default'] = @{
+            id = 'default'
+            baseUrl = $InnoProviderBaseUrl
+            api = 'openai-completions'
+            apiKey = $InnoProviderApiKey
+            models = @(@{ id = $InnoProviderModel; name = $InnoProviderModel; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
+        }
+        $DefaultProvider = 'default'
+        $DefaultModel = $InnoProviderModel
+        Write-Step 'Config' 'provider configured via INNO_PROVIDER_*'
+    } else {
+        Write-Step 'Config' 'no provider configured; set one in Settings UI'
+    }
+
+    $Config = [ordered]@{
+        defaultProvider = $DefaultProvider
+        defaultModel = $DefaultModel
+        providers = $Providers
+        server = @{ port = [int]$InnoPort }
+        contentHub = @{ type = $InnoHubType }
+        subagents = @{ enabled = $false }
+        memory = @{ l1Enabled = $true; l2Enabled = $true; l3Enabled = $true }
+    }
+    $Config | ConvertTo-Json -Depth 8 | Set-Content -Path (Join-Path $RuntimeDir 'config\config.json') -Encoding UTF8
+    Write-Step 'Config' "contentHub type: $InnoHubType (clean install)"
+
+    # ── 6. Start + health check ──
+    if ($InnoSkipStart) {
+        Write-Step 'Start' 'skipped (INNO_SKIP_START=1)'
+    } else {
+        Write-Step 'Start' "starting Inno Agent on :$InnoPort..."
+        $LogFile = Join-Path $InnoHome 'inno-agent.log'
+        $Proc = Start-Process -FilePath 'npm' -ArgumentList @('run', 'server', '--', '--home', './runtime', '--workspace', './workspace', '--port', $InnoPort) -WorkingDirectory $AppDir -RedirectStandardOutput $LogFile -RedirectStandardError $LogFile -PassThru -WindowStyle Hidden
+        $Healthy = $false
+        for ($i = 0; $i -lt 30; $i++) {
+            Start-Sleep -Seconds 1
+            try {
+                $Resp = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:$InnoPort/health" -TimeoutSec 2
+                if ($Resp.StatusCode -eq 200) { $Healthy = $true; break }
+            } catch { }
+        }
+        if ($Healthy) {
+            Write-Step 'Start' 'healthy'
+        } else {
+            Write-Step 'Start' "server did not become healthy; check $LogFile" 'Yellow'
+        }
+    }
+
+    # ── Summary ──
+    Write-Host ""
+    Write-Host $Rule -ForegroundColor 'DarkCyan'
+    Write-Host "  Inno Agent installed" -ForegroundColor 'DarkCyan'
+    Write-Host $Rule -ForegroundColor 'DarkCyan'
+    Write-Host ""
+    if (-not $InnoSkipStart) {
+        Write-SubStep "Web UI:  http://localhost:$InnoPort"
+    }
+    Write-SubStep "Install: $InnoHome"
+    Write-SubStep "Config:  $RuntimeDir\config\config.json"
+    Write-SubStep "Log:     $LogFile"
+    if ($InnoSkipStart) {
+        Write-SubStep "Start:   cd $AppDir; npm run server -- --home ./runtime --workspace ./workspace --port $InnoPort"
+    }
+    Write-SubStep 'Update:  git pull; cd app; npm ci; npm run build'
+    Write-Host ""
+    Write-SubStep 'Clean install: content hub is DISABLED (no skills, no preset cards).'
+    Write-SubStep 'To enable a hub later, use Settings > Content Hub in the UI.'
+    Write-Host ""
+}
+
+Install-InnoAgent @args
