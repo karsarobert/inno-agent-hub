@@ -37,6 +37,25 @@ function Install-InnoAgent {
         Write-Host "ERROR: $Message" -ForegroundColor 'Red'
         exit 1
     }
+    # Run a native command (git/node/npm) and return $LASTEXITCODE.
+    # With $ErrorActionPreference=Stop, PowerShell 5.1/7.x wraps native
+    # stderr lines in ErrorRecords and can abort the script on harmless
+    # warnings ("npm warn deprecated ...", "From https://..."). We lower
+    # the preference to Continue for the native call only, so stderr is
+    # swallowed and only the exit code decides success. Works on every
+    # PowerShell version (the $PSNativeCommandUseErrorActionPreference
+    # variable only exists in 7.3+).
+    function Invoke-Native {
+        param([string]$FilePath, [string[]]$Arguments)
+        $oldEap = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        try {
+            & $FilePath @Arguments 2>&1 | Out-Null
+            return $LASTEXITCODE
+        } finally {
+            $ErrorActionPreference = $oldEap
+        }
+    }
 
     # ── Options (env vars; defaults for a clean install) ──
     $InnoHome = if ($env:INNO_HOME) { $env:INNO_HOME } else { Join-Path $env:USERPROFILE '.local\opt\inno-agent' }
@@ -88,15 +107,15 @@ function Install-InnoAgent {
         Write-Step 'Install' 'updating existing checkout...'
         Push-Location $InnoHome
         try {
-            & git fetch origin $InnoBranch 2>&1 | Out-Null
-            & git checkout -q $InnoBranch 2>&1 | Out-Null
-            & git pull -q --ff-only 2>&1 | Out-Null
-            if ($LASTEXITCODE -ne 0) { Write-Err 'git pull failed.' }
+            Invoke-Native 'git' @('fetch', 'origin', $InnoBranch) | Out-Null
+            Invoke-Native 'git' @('checkout', '-q', $InnoBranch) | Out-Null
+            $pullCode = Invoke-Native 'git' @('pull', '-q', '--ff-only')
+            if ($pullCode -ne 0) { Write-Err 'git pull failed.' }
         } finally { Pop-Location }
     } else {
         New-Item -ItemType Directory -Force -Path (Split-Path $InnoHome) | Out-Null
-        & git clone -q --depth 1 --branch $InnoBranch $InnoRepoUrl $InnoHome 2>&1 | Out-Null
-        if ($LASTEXITCODE -ne 0) { Write-Err "git clone failed: $InnoRepoUrl" }
+        $cloneCode = Invoke-Native 'git' @('clone', '-q', '--depth', '1', '--branch', $InnoBranch, $InnoRepoUrl, $InnoHome)
+        if ($cloneCode -ne 0) { Write-Err "git clone failed: $InnoRepoUrl" }
     }
     Write-Step 'Install' 'repo ready'
 
@@ -110,12 +129,12 @@ function Install-InnoAgent {
         Write-Step 'Build' 'npm install (this can take a while)...'
         Push-Location $AppDir
         try {
-            & npm ci 2>&1 | Out-Null
-            if ($LASTEXITCODE -ne 0) { & npm install 2>&1 | Out-Null }
-            if ($LASTEXITCODE -ne 0) { Write-Err 'npm install failed.' }
+            $ciCode = Invoke-Native 'npm' @('ci')
+            if ($ciCode -ne 0) { $ciCode = Invoke-Native 'npm' @('install') }
+            if ($ciCode -ne 0) { Write-Err 'npm install failed.' }
             Write-Step 'Build' 'npm run build...'
-            & npm run build 2>&1 | Out-Null
-            if ($LASTEXITCODE -ne 0) { Write-Err 'build failed; re-run with INNO_SKIP_BUILD=1 to skip' }
+            $buildCode = Invoke-Native 'npm' @('run', 'build')
+            if ($buildCode -ne 0) { Write-Err 'build failed; re-run with INNO_SKIP_BUILD=1 to skip' }
         } finally { Pop-Location }
         Write-Step 'Build' 'built'
     }
