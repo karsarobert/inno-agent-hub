@@ -57,6 +57,13 @@ function Install-InnoAgent {
         }
     }
 
+    # Write a text file as UTF-8 WITHOUT a BOM. PowerShell 5.1's
+    # Set-Content -Encoding UTF8 prepends a BOM that Node's JSON.parse
+    # rejects, so all config/launcher files go through this helper.
+    function Write-Utf8NoBom([string]$Path, [string]$Content) {
+        [System.IO.File]::WriteAllText($Path, $Content, (New-Object System.Text.UTF8Encoding($false)))
+    }
+
     # ── Options (env vars; defaults for a clean install) ──
     $InnoHome = if ($env:INNO_HOME) { $env:INNO_HOME } else { Join-Path $env:USERPROFILE '.local\opt\inno-agent' }
     $InnoRepoUrl = if ($env:INNO_REPO_URL) { $env:INNO_REPO_URL } else { 'https://github.com/karsarobert/inno-agent.git' }
@@ -186,10 +193,8 @@ function Install-InnoAgent {
         subagents = @{ enabled = $false }
         memory = @{ l1Enabled = $true; l2Enabled = $true; l3Enabled = $true }
     }
-    # Write UTF-8 WITHOUT BOM: PowerShell 5.1's Set-Content -Encoding UTF8
-    # prepends a BOM that Node's JSON.parse would reject.
     $ConfigJson = $Config | ConvertTo-Json -Depth 8
-    [System.IO.File]::WriteAllText((Join-Path $RuntimeDir 'config\config.json'), $ConfigJson, (New-Object System.Text.UTF8Encoding($false)))
+    Write-Utf8NoBom (Join-Path $RuntimeDir 'config\config.json') $ConfigJson
     Write-Step 'Config' "contentHub type: $InnoHubType"
 
     # ── 6. Start Menu shortcut + desktop icon ──
@@ -218,7 +223,7 @@ if (-not `$Healthy) {
 }
 Start-Process "http://localhost:`$Port"
 "@
-    [System.IO.File]::WriteAllText($LauncherPath, $LauncherContent, (New-Object System.Text.UTF8Encoding($false)))
+    Write-Utf8NoBom $LauncherPath $LauncherContent
 
     $StartMenuDir = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'
     $ShortcutPath = Join-Path $StartMenuDir 'Inno Agent.lnk'
