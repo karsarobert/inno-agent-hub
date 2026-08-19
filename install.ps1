@@ -203,7 +203,8 @@ try {
     if (`$Resp.StatusCode -eq 200) { `$Healthy = `$true }
 } catch { }
 if (-not `$Healthy) {
-    `$Proc = Start-Process -FilePath 'npm' -ArgumentList @('run', 'server', '--', '--home', './runtime', '--workspace', './workspace', '--port', "`$Port") -WorkingDirectory `$AppDir -RedirectStandardOutput `$LogFile -RedirectStandardError `$LogFile -PassThru -WindowStyle Hidden
+    `$ErrFile = Join-Path `$AppDir 'inno-agent.err.log'
+    `$Proc = Start-Process -FilePath 'npm' -ArgumentList @('run', 'server', '--', '--home', './runtime', '--workspace', './workspace', '--port', "`$Port") -WorkingDirectory `$AppDir -RedirectStandardOutput `$LogFile -RedirectStandardError `$ErrFile -PassThru -WindowStyle Hidden
     for (`$i = 0; `$i -lt 30; `$i++) {
         Start-Sleep -Seconds 1
         try {
@@ -233,7 +234,8 @@ Start-Process "http://localhost:`$Port"
     } else {
         Write-Step 'Start' "starting Inno Agent on :$InnoPort..."
         $LogFile = Join-Path $InnoHome 'inno-agent.log'
-        $Proc = Start-Process -FilePath 'npm' -ArgumentList @('run', 'server', '--', '--home', './runtime', '--workspace', './workspace', '--port', $InnoPort) -WorkingDirectory $AppDir -RedirectStandardOutput $LogFile -RedirectStandardError $LogFile -PassThru -WindowStyle Hidden
+        $ErrFile = Join-Path $InnoHome 'inno-agent.err.log'
+        $Proc = Start-Process -FilePath 'npm' -ArgumentList @('run', 'server', '--', '--home', './runtime', '--workspace', './workspace', '--port', $InnoPort) -WorkingDirectory $AppDir -RedirectStandardOutput $LogFile -RedirectStandardError $ErrFile -PassThru -WindowStyle Hidden
         $Healthy = $false
         for ($i = 0; $i -lt 30; $i++) {
             Start-Sleep -Seconds 1
