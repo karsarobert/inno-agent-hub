@@ -404,11 +404,13 @@ is magyarra lettek fordítva (kb. 170 további csere). A részletes párlistát 
 - ütemezett feladatok: létrehozás/frissítés/törlés/futtatás visszajelzései
 - beszélgetés-export (server.ts): exportálás fejlécei és formátuma
 
-### Szándékosan NEM fordítva (funkcionális regex-minták)
+### Funkcionális regex-minták (már lefordítva)
 
-Ezek a kínai szövegek regex-minták (pl. a felhasználó „nem tanulom" típusú
-kifejezéseinek felismerése, „避免"/„提醒我" prefixek levágása). Nem feliratok,
-fordításuk megváltoztatná a viselkedést — külön döntés kérdése:
+A kínai bemenetet kereső regex-minták is magyarra lettek cserélve (commit
+7d089cf): a hasArchiveIntent magyar kifejezéseket ismer fel (nem tanul,
+abbahagy, felad, leállít, archivál), a „Kerülendő"/„Emlékeztess" prefixek
+levágása magyar, a generált címeknél a „Cím:" prefix tisztítása. Az angol
+örökölt minták (archive, stop learning, quit) megmaradtak.
 
 - `apps/inno-agent/src/memory/l2/source-converter.ts:40: // 文本已由 LiteParse 在上游提取，此处直接透传`
 - `apps/inno-agent/src/memory/l3/sqlite-store.ts:62: * more discriminative than single CJK characters — unigram tokens like 的/我/学`
