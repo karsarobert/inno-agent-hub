@@ -41,6 +41,7 @@ function Install-InnoAgent {
     $InnoSkipBuild = $env:INNO_SKIP_BUILD -eq '1'
     $InnoSkipStart = $env:INNO_SKIP_START -eq '1'
     $InnoHubType = if ($env:INNO_HUB_TYPE) { $env:INNO_HUB_TYPE } else { 'none' }
+    $InnoHubUrl = if ($env:INNO_HUB_URL) { $env:INNO_HUB_URL } else { '' }
     $InnoProviderBaseUrl = if ($env:INNO_PROVIDER_BASE_URL) { $env:INNO_PROVIDER_BASE_URL } else { '' }
     $InnoProviderApiKey = if ($env:INNO_PROVIDER_API_KEY) { $env:INNO_PROVIDER_API_KEY } else { '' }
     $InnoProviderModel = if ($env:INNO_PROVIDER_MODEL) { $env:INNO_PROVIDER_MODEL } else { '' }
@@ -147,17 +148,22 @@ function Install-InnoAgent {
         Write-Step 'Config' 'placeholder provider written; set the real one in Settings UI'
     }
 
+    # A self-hosted hub URL forces bundle type and carries the base URL.
+    if ($InnoHubUrl) {
+        $InnoHubType = 'bundle'
+        Write-Step 'Config' "content hub: bundle @ $InnoHubUrl"
+    }
     $Config = [ordered]@{
         defaultProvider = $DefaultProvider
         defaultModel = $DefaultModel
         providers = $Providers
         server = @{ port = [int]$InnoPort }
-        contentHub = @{ type = $InnoHubType }
+        contentHub = @{ type = $InnoHubType; baseUrl = $InnoHubUrl }
         subagents = @{ enabled = $false }
         memory = @{ l1Enabled = $true; l2Enabled = $true; l3Enabled = $true }
     }
     $Config | ConvertTo-Json -Depth 8 | Set-Content -Path (Join-Path $RuntimeDir 'config\config.json') -Encoding UTF8
-    Write-Step 'Config' "contentHub type: $InnoHubType (clean install)"
+    Write-Step 'Config' "contentHub type: $InnoHubType"
 
     # ── 6. Start Menu shortcut + desktop icon ──
     Write-Step 'Menu' 'installing Start Menu shortcut...'

@@ -57,8 +57,11 @@ INNO_SKIP_BUILD="${INNO_SKIP_BUILD:-0}"
 INNO_SKIP_START="${INNO_SKIP_START:-0}"
 INNO_NODE_VER="${INNO_NODE_VER:-22}"
 # Default provider/model stay EMPTY: the user configures them in the
-# Settings UI after install. The content hub is disabled by default.
+# Settings UI after install. The content hub is disabled by default;
+# set INNO_HUB_TYPE=bundle and INNO_HUB_URL to point at a self-hosted
+# content hub (e.g. an inno-hub on the local network).
 INNO_HUB_TYPE="${INNO_HUB_TYPE:-none}"
+INNO_HUB_URL="${INNO_HUB_URL:-}"
 INNO_PROVIDER_BASE_URL="${INNO_PROVIDER_BASE_URL:-}"
 INNO_PROVIDER_API_KEY="${INNO_PROVIDER_API_KEY:-}"
 INNO_PROVIDER_MODEL="${INNO_PROVIDER_MODEL:-}"
@@ -169,18 +172,26 @@ else
     DEFAULT_MODEL="\"placeholder-model\""
     step "Config" "placeholder provider written; set the real one in Settings UI"
 fi
+if [ -n "$INNO_HUB_URL" ]; then
+    # Self-hosted hub: force bundle type and carry the base URL.
+    INNO_HUB_TYPE="bundle"
+    HUB_BASE_URL_JSON="\"$INNO_HUB_URL\""
+    step "Config" "content hub: bundle @ $INNO_HUB_URL"
+else
+    HUB_BASE_URL_JSON="\"\""
+fi
 cat > "$APP_DIR/runtime/config/config.json" <<EOF
 {
     "defaultProvider": $DEFAULT_PROVIDER,
     "defaultModel": $DEFAULT_MODEL,
     "providers": $PROVIDERS_JSON,
     "server": { "port": $INNO_PORT },
-    "contentHub": { "type": "$INNO_HUB_TYPE" },
+    "contentHub": { "type": "$INNO_HUB_TYPE", "baseUrl": $HUB_BASE_URL_JSON },
     "subagents": { "enabled": false },
     "memory": { "l1Enabled": true, "l2Enabled": true, "l3Enabled": true }
 }
 EOF
-step "Config" "contentHub type: $INNO_HUB_TYPE (clean install)"
+step "Config" "contentHub type: $INNO_HUB_TYPE"
 
 # ── 8. Desktop launcher + app-menu icon ──
 step "Menu" "installing desktop launcher + icon..."
@@ -277,8 +288,12 @@ fi
 substep "Menu:    Inno Agent — start it anytime from the app menu"
 substep "Update:  cd $INNO_HOME && git pull && npm ci && npm run build"
 echo ""
-substep "Clean install: content hub is DISABLED (no skills, no preset cards)."
-substep "To enable a hub later, use Settings > Content Hub in the UI."
+if [ -n "$INNO_HUB_URL" ]; then
+    substep "Content hub: enabled ($INNO_HUB_TYPE @ $INNO_HUB_URL)"
+else
+    substep "Clean install: content hub is DISABLED (no skills, no preset cards)."
+    substep "To enable a hub later, use Settings > Content Hub in the UI."
+fi
 echo ""
 
 }
