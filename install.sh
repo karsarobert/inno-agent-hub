@@ -182,7 +182,63 @@ cat > "$APP_DIR/runtime/config/config.json" <<EOF
 EOF
 step "Config" "contentHub type: $INNO_HUB_TYPE (clean install)"
 
-# ── 7. Start + health check ──
+# ── 8. Desktop launcher + app-menu icon ──
+step "Menu" "installing desktop launcher + icon..."
+XDG_ICON_DIR="$HOME/.local/share/icons"
+XDG_APP_DIR="$HOME/.local/share/applications"
+mkdir -p "$XDG_ICON_DIR" "$XDG_APP_DIR"
+cp "$APP_DIR/build/icon.png" "$XDG_ICON_DIR/inno-agent.png" 2>/dev/null || true
+
+# Launcher: start the server when needed, then open the web UI. Used by the
+# .desktop entry so the app can be started from the menu at any time.
+LAUNCHER="$INNO_HOME/inno-agent.sh"
+cat > "$LAUNCHER" <<EOF
+#!/bin/sh
+# Inno Agent launcher — start the server if needed, then open the web UI.
+PORT=$INNO_PORT
+APP_DIR="$INNO_HOME"
+LOG="\$APP_DIR/inno-agent.log"
+# Desktop launchers start with a minimal PATH; re-source nvm when present so
+# a user-level Node install is found.
+if [ -s "\$HOME/.nvm/nvm.sh" ]; then
+    export NVM_DIR="\$HOME/.nvm"
+    # shellcheck disable=SC1091
+    . "\$HOME/.nvm/nvm.sh"
+fi
+if ! curl -fsS "http://127.0.0.1:\$PORT/health" >/dev/null 2>&1; then
+    ( cd "\$APP_DIR" && nohup npm run server -- --home ./runtime --workspace ./workspace --port "\$PORT" >>"\$LOG" 2>&1 & echo \$! > "\$APP_DIR/inno-agent.pid" )
+    _tries=0
+    while [ "\$_tries" -lt 30 ]; do
+        curl -fsS "http://127.0.0.1:\$PORT/health" >/dev/null 2>&1 && break
+        _tries=\$((_tries + 1))
+        sleep 1
+    done
+fi
+# Open the web UI (xdg-open on Linux, open on macOS).
+if command -v xdg-open >/dev/null 2>&1; then
+    xdg-open "http://localhost:\$PORT" >/dev/null 2>&1 &
+elif command -v open >/dev/null 2>&1; then
+    open "http://localhost:\$PORT"
+fi
+EOF
+chmod +x "$LAUNCHER"
+
+cat > "$XDG_APP_DIR/inno-agent.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=Inno Agent
+Comment=Personal learning agent
+Exec="$LAUNCHER"
+Icon=$XDG_ICON_DIR/inno-agent.png
+Terminal=false
+Categories=Education;
+StartupNotify=true
+EOF
+# Refresh the XDG application database when available (harmless if absent).
+command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$XDG_APP_DIR" >/dev/null 2>&1 || true
+step "Menu" "launcher installed (Inno Agent in the app menu)"
+
+# ── 9. Start + health check ──
 if [ "$INNO_SKIP_START" = "1" ]; then
     step "Start" "skipped (INNO_SKIP_START=1)"
 else
@@ -216,8 +272,9 @@ substep "Install: $INNO_HOME"
 substep "Config:  $INNO_HOME/runtime/config/config.json"
 substep "Log:     $INNO_HOME/inno-agent.log"
 if [ "$INNO_SKIP_START" = "1" ]; then
-    substep "Start:   cd $INNO_HOME && npm run server -- --home ./runtime --workspace ./workspace --port $INNO_PORT"
+    substep "Start:   $LAUNCHER (or from the app menu)"
 fi
+substep "Menu:    Inno Agent — start it anytime from the app menu"
 substep "Update:  cd $INNO_HOME && git pull && npm ci && npm run build"
 echo ""
 substep "Clean install: content hub is DISABLED (no skills, no preset cards)."

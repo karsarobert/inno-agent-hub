@@ -159,7 +159,45 @@ function Install-InnoAgent {
     $Config | ConvertTo-Json -Depth 8 | Set-Content -Path (Join-Path $RuntimeDir 'config\config.json') -Encoding UTF8
     Write-Step 'Config' "contentHub type: $InnoHubType (clean install)"
 
-    # ── 6. Start + health check ──
+    # ── 6. Start Menu shortcut + desktop icon ──
+    Write-Step 'Menu' 'installing Start Menu shortcut...'
+    $LauncherPath = Join-Path $InnoHome 'inno-agent.ps1'
+    @"
+# Inno Agent launcher - start the server if needed, then open the web UI.
+`$Port = $InnoPort
+`$AppDir = "$InnoHome"
+`$LogFile = Join-Path `$AppDir 'inno-agent.log'
+`$Healthy = `$false
+try {
+    `$Resp = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:`$Port/health" -TimeoutSec 2
+    if (`$Resp.StatusCode -eq 200) { `$Healthy = `$true }
+} catch { }
+if (-not `$Healthy) {
+    `$Proc = Start-Process -FilePath 'npm' -ArgumentList @('run', 'server', '--', '--home', './runtime', '--workspace', './workspace', '--port', "`$Port") -WorkingDirectory `$AppDir -RedirectStandardOutput `$LogFile -RedirectStandardError `$LogFile -PassThru -WindowStyle Hidden
+    for (`$i = 0; `$i -lt 30; `$i++) {
+        Start-Sleep -Seconds 1
+        try {
+            `$Resp = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:`$Port/health" -TimeoutSec 2
+            if (`$Resp.StatusCode -eq 200) { break }
+        } catch { }
+    }
+}
+Start-Process "http://localhost:`$Port"
+"@ | Set-Content -Path $LauncherPath -Encoding UTF8
+
+    $StartMenuDir = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'
+    $ShortcutPath = Join-Path $StartMenuDir 'Inno Agent.lnk'
+    $WshShell = New-Object -ComObject WScript.Shell
+    $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
+    $Shortcut.TargetPath = 'powershell.exe'
+    $Shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$LauncherPath`""
+    $Shortcut.WorkingDirectory = $InnoHome
+    $Shortcut.IconLocation = (Join-Path $InnoHome 'build\icon.png')
+    $Shortcut.Description = 'Inno Agent - personal learning agent'
+    $Shortcut.Save()
+    Write-Step 'Menu' 'Start Menu shortcut created (Inno Agent)'
+
+    # ── 7. Start + health check ──
     if ($InnoSkipStart) {
         Write-Step 'Start' 'skipped (INNO_SKIP_START=1)'
     } else {
@@ -193,8 +231,9 @@ function Install-InnoAgent {
     Write-SubStep "Install: $InnoHome"
     Write-SubStep "Config:  $RuntimeDir\config\config.json"
     Write-SubStep "Log:     $LogFile"
+    Write-SubStep 'Menu:    Inno Agent - Start Menu shortcut created'
     if ($InnoSkipStart) {
-        Write-SubStep "Start:   cd $AppDir; npm run server -- --home ./runtime --workspace ./workspace --port $InnoPort"
+        Write-SubStep "Start:   $LauncherPath (or from the Start Menu)"
     }
     Write-SubStep 'Update:  git pull; cd app; npm ci; npm run build'
     Write-Host ""
