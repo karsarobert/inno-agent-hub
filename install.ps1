@@ -186,13 +186,16 @@ function Install-InnoAgent {
         subagents = @{ enabled = $false }
         memory = @{ l1Enabled = $true; l2Enabled = $true; l3Enabled = $true }
     }
-    $Config | ConvertTo-Json -Depth 8 | Set-Content -Path (Join-Path $RuntimeDir 'config\config.json') -Encoding UTF8
+    # Write UTF-8 WITHOUT BOM: PowerShell 5.1's Set-Content -Encoding UTF8
+    # prepends a BOM that Node's JSON.parse would reject.
+    $ConfigJson = $Config | ConvertTo-Json -Depth 8
+    [System.IO.File]::WriteAllText((Join-Path $RuntimeDir 'config\config.json'), $ConfigJson, (New-Object System.Text.UTF8Encoding($false)))
     Write-Step 'Config' "contentHub type: $InnoHubType"
 
     # ── 6. Start Menu shortcut + desktop icon ──
     Write-Step 'Menu' 'installing Start Menu shortcut...'
     $LauncherPath = Join-Path $InnoHome 'inno-agent.ps1'
-    @"
+    $LauncherContent = @"
 # Inno Agent launcher - start the server if needed, then open the web UI.
 `$Port = $InnoPort
 `$AppDir = "$InnoHome"
@@ -214,7 +217,8 @@ if (-not `$Healthy) {
     }
 }
 Start-Process "http://localhost:`$Port"
-"@ | Set-Content -Path $LauncherPath -Encoding UTF8
+"@
+    [System.IO.File]::WriteAllText($LauncherPath, $LauncherContent, (New-Object System.Text.UTF8Encoding($false)))
 
     $StartMenuDir = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'
     $ShortcutPath = Join-Path $StartMenuDir 'Inno Agent.lnk'
