@@ -10,9 +10,11 @@
 # pipe would be read as an option to sh itself; a local run accepts the same
 # variables. Install dir priority: INNO_HOME > ~/.local/opt/inno-agent.
 #
-# The installation is CLEAN by default: the content hub is disabled
-# (contentHub type "none"), so the app ships with no skill library and no
-# preset cards. Nothing is fetched from any hub at runtime.
+# The content hub defaults to the teacher's GitHub hub (karsarobert/
+# inno-agent-hub, branch main) so skills and preset cards are available
+# right after install. Set INNO_HUB_TYPE=none for a fully offline install
+# (no skills, no preset cards), or INNO_HUB_TYPE=bundle + INNO_HUB_URL for
+# a self-hosted hub.
 #
 # SPDX-License-Identifier: MIT
 set -e
@@ -57,10 +59,11 @@ INNO_SKIP_BUILD="${INNO_SKIP_BUILD:-0}"
 INNO_SKIP_START="${INNO_SKIP_START:-0}"
 INNO_NODE_VER="${INNO_NODE_VER:-22}"
 # Default provider/model stay EMPTY: the user configures them in the
-# Settings UI after install. The content hub is disabled by default;
-# set INNO_HUB_TYPE=bundle and INNO_HUB_URL to point at a self-hosted
-# content hub (e.g. an inno-hub on the local network).
-INNO_HUB_TYPE="${INNO_HUB_TYPE:-none}"
+# Settings UI after install. The content hub defaults to GitHub
+# (karsarobert/inno-agent-hub); set INNO_HUB_TYPE=none to disable it, or
+# INNO_HUB_TYPE=bundle and INNO_HUB_URL for a self-hosted content hub
+# (e.g. an inno-hub on the local network).
+INNO_HUB_TYPE="${INNO_HUB_TYPE:-github}"
 INNO_HUB_URL="${INNO_HUB_URL:-}"
 INNO_PROVIDER_BASE_URL="${INNO_PROVIDER_BASE_URL:-}"
 INNO_PROVIDER_API_KEY="${INNO_PROVIDER_API_KEY:-}"
@@ -180,18 +183,24 @@ if [ -n "$INNO_HUB_URL" ]; then
 else
     HUB_BASE_URL_JSON="\"\""
 fi
+if [ "$INNO_HUB_TYPE" = "github" ]; then
+    # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
+    CONTENT_HUB_JSON="{ \"type\": \"github\", \"owner\": \"karsarobert\", \"repo\": \"inno-agent-hub\", \"ref\": \"main\", \"skillsPath\": \"skill-library\", \"presetsPath\": \"workspace-templates\", \"baseUrl\": \"\", \"token\": \"\" }"
+else
+    CONTENT_HUB_JSON="{ \"type\": \"$INNO_HUB_TYPE\", \"baseUrl\": $HUB_BASE_URL_JSON }"
+fi
 cat > "$APP_DIR/runtime/config/config.json" <<EOF
 {
     "defaultProvider": $DEFAULT_PROVIDER,
     "defaultModel": $DEFAULT_MODEL,
     "providers": $PROVIDERS_JSON,
     "server": { "port": $INNO_PORT },
-    "contentHub": { "type": "$INNO_HUB_TYPE", "baseUrl": $HUB_BASE_URL_JSON },
+    "contentHub": $CONTENT_HUB_JSON,
     "subagents": { "enabled": false },
     "memory": { "l1Enabled": true, "l2Enabled": true, "l3Enabled": true }
 }
 EOF
-step "Config" "contentHub type: $INNO_HUB_TYPE"
+step "Config" "contentHub: $INNO_HUB_TYPE"
 
 # ── 8. Desktop launcher + app-menu icon ──
 step "Menu" "installing desktop launcher + icon..."
@@ -290,9 +299,12 @@ substep "Update:  cd $INNO_HOME && git pull && npm ci && npm run build"
 echo ""
 if [ -n "$INNO_HUB_URL" ]; then
     substep "Content hub: enabled ($INNO_HUB_TYPE @ $INNO_HUB_URL)"
-else
-    substep "Clean install: content hub is DISABLED (no skills, no preset cards)."
+elif [ "$INNO_HUB_TYPE" = "none" ]; then
+    substep "Content hub: DISABLED (no skills, no preset cards)."
     substep "To enable a hub later, use Settings > Content Hub in the UI."
+else
+    substep "Content hub: GitHub karsarobert/inno-agent-hub (main)"
+    substep "To disable it, use Settings > Content Hub in the UI or INNO_HUB_TYPE=none."
 fi
 echo ""
 

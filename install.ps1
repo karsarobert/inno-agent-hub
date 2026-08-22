@@ -8,9 +8,11 @@
 # cannot forward arguments; a local run accepts the same variables.
 # Install dir priority: INNO_HOME > $USERPROFILE\.local\opt\inno-agent
 #
-# The installation is CLEAN by default: the content hub is disabled
-# (contentHub type "none"), so the app ships with no skill library and no
-# preset cards. Nothing is fetched from any hub at runtime.
+# The content hub defaults to the teacher's GitHub hub (karsarobert/
+# inno-agent-hub, branch main) so skills and preset cards are available
+# right after install. Set INNO_HUB_TYPE=none for a fully offline install
+# (no skills, no preset cards), or INNO_HUB_TYPE=bundle + INNO_HUB_URL for
+# a self-hosted hub.
 #
 # SPDX-License-Identifier: MIT
 function Install-InnoAgent {
@@ -71,7 +73,7 @@ function Install-InnoAgent {
     $InnoPort = if ($env:INNO_PORT) { $env:INNO_PORT } else { '3000' }
     $InnoSkipBuild = $env:INNO_SKIP_BUILD -eq '1'
     $InnoSkipStart = $env:INNO_SKIP_START -eq '1'
-    $InnoHubType = if ($env:INNO_HUB_TYPE) { $env:INNO_HUB_TYPE } else { 'none' }
+    $InnoHubType = if ($env:INNO_HUB_TYPE) { $env:INNO_HUB_TYPE } else { 'github' }
     $InnoHubUrl = if ($env:INNO_HUB_URL) { $env:INNO_HUB_URL } else { '' }
     $InnoProviderBaseUrl = if ($env:INNO_PROVIDER_BASE_URL) { $env:INNO_PROVIDER_BASE_URL } else { '' }
     $InnoProviderApiKey = if ($env:INNO_PROVIDER_API_KEY) { $env:INNO_PROVIDER_API_KEY } else { '' }
@@ -184,18 +186,28 @@ function Install-InnoAgent {
         $InnoHubType = 'bundle'
         Write-Step 'Config' "content hub: bundle @ $InnoHubUrl"
     }
+    if ($InnoHubType -eq 'github') {
+        # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
+        $ContentHub = @{
+            type = 'github'; owner = 'karsarobert'; repo = 'inno-agent-hub'; ref = 'main'
+            skillsPath = 'skill-library'; presetsPath = 'workspace-templates'
+            baseUrl = ''; token = ''
+        }
+    } else {
+        $ContentHub = @{ type = $InnoHubType; baseUrl = $InnoHubUrl }
+    }
     $Config = [ordered]@{
         defaultProvider = $DefaultProvider
         defaultModel = $DefaultModel
         providers = $Providers
         server = @{ port = [int]$InnoPort }
-        contentHub = @{ type = $InnoHubType; baseUrl = $InnoHubUrl }
+        contentHub = $ContentHub
         subagents = @{ enabled = $false }
         memory = @{ l1Enabled = $true; l2Enabled = $true; l3Enabled = $true }
     }
     $ConfigJson = $Config | ConvertTo-Json -Depth 8
     Write-Utf8NoBom (Join-Path $RuntimeDir 'config\config.json') $ConfigJson
-    Write-Step 'Config' "contentHub type: $InnoHubType"
+    Write-Step 'Config' "contentHub: $InnoHubType"
 
     # ── 6. Start Menu shortcut + desktop icon ──
     Write-Step 'Menu' 'installing Start Menu shortcut...'
@@ -278,8 +290,13 @@ Start-Process "http://localhost:`$Port"
     }
     Write-SubStep 'Update:  git pull; cd app; npm ci; npm run build'
     Write-Host ""
-    Write-SubStep 'Clean install: content hub is DISABLED (no skills, no preset cards).'
-    Write-SubStep 'To enable a hub later, use Settings > Content Hub in the UI.'
+    if ($InnoHubType -eq 'none') {
+        Write-SubStep 'Content hub: DISABLED (no skills, no preset cards).'
+        Write-SubStep 'To enable a hub later, use Settings > Content Hub in the UI.'
+    } else {
+        Write-SubStep 'Content hub: GitHub karsarobert/inno-agent-hub (main)'
+        Write-SubStep 'To disable it, use Settings > Content Hub in the UI or INNO_HUB_TYPE=none.'
+    }
     Write-Host ""
 }
 
