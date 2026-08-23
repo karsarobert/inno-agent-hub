@@ -8,6 +8,13 @@
 # cannot forward arguments; a local run accepts the same variables.
 # Install dir priority: INNO_HOME > $USERPROFILE\.local\opt\inno-agent
 #
+# Re-running the installer on a machine that already has a configured
+# provider/API key: the installer ASKS whether to keep the existing
+# runtime\config\config.json or replace it with a clean one. Non-interactive
+# runs (CI, piped without a terminal) default to KEEP — set
+# INNO_CONFIG_MODE=reset to force a clean config, or INNO_CONFIG_MODE=keep
+# to skip the question entirely.
+#
 # The content hub defaults to the teacher's GitHub hub (karsarobert/
 # inno-agent-hub, branch main) so skills and preset cards are available
 # right after install. Set INNO_HUB_TYPE=none for a fully offline install
@@ -66,6 +73,23 @@ function Install-InnoAgent {
         [System.IO.File]::WriteAllText($Path, $Content, (New-Object System.Text.UTF8Encoding($false)))
     }
 
+    # True when config.json already holds REAL provider settings — a
+    # non-empty API key or a custom endpoint, i.e. anything beyond the
+    # installer's own placeholder provider.
+    function Test-RealConfig([string]$Path) {
+        if (-not (Test-Path $Path)) { return $false }
+        try {
+            $c = Get-Content -Raw -Path $Path | ConvertFrom-Json
+            foreach ($p in @($c.providers.PSObject.Properties.Value)) {
+                $key = [string]$p.apiKey
+                $base = [string]$p.baseUrl
+                if ($key.Trim() -and $key.Trim() -ne 'replace-me') { return $true }
+                if ($base.Trim() -and -not $base.Trim().StartsWith('http://127.0.0.1:8000')) { return $true }
+            }
+        } catch { }
+        return $false
+    }
+
     # ── Options (env vars; defaults for a clean install) ──
     $InnoHome = if ($env:INNO_HOME) { $env:INNO_HOME } else { Join-Path $env:USERPROFILE '.local\opt\inno-agent' }
     $InnoRepoUrl = if ($env:INNO_REPO_URL) { $env:INNO_REPO_URL } else { 'https://github.com/karsarobert/inno-agent.git' }
@@ -78,6 +102,8 @@ function Install-InnoAgent {
     $InnoProviderBaseUrl = if ($env:INNO_PROVIDER_BASE_URL) { $env:INNO_PROVIDER_BASE_URL } else { '' }
     $InnoProviderApiKey = if ($env:INNO_PROVIDER_API_KEY) { $env:INNO_PROVIDER_API_KEY } else { '' }
     $InnoProviderModel = if ($env:INNO_PROVIDER_MODEL) { $env:INNO_PROVIDER_MODEL } else { '' }
+    # keep|reset for an existing real config; empty = ask on a terminal, keep otherwise.
+    $InnoConfigMode = if ($env:INNO_CONFIG_MODE) { $env:INNO_CONFIG_MODE } else { '' }
 
     $Rule = '─' * 52
     Write-Host ""
@@ -148,66 +174,95 @@ function Install-InnoAgent {
         Write-Step 'Build' 'built'
     }
 
-    # ── 5. Clean runtime config ──
-    Write-Step 'Config' 'writing clean runtime config...'
+    # ── 5. Runtime config: preserve an existing real configuration ──
     $RuntimeDir = Join-Path $AppDir 'runtime'
     New-Item -ItemType Directory -Force -Path (Join-Path $RuntimeDir 'config'), (Join-Path $RuntimeDir 'data'), (Join-Path $RuntimeDir 'skills'), (Join-Path $AppDir 'workspace') | Out-Null
+    $ConfigFile = Join-Path $RuntimeDir 'config\config.json'
 
-    $DefaultProvider = 'default'
-    $DefaultModel = ''
-    $Providers = @{}
+    $ConfigDecision = 'write'
     if ($InnoProviderBaseUrl) {
-        $ModelId = if ($InnoProviderModel) { $InnoProviderModel } else { 'placeholder-model' }
-        $Providers['default'] = @{
-            id = 'default'
-            baseUrl = $InnoProviderBaseUrl
-            api = 'openai-completions'
-            apiKey = $InnoProviderApiKey
-            models = @(@{ id = $ModelId; name = $ModelId; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
+        $ConfigDecision = 'write'   # explicit reconfiguration via INNO_PROVIDER_*
+    } elseif (Test-RealConfig $ConfigFile) {
+        Write-Step 'Config' 'existing provider/API settings found in config.json'
+        $ConfigDecision = 'keep'
+        if ($InnoConfigMode) {
+            switch ($InnoConfigMode) {
+                'keep'  { $ConfigDecision = 'keep' }
+                'reset' { $ConfigDecision = 'write' }
+                default { Write-Err "invalid INNO_CONFIG_MODE: $InnoConfigMode (use keep or reset)" }
+            }
+        } else {
+            $ans = ''
+            if (-not [Console]::IsInputRedirected) {
+                $ans = Read-Host 'Keep the existing provider/API settings? [Y/n]  (Y=keep, n=replace with a clean config)'
+            } else {
+                Write-Step 'Config' 'non-interactive: keeping existing settings (INNO_CONFIG_MODE=reset to force a clean config)' 'Yellow'
+            }
+            if ($ans -match '^(n|N|no|t|T|delete)$') { $ConfigDecision = 'write' }
         }
-        $DefaultModel = $ModelId
-        Write-Step 'Config' 'provider configured via INNO_PROVIDER_*'
-    } else {
-        # The app requires at least one provider (baseUrl + model); apiKey may
-        # be empty. Ship a placeholder the user completes in the Settings UI.
-        $Providers['default'] = @{
-            id = 'default'
-            baseUrl = 'http://127.0.0.1:8000/v1'
-            api = 'openai-completions'
-            apiKey = ''
-            models = @(@{ id = 'placeholder-model'; name = 'Placeholder model - set up in Settings'; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
-        }
-        $DefaultModel = 'placeholder-model'
-        Write-Step 'Config' 'placeholder provider written; set the real one in Settings UI'
     }
 
-    # A self-hosted hub URL forces bundle type and carries the base URL.
-    if ($InnoHubUrl) {
-        $InnoHubType = 'bundle'
-        Write-Step 'Config' "content hub: bundle @ $InnoHubUrl"
-    }
-    if ($InnoHubType -eq 'github') {
-        # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
-        $ContentHub = @{
-            type = 'github'; owner = 'karsarobert'; repo = 'inno-agent-hub'; ref = 'main'
-            skillsPath = 'skill-library'; presetsPath = 'workspace-templates'
-            baseUrl = ''; token = ''
-        }
+    if ($ConfigDecision -eq 'keep') {
+        Write-Step 'Config' 'keeping existing config.json (provider/API settings preserved)'
+        Write-Step 'Config' 'contentHub: kept as configured in the existing config'
     } else {
-        $ContentHub = @{ type = $InnoHubType; baseUrl = $InnoHubUrl }
+        Write-Step 'Config' 'writing clean runtime config...'
+        $DefaultProvider = 'default'
+        $DefaultModel = ''
+        $Providers = @{}
+        if ($InnoProviderBaseUrl) {
+            $ModelId = if ($InnoProviderModel) { $InnoProviderModel } else { 'placeholder-model' }
+            $Providers['default'] = @{
+                id = 'default'
+                baseUrl = $InnoProviderBaseUrl
+                api = 'openai-completions'
+                apiKey = $InnoProviderApiKey
+                models = @(@{ id = $ModelId; name = $ModelId; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
+            }
+            $DefaultModel = $ModelId
+            Write-Step 'Config' 'provider configured via INNO_PROVIDER_*'
+        } else {
+            # The app requires at least one provider (baseUrl + model); apiKey may
+            # be empty. Ship a placeholder the user completes in the Settings UI.
+            $Providers['default'] = @{
+                id = 'default'
+                baseUrl = 'http://127.0.0.1:8000/v1'
+                api = 'openai-completions'
+                apiKey = ''
+                models = @(@{ id = 'placeholder-model'; name = 'Placeholder model - set up in Settings'; input = @('text'); contextWindow = 128000; maxTokens = 8192 })
+            }
+            $DefaultModel = 'placeholder-model'
+            Write-Step 'Config' 'placeholder provider written; set the real one in Settings UI'
+        }
+
+        # A self-hosted hub URL forces bundle type and carries the base URL.
+        if ($InnoHubUrl) {
+            $InnoHubType = 'bundle'
+            Write-Step 'Config' "content hub: bundle @ $InnoHubUrl"
+        }
+        if ($InnoHubType -eq 'github') {
+            # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
+            $ContentHub = @{
+                type = 'github'; owner = 'karsarobert'; repo = 'inno-agent-hub'; ref = 'main'
+                skillsPath = 'skill-library'; presetsPath = 'workspace-templates'
+                baseUrl = ''; token = ''
+            }
+        } else {
+            $ContentHub = @{ type = $InnoHubType; baseUrl = $InnoHubUrl }
+        }
+        $Config = [ordered]@{
+            defaultProvider = $DefaultProvider
+            defaultModel = $DefaultModel
+            providers = $Providers
+            server = @{ port = [int]$InnoPort }
+            contentHub = $ContentHub
+            subagents = @{ enabled = $false }
+            memory = @{ l1Enabled = $true; l2Enabled = $true; l3Enabled = $true }
+        }
+        $ConfigJson = $Config | ConvertTo-Json -Depth 8
+        Write-Utf8NoBom $ConfigFile $ConfigJson
+        Write-Step 'Config' "contentHub: $InnoHubType"
     }
-    $Config = [ordered]@{
-        defaultProvider = $DefaultProvider
-        defaultModel = $DefaultModel
-        providers = $Providers
-        server = @{ port = [int]$InnoPort }
-        contentHub = $ContentHub
-        subagents = @{ enabled = $false }
-        memory = @{ l1Enabled = $true; l2Enabled = $true; l3Enabled = $true }
-    }
-    $ConfigJson = $Config | ConvertTo-Json -Depth 8
-    Write-Utf8NoBom (Join-Path $RuntimeDir 'config\config.json') $ConfigJson
-    Write-Step 'Config' "contentHub: $InnoHubType"
 
     # ── 6. Start Menu shortcut + desktop icon ──
     Write-Step 'Menu' 'installing Start Menu shortcut...'

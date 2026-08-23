@@ -10,6 +10,13 @@
 # pipe would be read as an option to sh itself; a local run accepts the same
 # variables. Install dir priority: INNO_HOME > ~/.local/opt/inno-agent.
 #
+# Re-running the installer on a machine that already has a configured
+# provider/API key: the installer ASKS whether to keep the existing
+# runtime/config/config.json or replace it with a clean one. Non-interactive
+# runs (CI, piped without a terminal) default to KEEP — set
+# INNO_CONFIG_MODE=reset to force a clean config, or INNO_CONFIG_MODE=keep
+# to skip the question entirely.
+#
 # The content hub defaults to the teacher's GitHub hub (karsarobert/
 # inno-agent-hub, branch main) so skills and preset cards are available
 # right after install. Set INNO_HUB_TYPE=none for a fully offline install
@@ -68,6 +75,8 @@ INNO_HUB_URL="${INNO_HUB_URL:-}"
 INNO_PROVIDER_BASE_URL="${INNO_PROVIDER_BASE_URL:-}"
 INNO_PROVIDER_API_KEY="${INNO_PROVIDER_API_KEY:-}"
 INNO_PROVIDER_MODEL="${INNO_PROVIDER_MODEL:-}"
+# keep|reset for an existing real config; empty = ask on a terminal, keep otherwise.
+INNO_CONFIG_MODE="${INNO_CONFIG_MODE:-}"
 
 echo ""
 echo "${C_TITLE}${RULE}${C_RST}"
@@ -153,43 +162,105 @@ else
     step "Build" "built"
 fi
 
-# ── 6. Clean runtime config ──
-step "Config" "writing clean runtime config..."
+# ── 6. Runtime config: preserve an existing real configuration ──
+CONFIG_FILE="$APP_DIR/runtime/config/config.json"
 mkdir -p "$APP_DIR/runtime/config" "$APP_DIR/runtime/data" "$APP_DIR/runtime/skills" "$APP_DIR/workspace"
-# The app requires at least one provider with a baseUrl and a model; the
-# apiKey may be empty. Without INNO_PROVIDER_* we ship a placeholder
-# provider that the user completes in the Settings UI.
+
+# True when config.json already holds REAL provider settings — a non-empty
+# API key or a custom endpoint, i.e. anything beyond the installer's own
+# placeholder provider. Re-running the installer must never silently wipe
+# these, so the user is asked to keep or replace them.
+has_real_config() {
+    [ -f "$CONFIG_FILE" ] || return 1
+    command -v node >/dev/null 2>&1 || return 1
+    node -e '
+        const fs = require("fs");
+        try {
+            const c = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+            const provs = c.providers || {};
+            for (const k of Object.keys(provs)) {
+                const p = provs[k] || {};
+                const key = String(p.apiKey || "").trim();
+                const base = String(p.baseUrl || "").trim();
+                if (key && key !== "replace-me") process.exit(0);
+                if (base && !base.startsWith("http://127.0.0.1:8000")) process.exit(0);
+            }
+        } catch {}
+        process.exit(1);
+    ' "$CONFIG_FILE"
+}
+
+CONFIG_DECISION="write"
 if [ -n "$INNO_PROVIDER_BASE_URL" ]; then
-    PROVIDER_ID="default"
-    PROVIDER_BASE_URL="$INNO_PROVIDER_BASE_URL"
-    PROVIDER_API_KEY="${INNO_PROVIDER_API_KEY:-}"
-    PROVIDER_MODEL="${INNO_PROVIDER_MODEL:-placeholder-model}"
-    PROVIDER_JSON="{\"id\":\"$PROVIDER_ID\",\"baseUrl\":\"$PROVIDER_BASE_URL\",\"api\":\"openai-completions\",\"apiKey\":\"$PROVIDER_API_KEY\",\"models\":[{\"id\":\"$PROVIDER_MODEL\",\"name\":\"$PROVIDER_MODEL\",\"input\":[\"text\"],\"contextWindow\":128000,\"maxTokens\":8192}]}"
-    PROVIDERS_JSON="{\"$PROVIDER_ID\":$PROVIDER_JSON}"
-    DEFAULT_PROVIDER="\"$PROVIDER_ID\""
-    DEFAULT_MODEL="\"$PROVIDER_MODEL\""
-    step "Config" "provider configured via INNO_PROVIDER_*"
-else
-    PROVIDERS_JSON="{\"default\":{\"id\":\"default\",\"baseUrl\":\"http://127.0.0.1:8000/v1\",\"api\":\"openai-completions\",\"apiKey\":\"\",\"models\":[{\"id\":\"placeholder-model\",\"name\":\"Placeholder model - set up in Settings\",\"input\":[\"text\"],\"contextWindow\":128000,\"maxTokens\":8192}]}}"
-    DEFAULT_PROVIDER="\"default\""
-    DEFAULT_MODEL="\"placeholder-model\""
-    step "Config" "placeholder provider written; set the real one in Settings UI"
+    CONFIG_DECISION="write"   # explicit reconfiguration via INNO_PROVIDER_*
+elif has_real_config; then
+    step "Config" "existing provider/API settings found in config.json"
+    CONFIG_DECISION="keep"
+    if [ -n "$INNO_CONFIG_MODE" ]; then
+        case "$INNO_CONFIG_MODE" in
+            keep)  CONFIG_DECISION="keep" ;;
+            reset) CONFIG_DECISION="write" ;;
+            *) die "invalid INNO_CONFIG_MODE: $INNO_CONFIG_MODE (use keep or reset)" ;;
+        esac
+    else
+        # Ask on the terminal when there is one (local run, or curl|sh from a
+        # terminal via /dev/tty). Piped/CI runs cannot answer: default to
+        # KEEP — never silently destroy the user's API settings.
+        _ANS=""
+        if [ -t 0 ]; then
+            printf "  %s\n" "Keep the existing provider/API settings? [Y/n]  (Y=keep, n=replace with a clean config)"
+            read -r _ANS || _ANS=""
+        elif ( set +e; : < /dev/tty ) 2>/dev/null; then
+            printf "  %s\n" "Keep the existing provider/API settings? [Y/n]  (Y=keep, n=replace with a clean config)" >/dev/tty 2>/dev/null || true
+            read -r _ANS < /dev/tty 2>/dev/null || _ANS=""
+        else
+            step "Config" "non-interactive: keeping existing settings (INNO_CONFIG_MODE=reset to force a clean config)" "${C_WARN}"
+        fi
+        case "$_ANS" in
+            n|N|no|NO|t|T|delete|DELETE) CONFIG_DECISION="write" ;;
+        esac
+    fi
 fi
-if [ -n "$INNO_HUB_URL" ]; then
-    # Self-hosted hub: force bundle type and carry the base URL.
-    INNO_HUB_TYPE="bundle"
-    HUB_BASE_URL_JSON="\"$INNO_HUB_URL\""
-    step "Config" "content hub: bundle @ $INNO_HUB_URL"
+
+if [ "$CONFIG_DECISION" = "keep" ]; then
+    step "Config" "keeping existing config.json (provider/API settings preserved)"
+    step "Config" "contentHub: kept as configured in the existing config"
 else
-    HUB_BASE_URL_JSON="\"\""
-fi
-if [ "$INNO_HUB_TYPE" = "github" ]; then
-    # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
-    CONTENT_HUB_JSON="{ \"type\": \"github\", \"owner\": \"karsarobert\", \"repo\": \"inno-agent-hub\", \"ref\": \"main\", \"skillsPath\": \"skill-library\", \"presetsPath\": \"workspace-templates\", \"baseUrl\": \"\", \"token\": \"\" }"
-else
-    CONTENT_HUB_JSON="{ \"type\": \"$INNO_HUB_TYPE\", \"baseUrl\": $HUB_BASE_URL_JSON }"
-fi
-cat > "$APP_DIR/runtime/config/config.json" <<EOF
+    step "Config" "writing clean runtime config..."
+    # The app requires at least one provider with a baseUrl and a model; the
+    # apiKey may be empty. Without INNO_PROVIDER_* we ship a placeholder
+    # provider that the user completes in the Settings UI.
+    if [ -n "$INNO_PROVIDER_BASE_URL" ]; then
+        PROVIDER_ID="default"
+        PROVIDER_BASE_URL="$INNO_PROVIDER_BASE_URL"
+        PROVIDER_API_KEY="${INNO_PROVIDER_API_KEY:-}"
+        PROVIDER_MODEL="${INNO_PROVIDER_MODEL:-placeholder-model}"
+        PROVIDER_JSON="{\"id\":\"$PROVIDER_ID\",\"baseUrl\":\"$PROVIDER_BASE_URL\",\"api\":\"openai-completions\",\"apiKey\":\"$PROVIDER_API_KEY\",\"models\":[{\"id\":\"$PROVIDER_MODEL\",\"name\":\"$PROVIDER_MODEL\",\"input\":[\"text\"],\"contextWindow\":128000,\"maxTokens\":8192}]}"
+        PROVIDERS_JSON="{\"$PROVIDER_ID\":$PROVIDER_JSON}"
+        DEFAULT_PROVIDER="\"$PROVIDER_ID\""
+        DEFAULT_MODEL="\"$PROVIDER_MODEL\""
+        step "Config" "provider configured via INNO_PROVIDER_*"
+    else
+        PROVIDERS_JSON="{\"default\":{\"id\":\"default\",\"baseUrl\":\"http://127.0.0.1:8000/v1\",\"api\":\"openai-completions\",\"apiKey\":\"\",\"models\":[{\"id\":\"placeholder-model\",\"name\":\"Placeholder model - set up in Settings\",\"input\":[\"text\"],\"contextWindow\":128000,\"maxTokens\":8192}]}}"
+        DEFAULT_PROVIDER="\"default\""
+        DEFAULT_MODEL="\"placeholder-model\""
+        step "Config" "placeholder provider written; set the real one in Settings UI"
+    fi
+    if [ -n "$INNO_HUB_URL" ]; then
+        # Self-hosted hub: force bundle type and carry the base URL.
+        INNO_HUB_TYPE="bundle"
+        HUB_BASE_URL_JSON="\"$INNO_HUB_URL\""
+        step "Config" "content hub: bundle @ $INNO_HUB_URL"
+    else
+        HUB_BASE_URL_JSON="\"\""
+    fi
+    if [ "$INNO_HUB_TYPE" = "github" ]; then
+        # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
+        CONTENT_HUB_JSON="{ \"type\": \"github\", \"owner\": \"karsarobert\", \"repo\": \"inno-agent-hub\", \"ref\": \"main\", \"skillsPath\": \"skill-library\", \"presetsPath\": \"workspace-templates\", \"baseUrl\": \"\", \"token\": \"\" }"
+    else
+        CONTENT_HUB_JSON="{ \"type\": \"$INNO_HUB_TYPE\", \"baseUrl\": $HUB_BASE_URL_JSON }"
+    fi
+    cat > "$CONFIG_FILE" <<EOF
 {
     "defaultProvider": $DEFAULT_PROVIDER,
     "defaultModel": $DEFAULT_MODEL,
@@ -200,7 +271,8 @@ cat > "$APP_DIR/runtime/config/config.json" <<EOF
     "memory": { "l1Enabled": true, "l2Enabled": true, "l3Enabled": true }
 }
 EOF
-step "Config" "contentHub: $INNO_HUB_TYPE"
+    step "Config" "contentHub: $INNO_HUB_TYPE"
+fi
 
 # ── 8. Desktop launcher + app-menu icon ──
 step "Menu" "installing desktop launcher + icon..."
