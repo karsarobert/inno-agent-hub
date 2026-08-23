@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Discrete Mathematics 1 — Lesson 1 (Propositional Logic)",
+      "description": "Guided learner workspace for the first lesson of Discrete Mathematics 1: propositional calculus — theory notes, formalization and truth-table exercises, and self-check.",
+      "category": "Mathematics"
+    },
+    "hu": {
+      "name": "Diszkrét matematika 1. – 1. óra (Ítéletkalkulus)",
+      "description": "Vezetett tanulói munkatér a Diszkrét matematika 1. első órájához: az ítéletkalkulus elméleti jegyzete, formalizálási és igazságtáblázat-feladatok, valamint önellenőrzés.",
+      "category": "Matematika"
+    }
+  }
+}
