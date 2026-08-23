@@ -73,6 +73,15 @@ function Install-InnoAgent {
         [System.IO.File]::WriteAllText($Path, $Content, (New-Object System.Text.UTF8Encoding($false)))
     }
 
+    # Write a text file as UTF-8 WITH a BOM. Only for .ps1 files that Windows
+    # PowerShell 5.1 (powershell.exe) executes from disk: without a BOM, 5.1
+    # decodes the file as ANSI, corrupting every non-ASCII character — e.g. a
+    # Hungarian username baked into the launcher path — which then makes
+    # Start-Process fail with DirectoryNotFoundException on WorkingDirectory.
+    function Write-Utf8Bom([string]$Path, [string]$Content) {
+        [System.IO.File]::WriteAllText($Path, $Content, (New-Object System.Text.UTF8Encoding($true)))
+    }
+
     # True when config.json already holds REAL provider settings — a
     # non-empty API key or a custom endpoint, i.e. anything beyond the
     # installer's own placeholder provider.
@@ -290,7 +299,7 @@ if (-not `$Healthy) {
 }
 Start-Process "http://localhost:`$Port"
 "@
-    Write-Utf8NoBom $LauncherPath $LauncherContent
+    Write-Utf8Bom $LauncherPath $LauncherContent
 
     $StartMenuDir = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'
     $ShortcutPath = Join-Path $StartMenuDir 'Inno Agent.lnk'
