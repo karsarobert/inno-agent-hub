@@ -3,7 +3,7 @@
 # Inno Agent Installer
 #
 # One-line usage (Linux/macOS):
-#   curl -fsSL https://raw.githubusercontent.com/karsarobert/inno-agent-hub/main/install.sh | sh
+#   curl -fsSL https://cdn.jsdelivr.net/gh/karsarobert/inno-agent-hub/install.sh | sh
 #
 # A piped install takes options as environment variables after the pipe
 # (INNO_HOME, INNO_REPO_URL, INNO_PORT, ...) because a bare flag after the
@@ -24,7 +24,9 @@
 # a self-hosted hub.
 #
 # SPDX-License-Identifier: MIT
-# (2026-08-31: new blob — previous blob returned HTTP 400 from raw.githubusercontent.com)
+# (2026-08-31: served via jsDelivr CDN — raw.githubusercontent.com returns HTTP 400 for
+#  this file's short-form URL. After pushing a new install.sh to the hub, refresh the
+#  CDN copy:  curl -s https://purge.jsdelivr.net/gh/karsarobert/inno-agent-hub/install.sh)
 set -e
 
 # ── Why the installer lives in a function ──
