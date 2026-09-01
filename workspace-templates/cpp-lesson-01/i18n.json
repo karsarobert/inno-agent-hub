@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ Basics — Lesson 1 (First Usable Program)",
+      "description": "Guided learner workspace for the first lesson of a beginner C++ course: theory recall, hands-on lab with g++ compile-run, and exit ticket self-check.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ programozás alapjai – 1. alkalom (első használható program)",
+      "description": "Kezdő C++ kurzus első alkalmának vezetett feldolgozása: elméleti visszaidézés, gyakorlati labor g++-val és záró önellenőrzés.",
+      "category": "Programozás"
+    }
+  }
+}

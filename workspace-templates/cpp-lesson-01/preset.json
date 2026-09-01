@@ -1,0 +1,7 @@
+{
+  "id": "cpp-lesson-01",
+  "name": "C++ Basics — Lesson 1 (First Usable Program)",
+  "description": "Guided learner workspace for the first lesson of a beginner C++ course: theory recall, hands-on lab with g++ compile-run, and exit ticket self-check.",
+  "category": "Programming",
+  "icon": "code-2"
+}
