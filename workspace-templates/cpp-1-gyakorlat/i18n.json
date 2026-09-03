@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ 1 — Practice Lab (C++ Basics)",
+      "description": "Guided learner workspace for the first lab of a beginner C++ course (4×45 min): observing the first program, the preprocessor and macros (#include, #define, -E), conditional compilation (#ifdef, -D, include guards, parameterized macros), and I/O + string + assert debugging — compiled with g++ in the workspace terminal, prediction-first.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ 1. gyakorlat (C++ alapok)",
+      "description": "Kezdő C++ kurzus 1. gyakorlatának (4×45 perc) vezetett hallgatói munkaterülete: az első program megfigyelése, a preprocesszor és a makrók (#include, #define, -E), a feltételes fordítás (#ifdef, -D, include guard, paraméteres makró), valamint az I/O + string + assert hibakeresés — g++ fordítás a munkaterület termináljában, prediction-first módon.",
+      "category": "Programozás"
+    }
+  }
+}
