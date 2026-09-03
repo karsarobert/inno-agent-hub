@@ -13,8 +13,8 @@ fogalmakat (adat, tanítás, osztályozás) a kódhoz köti.
   compile → fit).
 - `gyakorlat/dl1_atlathatoanyag.md` — 1 oldalas kulcsfogalom-áttekintő
   (segédanyag, erre hivatkozz magyarázat közben).
-- `feladatok/zaro_feladat.py` — az órai **záró feladat**: rejtett réteg nélküli
-  osztályozó TODO-váz, a hallgató tölti ki.
+- `feladatok/zaro_feladat.py` — az órai **záró feladat**: futtatható, rejtett réteg
+  nélküli osztályozó, a fájl végén 3 záró kérdéssel.
 - `feladatok/hazifeladat.md` — differenciált házi feladat (alap/fejlesztő/bővítő).
 - `README.md` és `START-HERE.md` — a hallgató tájékozódása.
 
@@ -42,8 +42,9 @@ CPU-n is végigvihető, csak lassabb. Az első futtatáskor az MNIST letöltődi
    TELJES adathalmazon; batch = hány minta után frissülnek a súlyok).
 6. A `fit` után csak a **végső `val_accuracy`-t** nézzétek (~0,9 körül várható);
    tanulási görbéket NEM rajzolunk és nem elemzünk.
-7. **Záró feladat:** a hallgató a `feladatok/zaro_feladat.py` TODO-vázát tölti
-   ki (rejtett réteg nélkül), futtatja, és leolvassa a végső teszt-pontosságot.
+7. **Záró feladat:** a hallgató futtatja a `feladatok/zaro_feladat.py` fájlt
+   (rejtett réteg nélküli osztályozó), leolvassa a végső teszt-pontosságot, és
+   megválaszolja a fájl végén lévő 3 kérdést.
 8. **Zárás:** rövid önellenőrzés — mi ment jól, mi bizonytalan; a
    `feladatok/hazifeladat.md` kijelölése (alap kötelező; fejlesztő/bővítő a
    haladóknak).
