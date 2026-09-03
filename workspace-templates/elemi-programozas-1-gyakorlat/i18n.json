@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Elementary Programming 1 — Practice Lab (Python Basics)",
+      "description": "Guided learner workspace for the first lab session of a beginner Python course (elementary programming): reading ready-made programs, predicting and observing their behaviour, then experimenting hands-on across four lessons (Look–Run–Try–Explain model).",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Elemi programozás 1. gyakorlat (Python alapok)",
+      "description": "Kezdő Python kurzus 1. gyakorlatának vezetett hallgatói munkaterülete: kész programok kódolvasása, viselkedés-megfigyelése és önálló kipróbálása négy leckén át (M-F-K-E modell).",
+      "category": "Programozás"
+    }
+  }
+}
