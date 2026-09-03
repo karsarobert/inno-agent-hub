@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Deep Learning 1 — Practice Lab (TensorFlow Basics, MNIST)",
+      "description": "Guided learner workspace for the first lab of a beginner Deep Learning course (freshmen, 2×45 min): history of neural networks, core machine-learning concepts, and a hands-on MNIST digit classifier in TensorFlow 2 / Keras 3 — data prep, Sequential model demo, closing task, differentiated homework.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Deep Learning 1. gyakorlat (TensorFlow alapok – MNIST)",
+      "description": "Elsőéves Deep Learning kurzus 1. gyakorlatának (2×45 perc) vezetett hallgatói munkaterülete: a neurális hálózatok története, a gépi tanulás alapfogalmai és egy kézzel fogható MNIST számjegyosztályozó TensorFlow 2 / Keras 3 környezetben — adat-előkészítés, Sequential-demó, órai záró feladat és differenciált házi feladat.",
+      "category": "Programozás"
+    }
+  }
+}

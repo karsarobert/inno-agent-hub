@@ -1,0 +1,7 @@
+{
+  "id": "deeplearning-gyakorlat-1",
+  "name": "Deep Learning 1 — Practice Lab (TensorFlow Basics, MNIST)",
+  "description": "Guided learner workspace for the first lab of a beginner Deep Learning course (freshmen, 2×45 min): history of neural networks, core machine-learning concepts, and a hands-on MNIST digit classifier in TensorFlow 2 / Keras 3 — data prep, Sequential model demo, closing task, differentiated homework.",
+  "category": "Programming",
+  "icon": "brain"
+}
