@@ -1,24 +1,17 @@
 /*
- * 2. LECKE – preprocesszor alapjai: #include, #define, -E
+ * KIEGÉSZÍTŐ GYAKORLAT – Előfeldolgozás és makrók
  *
- * A makrók FORDÍTÁSIDŐBEN helyettesítődnek be (nem futásidőben!).
- * A te feladatod: JÓSOLD MEG a kimenetet, majd futtasd és ellenőrizd.
+ * Ezt a példát az alapgyakorlatok után nézd meg.
+ * A makró az előfeldolgozás szemléltetését szolgálja; rögzített számértékhez
+ * általában constexpr állandót használunk.
  */
 
 #include <iostream>
-using namespace std;
 
-// Makró definiálása (értékes makró)
-#define PRINT_MY_NAME cout << "My name is John Doe" << endl;
-#define MY_FAV_NUM 42
+#define KEDVENC_SZAM 42
 
 int main() {
-  // PREDICTION (jósold meg futtatás előtt!):
-  // Kérdés: mi lesz a kimenet? Ha nem biztos, mondd el a tippet,
-  // azután futtasd le, és hasonlítsd össze.
-
-  PRINT_MY_NAME
-  cout << "My fav number is: " << MY_FAV_NUM << endl;
-
-  return 0;
+    std::cout << "A nevem: Kiss Anna." << '\n';
+    std::cout << "Kedvenc szamom: " << KEDVENC_SZAM << '\n';
+    return 0;
 }

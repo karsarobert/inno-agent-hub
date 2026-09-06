@@ -3,12 +3,12 @@
   "locales": {
     "en": {
       "name": "C++ 1 — Practice Lab (C++ Basics)",
-      "description": "Guided learner workspace for the first lab of a beginner C++ course (4×45 min): observing the first program, the preprocessor and macros (#include, #define, -E), conditional compilation (#ifdef, -D, include guards, parameterized macros), and I/O + string + assert debugging — compiled with g++ in the workspace terminal, prediction-first.",
+      "description": "Guided learner workspace for the first lab of a beginner C++ course (4×45 min); all code is provided. Core exercises: observing the first program (L01), variables, assignment and division (L01b), and input, string handling and conversion with input validation (L04). Supplementary exercises: preprocessing and macros (#include, #define, -E, constexpr) and conditional compilation (#ifdef, -D, parameterized macros, assert). Compiled with g++ -std=c++20 in the workspace terminal, prediction-first.",
       "category": "Programming"
     },
     "hu": {
       "name": "C++ 1. gyakorlat (C++ alapok)",
-      "description": "Kezdő C++ kurzus 1. gyakorlatának (4×45 perc) vezetett hallgatói munkaterülete: az első program megfigyelése, a preprocesszor és a makrók (#include, #define, -E), a feltételes fordítás (#ifdef, -D, include guard, paraméteres makró), valamint az I/O + string + assert hibakeresés — g++ fordítás a munkaterület termináljában, prediction-first módon.",
+      "description": "Kezdő C++ kurzus 1. gyakorlatának (4×45 perc) vezetett hallgatói munkaterülete; a teljes kód adott. Alapgyakorlatok: első program megfigyelése (L01), változók/értékadás/osztás (L01b), beolvasás–szövegkezelés–konverzió bemenetellenőrzéssel (L04). Kiegészítő gyakorlatok: előfeldolgozás és makrók (#include, #define, -E, constexpr), feltételes fordítás (#ifdef, -D, paraméteres makró, assert). Fordítás g++ -std=c++20 a munkaterület termináljában, prediction-first módon.",
       "category": "Programozás"
     }
   }

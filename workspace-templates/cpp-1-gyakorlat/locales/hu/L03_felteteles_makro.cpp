@@ -1,32 +1,29 @@
 /*
- * 3. LECKE – feltételes direktívák és paraméteres makrók
+ * KIEGÉSZÍTŐ GYAKORLAT – Feltételes fordítás és paraméteres makrók
  *
- * A program viselkedése attól függ, definiáltuk-e a DEBUG makrót
- * fordításkor. A fordítási parancsok a lecke alatti leírásban vannak.
+ * A programot kétféle fordítási beállítással vizsgáljuk.
+ * A SQUARE makrót csak a megadott kifejezésekkel használd;
+ * a SQUARE(i++) nem megfelelő használat. A programozói feltételt az assert ellenőrzi.
  */
 
 #include <iostream>
 #include <cassert>
-using namespace std;
-
-#ifndef CXX_ALAPOK_HEADER
-#define CXX_ALAPOK_HEADER
-// Include guard: ez a blokk egy fordítási egységben csak egyszer kerülhet be.
-#endif
 
 #define SQUARE(x) ((x) * (x))
 
 int main() {
 #ifdef DEBUG
-  cout << "DEBUG mód: diagnosztikai üzenet bekapcsolva" << endl;
+    std::cout << "A diagnosztikai uzenet be van kapcsolva." << '\n';
 #else
-  cout << "Normál mód: nincs debug üzenet" << endl;
+    std::cout << "A diagnosztikai uzenet ki van kapcsolva." << '\n';
 #endif
 
-  cout << "SQUARE(3) = " << SQUARE(3) << endl;
-  cout << "SQUARE(1 + 2) = " << SQUARE(1 + 2) << endl;
+    std::cout << "SQUARE(3) = " << SQUARE(3) << '\n';
+    std::cout << "SQUARE(1 + 2) = " << SQUARE(1 + 2) << '\n';
 
-  // A zárójelezett makró helyes eredményt ad.
-  assert(SQUARE(1 + 2) == 9);
-  return 0;
+    // Az assert programozói feltételt ellenőriz; itt nem felhasználói bemenetet.
+    // Ha a NDEBUG makró definiálva van, ez az ellenőrzés kimarad.
+    // A hívásnak nincs olyan mellékhatása, amelyre a program működése épülne.
+    assert(SQUARE(1 + 2) == 9);
+    return 0;
 }

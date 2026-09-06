@@ -1,7 +1,7 @@
 {
   "id": "cpp-1-gyakorlat",
   "name": "C++ 1 — Practice Lab (C++ Basics)",
-  "description": "Guided learner workspace for the first lab of a beginner C++ course (4×45 min): observing the first program, the preprocessor and macros (#include, #define, -E), conditional compilation (#ifdef, -D, include guards, parameterized macros), and I/O + string + assert debugging — compiled with g++ in the workspace terminal, prediction-first.",
+  "description": "Guided learner workspace for the first lab of a beginner C++ course (4×45 min); all code is provided. Core exercises: observing the first program (L01), variables, assignment and division (L01b), and input, string handling and conversion with input validation (L04). Supplementary exercises: preprocessing and macros (#include, #define, -E, constexpr) and conditional compilation (#ifdef, -D, parameterized macros, assert). Compiled with g++ -std=c++20 in the workspace terminal, prediction-first.",
   "category": "Programming",
   "icon": "code-2"
 }

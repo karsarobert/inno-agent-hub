@@ -1,35 +1,51 @@
 /*
- * 4. LECKE – C++ I/O, std::string, konverzió és hibakeresés
+ * ALAPGYAKORLAT – Beolvasás, szövegkezelés és konverzió
  *
- * A program beolvas adatokat a felhasználótól, string-műveleteket végez,
- * és egy fontos feltételt asserttel ellenőriz.
- * JÓSOLD MEG a kimenetet, mielőtt lefuttatnád!
+ * A kiinduló próbához névként Anna, életkorként 19 legyen a bemenet.
+ * A két választ külön sorban add meg. Először figyeld meg a teljes programot,
+ * majd a gyakorlatban megadott egy-egy bemenetet vagy kódsort változtasd meg.
  */
 
 #include <iostream>
 #include <string>
-#include <cassert>
-using namespace std;
 
 int main() {
-  string nev;
-  int kor;
+    std::string nev;
+    int kor = 0;
 
-  cout << "Add meg a neved és az életkorod (szóközzel elválasztva): ";
-  cin >> nev >> kor;
+    std::cout << "Add meg a teljes neved:" << '\n';
+    std::getline(std::cin, nev);
+    if (!std::cin || nev.empty()) {
+        std::cerr << "Hiba: nem sikerult nem ures nevet beolvasni." << '\n';
+        return 1;
+    }
 
-  // string műveletek
-  string udvozles = "Szia, " + nev + "!";
-  cout << udvozles << endl;
-  cout << "A neved hossza: " << nev.size() << " betű." << endl;
+    std::cout << "Add meg az eletkorod egesz szamkent:" << '\n';
+    if (!(std::cin >> kor)) {
+        std::cerr << "Hiba: az eletkort nem sikerult egesz szamkent beolvasni." << '\n';
+        return 1;
+    }
+    // A gyakorlat bemeneti szabálya: 0 és 120 közötti életkort fogadunk el.
+    if (kor < 0 || kor > 120) {
+        std::cerr << "Hiba: az eletkor 0 es 120 kozotti egesz szam legyen." << '\n';
+        return 1;
+    }
 
-  // konverzió
-  string kor_szoveg = to_string(kor);
-  cout << "Korod szövegesen: " + kor_szoveg << endl;
+    std::string udvozles = "Szia, " + nev + "!";
+    std::cout << udvozles << '\n';
+    std::cout << "A nevben tarolt char elemek szama: " << nev.size() << '\n';
+    std::cout << "Jovore " << kor + 1 << " eves leszel." << '\n';
+    std::cout << "A kor valtozo erteke: " << kor << '\n';
 
-  // assert: az életkor ésszerű tartományban van
-  assert(kor > 0);
-  assert(kor < 150);
+    std::string kor_szoveg = std::to_string(kor);
+    std::cout << "Eletkor szovegkent: " << kor_szoveg << '\n';
 
-  return 0;
+    std::string s = "alma";
+    char betu = s[2]; // Egy karakter kiolvasása.
+    s[2] = 'e';
+    s += "fa";
+    std::cout << "Korabban kiolvasott karakter: " << betu << '\n';
+    std::cout << "Modositott szoveg: " << s << '\n';
+    std::cout << "A modositott szoveg hossza: " << s.size() << '\n';
+    return 0;
 }
