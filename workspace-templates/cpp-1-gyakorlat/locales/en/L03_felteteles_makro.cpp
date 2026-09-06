@@ -1,33 +1,30 @@
 /*
- * LESSON 3 - conditional directives and parameterized macros
+ * SUPPLEMENTARY EXERCISE – Conditional compilation and parameterized macros
  *
- * The behaviour of the program depends on whether the DEBUG macro is
- * defined at compile time. The compile commands are in the lesson
- * description below.
+ * We examine the program with two different compilation settings.
+ * Use the SQUARE macro only with the given expressions;
+ * SQUARE(i++) is not an appropriate use. The programmer's condition
+ * is checked by assert.
  */
 
 #include <iostream>
 #include <cassert>
-using namespace std;
-
-#ifndef CXX_ALAPOK_HEADER
-#define CXX_ALAPOK_HEADER
-// Include guard: this block can be included only once per translation unit.
-#endif
 
 #define SQUARE(x) ((x) * (x))
 
 int main() {
 #ifdef DEBUG
-  cout << "DEBUG mode: diagnostic message enabled" << endl;
+    std::cout << "The diagnostic message is enabled." << '\n';
 #else
-  cout << "Normal mode: no debug message" << endl;
+    std::cout << "The diagnostic message is disabled." << '\n';
 #endif
 
-  cout << "SQUARE(3) = " << SQUARE(3) << endl;
-  cout << "SQUARE(1 + 2) = " << SQUARE(1 + 2) << endl;
+    std::cout << "SQUARE(3) = " << SQUARE(3) << '\n';
+    std::cout << "SQUARE(1 + 2) = " << SQUARE(1 + 2) << '\n';
 
-  // The parenthesized macro gives the correct result.
-  assert(SQUARE(1 + 2) == 9);
-  return 0;
+    // assert checks a programmer's condition; here it is not user input.
+    // If the NDEBUG macro is defined, this check is skipped.
+    // The call has no side effect that the program's operation depends on.
+    assert(SQUARE(1 + 2) == 9);
+    return 0;
 }

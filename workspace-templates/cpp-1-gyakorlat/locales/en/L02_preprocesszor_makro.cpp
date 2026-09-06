@@ -1,24 +1,17 @@
 /*
- * LESSON 2 - preprocessor basics: #include, #define, -E
+ * SUPPLEMENTARY EXERCISE – Preprocessing and macros
  *
- * Macros are substituted at COMPILE TIME (not at run time!).
- * Your task: PREDICT the output, then run it and check.
+ * Look at this example after the core exercises.
+ * The macro serves to demonstrate preprocessing; for a fixed numeric value
+ * we usually use a constexpr constant.
  */
 
 #include <iostream>
-using namespace std;
 
-// Defining a macro (a value macro)
-#define PRINT_MY_NAME cout << "My name is John Doe" << endl;
-#define MY_FAV_NUM 42
+#define FAVOURITE_NUMBER 42
 
 int main() {
-  // PREDICTION (predict before running!):
-  // Question: what will the output be? If you are not sure, say your guess,
-  // then run it and compare.
-
-  PRINT_MY_NAME
-  cout << "My fav number is: " << MY_FAV_NUM << endl;
-
-  return 0;
+    std::cout << "My name is Kiss Anna." << '\n';
+    std::cout << "My favourite number: " << FAVOURITE_NUMBER << '\n';
+    return 0;
 }
