@@ -1,0 +1,7 @@
+{
+  "id": "python-alapok-01-gyakorlat",
+  "name": "Python Basics 01 — Practice Lab (EP_01)",
+  "description": "Guided learner workspace for the first Python practice of a Programming Basics course (lesson EP_01): writing, saving and running a first program in two editors and two terminals — Notepad++ and the built-in editor, external and built-in terminal — in a predict-then-run cycle built around the five-step university café (büfé) worked example.",
+  "category": "Programming",
+  "icon": "code-2"
+}

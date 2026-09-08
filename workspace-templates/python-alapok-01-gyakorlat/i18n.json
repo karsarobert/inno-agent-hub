@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Python Basics 01 — Practice Lab (EP_01)",
+      "description": "Guided learner workspace for the first Python practice of a Programming Basics course (lesson EP_01): writing, saving and running a first program in two editors and two terminals — Notepad++ and the built-in editor, external and built-in terminal — in a predict-then-run cycle built around the five-step university café (büfé) worked example.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Python alapok 01. gyakorlat (EP_01)",
+      "description": "Programozás alapjai kurzus első Python-gyakorlata: az első program írása, mentése és futtatása kétféle szerkesztővel és kétféle terminállal — vezetett, jósolj-majd-futtass módszerrel, az EP_01 lecke büfés példasorával.",
+      "category": "Programozás"
+    }
+  }
+}
