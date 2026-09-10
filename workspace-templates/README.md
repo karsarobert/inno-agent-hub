@@ -64,6 +64,7 @@ Inno Agent 的「简单模式」会直接把这些模板渲染成欢迎页的**�
 | [deeplearning-gyakorlat-1/](./deeplearning-gyakorlat-1/) | Deep Learning 1. 练习课 — TensorFlow 基础 · MNIST 分类器(匈牙利语/英语) | — | ✅ 可用 |
 | [cpp-1-gyakorlat/](./cpp-1-gyakorlat/) | C++ 1. 练习课 — C++ 基础:预处理宏 / 条件编译 / I/O(匈牙利语/英语) | — | ✅ 可用 |
 | [python-alapok-01-gyakorlat/](./python-alapok-01-gyakorlat/) | Python 基础 01. 练习课 — 第一个程序的编写/保存/运行(双编辑器+双终端,预测-运行法)(匈牙利语) | — | ✅ 可用 |
+| [python-alapok-01-gyakorlat-v1/](./python-alapok-01-gyakorlat-v1/) | Python 基础 01. 练习课 (EP_01) V1 — 修订版材料:E0 环境检查、E1 首次输出、B1–B5 咖啡店系列、Z1–Z3 独立收尾、可选加练、进度表、详细 HTML 讲义(匈牙利语) | — | ✅ 可用 |
 | [diszkret-matematika-1/](./diszkret-matematika-1/) | Diszkrét matematika 1. 1. 练习课 — 命题逻辑:导师引导、课堂练习(出口卡)、作业、典型误解指南(匈牙利语) | math-tutor | ✅ 可用 |
 | [lesson-plan/](./lesson-plan/) | 结构化教案生成 | — | 🚧 骨架(工作流待细化)|
 | [scenario-explain/](./scenario-explain/) | 情景化讲题 | — | 🚧 骨架(工作流待细化)|

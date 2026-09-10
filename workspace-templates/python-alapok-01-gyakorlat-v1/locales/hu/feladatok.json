@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "purpose": "Tutor által olvasható feladattérkép, nem az Inno Agent konfigurációs sémája.",
+  "lesson": "EP_01",
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "id": "E0",
+      "required": true,
+      "concept_ids": [
+        "ep01.file_workflow"
+      ]
+    },
+    {
+      "id": "E1",
+      "required": true,
+      "concept_ids": [
+        "ep01.print_literals",
+        "ep01.execution_order",
+        "ep01.comments"
+      ],
+      "file": "python_gyakorlat/hello.py"
+    },
+    {
+      "id": "B1",
+      "required": true,
+      "concept_ids": [
+        "ep01.print_literals"
+      ],
+      "file": "python_gyakorlat/bufe1.py"
+    },
+    {
+      "id": "B2",
+      "required": true,
+      "concept_ids": [
+        "ep01.variables"
+      ],
+      "file": "python_gyakorlat/bufe2.py"
+    },
+    {
+      "id": "B3",
+      "required": true,
+      "concept_ids": [
+        "ep01.variables",
+        "ep01.arithmetic"
+      ],
+      "file": "python_gyakorlat/bufe3.py"
+    },
+    {
+      "id": "B4",
+      "required": true,
+      "concept_ids": [
+        "ep01.fstring"
+      ],
+      "file": "python_gyakorlat/bufe4.py"
+    },
+    {
+      "id": "B5",
+      "required": true,
+      "concept_ids": [
+        "ep01.input_conversion",
+        "ep01.arithmetic"
+      ],
+      "file": "python_gyakorlat/bufe5.py"
+    },
+    {
+      "id": "Z1",
+      "required": true,
+      "concept_ids": [
+        "ep01.variables",
+        "ep01.arithmetic",
+        "ep01.fstring"
+      ]
+    },
+    {
+      "id": "Z2",
+      "required": true,
+      "concept_ids": [
+        "ep01.input_conversion"
+      ]
+    },
+    {
+      "id": "Z3",
+      "required": true,
+      "concept_ids": [
+        "ep01.file_workflow"
+      ]
+    },
+    {
+      "id": "K1",
+      "required": false,
+      "concept_ids": [
+        "ep01.divmod"
+      ],
+      "file": "python_gyakorlat/doboz.py"
+    },
+    {
+      "id": "K2",
+      "required": false,
+      "concept_ids": [
+        "ep01.naming"
+      ],
+      "file": "python_gyakorlat/valtozok.py"
+    },
+    {
+      "id": "K3",
+      "required": false,
+      "concept_ids": [
+        "ep01.input_conversion"
+      ],
+      "file": "python_gyakorlat/osszeg.py"
+    },
+    {
+      "id": "K4",
+      "required": false,
+      "concept_ids": [
+        "ep01.float_format"
+      ],
+      "file": "python_gyakorlat/teglalap.py"
+    },
+    {
+      "id": "K5",
+      "required": false,
+      "concept_ids": [
+        "ep01.file_workflow"
+      ]
+    }
+  ]
+}

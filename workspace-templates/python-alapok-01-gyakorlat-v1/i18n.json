@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Python Basics 01 — Practice Lab (EP_01) V1",
+      "description": "Guided learner workspace for the first Python practice of a Programming Basics course (lesson EP_01, revised material): reading, editing, saving and running ready-made code — environment check, first output, the five-step café (büfé) series, three independent closing tasks, optional further practice, a progress sheet and a detailed HTML course with live examples.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Python alapok 01. gyakorlat (EP_01) V1",
+      "description": "Programozás alapjai kurzus első Python-gyakorlata (EP_01, javított anyag): kész kód olvasása, módosítása, mentése és futtatása — környezetpróba, első kiírás, öt büfés lépés, három önálló zárófeladat, választható további gyakorlás, haladási lap és részletes HTML-tananyag bemutatókkal.",
+      "category": "Programozás"
+    }
+  }
+}
