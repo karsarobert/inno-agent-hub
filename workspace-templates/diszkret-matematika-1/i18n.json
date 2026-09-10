@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "locales": {
     "en": {
-      "name": "Discrete Mathematics 1 — Practice 1 (Propositional Logic)",
+      "name": "Discrete Mathematics 1 — Practice (Propositional Logic)",
       "description": "Guided learner workspace for the first practice of Discrete Mathematics 1: propositional logic explanations with worked examples, guided in-class tasks with an exit card, homework, and a subject-specific tutor guide for common misconceptions.",
       "category": "Mathematics"
     },
     "hu": {
-      "name": "Diszkrét matematika 1. – 1. gyakorlat (Ítéletkalkulus)",
+      "name": "Diszkrét matematika 1. gyakorlat (Ítéletkalkulus)",
       "description": "Vezetett tanulói munkatér a Diszkrét matematika 1. első gyakorlatához: ítéletkalkulus-magyarázatok kidolgozott példákkal, irányított órai feladatok kilépőkártyával, házi feladat, valamint tantárgyspecifikus tutori útmutató a tipikus tévképzetekhez.",
       "category": "Matematika"
     }
