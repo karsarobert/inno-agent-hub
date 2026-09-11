@@ -8,7 +8,7 @@
     },
     "hu": {
       "name": "C++ 1. gyakorlat",
-      "description": "Kezdő C++ kurzus 1. gyakorlatának (4×45 perc) vezetett hallgatói munkaterülete; a teljes kód adott. Alapgyakorlatok: első program megfigyelése (L01), változók/értékadás/osztás (L01b), beolvasás–szövegkezelés–konverzió bemenetellenőrzéssel (L04). Kiegészítő gyakorlatok: előfeldolgozás és makrók (#include, #define, -E, constexpr), feltételes fordítás (#ifdef, -D, paraméteres makró, assert). Fordítás g++ -std=c++20 a munkaterület termináljában, prediction-first módon.",
+      "description": "Kezdő C++ kurzus 1. gyakorlatának (3×45 perc) vezetett hallgatói munkaterülete; a teljes kód adott. Alapgyakorlatok: első program megfigyelése (L01), változók/értékadás/osztás (L01b), beolvasás–szövegkezelés–konverzió bemenetellenőrzéssel (L04). Kiegészítő gyakorlatok: előfeldolgozás és makrók (#include, #define, -E, constexpr), feltételes fordítás (#ifdef, -D, paraméteres makró, assert). Fordítás g++ -std=c++20 a munkaterület termináljában, prediction-first módon.",
       "category": "Programozás"
     }
   }
