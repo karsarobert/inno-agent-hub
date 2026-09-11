@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose": "Tutor által olvasható feladattérkép, nem az Inno Agent konfigurációs sémája.",
   "lesson": "EP_01",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "tasks": [
     {
       "id": "E0",

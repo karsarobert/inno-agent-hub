@@ -1,0 +1,9 @@
+{
+  "package": "EP_01",
+  "version": "2.1.0",
+  "date": "2026-09-11",
+  "language": "hu",
+  "role": "tanuloi",
+  "previous_package": "EP_01 v2",
+  "scope": "local_package_metadata_not_application_configuration"
+}

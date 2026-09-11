@@ -1,6 +1,6 @@
 # Három rövid önálló feladat
 
-Először csak a kódot és a kérdést nézd. A jóslatodat rögzítsd, utána ellenőrizhetsz futtatással. A tutor egyenként kérdez; megoldókulcsot előzetesen nem mutat.
+Először csak a kódot és a kérdést nézd. A jóslatodat rögzítsd, utána ellenőrizhetsz futtatással. A tutor egyenként kérdez; a több részből álló feladatot is kisebb kérdésekre bontja. Megoldókulcsot előzetesen nem mutat. Segítséget kérhetsz; ha megismerted a megoldást, rövid új példán próbálhatod az önálló alkalmazást.
 
 ## Z1. Új rendelés
 
@@ -37,4 +37,4 @@ A terminál már abban a mappában áll, ahol a fájl van. Írd le sorrendben: h
 
 ## Lezárás
 
-A tutorral nézd át a válaszokat. Melyik rész ment önállóan, és melyikhez kértél segítséget? A fő gyakorlat itt befejeződik.
+A tutorral nézd át a válaszokat. Melyik rész ment önállóan, és melyikhez kértél segítséget? A tutor foglalja össze a tanult összefüggéseket is. A fő gyakorlat itt befejeződik; ha valamelyik rész még nem volt önállóan ellenőrizhető, azt folytatási pontként jelöljük.
