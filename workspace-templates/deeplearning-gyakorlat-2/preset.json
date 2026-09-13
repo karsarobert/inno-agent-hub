@@ -1,0 +1,7 @@
+{
+  "id": "deeplearning-gyakorlat-2",
+  "name": "Deep Learning 2 — Practice Lab (From Weights to Trainable Networks)",
+  "description": "Guided learner workspace for the second lab of a beginner Deep Learning course (2×45 min): one weight, estimate, loss and a gradient step; a 3 → 2 → 1 network in NumPy and the same network in Keras with fixed weights; the wine data's features, target, split and scaling; quality-score regression with a trainable model; classifying four score groups with a softmax output; learning curves, early stopping and the final test — seven ready-to-run Python programs, an offline interactive illustration, concept-to-code notes, an experiment journal and homework.",
+  "category": "Programming",
+  "icon": "brain"
+}
