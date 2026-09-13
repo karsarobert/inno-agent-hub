@@ -1,0 +1,7 @@
+{
+  "id": "cpp-2-gyakorlat",
+  "name": "C++ 2 — Practice Lab (Types and Number Representation)",
+  "description": "Guided learner workspace for the second lab of a beginner C++ course (3×45 min); all code is provided. Core exercises: type sizes and limits (G02_01), initialization, assignment and constants (G02_02), eight bits read two ways (G02_03), division and where the conversion happens (G02_04), unsigned wrap-around and large products (G02_05), floating-point accuracy and significant digits (G02_06), storage versus output formatting (G02_07), comparison with an absolute tolerance (G02_08), and a closing fix-the-logic task (G02_09). Supplementary demo: signed overflow with UBSan (G02_K01). Compiled with g++ -std=c++20 in the workspace terminal, prediction-first, with the learner doing every edit, save, compile and run.",
+  "category": "Programming",
+  "icon": "code-2"
+}
