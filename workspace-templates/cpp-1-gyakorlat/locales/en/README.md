@@ -1,85 +1,90 @@
-# C++ Basics – Student practice pack (English)
+# C++ basics – English student practice package
 
-This pack belongs to the revised **CPP_01.html – C++ Basics** classroom
-material. All programs are provided complete. First read and interpret them,
-then compile, run, and carry out the small, precisely specified changes.
-No prior programming knowledge or independent program writing is required.
+This package accompanies the revised **CPP_01.html – C++ basics** classroom material.
+The complete programs are provided. First read and interpret them, then compile,
+run, and make the small, precisely specified changes.
+No previous programming knowledge or independent program writing is required.
+The classroom HTML file is a separate resource and is not included in this ZIP.
 
 ## Recommended order
 
-We kept the original file names, so the numbers in their names do not indicate
-the recommended order of working through them. The macro examples are
-supplementary exercises.
+The lesson identifiers have been retained, so the numbers in the filenames do not
+indicate the recommended study order. The macro examples are optional exercises.
 
-| Order | File | Related class topics |
+| Order | File | Related classroom topics |
 |---|---|---|
-| 1. Core exercise | `L01_elso_program.cpp` | First program; saving, compilation and running; compilation errors |
-| 2. Core exercise | `L01b_valtozok_es_ertekek.cpp` | Initialization, assignment, integer and floating-point division, simple branching |
-| 3. Core exercise | `L04_io_string_hibakes.cpp` | Reading input, input validation, strings, indexing and conversion |
-| 4. Supplementary | `L02_preprocesszor_makro.cpp` | Preprocessing, `#include`, `#define`, `-E`, `constexpr` |
-| 5. Supplementary | `L03_felteteles_makro.cpp` | Conditional compilation, `-D`, parameterized macros, `assert` |
+| 1. Core exercise | `L01_first_program.cpp` | First program; saving, compiling and running; compilation errors |
+| 2. Core exercise | `L01b_variables_and_values.cpp` | Initialization, assignment, integer and floating-point division, simple branching |
+| 3. Core exercise | `L04_input_strings_validation.cpp` | Input, input validation, strings, indexing and conversion |
+| 4. Optional exercise | `L02_preprocessor_macros.cpp` | Preprocessing, `#include`, `#define`, `-E`, `constexpr` |
+| 5. Optional exercise | `L03_conditional_macros.cpp` | Conditional compilation, `-D`, function-like macros, `assert` |
 
-The steps of the exercise are given by the assistant that guides your
-learning. First you get a question or an observation task, then you try out
-the example, and you discuss what you experienced. You do not need to retype
-the programs. You do not need to read the teacher-facing Markdown files in
-this pack in advance; for the practice, open the source files listed above.
+Your learning assistant provides the steps. First you receive a question or an
+observation task, then you try the example and discuss what happened. You do not
+need to retype the programs. You do not need to read the instructor Markdown files
+in advance; open the source files listed above for practice.
 
-If four 45-minute blocks are available, exercises 1–2 can be worked through
-in the first block and core exercise 3 in the second. In the further blocks,
-repetition of the core material or the two supplementary exercises may follow,
-depending on progress. Knowing the macros is not a prerequisite for
-understanding the core exercises.
+If four 45-minute blocks are available, core exercises 1–2 can be covered in the
+first block and core exercise 3 in the second. The remaining blocks can be used
+to revisit the basics or cover the two optional exercises, depending on progress.
+You do not need to understand macros to complete the core exercises.
 
-## Preparation and running
+## Setup and execution
 
-1. Unpack the ZIP file. Keep the source files in the root directory of the
-   unpacked workspace; do not create subfolders for them.
-2. Open a terminal in this directory. What matters is where the terminal's
-   current directory is; where the terminal window sits on the screen does not.
-3. The commands are written for Linux and for a GCC reachable from the command
-   line that supports C++20. You can check the compiler with `g++ --version`.
-4. After a modification, save the source, then compile again. Run the
-   resulting program only after a successful compilation.
+1. Extract the ZIP. Keep the source files in the root of the extracted workspace;
+   do not create a separate subfolder for them.
+2. Open a terminal in that directory. What matters is the terminal's current
+   working directory, not the position of its window on the screen.
+3. The commands assume Linux and a command-line GCC compiler supporting C++20.
+   Use `g++ --version` to check that the compiler is available.
+4. After changing the source, save it and compile again. Run the resulting program
+   only after successful compilation.
 
-The concrete commands for the first program:
+Commands for the first program:
 
 ```bash
-g++ -std=c++20 -Wall -Wextra -pedantic -o L01 L01_elso_program.cpp
+g++ -std=c++20 -Wall -Wextra -pedantic -o L01 L01_first_program.cpp
 ./L01
 ```
 
-`-std=c++20` selects the language standard; `-Wall` and `-Wextra` enable many
-useful warnings, but not all of them. `-pedantic` flags certain deviations
-from the selected ISO language standard. `-o L01` gives the name of the
-resulting executable. `./L01` runs it.
+`-std=c++20` selects the language standard. `-Wall` and `-Wextra` enable many useful
+warnings, but not all warnings. `-pedantic` reports certain departures from the
+selected ISO language standard. `-o L01` names the executable file. `./L01` runs it.
 
-Compilation alone does not print the program's messages. If the compilation
-fails, an older executable may remain: running it does not test the new code.
+Compiling alone does not display the program's messages. If compilation fails,
+an older executable may still exist: running it does not test the new code.
 
 ## Language and characters
 
-The explanations and comments are in English. The programs' printed messages
-and identifiers use English words, typically without special characters,
-matching the classroom code examples. The macro names `DEBUG`, `NDEBUG` and
-`SQUARE` are kept so they can be compared with the classroom examples.
+The explanations, comments, program messages and identifiers are in English.
+The `DEBUG`, `NDEBUG` and `SQUARE` macro names are retained for comparison with the
+classroom examples. Sample names and strings have been adapted, and the expected
+outputs in the instructions match these English source files.
 
-We do not generally call the length of a `std::string` a letter count. The
-`size()` gives the number of stored `char` elements; for UTF-8 text one
-accented letter can consist of several bytes. For character-by-character
-observations, use samples without accents first.
+The length of a `std::string` is not generally a letter count. `size()` returns
+the number of stored `char` elements; in UTF-8, an accented letter may occupy
+several bytes. Start with ASCII examples when examining individual characters.
+An accented name is used deliberately in the UTF-8 exercise.
 
 ## Viewing long files
 
-The result of preprocessing can be long because of the included headers. In
-the supplementary exercise our own program is at the end of the file, so after
-creating it, it is enough to look at the last twenty lines:
+Preprocessor output can be long because it contains the included headers.
+In the optional exercise, our own program is at the end of the file, so after
+creating it, it is enough to inspect its last twenty lines:
 
 ```bash
-g++ -std=c++20 -E L02_preprocesszor_makro.cpp -o L02_preprocessed.ii
+g++ -std=c++20 -E L02_preprocessor_macros.cpp -o L02_preprocessed.ii
 tail -n 20 L02_preprocessed.ii
 ```
 
-Use the second command after the first one has executed successfully. The
-`tail` only displays the end of the file; it does not modify it. You do not
-need to open the whole file or paste it into the conversation.
+Run the second command after the first one succeeds. `tail` only displays the
+end of the file; it does not change it. You do not need to open the entire file
+or paste it into the conversation.
+
+## Instructor files
+
+`agent.md` contains the English tutor role and teaching rules. Its existing name
+is retained for compatibility with the original workspace setup.
+`LESSON_INSTRUCTIONS.md` contains the complete English lesson sequence, questions,
+expected outputs and restoration steps. All references to renamed files have
+been updated. The lesson identifiers and the core/optional distinction are unchanged.
