@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "purpose": "Tutor által olvasható feladattérkép és időterv, nem az Inno Agent konfigurációs sémája.",
+  "lesson": "EP_02",
+  "version": "1.0.1",
+  "teaching_mode": "explain_example_student_codes_runs_reviews",
+  "duration_minutes": 90,
+  "break_included": false,
+  "tasks": [
+    {
+      "id": "E0",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 5,
+      "title": "Fájl, mentés, Futtatás gomb",
+      "concept_ids": [
+        "ep02.file_workflow"
+      ],
+      "instructions": "tanulo_lap.md",
+      "file": "python_gyakorlat/koszontes.py"
+    },
+    {
+      "id": "F1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 10,
+      "title": "Személyes köszöntés: def, paraméter, hívás",
+      "concept_ids": [
+        "ep02.definition_call",
+        "ep02.parameters"
+      ],
+      "instructions": "tanulo_lap.md",
+      "file": "python_gyakorlat/koszontes.py"
+    },
+    {
+      "id": "F2",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 15,
+      "title": "A kiírástól a visszaadott értékig",
+      "concept_ids": [
+        "ep02.return_vs_print",
+        "ep02.parameters",
+        "ep02.local_names"
+      ],
+      "instructions": "tanulo_lap.md",
+      "file": "python_gyakorlat/tetel.py"
+    },
+    {
+      "id": "B1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 12,
+      "title": "A büfé számításainak függvénybe rendezése",
+      "concept_ids": [
+        "ep02.composition",
+        "ep02.input_conversion",
+        "ep02.clean_code"
+      ],
+      "instructions": "tanulo_lap.md",
+      "file": "python_gyakorlat/bufe_02.py"
+    },
+    {
+      "id": "S1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 3,
+      "title": "Első óra: összegzés és folytatási pont",
+      "concept_ids": [
+        "ep02.reflection"
+      ],
+      "instructions": "tanulo_lap.md"
+    },
+    {
+      "id": "D1",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 12,
+      "title": "Kedvezmény és fizetés: if–else",
+      "concept_ids": [
+        "ep02.if_else",
+        "ep02.return_paths",
+        "ep02.boundaries"
+      ],
+      "instructions": "tanulo_lap.md",
+      "file": "python_gyakorlat/dontes.py"
+    },
+    {
+      "id": "D2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 7,
+      "title": "Rendeléskategória: if–elif–else",
+      "concept_ids": [
+        "ep02.elif",
+        "ep02.branch_order",
+        "ep02.boundaries"
+      ],
+      "instructions": "tanulo_lap.md",
+      "file": "python_gyakorlat/kategoriak.py"
+    },
+    {
+      "id": "B2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 16,
+      "title": "Saját büféprogram összeépítése",
+      "concept_ids": [
+        "ep02.composition",
+        "ep02.input_conversion",
+        "ep02.if_else",
+        "ep02.clean_code"
+      ],
+      "instructions": "tanulo_lap.md",
+      "file": "python_gyakorlat/bufe_02.py"
+    },
+    {
+      "id": "Z1",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 7,
+      "title": "Önálló kódírás: szállítási díj",
+      "concept_ids": [
+        "ep02.parameters",
+        "ep02.return_paths",
+        "ep02.boundaries"
+      ],
+      "instructions": "zaro_feladatok.md",
+      "file": "python_gyakorlat/onallo.py"
+    },
+    {
+      "id": "S2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 3,
+      "title": "Második óra: összegzés és lezárás",
+      "concept_ids": [
+        "ep02.reflection"
+      ],
+      "instructions": "tanulo_lap.md"
+    },
+    {
+      "id": "K1",
+      "required": false,
+      "planned_minutes": 10,
+      "title": "Alapértelmezett és név szerinti argumentumok",
+      "file": "python_gyakorlat/alapertek.py",
+      "concept_ids": [
+        "ep02.defaults",
+        "ep02.keyword_arguments"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K2",
+      "required": false,
+      "planned_minutes": 15,
+      "title": "A büfé bemeneti adatainak ellenőrzése",
+      "file": "python_gyakorlat/bufe_02.py",
+      "concept_ids": [
+        "ep02.and_or_not",
+        "ep02.input_validation"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K3",
+      "required": false,
+      "planned_minutes": 7,
+      "title": "Párosságot vizsgáló függvény",
+      "file": "python_gyakorlat/parossag.py",
+      "concept_ids": [
+        "ep02.boolean_return",
+        "ep02.remainder"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    }
+  ]
+}

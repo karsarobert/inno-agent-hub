@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Elementary Programming 2 — Practice Lab (EP_02)",
+      "description": "Second Python practice of a Programming Basics course (lesson EP_02): writing your own functions (def, parameters, return values) and conditional branches (if–elif–else), then assembling the café (büfé) program — an explanatory tutor, editable starter programs, checking cases, student-written code and runs, with a detailed HTML course.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Elemi programozás 2. gyakorlat",
+      "description": "Programozás alapjai kurzus második Python-gyakorlata (EP_02): saját függvények írása (def, paraméterek, visszatérési érték) és feltételes elágazások (if–elif–else), majd a büféprogram összeépítése — magyarázó tutor, módosítható minta-programok, ellenőrző esetek, saját kódírás és futtatás, részletes HTML-tananyaggal.",
+      "category": "Programozás"
+    }
+  }
+}

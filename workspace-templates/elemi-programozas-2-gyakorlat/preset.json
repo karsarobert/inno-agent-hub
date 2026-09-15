@@ -1,0 +1,7 @@
+{
+  "id": "elemi-programozas-2-gyakorlat",
+  "name": "Elementary Programming 2 — Practice Lab (EP_02)",
+  "description": "Second Python practice of a Programming Basics course (lesson EP_02): writing your own functions (def, parameters, return values) and conditional branches (if–elif–else), then assembling the café (büfé) program — an explanatory tutor, editable starter programs, checking cases, student-written code and runs, with a detailed HTML course.",
+  "category": "Programming",
+  "icon": "code-2"
+}
