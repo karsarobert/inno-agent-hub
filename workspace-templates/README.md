@@ -62,7 +62,7 @@ Inno Agent 的「简单模式」会直接把这些模板渲染成欢迎页的**�
 | [math-interactive-en/](./math-interactive-en/) | 数学交互解题(英文版) | edu-analytic-geometry / edu-solid-geometry | ✅ 可用 |
 | [cpp-lesson-01/](./cpp-lesson-01/) | C++ 基础第 1 课(初学者):理论回顾 + 实操实验 + 自测 | cpp-course-tutor | ✅ 可用 |
 | [deeplearning-gyakorlat-1/](./deeplearning-gyakorlat-1/) | Deep Learning 1. 练习课 — TensorFlow 基础 · MNIST 分类器(匈牙利语/英语) | — | ✅ 可用 |
-| [deeplearning-gyakorlat-2/](./deeplearning-gyakorlat-2/) | Deep Learning 2. 练习课 — 从单个权重到可训练网络:权重/损失/梯度步、NumPy 与 Keras 小网络、酒数据预处理、回归与分类、学习曲线(匈牙利语) | — | ✅ 可用 |
+| [deeplearning-gyakorlat-2/](./deeplearning-gyakorlat-2/) | Deep Learning 2. 练习课 — 从单个权重到可训练网络:权重/损失/梯度步、NumPy 与 Keras 小网络、酒数据预处理、回归与分类、学习曲线(匈牙利语/英语) | — | ✅ 可用 |
 | [cpp-1-gyakorlat/](./cpp-1-gyakorlat/) | C++ 1. 练习课 — C++ 基础:预处理宏 / 条件编译 / I/O(匈牙利语/英语) | — | ✅ 可用 |
 | [cpp-2-gyakorlat/](./cpp-2-gyakorlat/) | C++ 2. 练习课 — 类型与数值表示:类型尺寸/初始化/位模式/除法/范围/浮点精度/输出格式/容差比较/收尾修错(匈牙利语) | — | ✅ 可用 |
 | [python-alapok-01-gyakorlat/](./python-alapok-01-gyakorlat/) | Python 基础 01. 练习课 — 第一个程序的编写/保存/运行(双编辑器+双终端,预测-运行法)(匈牙利语) | — | ✅ 可用 |
