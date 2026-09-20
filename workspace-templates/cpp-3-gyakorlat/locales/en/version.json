@@ -1,0 +1,20 @@
+{
+  "package": "CPP_03",
+  "version": "1.1.0-en",
+  "date": "2026-09-20",
+  "language": "en",
+  "role": "learner",
+  "previous_package": "CPP_02",
+  "lesson_duration_minutes": 135,
+  "scope": "local_package_metadata_not_application_configuration",
+  "changes": [
+    "English version of the complete practice package",
+    "all learner-facing filenames and C++ identifiers translated to English",
+    "RUN button and terminal workflow explained at the start",
+    "stricter task and result verification",
+    "less solution information given in G03_08-G03_09",
+    "second test runs emphasized",
+    "more diagnostic T2 question using do-while",
+    "one optional extra practice task after the required lesson is clearly closed"
+  ]
+}
