@@ -1,0 +1,8 @@
+# Az oktató számára; a hallgató hiányzó csomagnál segítséget kér.
+# Ellenőrzés: Linux x86-64, Python 3.12.14, CPU.
+# Főcsomag-verziók; nem teljes tranzitív lockfile.
+tensorflow-cpu==2.20.0
+keras==3.15.1
+numpy==2.3.5
+matplotlib==3.10.8
+scikit-learn==1.8.0

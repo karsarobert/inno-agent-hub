@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Deep Learning 3 — Practice Lab",
+      "description": "Guided learner workspace for the third lab of a beginner Deep Learning course (2×45 min), corrected 1.1 edition. The learner builds, configures and interprets the network; the data preparation and the evaluation figures are ready-made. Programs: environment check; the gradient method on one weight and one bias with synthetic data (G03_01); spiral classification with a hidden-layer-free baseline model (G03_02); a 16-neuron network and then two 50-neuron layers with a mandatory learning-rate experiment 0.01 → 0.001, everything else unchanged (G03_03); final evaluation of the saved, chosen model on the held-out test set (G03_04). Four runs are compared, the model is chosen and justified by the learner from the validation loss, and the lab closes with 10 multiple-choice code-comprehension questions. Run with the Run button or from the terminal; everything runs locally, no Colab, no GPU needed, no homework.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Deep Learning 3. gyakorlat",
+      "description": "Deep Learning kurzus 3. gyakorlatának (2×45 perc) vezetett hallgatói munkaterülete, javított 1.1 változat. A hallgató a hálózat felépítésére, beállítására és az eredmények értelmezésére koncentrál; az adat-előkészítés és az értékelő ábrák kódja készen áll. Programok: környezetellenőrzés; a gradiensmódszer egy súlyon és egy biaison szintetikus adatokon (G03_01); spirálosztályozás rejtett réteg nélküli alapmodellel (G03_02); 16 neuronos hálózat, majd két 50 neuronos réteg kötelező tanulásiráta-kísérlettel 0.01 → 0.001, minden más változatlanul (G03_03); a kiválasztott, mentett modell végső értékelése a teszthalmazon (G03_04). Négy futás összehasonlítása, a modellt a hallgató választja és indokolja a validációs veszteség alapján, a gyakorlatot 10 feleletválasztós kódértési kérdés zárja. Futtatás Run gombbal vagy terminálból; minden helyben fut, Colab és GPU nélkül, nincs házi feladat.",
+      "category": "Programozás"
+    }
+  }
+}
