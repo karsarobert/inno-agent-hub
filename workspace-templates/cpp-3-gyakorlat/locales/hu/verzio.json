@@ -1,0 +1,18 @@
+{
+  "package": "CPP_03",
+  "version": "1.1.0",
+  "date": "2026-09-20",
+  "language": "hu",
+  "role": "tanuloi",
+  "previous_package": "CPP_02",
+  "lesson_duration_minutes": 135,
+  "scope": "local_package_metadata_not_application_configuration",
+  "changes": [
+    "RUN gomb és terminálos futtatás ismertetése",
+    "szigorúbb feladat- és eredményellenőrzés",
+    "kevesebb előre megadott megoldás G03_08–G03_09-ben",
+    "második próbák hangsúlyozása",
+    "diagnosztikusabb T2 do-while kérdéssel",
+    "egy opcionális plusz gyakorlófeladat a kötelező lezárás után"
+  ]
+}

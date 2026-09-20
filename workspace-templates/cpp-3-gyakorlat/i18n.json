@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ 3 — Practice Lab",
+      "description": "Guided learner workspace for the third lab of a beginner C++ course (3×45 min), where the learner writes short code fragments themselves. Core exercises: a simple if with the frost-warning task (G03_01), an if–else parity check (G03_02), an else-if chain with boundary values (G03_03), switch/case/break/default (G03_04), while (G03_05), do–while (G03_06), for (G03_07), then two composition tasks: counting even numbers (G03_08) and summing the multiples of three (G03_09). Closing multiple-choice quiz (T1) and output-prediction test (T2), followed by one optional extra task. The learner edits, saves, compiles and runs (RUN button or g++ -std=c++20 in the workspace terminal); no homework.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ 3. gyakorlat",
+      "description": "Kezdő C++ kurzus 3. gyakorlatának (3×45 perc) vezetett hallgatói munkaterülete, ahol a hallgató már saját, rövid kódrészleteket ír. Alapgyakorlatok: egyszerű if fagyveszély-feladattal (G03_01), if–else párosságvizsgálat (G03_02), else if lánc határértékekkel (G03_03), switch/case/break/default (G03_04), while (G03_05), do–while (G03_06), for (G03_07), majd két összekapcsoló feladat: páros számok darabszáma (G03_08) és a 3-mal oszthatók összege (G03_09). Zárásként feleletválasztós (T1) és kimenetjóslós (T2) teszt, utána egy opcionális plusz feladat. A hallgató szerkeszt, ment, fordít és futtat (RUN gomb vagy g++ -std=c++20 terminálból); nincs házi feladat.",
+      "category": "Programozás"
+    }
+  }
+}

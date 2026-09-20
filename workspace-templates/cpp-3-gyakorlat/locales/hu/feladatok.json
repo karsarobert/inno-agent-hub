@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "purpose": "Tutor által olvasható feladattérkép és időterv.",
+  "lesson": "CPP_03",
+  "version": "1.1.0",
+  "teaching_mode": "explain_then_student_writes_compiles_runs",
+  "duration_minutes": 135,
+  "homework": false,
+  "tasks": [
+    {
+      "id": "E0",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 5,
+      "title": "Bemutatkozás és munkamód",
+      "concept_ids": [
+        "cpp03.workflow"
+      ]
+    },
+    {
+      "id": "G03_01",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 9,
+      "title": "Egyszerű if",
+      "file": "G03_01_if.cpp",
+      "concept_ids": [
+        "cpp03.if",
+        "cpp03.condition"
+      ]
+    },
+    {
+      "id": "G03_02",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 9,
+      "title": "if-else és párosság",
+      "file": "G03_02_if_else.cpp",
+      "concept_ids": [
+        "cpp03.if_else",
+        "cpp03.remainder",
+        "cpp03.boundary"
+      ]
+    },
+    {
+      "id": "G03_03",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 11,
+      "title": "else if lánc és határértékek",
+      "file": "G03_03_pontszam.cpp",
+      "concept_ids": [
+        "cpp03.else_if",
+        "cpp03.first_true_branch",
+        "cpp03.boundary"
+      ]
+    },
+    {
+      "id": "G03_04",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 9,
+      "title": "switch, case, break, default",
+      "file": "G03_04_switch.cpp",
+      "concept_ids": [
+        "cpp03.switch",
+        "cpp03.break"
+      ]
+    },
+    {
+      "id": "S1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "title": "Első blokk összegzés és memóriapont",
+      "concept_ids": [
+        "cpp03.reflection"
+      ]
+    },
+    {
+      "id": "G03_05",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 12,
+      "title": "while ciklus",
+      "file": "G03_05_while.cpp",
+      "concept_ids": [
+        "cpp03.while",
+        "cpp03.loop_condition",
+        "cpp03.loop_update"
+      ]
+    },
+    {
+      "id": "G03_06",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 10,
+      "title": "do-while ciklus",
+      "file": "G03_06_do_while.cpp",
+      "concept_ids": [
+        "cpp03.do_while",
+        "cpp03.pre_post_test"
+      ]
+    },
+    {
+      "id": "G03_07",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 15,
+      "title": "for ciklus",
+      "file": "G03_07_for.cpp",
+      "concept_ids": [
+        "cpp03.for",
+        "cpp03.counting_loop",
+        "cpp03.loop_update"
+      ]
+    },
+    {
+      "id": "S2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 8,
+      "title": "Második blokk összegzés és memóriapont",
+      "concept_ids": [
+        "cpp03.loop_choice",
+        "cpp03.reflection"
+      ]
+    },
+    {
+      "id": "G03_08",
+      "required": true,
+      "block": 3,
+      "planned_minutes": 12,
+      "title": "for + if: páros számok darabszáma",
+      "file": "G03_08_paros_darabszam.cpp",
+      "concept_ids": [
+        "cpp03.composition",
+        "cpp03.for",
+        "cpp03.if",
+        "cpp03.counter"
+      ]
+    },
+    {
+      "id": "G03_09",
+      "required": true,
+      "block": 3,
+      "planned_minutes": 12,
+      "title": "for + if + összegzés",
+      "file": "G03_09_oszthato_osszeg.cpp",
+      "concept_ids": [
+        "cpp03.composition",
+        "cpp03.accumulator",
+        "cpp03.remainder"
+      ]
+    },
+    {
+      "id": "T1",
+      "required": true,
+      "block": 3,
+      "planned_minutes": 8,
+      "title": "Feleletválasztós záróteszt",
+      "concept_ids": [
+        "cpp03.quiz_concepts"
+      ]
+    },
+    {
+      "id": "T2",
+      "required": true,
+      "block": 3,
+      "planned_minutes": 10,
+      "title": "Kimenetjóslós záróteszt",
+      "concept_ids": [
+        "cpp03.output_prediction",
+        "cpp03.execution_trace"
+      ]
+    },
+    {
+      "id": "ZARAS",
+      "required": true,
+      "block": 3,
+      "planned_minutes": 3,
+      "title": "Lezárás és memóriamentés",
+      "concept_ids": [
+        "cpp03.reflection"
+      ]
+    }
+  ],
+  "optional_practice": {
+    "id": "PLUSZ",
+    "required": false,
+    "file": "G03_PLUSZ_gyakorlas.cpp",
+    "title": "Opcionális egyfeladatos gyakorlás",
+    "concept_ids": [
+      "cpp03.for",
+      "cpp03.if",
+      "cpp03.remainder",
+      "cpp03.counter"
+    ]
+  }
+}
