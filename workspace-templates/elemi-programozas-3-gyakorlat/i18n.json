@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Elementary Programming 3 — Practice Lab (EP_03)",
+      "description": "Third Python practice of a Programming Basics course (lesson EP_03): loops (while, for/range), repeated input validation, running totals and assembling the basket-based café (büfé) program — an explanatory tutor, editable starter programs, checking cases, student-written code and runs, with a detailed HTML course.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Elemi programozás 3. gyakorlat",
+      "description": "Programozás alapjai kurzus harmadik Python-gyakorlata (EP_03): ciklusok (while, for/range), ismételt bekérés, összegzés és a kosaras büféprogram összeépítése — magyarázó tutor, módosítható minta-programok, ellenőrző esetek, saját kódírás és futtatás, részletes HTML-tananyaggal.",
+      "category": "Programozás"
+    }
+  }
+}

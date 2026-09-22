@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "purpose": "Tutor által olvasható feladattérkép és időterv, nem az Inno Agent konfigurációs sémája.",
+  "lesson": "EP_03",
+  "version": "1.0.1",
+  "teaching_mode": "explain_example_student_codes_runs_reviews",
+  "duration_minutes": 90,
+  "break_included": false,
+  "tasks": [
+    {
+      "id": "E0",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 3,
+      "title": "Mentett fájl és első futás",
+      "file": "indulas.py",
+      "concept_ids": [
+        "ep03.file_workflow"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "kapcsolodas",
+      "acceptance": [
+        "Az elmentett saját szövegmódosítás megjelenik a megfelelő fájl futásakor."
+      ]
+    },
+    {
+      "id": "W1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "title": "Ismétlés while ciklussal",
+      "file": "sorszam.py",
+      "concept_ids": [
+        "ep03.while",
+        "ep03.state_update",
+        "ep03.boundaries"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "while",
+      "acceptance": [
+        "Valódi while ciklus, nem egymás alá írt kész kiírások.",
+        "A növelés a törzsben, a lezárás azon kívül van.",
+        "Az elsőre hamis feltétel esetén nulla kör történik."
+      ]
+    },
+    {
+      "id": "W2",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 9,
+      "title": "Újrakérés függvényben",
+      "file": "bekeres.py",
+      "concept_ids": [
+        "ep03.while",
+        "ep03.input_validation",
+        "ep03.return"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "ujrakeres",
+      "acceptance": [
+        "A negatív számnál tényleges új input történik.",
+        "A paraméter kérdésszövegét használja.",
+        "Az elfogadott számot adja vissza; nem csak kiírja."
+      ]
+    },
+    {
+      "id": "F1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 7,
+      "title": "Sorszámok for és range segítségével",
+      "file": "tartomany.py",
+      "concept_ids": [
+        "ep03.for_range",
+        "ep03.boundaries"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "for",
+      "acceptance": [
+        "For + range szerkezet, változót használó f-string.",
+        "Kizárt végpont helyes, nincs felesleges kézi növelés."
+      ]
+    },
+    {
+      "id": "B1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 15,
+      "title": "Napi bevétel zárásig",
+      "file": "napi_osszesito.py",
+      "concept_ids": [
+        "ep03.while_true",
+        "ep03.break",
+        "ep03.accumulator",
+        "ep03.counter"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "bufe-nap",
+      "acceptance": [
+        "A bekérés a ciklusban van, a végjel vizsgálata a feldolgozás előtt.",
+        "A negatív és a 0 nem növeli az összesítőket.",
+        "Nincs cikluson belüli nullázás.",
+        "A záró kiírás egyszer történik."
+      ]
+    },
+    {
+      "id": "S1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 3,
+      "title": "Első óra lezárása",
+      "file": null,
+      "concept_ids": [
+        "ep03.reflection"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "osszegzes",
+      "acceptance": [
+        "A folytatási pont tényleges állapoton alapul."
+      ]
+    },
+    {
+      "id": "L1",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 8,
+      "title": "A kosár elemeinek bejárása",
+      "file": "kosar.py",
+      "concept_ids": [
+        "ep03.list_basics",
+        "ep03.direct_iteration"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "listak",
+      "acceptance": [
+        "A lista sorrendjében négy elem jelenik meg.",
+        "Közvetlen bejárás; nincs beégetett négy print.",
+        "Üres listán nem indexel nem létező elemet."
+      ]
+    },
+    {
+      "id": "B2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 9,
+      "title": "A kosár összegző függvénye",
+      "file": "kosar.py",
+      "concept_ids": [
+        "ep03.accumulator",
+        "ep03.return",
+        "ep03.composition"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "bejaras",
+      "acceptance": [
+        "A függvény a paramétert járja be, nem a külső kosar változóra támaszkodik.",
+        "A termek_ara függvényt hívja, és nem beégetett 2180-at ad vissza.",
+        "A return a teljes ciklus után van; üres listán is 0 az eredmény."
+      ]
+    },
+    {
+      "id": "C1",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 8,
+      "title": "Blokk és ismeretlen termék kihagyása",
+      "file": "blokk.py",
+      "concept_ids": [
+        "ep03.continue",
+        "ep03.counter",
+        "ep03.presentation"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "ciklusvezerles",
+      "acceptance": [
+        "A pizza után az üdítő még megjelenik.",
+        "Continue használata; az ismeretlen termék nem növeli a számlálót.",
+        "A blokkfüggvény csak a kapott kosárral dolgozik."
+      ]
+    },
+    {
+      "id": "B3",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 10,
+      "title": "A kosár és a fizetés összeépítése",
+      "file": "bufe_03.py",
+      "concept_ids": [
+        "ep03.composition",
+        "ep03.while",
+        "ep03.input_validation",
+        "ep03.payment"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "bufe-kosar",
+      "acceptance": [
+        "A teljes kosárra számol és a saját függvényeket hívja.",
+        "A pótlást hozzáadja, nem lecseréli a befizetett összeget.",
+        "Visszajárót csak elegendő pénznél ír, a ciklus után.",
+        "Üres kosárnál nincs indexhiba, bekérés vagy fizetés."
+      ]
+    },
+    {
+      "id": "Z1",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 7,
+      "title": "Önálló termékszámláló",
+      "file": "onallo.py",
+      "concept_ids": [
+        "ep03.counter",
+        "ep03.parameters",
+        "ep03.independent_transfer"
+      ],
+      "instructions": "zaro_feladatok.md",
+      "html_section": "feladatok",
+      "acceptance": [
+        "A keresett termék paraméterét használja, nem beégetett kávét.",
+        "Feltételes számlálás és ciklus utáni return.",
+        "A saját próbahívásai megvannak, üres listára is."
+      ]
+    },
+    {
+      "id": "S2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 3,
+      "title": "Lezárás és folytatási pont",
+      "file": null,
+      "concept_ids": [
+        "ep03.reflection"
+      ],
+      "instructions": "tanulo_lap.md",
+      "html_section": "osszegzes",
+      "acceptance": [
+        "A lezárás nem állít többet a tényleges munkánál."
+      ]
+    },
+    {
+      "id": "K1",
+      "required": false,
+      "planned_minutes": 15,
+      "title": "Teljes vendégkezelő ciklus és napi bevétel",
+      "file": "bufe_03.py",
+      "concept_ids": [
+        "ep03.while",
+        "ep03.composition"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K2",
+      "required": false,
+      "planned_minutes": 8,
+      "title": "Fordított range és nulla ismétlés",
+      "file": "tartomany.py",
+      "concept_ids": [
+        "ep03.for_range",
+        "ep03.boundaries"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K3",
+      "required": false,
+      "planned_minutes": 10,
+      "title": "Igen/nem újrakérés",
+      "file": "bufe_03.py",
+      "concept_ids": [
+        "ep03.input_validation",
+        "ep03.boolean_logic"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K4",
+      "required": false,
+      "planned_minutes": 8,
+      "title": "Listaindexek és szeletelés",
+      "file": "kosar.py",
+      "concept_ids": [
+        "ep03.list_basics",
+        "ep03.slicing"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K5",
+      "required": false,
+      "planned_minutes": 10,
+      "title": "Keresés és a ciklus else ága",
+      "file": "kosar.py",
+      "concept_ids": [
+        "ep03.loop_else",
+        "ep03.break"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K6",
+      "required": false,
+      "planned_minutes": 10,
+      "title": "Teknőcgrafika opcionális helyi környezetben",
+      "file": null,
+      "concept_ids": [
+        "ep03.for_range"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    }
+  ]
+}

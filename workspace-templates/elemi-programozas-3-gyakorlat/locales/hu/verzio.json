@@ -1,0 +1,10 @@
+{
+  "package": "EP_03",
+  "version": "1.0.1",
+  "date": "2026-09-22",
+  "language": "hu",
+  "role": "tanuloi",
+  "previous_package": "EP_02",
+  "lesson_duration_minutes": 90,
+  "scope": "local_package_metadata_not_application_configuration"
+}
