@@ -1,0 +1,8 @@
+# For the instructor; if a package is missing, the student asks for help.
+# Verified on: Linux x86-64, Python 3.12.14, CPU.
+# Main package versions; not a full transitive lockfile.
+tensorflow-cpu==2.20.0
+keras==3.15.1
+numpy==2.3.5
+matplotlib==3.10.8
+scikit-learn==1.8.0
