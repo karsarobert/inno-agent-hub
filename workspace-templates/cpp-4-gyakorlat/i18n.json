@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ 4 — Practice Lab",
+      "description": "Guided learner workspace for the fourth lab of a beginner C++ course (3×45 min), where the learner writes short code fragments themselves. First block — arrays: indexing (G04_01), direct and relative modification (G04_02), traversal with index and value (G04_03), sum and average (G04_04), two conditional counts (G04_05). Second block — pointers: value, address and reassigning the pointer (G04_06), dereferencing and two modifications (G04_07), nullptr, the null check and another object (G04_08). Third block — the array–pointer relation: address of the first and second element through a pointer (G04_09), pointer traversal with modification and summation (G04_10). Closing multiple-choice quiz (T1, 6 questions) and output-prediction test (T2, 6 complete short programs), followed by one optional complex extra task that the tutor offers only if the learner finishes the required part in under 90 minutes. The learner edits, saves, compiles and runs (RUN button or g++ -std=c++20 in the workspace terminal); no homework.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ 4. gyakorlat",
+      "description": "Kezdő C++ kurzus 4. gyakorlatának (3×45 perc) vezetett hallgatói munkaterülete, ahol a hallgató már saját, rövid kódrészleteket ír. Első blokk – tömbök: indexelés (G04_01), közvetlen és relatív módosítás (G04_02), bejárás (G04_03), összeg és átlag (G04_04), két feltételes számlálás (G04_05). Második blokk – mutatók: érték, cím és a mutató átállítása (G04_06), dereferálás (G04_07), nullptr és az ellenőrzés (G04_08). Harmadik blokk – tömb és mutató kapcsolata: az első és a második elem címe mutatóval (G04_09), mutatós bejárás módosítással és összegzéssel (G04_10). Zárásként feleletválasztós (T1, 6 kérdés) és kimenetjóslós (T2, 6 rövid program) teszt, utána egy opcionális komplex pluszfeladat, amelyet a tutor csak 90 percen belüli teljesítésnél ajánl fel. A hallgató szerkeszt, ment, fordít és futtat (RUN gomb vagy g++ -std=c++20 terminálból); nincs házi feladat.",
+      "category": "Programozás"
+    }
+  }
+}
