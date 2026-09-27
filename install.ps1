@@ -16,10 +16,13 @@
 # to skip the question entirely.
 #
 # The content hub defaults to the teacher's GitHub hub (karsarobert/
-# inno-agent-hub, branch main) so skills and preset cards are available
-# right after install. Set INNO_HUB_TYPE=none for a fully offline install
-# (no skills, no preset cards), or INNO_HUB_TYPE=bundle + INNO_HUB_URL for
-# a self-hosted hub.
+# inno-agent-hub) so skills and preset cards are available right after
+# install. INNO_HUB_REF selects WHICH hub state an install follows and
+# defaults to "stable" — the released, teacher-validated snapshot — so a
+# fresh install never picks up half-finished work from main. Pin a specific
+# release with INNO_HUB_REF=<tag> (e.g. hu-2026.09.27) or a commit SHA.
+# Set INNO_HUB_TYPE=none for a fully offline install (no skills, no preset
+# cards), or INNO_HUB_TYPE=bundle + INNO_HUB_URL for a self-hosted hub.
 #
 # SPDX-License-Identifier: MIT
 function Install-InnoAgent {
@@ -108,6 +111,9 @@ function Install-InnoAgent {
     $InnoSkipStart = $env:INNO_SKIP_START -eq '1'
     $InnoHubType = if ($env:INNO_HUB_TYPE) { $env:INNO_HUB_TYPE } else { 'github' }
     $InnoHubUrl = if ($env:INNO_HUB_URL) { $env:INNO_HUB_URL } else { '' }
+    # Which hub state an install follows: "stable" = the released snapshot
+    # (main is the development line); a tag or commit SHA pins one release.
+    $InnoHubRef = if ($env:INNO_HUB_REF) { $env:INNO_HUB_REF } else { 'stable' }
     $InnoProviderBaseUrl = if ($env:INNO_PROVIDER_BASE_URL) { $env:INNO_PROVIDER_BASE_URL } else { '' }
     $InnoProviderApiKey = if ($env:INNO_PROVIDER_API_KEY) { $env:INNO_PROVIDER_API_KEY } else { '' }
     $InnoProviderModel = if ($env:INNO_PROVIDER_MODEL) { $env:INNO_PROVIDER_MODEL } else { '' }
@@ -250,9 +256,10 @@ function Install-InnoAgent {
             Write-Step 'Config' "content hub: bundle @ $InnoHubUrl"
         }
         if ($InnoHubType -eq 'github') {
-            # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
+            # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub) at
+            # the released ref ($InnoHubRef, default "stable").
             $ContentHub = @{
-                type = 'github'; owner = 'karsarobert'; repo = 'inno-agent-hub'; ref = 'main'
+                type = 'github'; owner = 'karsarobert'; repo = 'inno-agent-hub'; ref = $InnoHubRef
                 skillsPath = 'skill-library'; presetsPath = 'workspace-templates'
                 baseUrl = ''; token = ''
             }
@@ -358,7 +365,7 @@ Start-Process "http://localhost:`$Port"
         Write-SubStep 'Content hub: DISABLED (no skills, no preset cards).'
         Write-SubStep 'To enable a hub later, use Settings > Content Hub in the UI.'
     } else {
-        Write-SubStep 'Content hub: GitHub karsarobert/inno-agent-hub (main)'
+        Write-SubStep "Content hub: GitHub karsarobert/inno-agent-hub ($InnoHubRef)"
         Write-SubStep 'To disable it, use Settings > Content Hub in the UI or INNO_HUB_TYPE=none.'
     }
     Write-Host ""

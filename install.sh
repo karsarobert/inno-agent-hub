@@ -18,10 +18,13 @@
 # to skip the question entirely.
 #
 # The content hub defaults to the teacher's GitHub hub (karsarobert/
-# inno-agent-hub, branch main) so skills and preset cards are available
-# right after install. Set INNO_HUB_TYPE=none for a fully offline install
-# (no skills, no preset cards), or INNO_HUB_TYPE=bundle + INNO_HUB_URL for
-# a self-hosted hub.
+# inno-agent-hub) so skills and preset cards are available right after
+# install. INNO_HUB_REF selects WHICH hub state an install follows and
+# defaults to "stable" — the released, teacher-validated snapshot — so a
+# fresh install never picks up half-finished work from main. Pin a specific
+# release with INNO_HUB_REF=<tag> (e.g. hu-2026.09.27) or a commit SHA.
+# Set INNO_HUB_TYPE=none for a fully offline install (no skills, no preset
+# cards), or INNO_HUB_TYPE=bundle + INNO_HUB_URL for a self-hosted hub.
 #
 # SPDX-License-Identifier: MIT
 # (2026-08-31: served via jsDelivr CDN — raw.githubusercontent.com returns HTTP 400 for
@@ -75,6 +78,9 @@ INNO_NODE_VER="${INNO_NODE_VER:-22}"
 # (e.g. an inno-hub on the local network).
 INNO_HUB_TYPE="${INNO_HUB_TYPE:-github}"
 INNO_HUB_URL="${INNO_HUB_URL:-}"
+# Which hub state an install follows. "stable" = the released snapshot
+# (main is the development line); a tag or commit SHA pins one exact release.
+INNO_HUB_REF="${INNO_HUB_REF:-stable}"
 INNO_PROVIDER_BASE_URL="${INNO_PROVIDER_BASE_URL:-}"
 INNO_PROVIDER_API_KEY="${INNO_PROVIDER_API_KEY:-}"
 INNO_PROVIDER_MODEL="${INNO_PROVIDER_MODEL:-}"
@@ -258,8 +264,9 @@ else
         HUB_BASE_URL_JSON="\"\""
     fi
     if [ "$INNO_HUB_TYPE" = "github" ]; then
-        # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub, main).
-        CONTENT_HUB_JSON="{ \"type\": \"github\", \"owner\": \"karsarobert\", \"repo\": \"inno-agent-hub\", \"ref\": \"main\", \"skillsPath\": \"skill-library\", \"presetsPath\": \"workspace-templates\", \"baseUrl\": \"\", \"token\": \"\" }"
+        # Default: the teacher's GitHub hub (karsarobert/inno-agent-hub) at the
+        # released ref (INNO_HUB_REF, default "stable").
+        CONTENT_HUB_JSON="{ \"type\": \"github\", \"owner\": \"karsarobert\", \"repo\": \"inno-agent-hub\", \"ref\": \"$INNO_HUB_REF\", \"skillsPath\": \"skill-library\", \"presetsPath\": \"workspace-templates\", \"baseUrl\": \"\", \"token\": \"\" }"
     else
         CONTENT_HUB_JSON="{ \"type\": \"$INNO_HUB_TYPE\", \"baseUrl\": $HUB_BASE_URL_JSON }"
     fi
@@ -378,7 +385,7 @@ elif [ "$INNO_HUB_TYPE" = "none" ]; then
     substep "Content hub: DISABLED (no skills, no preset cards)."
     substep "To enable a hub later, use Settings > Content Hub in the UI."
 else
-    substep "Content hub: GitHub karsarobert/inno-agent-hub (main)"
+    substep "Content hub: GitHub karsarobert/inno-agent-hub ($INNO_HUB_REF)"
     substep "To disable it, use Settings > Content Hub in the UI or INNO_HUB_TYPE=none."
 fi
 echo ""

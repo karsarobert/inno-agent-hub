@@ -167,12 +167,13 @@ irm https://cdn.jsdelivr.net/gh/karsarobert/inno-agent-hub/install.ps1 | iex
 |---|---|---|
 | `INNO_HOME` | `~/.local/opt/inno-agent` | Telepítési könyvtár |
 | `INNO_REPO_URL` | `https://github.com/karsarobert/inno-agent.git` | Forrás repo (az alkalmazás) |
-| `INNO_BRANCH` | `main` | Branch |
+| `INNO_BRANCH` | `main` | Az alkalmazás forrásának branch-e vagy tagje |
 | `INNO_PORT` | `3000` | Web UI portja |
 | `INNO_NODE_VER` | `22` | nvm-mel telepített Node verzió |
 | `INNO_SKIP_NODE_CHECK` | üres | `1` = Node-ellenőrzés átugrása |
 | `INNO_HUB_TYPE` | `github` | `none` / `bundle` / `github` |
 | `INNO_HUB_URL` | üres | Saját hub baseUrl — megadása `bundle` típusra állít |
+| `INNO_HUB_REF` | `stable` | Melyik hub-állapotot kövesse a telepítés: `stable` (kiadott verzió) / `main` (fejlesztés) / tag (pl. `hu-2026.09.27`) vagy commit-SHA |
 | `INNO_PROVIDER_BASE_URL` | üres (placeholder) | Alapértelmezett provider baseUrl |
 | `INNO_PROVIDER_API_KEY` | üres | Provider API kulcs (opcionális) |
 | `INNO_PROVIDER_MODEL` | üres (placeholder) | Alapértelmezett modell |
