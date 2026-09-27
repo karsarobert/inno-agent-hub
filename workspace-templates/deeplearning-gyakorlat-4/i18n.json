@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Deep Learning 4 — Practice Lab",
+      "description": "Guided learner workspace for the fourth lab of a beginner Deep Learning course (2×45 min), CPU only, 1.1 edition. The learner examines the effect of the learning rate, momentum, activations, a small neural network, L2 regularization and dropout on working examples, changing one setting at a time. Programs: environment check; how one weight approaches the minimum (G04_01); the path of two update rules (G04_02); activation and local derivative (G04_03); the effect of neuron count and training time on a small network (G04_04); weight penalty, loss and MAE (G04_05); random mask and the two modes (G04_06). Two optional extras (K04_01 softmax, K04_02 batch normalization) are only opened on explicit request or teacher decision. Every run gets a timestamped subfolder under nezet and the learner opens the figures. The lab closes with 10 fixed code-comprehension questions; run with the Run button or from the terminal, everything runs locally, no Colab and no GPU needed, no homework.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Deep Learning 4. gyakorlat",
+      "description": "Deep Learning kurzus 4. gyakorlatának (2×45 perc) vezetett hallgatói munkaterülete, 1.1 változat, CPU-n. A hallgató a tanulási ráta, a momentum, az aktivációk, egy kis neurális hálózat, az L2-regularizáció és a dropout hatását vizsgálja meg működő példákon, egy-egy beállítást módosítva. Programok: környezetellenőrzés; egy súly közeledése a minimumhoz (G04_01); két frissítési szabály útvonala (G04_02); aktiváció és lokális derivált (G04_03); a neuronszám és a tanítási idő hatása egy kis hálózaton (G04_04); súlybüntetés, loss és MAE (G04_05); véletlen maszk és a két üzemmód (G04_06). A két opcionális kiegészítés (K04_01 softmax, K04_02 batch normalization) csak kifejezett kérésre vagy oktatói döntésre nyílik meg. Minden futás időbélyeges almappát kap a nezet alatt, a képeket a hallgató nyitja meg. A gyakorlatot 10 rögzített kódértési kérdés zárja; futtatás Run gombbal vagy terminálból, minden helyben fut, Colab és GPU nélkül, nincs házi feladat.",
+      "category": "Programozás"
+    }
+  }
+}

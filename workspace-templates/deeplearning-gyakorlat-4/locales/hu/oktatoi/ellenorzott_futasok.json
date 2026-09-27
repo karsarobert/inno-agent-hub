@@ -1,0 +1,536 @@
+[
+  {
+    "case": "R1",
+    "file": "G04_01_tanulasi_rata.py",
+    "changes": {},
+    "total_seconds": 0.516,
+    "result": {
+      "tanulasi_rata": 0.1,
+      "lepesek_szama": 8,
+      "kezdo_suly": -1.0,
+      "vegso_suly": 2.32891136,
+      "vegso_veszteseg": 0.4503599627370493
+    }
+  },
+  {
+    "case": "R2",
+    "file": "G04_01_tanulasi_rata.py",
+    "changes": {
+      "tanulasi_rata": 0.8
+    },
+    "total_seconds": 0.565,
+    "result": {
+      "tanulasi_rata": 0.8,
+      "lepesek_szama": 8,
+      "kezdo_suly": -1.0,
+      "vegso_suly": 2.9328153599999998,
+      "vegso_veszteseg": 0.004513775851929632
+    }
+  },
+  {
+    "case": "R3",
+    "file": "G04_01_tanulasi_rata.py",
+    "changes": {
+      "tanulasi_rata": 1.1
+    },
+    "total_seconds": 0.573,
+    "result": {
+      "tanulasi_rata": 1.1,
+      "lepesek_szama": 8,
+      "kezdo_suly": -1.0,
+      "vegso_suly": -14.199267840000026,
+      "vegso_veszteseg": 295.8148142320592
+    }
+  },
+  {
+    "case": "R4",
+    "file": "G04_01_tanulasi_rata.py",
+    "changes": {
+      "lepesek_szama": 25
+    },
+    "total_seconds": 0.56,
+    "result": {
+      "tanulasi_rata": 0.1,
+      "lepesek_szama": 25,
+      "kezdo_suly": -1.0,
+      "vegso_suly": 2.984888427254817,
+      "vegso_veszteseg": 0.00022835963083295564
+    }
+  },
+  {
+    "case": "M1",
+    "file": "G04_02_momentum.py",
+    "changes": {},
+    "total_seconds": 0.571,
+    "result": {
+      "momentum": 0.9,
+      "tanulasi_rata": 0.1,
+      "lepesek_szama": 40,
+      "pontos_gradiens": true
+    }
+  },
+  {
+    "case": "M2",
+    "file": "G04_02_momentum.py",
+    "changes": {
+      "momentum": 0.0
+    },
+    "total_seconds": 0.545,
+    "result": {
+      "momentum": 0.0,
+      "tanulasi_rata": 0.1,
+      "lepesek_szama": 40,
+      "pontos_gradiens": true
+    }
+  },
+  {
+    "case": "A1",
+    "file": "G04_03_aktivaciok.py",
+    "changes": {},
+    "total_seconds": 0.498,
+    "result": {
+      "aktivacio": "sigmoid",
+      "negativ_meredekseg": 0.1,
+      "beerkezo_gradiens": 2.0,
+      "bemenetek": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "A2",
+    "file": "G04_03_aktivaciok.py",
+    "changes": {
+      "bemenetek": "np.array([-8.0, -1.0, 0.0, 1.0, 8.0])"
+    },
+    "total_seconds": 0.61,
+    "result": {
+      "aktivacio": "sigmoid",
+      "negativ_meredekseg": 0.1,
+      "beerkezo_gradiens": 2.0,
+      "bemenetek": [
+        -8.0,
+        -1.0,
+        0.0,
+        1.0,
+        8.0
+      ]
+    }
+  },
+  {
+    "case": "A3",
+    "file": "G04_03_aktivaciok.py",
+    "changes": {
+      "aktivacio": "relu"
+    },
+    "total_seconds": 0.531,
+    "result": {
+      "aktivacio": "relu",
+      "negativ_meredekseg": 0.1,
+      "beerkezo_gradiens": 2.0,
+      "bemenetek": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "A4",
+    "file": "G04_03_aktivaciok.py",
+    "changes": {
+      "aktivacio": "leaky_relu"
+    },
+    "total_seconds": 0.505,
+    "result": {
+      "aktivacio": "leaky_relu",
+      "negativ_meredekseg": 0.1,
+      "beerkezo_gradiens": 2.0,
+      "bemenetek": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "A5",
+    "file": "G04_03_aktivaciok.py",
+    "changes": {
+      "aktivacio": "leaky_relu",
+      "negativ_meredekseg": 0.2
+    },
+    "total_seconds": 0.477,
+    "result": {
+      "aktivacio": "leaky_relu",
+      "negativ_meredekseg": 0.2,
+      "beerkezo_gradiens": 2.0,
+      "bemenetek": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "H1",
+    "file": "G04_04_kis_halozat.py",
+    "changes": {},
+    "total_seconds": 5.365,
+    "result": {
+      "rejtett_neuronok": 8,
+      "epochok": 120,
+      "tanulasi_rata": 0.01,
+      "batch_meret": 16,
+      "veletlen_mag": 42,
+      "l2_erosseg": 0.0,
+      "kezdeti_sulyok": "ef0d3d6a70cdc98e",
+      "tanito_mae_vegso": 0.21893103420734406,
+      "validacios_mae_vegso": 0.25003641843795776,
+      "l2_buntetes": 0,
+      "validacios_loss_vegso": 0.25003641843795776,
+      "kernel_negyzetosszeg": 12.290649890899658,
+      "parameterek": 25,
+      "tanitas_es_meres_masodperc": 1.19,
+      "eszkoz": "CPU",
+      "tanito_mintak": 64,
+      "validacios_mintak": 128,
+      "adatmag": 2026,
+      "legjobb_val_mae_epocha": 120,
+      "ertekelt_allapot": "utolso epocha; nincs suly-visszaallitas",
+      "teszt_hasznalata": false
+    }
+  },
+  {
+    "case": "H2",
+    "file": "G04_04_kis_halozat.py",
+    "changes": {
+      "REJTETT_NEURONOK": 64
+    },
+    "total_seconds": 5.297,
+    "result": {
+      "rejtett_neuronok": 64,
+      "epochok": 120,
+      "tanulasi_rata": 0.01,
+      "batch_meret": 16,
+      "veletlen_mag": 42,
+      "l2_erosseg": 0.0,
+      "kezdeti_sulyok": "6a5eb0a5c3bc96b4",
+      "tanito_mae_vegso": 0.2184283435344696,
+      "validacios_mae_vegso": 0.2569010853767395,
+      "l2_buntetes": 0,
+      "validacios_loss_vegso": 0.2569010853767395,
+      "kernel_negyzetosszeg": 12.343403339385986,
+      "parameterek": 193,
+      "tanitas_es_meres_masodperc": 1.371,
+      "eszkoz": "CPU",
+      "tanito_mintak": 64,
+      "validacios_mintak": 128,
+      "adatmag": 2026,
+      "legjobb_val_mae_epocha": 104,
+      "ertekelt_allapot": "utolso epocha; nincs suly-visszaallitas",
+      "teszt_hasznalata": false
+    }
+  },
+  {
+    "case": "H3",
+    "file": "G04_04_kis_halozat.py",
+    "changes": {
+      "REJTETT_NEURONOK": 64,
+      "EPOCHOK": 400
+    },
+    "total_seconds": 7.128,
+    "result": {
+      "rejtett_neuronok": 64,
+      "epochok": 400,
+      "tanulasi_rata": 0.01,
+      "batch_meret": 16,
+      "veletlen_mag": 42,
+      "l2_erosseg": 0.0,
+      "kezdeti_sulyok": "6a5eb0a5c3bc96b4",
+      "tanito_mae_vegso": 0.2061385214328766,
+      "validacios_mae_vegso": 0.25974178314208984,
+      "l2_buntetes": 0,
+      "validacios_loss_vegso": 0.25974178314208984,
+      "kernel_negyzetosszeg": 12.348136901855469,
+      "parameterek": 193,
+      "tanitas_es_meres_masodperc": 3.218,
+      "eszkoz": "CPU",
+      "tanito_mintak": 64,
+      "validacios_mintak": 128,
+      "adatmag": 2026,
+      "legjobb_val_mae_epocha": 104,
+      "ertekelt_allapot": "utolso epocha; nincs suly-visszaallitas",
+      "teszt_hasznalata": false
+    }
+  },
+  {
+    "case": "REG0",
+    "file": "G04_05_l2_regularizacio.py",
+    "changes": {},
+    "total_seconds": 4.864,
+    "result": {
+      "rejtett_neuronok": 64,
+      "epochok": 120,
+      "tanulasi_rata": 0.01,
+      "batch_meret": 16,
+      "veletlen_mag": 42,
+      "l2_erosseg": 0.0,
+      "kezdeti_sulyok": "6a5eb0a5c3bc96b4",
+      "tanito_mae_vegso": 0.2184283435344696,
+      "validacios_mae_vegso": 0.2569010853767395,
+      "l2_buntetes": 0.0,
+      "validacios_loss_vegso": 0.2569010853767395,
+      "kernel_negyzetosszeg": 12.343403339385986,
+      "parameterek": 193,
+      "tanitas_es_meres_masodperc": 1.222,
+      "eszkoz": "CPU",
+      "tanito_mintak": 64,
+      "validacios_mintak": 128,
+      "adatmag": 2026,
+      "legjobb_val_mae_epocha": 104,
+      "ertekelt_allapot": "utolso epocha; nincs suly-visszaallitas",
+      "teszt_hasznalata": false
+    }
+  },
+  {
+    "case": "REG1",
+    "file": "G04_05_l2_regularizacio.py",
+    "changes": {
+      "L2_EROSSEG": "0.001"
+    },
+    "total_seconds": 4.883,
+    "result": {
+      "rejtett_neuronok": 64,
+      "epochok": 120,
+      "tanulasi_rata": 0.01,
+      "batch_meret": 16,
+      "veletlen_mag": 42,
+      "l2_erosseg": 0.001,
+      "kezdeti_sulyok": "6a5eb0a5c3bc96b4",
+      "tanito_mae_vegso": 0.21964389085769653,
+      "validacios_mae_vegso": 0.25151529908180237,
+      "l2_buntetes": 0.011499765794724226,
+      "validacios_loss_vegso": 0.2630150648765266,
+      "kernel_negyzetosszeg": 11.499765872955322,
+      "parameterek": 193,
+      "tanitas_es_meres_masodperc": 1.314,
+      "eszkoz": "CPU",
+      "tanito_mintak": 64,
+      "validacios_mintak": 128,
+      "adatmag": 2026,
+      "legjobb_val_mae_epocha": 88,
+      "ertekelt_allapot": "utolso epocha; nincs suly-visszaallitas",
+      "teszt_hasznalata": false
+    }
+  },
+  {
+    "case": "REG2",
+    "file": "G04_05_l2_regularizacio.py",
+    "changes": {
+      "L2_EROSSEG": 0.05
+    },
+    "total_seconds": 4.834,
+    "result": {
+      "rejtett_neuronok": 64,
+      "epochok": 120,
+      "tanulasi_rata": 0.01,
+      "batch_meret": 16,
+      "veletlen_mag": 42,
+      "l2_erosseg": 0.05,
+      "kezdeti_sulyok": "6a5eb0a5c3bc96b4",
+      "tanito_mae_vegso": 0.3652307987213135,
+      "validacios_mae_vegso": 0.38075315952301025,
+      "l2_buntetes": 0.27917400002479553,
+      "validacios_loss_vegso": 0.6599271595478058,
+      "kernel_negyzetosszeg": 5.583479881286621,
+      "parameterek": 193,
+      "tanitas_es_meres_masodperc": 1.272,
+      "eszkoz": "CPU",
+      "tanito_mintak": 64,
+      "validacios_mintak": 128,
+      "adatmag": 2026,
+      "legjobb_val_mae_epocha": 112,
+      "ertekelt_allapot": "utolso epocha; nincs suly-visszaallitas",
+      "teszt_hasznalata": false
+    }
+  },
+  {
+    "case": "D1",
+    "file": "G04_06_dropout.py",
+    "changes": {},
+    "total_seconds": 0.459,
+    "result": {
+      "kiesesi_arany": 0.5,
+      "tanitasi_mod": true,
+      "veletlen_mag": 42,
+      "kimenetek": [
+        0.4,
+        0.0,
+        2.6,
+        1.6,
+        0.0,
+        0.8,
+        1.4,
+        2.0
+      ]
+    }
+  },
+  {
+    "case": "D2",
+    "file": "G04_06_dropout.py",
+    "changes": {
+      "kiesesi_arany": 0.25
+    },
+    "total_seconds": 0.48,
+    "result": {
+      "kiesesi_arany": 0.25,
+      "tanitasi_mod": true,
+      "veletlen_mag": 42,
+      "kimenetek": [
+        0.26666666666666666,
+        0.6666666666666666,
+        1.7333333333333334,
+        1.0666666666666667,
+        0.0,
+        0.5333333333333333,
+        0.9333333333333332,
+        1.3333333333333333
+      ]
+    }
+  },
+  {
+    "case": "D3",
+    "file": "G04_06_dropout.py",
+    "changes": {
+      "kiesesi_arany": 0.25,
+      "veletlen_mag": 43
+    },
+    "total_seconds": 0.458,
+    "result": {
+      "kiesesi_arany": 0.25,
+      "tanitasi_mod": true,
+      "veletlen_mag": 43,
+      "kimenetek": [
+        0.26666666666666666,
+        0.0,
+        0.0,
+        1.0666666666666667,
+        1.4666666666666668,
+        0.0,
+        0.9333333333333332,
+        1.3333333333333333
+      ]
+    }
+  },
+  {
+    "case": "D4",
+    "file": "G04_06_dropout.py",
+    "changes": {
+      "kiesesi_arany": 0.25,
+      "veletlen_mag": 43,
+      "tanitasi_mod": false
+    },
+    "total_seconds": 0.468,
+    "result": {
+      "kiesesi_arany": 0.25,
+      "tanitasi_mod": false,
+      "veletlen_mag": 43,
+      "kimenetek": [
+        0.2,
+        0.5,
+        1.3,
+        0.8,
+        1.1,
+        0.4,
+        0.7,
+        1.0
+      ]
+    }
+  },
+  {
+    "case": "S1",
+    "file": "K04_01_softmax.py",
+    "changes": {},
+    "total_seconds": 0.494,
+    "result": {
+      "logitok": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "kozos_eltolas": 0.0
+    }
+  },
+  {
+    "case": "S2",
+    "file": "K04_01_softmax.py",
+    "changes": {
+      "kozos_eltolas": "1000.0"
+    },
+    "total_seconds": 0.485,
+    "result": {
+      "logitok": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "kozos_eltolas": 1000.0
+    }
+  },
+  {
+    "case": "B1",
+    "file": "K04_02_batch_normalization.py",
+    "changes": {},
+    "total_seconds": 0.53,
+    "result": {
+      "gamma": 1.0,
+      "beta": 0.0,
+      "tanitasi_mod": true,
+      "hasznalt_atlag": 2.5,
+      "hasznalt_variancia": 1.25
+    }
+  },
+  {
+    "case": "B2",
+    "file": "K04_02_batch_normalization.py",
+    "changes": {
+      "gamma": "2.0",
+      "beta": "1.0"
+    },
+    "total_seconds": 0.452,
+    "result": {
+      "gamma": 2.0,
+      "beta": 1.0,
+      "tanitasi_mod": true,
+      "hasznalt_atlag": 2.5,
+      "hasznalt_variancia": 1.25
+    }
+  },
+  {
+    "case": "B3",
+    "file": "K04_02_batch_normalization.py",
+    "changes": {
+      "tanitasi_mod": "False",
+      "bemenetek": "np.array([2.0, 3.0, 4.0, 5.0])"
+    },
+    "total_seconds": 0.42,
+    "result": {
+      "gamma": 1.0,
+      "beta": 0.0,
+      "tanitasi_mod": false,
+      "hasznalt_atlag": 2.5,
+      "hasznalt_variancia": 1.25
+    }
+  }
+]
