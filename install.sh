@@ -66,7 +66,10 @@ die()     { printf "${C_ERR}ERROR: %s${C_RST}\n" "$1" >&2; exit 1; }
 # ── Options (env vars; defaults for a clean install) ──
 INNO_HOME="${INNO_HOME:-$HOME/.local/opt/inno-agent}"
 INNO_REPO_URL="${INNO_REPO_URL:-https://github.com/karsarobert/inno-agent.git}"
-INNO_BRANCH="${INNO_BRANCH:-main}"
+# Default ref: the published release branch ("stable"), NOT "main", so a fresh
+# install gets the validated snapshot instead of half-finished development work.
+# Override with INNO_BRANCH=<branch|tag|sha>.
+INNO_BRANCH="${INNO_BRANCH:-stable}"
 INNO_PORT="${INNO_PORT:-3000}"
 INNO_SKIP_BUILD="${INNO_SKIP_BUILD:-0}"
 INNO_SKIP_START="${INNO_SKIP_START:-0}"
@@ -150,11 +153,31 @@ step "Prereq" "npm $(npm --version)"
 step "Install" "preparing $INNO_HOME..."
 if [ -d "$INNO_HOME/.git" ]; then
     step "Install" "updating existing checkout..."
-    ( cd "$INNO_HOME" && git fetch origin "$INNO_BRANCH" >/dev/null 2>&1 && git checkout -q "$INNO_BRANCH" && git pull -q --ff-only )
+    (
+        cd "$INNO_HOME"
+        # An earlier install is a single-branch shallow clone, where
+        # "git fetch origin <ref>" only writes FETCH_HEAD -- switching the ref
+        # (e.g. main -> stable) would then fail. Widen the fetch refspec once so
+        # the configured ref can always be selected on later updates.
+        git config --get-all remote.origin.fetch | grep -q 'refs/heads/\*' \
+            || git config --add remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+        git config --get-all remote.origin.fetch | grep -q 'refs/tags/\*' \
+            || git config --add remote.origin.fetch '+refs/tags/*:refs/tags/*'
+        git fetch -q origin "$INNO_BRANCH" || die "git fetch failed: $INNO_BRANCH"
+        git checkout -q "$INNO_BRANCH" 2>/dev/null \
+            || git checkout -q -b "$INNO_BRANCH" FETCH_HEAD \
+            || die "cannot check out $INNO_BRANCH"
+        if git symbolic-ref -q HEAD >/dev/null; then
+            git pull -q --ff-only || die "git pull --ff-only failed in $INNO_HOME"
+        else
+            substep "$INNO_BRANCH is a release snapshot (tag); staying on the pinned state"
+        fi
+    ) || die "update failed in $INNO_HOME"
 else
     mkdir -p "$(dirname "$INNO_HOME")"
     git clone -q --depth 1 --branch "$INNO_BRANCH" "$INNO_REPO_URL" "$INNO_HOME" || die "git clone failed: $INNO_REPO_URL"
 fi
+substep "app ref: $INNO_BRANCH @ $(git -C "$INNO_HOME" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 step "Install" "repo ready"
 
 # The inno-agent repo root IS the app (npm monorepo: package.json at root).

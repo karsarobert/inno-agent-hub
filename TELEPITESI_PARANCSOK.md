@@ -167,7 +167,7 @@ irm https://cdn.jsdelivr.net/gh/karsarobert/inno-agent-hub/install.ps1 | iex
 |---|---|---|
 | `INNO_HOME` | `~/.local/opt/inno-agent` | Telepítési könyvtár |
 | `INNO_REPO_URL` | `https://github.com/karsarobert/inno-agent.git` | Forrás repo (az alkalmazás) |
-| `INNO_BRANCH` | `main` | Az alkalmazás forrásának branch-e vagy tagje |
+| `INNO_BRANCH` | `stable` | Az alkalmazás forrásának branch-e vagy tagje (`stable` = kiadott verzió, `main` = fejlesztés; tag/SHA egy pontos kiadást rögzít) |
 | `INNO_PORT` | `3000` | Web UI portja |
 | `INNO_NODE_VER` | `22` | nvm-mel telepített Node verzió |
 | `INNO_SKIP_NODE_CHECK` | üres | `1` = Node-ellenőrzés átugrása |

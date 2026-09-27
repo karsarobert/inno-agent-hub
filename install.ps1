@@ -105,7 +105,10 @@ function Install-InnoAgent {
     # ── Options (env vars; defaults for a clean install) ──
     $InnoHome = if ($env:INNO_HOME) { $env:INNO_HOME } else { Join-Path $env:USERPROFILE '.local\opt\inno-agent' }
     $InnoRepoUrl = if ($env:INNO_REPO_URL) { $env:INNO_REPO_URL } else { 'https://github.com/karsarobert/inno-agent.git' }
-    $InnoBranch = if ($env:INNO_BRANCH) { $env:INNO_BRANCH } else { 'main' }
+    # Default ref: the published release branch ("stable"), NOT "main", so a fresh
+    # install gets the validated snapshot instead of half-finished development work.
+    # Override with INNO_BRANCH=<branch|tag|sha>.
+    $InnoBranch = if ($env:INNO_BRANCH) { $env:INNO_BRANCH } else { 'stable' }
     $InnoPort = if ($env:INNO_PORT) { $env:INNO_PORT } else { '3000' }
     $InnoSkipBuild = $env:INNO_SKIP_BUILD -eq '1'
     $InnoSkipStart = $env:INNO_SKIP_START -eq '1'
@@ -157,16 +160,36 @@ function Install-InnoAgent {
         Write-Step 'Install' 'updating existing checkout...'
         Push-Location $InnoHome
         try {
-            Invoke-Native 'git' @('fetch', 'origin', $InnoBranch) | Out-Null
-            Invoke-Native 'git' @('checkout', '-q', $InnoBranch) | Out-Null
-            $pullCode = Invoke-Native 'git' @('pull', '-q', '--ff-only')
-            if ($pullCode -ne 0) { Write-Err 'git pull failed.' }
+            # An earlier install is a single-branch shallow clone, where
+            # "git fetch origin <ref>" only writes FETCH_HEAD -- switching the ref
+            # (e.g. main -> stable) would then fail. Widen the fetch refspec once so
+            # the configured ref can always be selected on later updates.
+            $refspecs = @(& git config --get-all remote.origin.fetch)
+            if (-not ($refspecs | Where-Object { $_ -like '*refs/heads/*' })) {
+                Invoke-Native 'git' @('config', '--add', 'remote.origin.fetch', '+refs/heads/*:refs/remotes/origin/*') | Out-Null
+            }
+            if (-not ($refspecs | Where-Object { $_ -like '*refs/tags/*' })) {
+                Invoke-Native 'git' @('config', '--add', 'remote.origin.fetch', '+refs/tags/*:refs/tags/*') | Out-Null
+            }
+            Invoke-Native 'git' @('fetch', '-q', 'origin', $InnoBranch) | Out-Null
+            $checkoutCode = Invoke-Native 'git' @('checkout', '-q', $InnoBranch)
+            if ($checkoutCode -ne 0) {
+                $checkoutCode = Invoke-Native 'git' @('checkout', '-q', '-b', $InnoBranch, 'FETCH_HEAD')
+            }
+            if ($checkoutCode -ne 0) { Write-Err "cannot check out $InnoBranch" }
+            if ((Invoke-Native 'git' @('symbolic-ref', '-q', 'HEAD')) -eq 0) {
+                $pullCode = Invoke-Native 'git' @('pull', '-q', '--ff-only')
+                if ($pullCode -ne 0) { Write-Err 'git pull failed.' }
+            } else {
+                Write-SubStep "$InnoBranch is a release snapshot (tag); staying on the pinned state."
+            }
         } finally { Pop-Location }
     } else {
         New-Item -ItemType Directory -Force -Path (Split-Path $InnoHome) | Out-Null
         $cloneCode = Invoke-Native 'git' @('clone', '-q', '--depth', '1', '--branch', $InnoBranch, $InnoRepoUrl, $InnoHome)
         if ($cloneCode -ne 0) { Write-Err "git clone failed: $InnoRepoUrl" }
     }
+    Write-SubStep ("app ref: {0} @ {1}" -f $InnoBranch, (& git -C $InnoHome rev-parse --short HEAD 2>$null))
     Write-Step 'Install' 'repo ready'
 
     # The inno-agent repo root IS the app (npm monorepo: package.json at root).
