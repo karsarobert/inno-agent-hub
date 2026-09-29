@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "purpose": "Tutor által olvasható helyi feladattérkép és időterv, nem Inno Agent-konfigurációs séma.",
+  "lesson": "EP_04",
+  "version": "1.1.0",
+  "teaching_mode": "explain_example_student_adapts_scaffolds_runs_reviews",
+  "duration_minutes": 90,
+  "break_included": false,
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Terméknév egységesítése",
+      "file": "szoveg.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 9,
+      "html_section": "metodusok",
+      "concept_ids": [
+        "ep04.string_methods",
+        "ep04.return"
+      ],
+      "acceptance": [
+        "A paramétert dolgozza fel, nem egy beégetett kávé szót ad vissza.",
+        "A return a feldolgozott szöveget adja. Az eredeti változó és az új érték szerepe világos."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "T1.1",
+        "T1.2"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Rendelési kód és szelet",
+      "file": "kodresz.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 7,
+      "html_section": "indexeles",
+      "concept_ids": [
+        "ep04.index",
+        "ep04.slice",
+        "ep04.empty_input"
+      ],
+      "acceptance": [
+        "A nem üres ág használ indexelést és szeletelést.",
+        "Az üres esetben nincs IndexError; a 042 megőrzi a vezető nullát."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "T2.1",
+        "T2.2",
+        "T2.3"
+      ]
+    },
+    {
+      "id": "T3",
+      "title": "Feltételes számlálás szövegen",
+      "file": "karakterszam.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 7,
+      "html_section": "bejaras",
+      "concept_ids": [
+        "ep04.string_iteration",
+        "ep04.counter"
+      ],
+      "acceptance": [
+        "A paraméter szövegét járja be, nagybetűt is kezel.",
+        "A számláló nem nullázódik minden körben, üres szövegre 0 tér vissza.",
+        "Ebben a feladatban valódi feltételes ciklus kell, nem beépített count hívások összege."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "T3.1",
+        "T3.2"
+      ]
+    },
+    {
+      "id": "L1",
+      "title": "Kosár módosítása metódusokkal",
+      "file": "listamuveletek.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 9,
+      "html_section": "listamuveletek",
+      "concept_ids": [
+        "ep04.list_mutation",
+        "ep04.method_returns",
+        "ep04.guards"
+      ],
+      "acceptance": [
+        "Az append visszatérési értékét nem rendeli a kosar névhez.",
+        "A pop és remove előtt megfelelő ellenőrzés áll.",
+        "A remove csak egy kávét töröl; itt a count használata kifejezetten cél.",
+        "A hiányüzenet a tényleges keresett termékről szól: tea keresésekor nem állíthatja, hogy nincs kávé."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "L1.1",
+        "L1.2"
+      ]
+    },
+    {
+      "id": "L2",
+      "title": "Rendelési sor feldolgozása",
+      "file": "feldolgozas.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 10,
+      "html_section": "split-join",
+      "concept_ids": [
+        "ep04.split_join",
+        "ep04.filter",
+        "ep04.list_building"
+      ],
+      "acceptance": [
+        "A paraméterként kapott kínálatot használja, nem egy külön beégetett listát.",
+        "Új listát épít, minden darabot egységesít, ismétlődést megtart, return a ciklus után.",
+        "A sztring visszaalakítása és a lista tárolása külön művelet.",
+        "A hívó rész join segítségével Rendelés: feliratú szöveget is kiír; a lista kiírása önmagában nem elég."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "L2.1",
+        "L2.2"
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Az első blokk lezárása",
+      "file": null,
+      "required": true,
+      "block": 1,
+      "planned_minutes": 3,
+      "html_section": "osszegzes",
+      "concept_ids": [
+        "ep04.reflection"
+      ],
+      "acceptance": [
+        "Rövid, valós folytatási pont; nincs új feladat vagy kimenetjóslás."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": []
+    },
+    {
+      "id": "B1",
+      "title": "Élő kosár, fizetés nélkül",
+      "file": "kosar_04.py",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 18,
+      "html_section": "elo-kosar",
+      "concept_ids": [
+        "ep04.interactive_basket",
+        "ep04.while",
+        "ep04.commands",
+        "ep04.guards"
+      ],
+      "acceptance": [
+        "A ciklus valóban új inputot kér, a lista nem nullázódik minden körben.",
+        "Csak egységesített, kínálatbeli termék jut a kosárba; a parancsok nem.",
+        "Üres kosáron a mégse nem okoz hibát.",
+        "A kész kosarat visszaadja, és nincs fizetési kérdés ebben a fájlban."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "B1.1",
+        "B1.2",
+        "B1.3"
+      ],
+      "parts": [
+        "B1.a – ismételt bekérés és hozzáadás (11 perc)",
+        "B1.b – visszavonás és üres kosár (7 perc)"
+      ]
+    },
+    {
+      "id": "B2",
+      "title": "Összekapcsolás a fizetéssel",
+      "file": "bufe_04.py",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 12,
+      "html_section": "bufe",
+      "concept_ids": [
+        "ep04.composition",
+        "ep04.boolean_input",
+        "ep04.empty_input",
+        "ep04.payment"
+      ],
+      "acceptance": [
+        "A saját kosárfüggvényt használja; nem egy rögzített lista kerül a helyére.",
+        "Az igen/nem bekérés minden új választ egységesít, megfelelő bool értéket ad.",
+        "Üres kosárnál nincs diákság- vagy pénzkérdés.",
+        "A teljes kosárra számol, és visszajárót csak elégséges összeg után ír."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "B2.1",
+        "B2.2",
+        "B2.3"
+      ],
+      "parts": [
+        "B2.a – saját definíciók és igen/nem bekérés (5 perc)",
+        "B2.b – főprogram és próbák (7 perc)"
+      ]
+    },
+    {
+      "id": "Z1",
+      "title": "Önálló törlés név szerint",
+      "file": "onallo.py",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 12,
+      "html_section": "feladatok",
+      "concept_ids": [
+        "ep04.independent_transfer",
+        "ep04.list_mutation",
+        "ep04.boolean_return"
+      ],
+      "acceptance": [
+        "Az első egyezést törli; a kávé ismétlődése megmaradhat.",
+        "A paramétereket használja, a keresést egységesíti, bool értéket ad.",
+        "Hiányzó terméknél és üres listán nincs kivétel és nem módosul a lista.",
+        "A tanuló saját próbahívásai és a lista utóállapotai is ismertek."
+      ],
+      "instructions": "zaro_feladatok.md",
+      "tests": [
+        "Z1.1",
+        "Z1.2",
+        "Z1.3",
+        "Z1.4"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Lezárás és folytatási pont",
+      "file": null,
+      "required": true,
+      "block": 2,
+      "planned_minutes": 3,
+      "html_section": "osszegzes",
+      "concept_ids": [
+        "ep04.reflection"
+      ],
+      "acceptance": [
+        "A lezárás a tényleges eredményen alapul, és egyértelműen kimondja, hogy az óra véget ért."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": []
+    },
+    {
+      "id": "K1",
+      "title": "Insert, index és clear",
+      "file": "listamuveletek.py",
+      "required": false,
+      "planned_minutes": 8,
+      "concept_ids": [
+        "ep04.list_mutation"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K2",
+      "title": "Szövegkeresés és rövidítés",
+      "file": "szoveg.py",
+      "required": false,
+      "planned_minutes": 10,
+      "concept_ids": [
+        "ep04.string_methods"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K3",
+      "title": "Másolat és beágyazott kosarak",
+      "file": "listamuveletek.py",
+      "required": false,
+      "planned_minutes": 10,
+      "concept_ids": [
+        "ep04.nested_lists"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K4",
+      "title": "Összeg, átlag, maximum",
+      "file": "feldolgozas.py",
+      "required": false,
+      "planned_minutes": 10,
+      "concept_ids": [
+        "ep04.aggregation"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K5",
+      "title": "Résztvevők és véletlen sorsolás",
+      "file": "onallo.py",
+      "required": false,
+      "planned_minutes": 12,
+      "concept_ids": [
+        "ep04.random"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K6",
+      "title": "Napi ajánlat a büfében",
+      "file": "bufe_04.py",
+      "required": false,
+      "planned_minutes": 18,
+      "concept_ids": [
+        "ep04.composition"
+      ],
+      "instructions": "tovabbi_gyakorlas.md"
+    }
+  ]
+}

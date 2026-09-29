@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Elementary Programming 4 — Practice Lab (EP_04)",
+      "description": "Fourth Python practice of a Programming Basics course (lesson EP_04): unifying text, indexing and slicing, iterating over characters, list operations, split/join and filtering, then assembling the basket that grows while the program runs and connecting it to payment — an explanatory tutor, editable starter programs, checking cases, student-written code and runs, with a detailed HTML course.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Elemi programozás 4. gyakorlat",
+      "description": "Programozás alapjai kurzus negyedik Python-gyakorlata (EP_04): szövegek egységesítése, indexelés és szeletelés, karakterbejárás, listaműveletek, split/join és szűrés, majd futás közben épülő kosár összekapcsolása a fizetéssel — magyarázó tutor, módosítható minta-programok, ellenőrző esetek, saját kódírás és futtatás, részletes HTML-tananyaggal.",
+      "category": "Programozás"
+    }
+  }
+}
