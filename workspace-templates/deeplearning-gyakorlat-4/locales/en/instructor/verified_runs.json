@@ -1,0 +1,538 @@
+[
+  {
+    "case": "R1",
+    "file": "G04_01_learning_rate.py",
+    "changes": {},
+    "total_seconds": 0.636,
+    "result": {
+      "learning_rate": 0.1,
+      "number_of_steps": 8,
+      "initial_weight": -1.0,
+      "final_weight": 2.32891136,
+      "final_loss": 0.4503599627370493
+    }
+  },
+  {
+    "case": "R2",
+    "file": "G04_01_learning_rate.py",
+    "changes": {
+      "learning_rate": "0.8"
+    },
+    "total_seconds": 0.689,
+    "result": {
+      "learning_rate": 0.8,
+      "number_of_steps": 8,
+      "initial_weight": -1.0,
+      "final_weight": 2.9328153599999998,
+      "final_loss": 0.004513775851929632
+    }
+  },
+  {
+    "case": "R3",
+    "file": "G04_01_learning_rate.py",
+    "changes": {
+      "learning_rate": "1.1"
+    },
+    "total_seconds": 0.652,
+    "result": {
+      "learning_rate": 1.1,
+      "number_of_steps": 8,
+      "initial_weight": -1.0,
+      "final_weight": -14.199267840000026,
+      "final_loss": 295.8148142320592
+    }
+  },
+  {
+    "case": "R4",
+    "file": "G04_01_learning_rate.py",
+    "changes": {
+      "number_of_steps": "25"
+    },
+    "total_seconds": 0.707,
+    "result": {
+      "learning_rate": 0.1,
+      "number_of_steps": 25,
+      "initial_weight": -1.0,
+      "final_weight": 2.984888427254817,
+      "final_loss": 0.00022835963083295564
+    }
+  },
+  {
+    "case": "M1",
+    "file": "G04_02_momentum.py",
+    "changes": {},
+    "total_seconds": 0.622,
+    "result": {
+      "momentum": 0.9,
+      "learning_rate": 0.1,
+      "number_of_steps": 40,
+      "exact_gradient": true
+    }
+  },
+  {
+    "case": "M2",
+    "file": "G04_02_momentum.py",
+    "changes": {
+      "momentum": "0.0"
+    },
+    "total_seconds": 0.67,
+    "result": {
+      "momentum": 0.0,
+      "learning_rate": 0.1,
+      "number_of_steps": 40,
+      "exact_gradient": true
+    }
+  },
+  {
+    "case": "A1",
+    "file": "G04_03_activations.py",
+    "changes": {},
+    "total_seconds": 0.607,
+    "result": {
+      "activation": "sigmoid",
+      "negative_slope": 0.1,
+      "incoming_gradient": 2.0,
+      "inputs": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "A2",
+    "file": "G04_03_activations.py",
+    "changes": {
+      "inputs": "np.array([-8.0, -1.0, 0.0, 1.0, 8.0])"
+    },
+    "total_seconds": 0.579,
+    "result": {
+      "activation": "sigmoid",
+      "negative_slope": 0.1,
+      "incoming_gradient": 2.0,
+      "inputs": [
+        -8.0,
+        -1.0,
+        0.0,
+        1.0,
+        8.0
+      ]
+    }
+  },
+  {
+    "case": "A3",
+    "file": "G04_03_activations.py",
+    "changes": {
+      "activation": "\"relu\""
+    },
+    "total_seconds": 0.539,
+    "result": {
+      "activation": "relu",
+      "negative_slope": 0.1,
+      "incoming_gradient": 2.0,
+      "inputs": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "A4",
+    "file": "G04_03_activations.py",
+    "changes": {
+      "activation": "\"leaky_relu\""
+    },
+    "total_seconds": 0.525,
+    "result": {
+      "activation": "leaky_relu",
+      "negative_slope": 0.1,
+      "incoming_gradient": 2.0,
+      "inputs": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "A5",
+    "file": "G04_03_activations.py",
+    "changes": {
+      "activation": "\"leaky_relu\"",
+      "negative_slope": "0.2"
+    },
+    "total_seconds": 0.564,
+    "result": {
+      "activation": "leaky_relu",
+      "negative_slope": 0.2,
+      "incoming_gradient": 2.0,
+      "inputs": [
+        -6.0,
+        -1.0,
+        0.0,
+        1.0,
+        6.0
+      ]
+    }
+  },
+  {
+    "case": "H1",
+    "file": "G04_04_small_network.py",
+    "changes": {},
+    "total_seconds": 5.174,
+    "result": {
+      "hidden_units": 8,
+      "epochs": 120,
+      "learning_rate": 0.01,
+      "batch_size": 16,
+      "random_seed": 42,
+      "l2_strength": 0.0,
+      "initial_weights": "ef0d3d6a70cdc98e",
+      "final_training_mae": 0.21893103420734406,
+      "final_validation_mae": 0.25003641843795776,
+      "l2_penalty": 0,
+      "final_validation_loss": 0.25003641843795776,
+      "kernel_sum_of_squares": 12.290649890899658,
+      "parameters": 25,
+      "training_and_measurement_seconds": 1.342,
+      "device": "CPU",
+      "training_samples": 64,
+      "validation_samples": 128,
+      "data_seed": 2026,
+      "best_val_mae_epoch": 120,
+      "evaluated_state": "last epoch; no weight restoration",
+      "test_set_used": false
+    }
+  },
+  {
+    "case": "H2",
+    "file": "G04_04_small_network.py",
+    "changes": {
+      "HIDDEN_UNITS": "64"
+    },
+    "total_seconds": 5.022,
+    "result": {
+      "hidden_units": 64,
+      "epochs": 120,
+      "learning_rate": 0.01,
+      "batch_size": 16,
+      "random_seed": 42,
+      "l2_strength": 0.0,
+      "initial_weights": "6a5eb0a5c3bc96b4",
+      "final_training_mae": 0.2184283435344696,
+      "final_validation_mae": 0.2569010853767395,
+      "l2_penalty": 0,
+      "final_validation_loss": 0.2569010853767395,
+      "kernel_sum_of_squares": 12.343403339385986,
+      "parameters": 193,
+      "training_and_measurement_seconds": 1.271,
+      "device": "CPU",
+      "training_samples": 64,
+      "validation_samples": 128,
+      "data_seed": 2026,
+      "best_val_mae_epoch": 104,
+      "evaluated_state": "last epoch; no weight restoration",
+      "test_set_used": false
+    }
+  },
+  {
+    "case": "H3",
+    "file": "G04_04_small_network.py",
+    "changes": {
+      "HIDDEN_UNITS": "64",
+      "EPOCHS": "400"
+    },
+    "total_seconds": 6.988,
+    "result": {
+      "hidden_units": 64,
+      "epochs": 400,
+      "learning_rate": 0.01,
+      "batch_size": 16,
+      "random_seed": 42,
+      "l2_strength": 0.0,
+      "initial_weights": "6a5eb0a5c3bc96b4",
+      "final_training_mae": 0.2061385214328766,
+      "final_validation_mae": 0.25974178314208984,
+      "l2_penalty": 0,
+      "final_validation_loss": 0.25974178314208984,
+      "kernel_sum_of_squares": 12.348136901855469,
+      "parameters": 193,
+      "training_and_measurement_seconds": 3.368,
+      "device": "CPU",
+      "training_samples": 64,
+      "validation_samples": 128,
+      "data_seed": 2026,
+      "best_val_mae_epoch": 104,
+      "evaluated_state": "last epoch; no weight restoration",
+      "test_set_used": false
+    }
+  },
+  {
+    "case": "REG0",
+    "file": "G04_05_l2_regularization.py",
+    "changes": {},
+    "total_seconds": 5.186,
+    "result": {
+      "hidden_units": 64,
+      "epochs": 120,
+      "learning_rate": 0.01,
+      "batch_size": 16,
+      "random_seed": 42,
+      "l2_strength": 0.0,
+      "initial_weights": "6a5eb0a5c3bc96b4",
+      "final_training_mae": 0.2184283435344696,
+      "final_validation_mae": 0.2569010853767395,
+      "l2_penalty": 0.0,
+      "final_validation_loss": 0.2569010853767395,
+      "kernel_sum_of_squares": 12.343403339385986,
+      "parameters": 193,
+      "training_and_measurement_seconds": 1.328,
+      "device": "CPU",
+      "training_samples": 64,
+      "validation_samples": 128,
+      "data_seed": 2026,
+      "best_val_mae_epoch": 104,
+      "evaluated_state": "last epoch; no weight restoration",
+      "test_set_used": false
+    }
+  },
+  {
+    "case": "REG1",
+    "file": "G04_05_l2_regularization.py",
+    "changes": {
+      "L2_STRENGTH": "0.001"
+    },
+    "total_seconds": 5.167,
+    "result": {
+      "hidden_units": 64,
+      "epochs": 120,
+      "learning_rate": 0.01,
+      "batch_size": 16,
+      "random_seed": 42,
+      "l2_strength": 0.001,
+      "initial_weights": "6a5eb0a5c3bc96b4",
+      "final_training_mae": 0.21964389085769653,
+      "final_validation_mae": 0.25151529908180237,
+      "l2_penalty": 0.011499765794724226,
+      "final_validation_loss": 0.2630150648765266,
+      "kernel_sum_of_squares": 11.499765872955322,
+      "parameters": 193,
+      "training_and_measurement_seconds": 1.361,
+      "device": "CPU",
+      "training_samples": 64,
+      "validation_samples": 128,
+      "data_seed": 2026,
+      "best_val_mae_epoch": 88,
+      "evaluated_state": "last epoch; no weight restoration",
+      "test_set_used": false
+    }
+  },
+  {
+    "case": "REG2",
+    "file": "G04_05_l2_regularization.py",
+    "changes": {
+      "L2_STRENGTH": "0.05"
+    },
+    "total_seconds": 5.189,
+    "result": {
+      "hidden_units": 64,
+      "epochs": 120,
+      "learning_rate": 0.01,
+      "batch_size": 16,
+      "random_seed": 42,
+      "l2_strength": 0.05,
+      "initial_weights": "6a5eb0a5c3bc96b4",
+      "final_training_mae": 0.3652307987213135,
+      "final_validation_mae": 0.38075315952301025,
+      "l2_penalty": 0.27917400002479553,
+      "final_validation_loss": 0.6599271595478058,
+      "kernel_sum_of_squares": 5.583479881286621,
+      "parameters": 193,
+      "training_and_measurement_seconds": 1.471,
+      "device": "CPU",
+      "training_samples": 64,
+      "validation_samples": 128,
+      "data_seed": 2026,
+      "best_val_mae_epoch": 112,
+      "evaluated_state": "last epoch; no weight restoration",
+      "test_set_used": false
+    }
+  },
+  {
+    "case": "D1",
+    "file": "G04_06_dropout.py",
+    "changes": {},
+    "total_seconds": 0.483,
+    "result": {
+      "dropout_rate": 0.5,
+      "training_mode": true,
+      "random_seed": 42,
+      "outputs": [
+        0.4,
+        0.0,
+        2.6,
+        1.6,
+        0.0,
+        0.8,
+        1.4,
+        2.0
+      ]
+    }
+  },
+  {
+    "case": "D2",
+    "file": "G04_06_dropout.py",
+    "changes": {
+      "dropout_rate": "0.25"
+    },
+    "total_seconds": 0.531,
+    "result": {
+      "dropout_rate": 0.25,
+      "training_mode": true,
+      "random_seed": 42,
+      "outputs": [
+        0.26666666666666666,
+        0.6666666666666666,
+        1.7333333333333334,
+        1.0666666666666667,
+        0.0,
+        0.5333333333333333,
+        0.9333333333333332,
+        1.3333333333333333
+      ]
+    }
+  },
+  {
+    "case": "D3",
+    "file": "G04_06_dropout.py",
+    "changes": {
+      "dropout_rate": "0.25",
+      "random_seed": "43"
+    },
+    "total_seconds": 0.443,
+    "result": {
+      "dropout_rate": 0.25,
+      "training_mode": true,
+      "random_seed": 43,
+      "outputs": [
+        0.26666666666666666,
+        0.0,
+        0.0,
+        1.0666666666666667,
+        1.4666666666666668,
+        0.0,
+        0.9333333333333332,
+        1.3333333333333333
+      ]
+    }
+  },
+  {
+    "case": "D4",
+    "file": "G04_06_dropout.py",
+    "changes": {
+      "dropout_rate": "0.25",
+      "random_seed": "43",
+      "training_mode": "False"
+    },
+    "total_seconds": 0.453,
+    "result": {
+      "dropout_rate": 0.25,
+      "training_mode": false,
+      "random_seed": 43,
+      "outputs": [
+        0.2,
+        0.5,
+        1.3,
+        0.8,
+        1.1,
+        0.4,
+        0.7,
+        1.0
+      ]
+    }
+  },
+  {
+    "case": "S1",
+    "file": "K04_01_softmax.py",
+    "changes": {},
+    "total_seconds": 0.415,
+    "result": {
+      "logits": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "common_shift": 0.0
+    }
+  },
+  {
+    "case": "S2",
+    "file": "K04_01_softmax.py",
+    "changes": {
+      "common_shift": "1000.0"
+    },
+    "total_seconds": 0.47,
+    "result": {
+      "logits": [
+        2.0,
+        1.0,
+        0.0
+      ],
+      "common_shift": 1000.0
+    }
+  },
+  {
+    "case": "B1",
+    "file": "K04_02_batch_normalization.py",
+    "changes": {},
+    "total_seconds": 0.434,
+    "result": {
+      "gamma": 1.0,
+      "beta": 0.0,
+      "training_mode": true,
+      "mean_used": 2.5,
+      "variance_used": 1.25
+    }
+  },
+  {
+    "case": "B2",
+    "file": "K04_02_batch_normalization.py",
+    "changes": {
+      "gamma": "2.0",
+      "beta": "1.0"
+    },
+    "total_seconds": 0.433,
+    "result": {
+      "gamma": 2.0,
+      "beta": 1.0,
+      "training_mode": true,
+      "mean_used": 2.5,
+      "variance_used": 1.25
+    }
+  },
+  {
+    "case": "B3",
+    "file": "K04_02_batch_normalization.py",
+    "changes": {
+      "gamma": "2.0",
+      "beta": "1.0",
+      "training_mode": "False",
+      "inputs": "np.array([2.0, 3.0, 4.0, 5.0])"
+    },
+    "total_seconds": 0.442,
+    "result": {
+      "gamma": 2.0,
+      "beta": 1.0,
+      "training_mode": false,
+      "mean_used": 2.5,
+      "variance_used": 1.25
+    }
+  }
+]
