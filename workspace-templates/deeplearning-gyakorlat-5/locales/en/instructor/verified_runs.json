@@ -1,0 +1,287 @@
+{
+  "date": "2026-10-04",
+  "python": "3.12.14",
+  "system": "Linux x86-64; CPU; GPUs disabled; sequential verification runs",
+  "runs": [
+    {
+      "name": "environment",
+      "file": "environment_check.py",
+      "changes": [],
+      "total_run_seconds": 4.57,
+      "result": {
+        "status": "ok",
+        "tensorflow": "2.20.0",
+        "numpy": "2.3.5",
+        "device": "CPU",
+        "run": "00_check_01",
+        "saved_at": "2026-10-04T22:01:47.215723+04:00"
+      },
+      "run_folder": "00_check_01"
+    },
+    {
+      "name": "data_0",
+      "file": "G05_01_ecg_data.py",
+      "changes": [],
+      "total_run_seconds": 0.732,
+      "result": {
+        "sample_index": 0,
+        "signal_length": 140,
+        "run": "01_data_01",
+        "saved_at": "2026-10-04T22:01:48.623152+04:00"
+      },
+      "run_folder": "01_data_01"
+    },
+    {
+      "name": "data_3",
+      "file": "G05_01_ecg_data.py",
+      "changes": [
+        "sample_index=3"
+      ],
+      "total_run_seconds": 0.745,
+      "result": {
+        "sample_index": 3,
+        "signal_length": 140,
+        "run": "01_data_02",
+        "saved_at": "2026-10-04T22:01:49.363777+04:00"
+      },
+      "run_folder": "01_data_02"
+    },
+    {
+      "name": "train_10",
+      "file": "G05_02_autoencoder.py",
+      "changes": [],
+      "total_run_seconds": 7.24,
+      "result": {
+        "epochs": 10,
+        "bottleneck_size": 8,
+        "initial_weights": "829e576f68ecacd2",
+        "random_seed": 42,
+        "batch_size": 32,
+        "dataset_sha256": "181532f2e0e4a0f46437ca300ebfe20a18dc2ff5bffc298904119fcac140d3c9",
+        "model_configuration": "f6899a0f5a47154a5ebfde96543a7fea46aaf654863fd7666e8f457d141a7dfa",
+        "training_mae": 0.03339659795165062,
+        "validation_mae": 0.03021068498492241,
+        "normal_0_mae": 0.019023047760128975,
+        "training_seconds": 2.054,
+        "parameters": 10484,
+        "device": "CPU",
+        "run": "02_model_01",
+        "saved_at": "2026-10-04T22:01:55.652092+04:00"
+      },
+      "run_folder": "02_model_01"
+    },
+    {
+      "name": "train_30",
+      "file": "G05_02_autoencoder.py",
+      "changes": [
+        "number_of_epochs=30"
+      ],
+      "total_run_seconds": 9.242,
+      "result": {
+        "epochs": 30,
+        "bottleneck_size": 8,
+        "initial_weights": "829e576f68ecacd2",
+        "random_seed": 42,
+        "batch_size": 32,
+        "dataset_sha256": "181532f2e0e4a0f46437ca300ebfe20a18dc2ff5bffc298904119fcac140d3c9",
+        "model_configuration": "f6899a0f5a47154a5ebfde96543a7fea46aaf654863fd7666e8f457d141a7dfa",
+        "training_mae": 0.02596304751932621,
+        "validation_mae": 0.023619215935468674,
+        "normal_0_mae": 0.01670224592089653,
+        "training_seconds": 3.211,
+        "parameters": 10484,
+        "device": "CPU",
+        "comparison": {
+          "previous_run": "02_model_01",
+          "current_run": "02_model_02",
+          "previous_mae": 0.019023047760128975
+        },
+        "run": "02_model_02",
+        "saved_at": "2026-10-04T22:02:04.788984+04:00"
+      },
+      "run_folder": "02_model_02"
+    },
+    {
+      "name": "bottleneck_16",
+      "file": "G05_02_autoencoder.py",
+      "changes": [
+        "number_of_epochs=30",
+        "bottleneck_size=16"
+      ],
+      "total_run_seconds": 9.462,
+      "result": {
+        "epochs": 30,
+        "bottleneck_size": 16,
+        "initial_weights": "ee10df2dba7ef4d0",
+        "random_seed": 42,
+        "batch_size": 32,
+        "dataset_sha256": "181532f2e0e4a0f46437ca300ebfe20a18dc2ff5bffc298904119fcac140d3c9",
+        "model_configuration": "f0715fbd42d32fbdf659e95902579d2acd07666c8099fc3f205f1531f73ecbe7",
+        "training_mae": 0.02618681639432907,
+        "validation_mae": 0.023750189691781998,
+        "normal_0_mae": 0.017864108085632324,
+        "training_seconds": 2.519,
+        "parameters": 10748,
+        "device": "CPU",
+        "comparison": null,
+        "run": "02_model_03",
+        "saved_at": "2026-10-04T22:02:14.321507+04:00"
+      },
+      "run_folder": "02_model_03"
+    },
+    {
+      "name": "error_0",
+      "file": "G05_03_reconstruction_error.py",
+      "changes": [],
+      "total_run_seconds": 1.255,
+      "result": {
+        "sample_index": 0,
+        "source": "supplied_30_epoch_reference",
+        "normal_mae": 0.01670224592089653,
+        "anomalous_mae": 0.071006178855896,
+        "run": "03_error_01",
+        "saved_at": "2026-10-04T22:02:16.550517+04:00"
+      },
+      "run_folder": "03_error_01"
+    },
+    {
+      "name": "error_3",
+      "file": "G05_03_reconstruction_error.py",
+      "changes": [
+        "sample_index=3"
+      ],
+      "total_run_seconds": 1.192,
+      "result": {
+        "sample_index": 3,
+        "source": "supplied_30_epoch_reference",
+        "normal_mae": 0.010388956405222416,
+        "anomalous_mae": 0.06787195801734924,
+        "run": "03_error_02",
+        "saved_at": "2026-10-04T22:02:17.743169+04:00"
+      },
+      "run_folder": "03_error_02"
+    },
+    {
+      "name": "threshold_04",
+      "file": "G05_04_threshold.py",
+      "changes": [],
+      "total_run_seconds": 1.074,
+      "result": {
+        "threshold": 0.04,
+        "TP": 128,
+        "FN": 0,
+        "FP": 11,
+        "TN": 117,
+        "precision": 0.920863309352518,
+        "recall": 1.0,
+        "source": "supplied_30_epoch_reference",
+        "positive": "anomalous",
+        "run": "04_threshold_01",
+        "saved_at": "2026-10-04T22:02:18.822903+04:00"
+      },
+      "run_folder": "04_threshold_01"
+    },
+    {
+      "name": "threshold_025",
+      "file": "G05_04_threshold.py",
+      "changes": [
+        "threshold=0.025"
+      ],
+      "total_run_seconds": 0.992,
+      "result": {
+        "threshold": 0.025,
+        "TP": 128,
+        "FN": 0,
+        "FP": 49,
+        "TN": 79,
+        "precision": 0.7231638418079096,
+        "recall": 1.0,
+        "source": "supplied_30_epoch_reference",
+        "positive": "anomalous",
+        "run": "04_threshold_02",
+        "saved_at": "2026-10-04T22:02:19.816523+04:00"
+      },
+      "run_folder": "04_threshold_02"
+    },
+    {
+      "name": "threshold_06",
+      "file": "G05_04_threshold.py",
+      "changes": [
+        "threshold=0.06"
+      ],
+      "total_run_seconds": 1.006,
+      "result": {
+        "threshold": 0.06,
+        "TP": 121,
+        "FN": 7,
+        "FP": 6,
+        "TN": 122,
+        "precision": 0.952755905511811,
+        "recall": 0.9453125,
+        "source": "supplied_30_epoch_reference",
+        "positive": "anomalous",
+        "run": "04_threshold_03",
+        "saved_at": "2026-10-04T22:02:20.821350+04:00"
+      },
+      "run_folder": "04_threshold_03"
+    },
+    {
+      "name": "threshold_0",
+      "file": "G05_04_threshold.py",
+      "changes": [
+        "threshold=0.0"
+      ],
+      "total_run_seconds": 1.029,
+      "result": {
+        "threshold": 0.0,
+        "TP": 128,
+        "FN": 0,
+        "FP": 128,
+        "TN": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "source": "supplied_30_epoch_reference",
+        "positive": "anomalous",
+        "run": "04_threshold_04",
+        "saved_at": "2026-10-04T22:02:21.823411+04:00"
+      },
+      "run_folder": "04_threshold_04"
+    },
+    {
+      "name": "threshold_1",
+      "file": "G05_04_threshold.py",
+      "changes": [
+        "threshold=1.0"
+      ],
+      "total_run_seconds": 1.057,
+      "result": {
+        "threshold": 1.0,
+        "TP": 0,
+        "FN": 128,
+        "FP": 0,
+        "TN": 128,
+        "precision": null,
+        "recall": 0.0,
+        "source": "supplied_30_epoch_reference",
+        "positive": "anomalous",
+        "run": "04_threshold_05",
+        "saved_at": "2026-10-04T22:02:22.885792+04:00"
+      },
+      "run_folder": "04_threshold_05"
+    }
+  ],
+  "checks": [
+    "13 successful runs including all required edits and optional bottleneck",
+    "English output and refresh reminder after every run",
+    "Short sequential folders; previous contents preserved",
+    "Matching initial weights and valid own-run 10/30 comparison",
+    "No mismatched 8/16 bottleneck comparison",
+    "30-epoch reconstructions identical to supplied reference in this environment",
+    "All numeric data unchanged from Hungarian package; English archive keys",
+    "896 disjoint source rows",
+    "Expected threshold counts, including no-alert precision undefined",
+    "Out-of-range indices rejected with English messages",
+    "No stderr warnings"
+  ],
+  "limitation": "Live Innoagent conversations have not been tested."
+}

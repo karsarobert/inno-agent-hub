@@ -1,0 +1,21 @@
+{
+  "epochs": 30,
+  "bottleneck_size": 8,
+  "initial_weights": "829e576f68ecacd2",
+  "random_seed": 42,
+  "batch_size": 32,
+  "training_mae": 0.02596304751932621,
+  "validation_mae": 0.023619215935468674,
+  "normal_0_mae": 0.01670224592089653,
+  "training_seconds": 1.386,
+  "parameters": 10484,
+  "device": "CPU",
+  "source_run": "G05_02_autoencoder_20261004_161127_200976",
+  "dataset_sha256": "181532f2e0e4a0f46437ca300ebfe20a18dc2ff5bffc298904119fcac140d3c9",
+  "reference_sha256": "0d522637a385211cb491f2cac72a4deae107dd73faec428e1febe7dd2e22cf61",
+  "tensorflow": "2.20.0",
+  "keras": "3.15.1",
+  "python": "3.12.14",
+  "synthetic": false,
+  "provenance": "Original CPU reference run from the Hungarian package. Array keys translated; numeric values unchanged."
+}

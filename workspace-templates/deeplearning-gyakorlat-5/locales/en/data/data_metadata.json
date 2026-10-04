@@ -1,0 +1,19 @@
+{
+  "source": "https://storage.googleapis.com/download.tensorflow.org/data/ecg.csv",
+  "source_sha256": "72ce7b040ca0c6ed36c3368e570c6ac4ddf20100476e47373c63b2395e012df1",
+  "raw_shape": [
+    4998,
+    141
+  ],
+  "seed": 2026,
+  "training_normal": 512,
+  "validation_normal": 128,
+  "practice_normal": 128,
+  "practice_anomalous": 128,
+  "minimum": -5.3301935,
+  "maximum": 3.279402,
+  "scaling": "(x-minimum)/(maximum-minimum), using the 512 normal training signals; no clipping",
+  "label": "source: 1 normal, 0 anomalous; in these programs anomalous=True is the positive class",
+  "independent_final_test": false,
+  "dataset_sha256": "181532f2e0e4a0f46437ca300ebfe20a18dc2ff5bffc298904119fcac140d3c9"
+}
