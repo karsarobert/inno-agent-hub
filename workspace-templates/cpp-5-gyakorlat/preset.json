@@ -1,0 +1,7 @@
+{
+  "id": "cpp-5-gyakorlat",
+  "name": "C++ 5 — Practice Lab (Functions and Procedures)",
+  "description": "Guided learner workspace for the fifth lab of a beginner C++ course (3×45 min), where the learner writes their own functions. First block — function basics: the first custom function (G05_01), two-parameter functions for area and perimeter (G05_02), void procedures with no return value (G05_03), function prototypes and where the definition goes (G05_04). Second block — project: the measurement-data analyser (P05_meresi_adatok.cpp) built up through seven steps, P1–P7 (printing the data, sum, average, maximum, count above the threshold, raising the threshold through a pointer, distance with <cmath> sqrt). Third block — exam-preparation test: 10 multiple-choice questions (T1) on today's material and 10 code-comprehension tasks (T2) with output prediction and debugging, where earlier material also returns. Before every project step the tutor shows a short sample code; the learner edits, saves, compiles and runs (RUN button or g++ -std=c++20 in the workspace terminal); no homework.",
+  "category": "Programming",
+  "icon": "code-2"
+}

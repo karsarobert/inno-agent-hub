@@ -69,6 +69,7 @@ Inno Agent 的「简单模式」会直接把这些模板渲染成欢迎页的**�
 | [cpp-2-gyakorlat/](./cpp-2-gyakorlat/) | C++ 2. 练习课 — 类型与数值表示:类型尺寸/初始化/位模式/除法/范围/浮点精度/输出格式/容差比较/收尾修错(匈牙利语/英语) | — | ✅ 可用 |
 | [cpp-3-gyakorlat/](./cpp-3-gyakorlat/) | C++ 3. 练习课 — 控制结构:if / if–else / else if / switch / while / do–while / for,两个综合任务(偶数计数、3 的倍数求和),收尾选择测验 T1 + 输出预测测验 T2,RUN 按钮或终端编译运行,无作业(匈牙利语/英语) | — | ✅ 可用 |
 | [cpp-4-gyakorlat/](./cpp-4-gyakorlat/) | C++ 4. 练习课 — 数组与指针:索引与元素访问、数组修改与遍历、求和/平均/条件计数、值–地址–指针–解引用、nullptr 检查、数组与指针的关系及指针遍历修改,收尾选择测验 T1 + 输出预测测验 T2,仅在 90 分钟内完成必修部分时才提供可选综合加练,RUN 按钮或终端编译运行,无作业(匈牙利语) | — | ✅ 可用 |
+| [cpp-5-gyakorlat/](./cpp-5-gyakorlat/) | C++ 5. 练习课 — 函数与过程:自定义函数(返回值 / 参数 / void / 原型)、测量数据剖析项目 P1–P7(输出、求和、平均、最大值、阈值以上的计数、通过指针提高阈值、以 <cmath> sqrt 求距离),收尾 T1 选择题 10 道 + T2 代码理解 10 道(输出预测与排错),RUN 按钮或终端编译运行,无作业(匈牙利语) | — | ✅ 可用 |
 | [python-alapok-01-gyakorlat/](./python-alapok-01-gyakorlat/) | Python 基础 01. 练习课 — 第一个程序的编写/保存/运行(双编辑器+双终端,预测-运行法)(匈牙利语) | — | ✅ 可用 |
 | [python-alapok-01-gyakorlat-v1/](./python-alapok-01-gyakorlat-v1/) | Elemi programozás 1. gyakorlat (EP_01) V1 — 修订版材料:E0 环境检查、E1 首次输出、B1–B5 咖啡店系列、Z1–Z3 独立收尾、可选加练、进度表、详细 HTML 讲义(匈牙利语) | — | ✅ 可用 |
 | [elemi-programozas-2-gyakorlat/](./elemi-programozas-2-gyakorlat/) | Elemi programozás 2. gyakorlat (EP_02) — 函数与条件分支、咖啡馆程序组装:def / 参数 / 返回值、if–elif–else、学生自己写代码并运行、检查用例、详细 HTML 讲义(匈牙利语) | — | ✅ 可用 |

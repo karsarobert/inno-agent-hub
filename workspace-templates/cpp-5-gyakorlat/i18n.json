@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ 5 — Practice Lab",
+      "description": "Guided learner workspace for the fifth lab of a beginner C++ course (3×45 min), where the learner writes their own functions. First block — function basics: the first custom function (G05_01), two-parameter functions for area and perimeter (G05_02), void procedures with no return value (G05_03), function prototypes and where the definition goes (G05_04). Second block — project: the measurement-data analyser (P05_meresi_adatok.cpp) built up through seven steps, P1–P7 (printing the data, sum, average, maximum, count above the threshold, raising the threshold through a pointer, distance with <cmath> sqrt). Third block — exam-preparation test: 10 multiple-choice questions (T1) on today's material and 10 code-comprehension tasks (T2) with output prediction and debugging, where earlier material also returns. Before every project step the tutor shows a short sample code; the learner edits, saves, compiles and runs (RUN button or g++ -std=c++20 in the workspace terminal); no homework.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ 5. gyakorlat",
+      "description": "Kezdő C++ kurzus 5. gyakorlatának (3×45 perc) vezetett hallgatói munkaterülete, ahol a hallgató már saját függvényeket ír. Első blokk – függvények alapjai: az első saját függvény (G05_01), kétparaméteres függvények területre és kerületre (G05_02), visszatérési érték nélküli void eljárások (G05_03), prototípus és a definíció helye (G05_04). Második blokk – projekt: a mérési adatok elemzője (P05_meresi_adatok.cpp) hét lépésben, P1–P7 épül tovább (kiírás, összeg, átlag, maximum, küszöb feletti darabszám, küszöb növelése mutatón keresztül, távolság a <cmath> sqrt függvényével). Harmadik blokk – ZH-felkészítő teszt: 10 feleletválasztós kérdés (T1) a mai anyagból és 10 kódértési feladat (T2) kimenetjóslással és hibakereséssel, ahol korábbi anyagok is visszatérnek. Minden projektrész előtt a tutor rövid mintakódot mutat; a hallgató szerkeszt, ment, fordít és futtat (RUN gomb vagy g++ -std=c++20 terminálból); nincs házi feladat.",
+      "category": "Programozás"
+    }
+  }
+}
