@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Deep Learning 5 — Practice Lab",
+      "description": "Guided learner workspace for the fifth lab of a Deep Learning course (2×45 min), 1.1 edition, on CPU. The topic is the autoencoder and ECG-based anomaly detection; the learner interprets the observed result and changes one setting at a time. Programs: environment check (local data, CPU, figure saving); normal and abnormal ECG waveform (G05_01); real autoencoder training and reconstruction (G05_02); per-signal MAE and the distribution of the errors (G05_03); the effect of the decision threshold on alarms and wrong decisions, precision/recall (G05_04). G05_03 and G05_04 always use the bundled 30-epoch reference reconstructions built with an eight-value bottleneck, not the learner's latest model. Every run creates its own short, numbered subfolder under nezet (figures and eredmeny.json). The lab closes with ten fixed, explanatory questions. The package also contains the oktatoi/ instructor material (preparation, answer key, measured verified runs, sample figures); run with the Run button, everything runs locally without GPU and internet, no homework. CNN is the topic of the next lab.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Deep Learning 5. gyakorlat",
+      "description": "Deep Learning kurzus 5. gyakorlatának (2×45 perc) vezetett hallgatói munkaterülete, 1.1 változat, CPU-n. A téma az autoencoder és az EKG-alapú anomáliaészlelés; a hallgató a látott eredményt értelmezi, és egyszerre egy beállítást módosít. Programok: környezetellenőrzés (helyi adatok, CPU, ábramentés); normál és rendellenes EKG-jelalak (G05_01); valódi autoencoder-tanítás és rekonstrukció (G05_02); jelenkénti MAE és a hibák eloszlása (G05_03); a döntési küszöb hatása a riasztásokra és a téves döntésekre, precision/recall (G05_04). A G05_03 és G05_04 mindig a mellékelt 30 epochás, nyolcértékű bottleneckkel készült referenciarekonstrukciókat használja, nem a hallgató legutóbbi modelljét. Minden futás saját, rövid, sorszámozott almappát készít a nezet alatt (ábrák és eredmeny.json). A gyakorlatot tíz rögzített, magyarázatos kérdés zárja. A csomag az oktatoi/ tanári anyagot is tartalmazza (előkészítés, megoldáskulcs, mért ellenőrzött futások, mintaábrák); futtatás Run gombbal, minden helyben fut, GPU és internet nélkül, nincs házi feladat. A CNN a következő gyakorlat témája.",
+      "category": "Programozás"
+    }
+  }
+}

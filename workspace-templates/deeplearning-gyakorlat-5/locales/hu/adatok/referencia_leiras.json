@@ -1,0 +1,20 @@
+{
+  "epochok": 30,
+  "szuk_keresztmetszet": 8,
+  "kezdeti_sulyok": "829e576f68ecacd2",
+  "veletlen_mag": 42,
+  "batch_meret": 32,
+  "tanito_mae": 0.02596304751932621,
+  "validacios_mae": 0.023619215935468674,
+  "normal_0_mae": 0.01670224592089653,
+  "tanitas_masodperc": 1.386,
+  "parameterek": 10484,
+  "eszkoz": "CPU",
+  "forras_futas": "G05_02_autoencoder_20261004_161127_200976",
+  "adathalmaz_sha256": "638f2333c6d688b1eb62b44141e7725fba874a2875281879ef2e055762e8b4af",
+  "referencia_sha256": "dbf32a2e561a800c66e5d16e064f3b9f3253a2ae4c10d2879b653866a619e22c",
+  "tensorflow": "2.20.0",
+  "keras": "3.15.1",
+  "python": "3.12.14",
+  "szintetikus": false
+}

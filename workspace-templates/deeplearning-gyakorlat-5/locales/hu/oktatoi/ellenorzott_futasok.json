@@ -1,0 +1,289 @@
+{
+  "datum": "2026-10-04",
+  "python": "3.12.14",
+  "rendszer": "Linux x86-64; CPU, GPU tiltva; legfeljebb 2 ellenőrző folyamat egyidejűleg",
+  "futasok": [
+    {
+      "nev": "environment",
+      "fajl": "kornyezet_ellenorzes.py",
+      "modositasok": [],
+      "teljes_futas_masodperc": 7.798,
+      "eredmeny": {
+        "allapot": "rendben",
+        "tensorflow": "2.20.0",
+        "numpy": "2.3.5",
+        "eszkoz": "CPU",
+        "futas": "00_ellenorzes_01",
+        "mentes_ideje": "2026-10-04T21:44:35.899778+04:00"
+      },
+      "futas_mappa": "00_ellenorzes_01"
+    },
+    {
+      "nev": "adat_0",
+      "fajl": "G05_01_ekg_adatok.py",
+      "modositasok": [],
+      "teljes_futas_masodperc": 3.204,
+      "eredmeny": {
+        "minta_index": 0,
+        "jelhossz": 140,
+        "futas": "01_adatok_01",
+        "mentes_ideje": "2026-10-04T21:44:31.909410+04:00"
+      },
+      "futas_mappa": "01_adatok_01"
+    },
+    {
+      "nev": "adat_3",
+      "fajl": "G05_01_ekg_adatok.py",
+      "modositasok": [
+        "minta_index=3"
+      ],
+      "teljes_futas_masodperc": 0.848,
+      "eredmeny": {
+        "minta_index": 3,
+        "jelhossz": 140,
+        "futas": "01_adatok_02",
+        "mentes_ideje": "2026-10-04T21:44:32.815924+04:00"
+      },
+      "futas_mappa": "01_adatok_02"
+    },
+    {
+      "nev": "train_10",
+      "fajl": "G05_02_autoencoder.py",
+      "modositasok": [],
+      "teljes_futas_masodperc": 6.963,
+      "eredmeny": {
+        "epochok": 10,
+        "szuk_keresztmetszet": 8,
+        "kezdeti_sulyok": "829e576f68ecacd2",
+        "veletlen_mag": 42,
+        "batch_meret": 32,
+        "adathalmaz_sha256": "638f2333c6d688b1eb62b44141e7725fba874a2875281879ef2e055762e8b4af",
+        "modell_beallitas": "f6899a0f5a47154a5ebfde96543a7fea46aaf654863fd7666e8f457d141a7dfa",
+        "tanito_mae": 0.03339659795165062,
+        "validacios_mae": 0.03021068498492241,
+        "normal_0_mae": 0.019023047760128975,
+        "tanitas_masodperc": 1.83,
+        "parameterek": 10484,
+        "eszkoz": "CPU",
+        "futas": "02_halo_01",
+        "mentes_ideje": "2026-10-04T21:44:39.058428+04:00"
+      },
+      "futas_mappa": "02_halo_01"
+    },
+    {
+      "nev": "train_30",
+      "fajl": "G05_02_autoencoder.py",
+      "modositasok": [
+        "epochok_szama=30"
+      ],
+      "teljes_futas_masodperc": 7.843,
+      "eredmeny": {
+        "epochok": 30,
+        "szuk_keresztmetszet": 8,
+        "kezdeti_sulyok": "829e576f68ecacd2",
+        "veletlen_mag": 42,
+        "batch_meret": 32,
+        "adathalmaz_sha256": "638f2333c6d688b1eb62b44141e7725fba874a2875281879ef2e055762e8b4af",
+        "modell_beallitas": "f6899a0f5a47154a5ebfde96543a7fea46aaf654863fd7666e8f457d141a7dfa",
+        "tanito_mae": 0.02596304751932621,
+        "validacios_mae": 0.023619215935468674,
+        "normal_0_mae": 0.01670224592089653,
+        "tanitas_masodperc": 2.206,
+        "parameterek": 10484,
+        "eszkoz": "CPU",
+        "osszehasonlitas": {
+          "elozo_futas": "02_halo_01",
+          "mostani_futas": "02_halo_02",
+          "elozo_mae": 0.019023047760128975
+        },
+        "futas": "02_halo_02",
+        "mentes_ideje": "2026-10-04T21:44:43.654242+04:00"
+      },
+      "futas_mappa": "02_halo_02"
+    },
+    {
+      "nev": "bottleneck_16",
+      "fajl": "G05_02_autoencoder.py",
+      "modositasok": [
+        "epochok_szama=30",
+        "szuk_keresztmetszet=16"
+      ],
+      "teljes_futas_masodperc": 7.245,
+      "eredmeny": {
+        "epochok": 30,
+        "szuk_keresztmetszet": 16,
+        "kezdeti_sulyok": "ee10df2dba7ef4d0",
+        "veletlen_mag": 42,
+        "batch_meret": 32,
+        "adathalmaz_sha256": "638f2333c6d688b1eb62b44141e7725fba874a2875281879ef2e055762e8b4af",
+        "modell_beallitas": "f0715fbd42d32fbdf659e95902579d2acd07666c8099fc3f205f1531f73ecbe7",
+        "tanito_mae": 0.02618681639432907,
+        "validacios_mae": 0.023750189691781998,
+        "normal_0_mae": 0.017864108085632324,
+        "tanitas_masodperc": 2.379,
+        "parameterek": 10748,
+        "eszkoz": "CPU",
+        "osszehasonlitas": null,
+        "futas": "02_halo_03",
+        "mentes_ideje": "2026-10-04T21:44:46.295931+04:00"
+      },
+      "futas_mappa": "02_halo_03"
+    },
+    {
+      "nev": "hiba_0",
+      "fajl": "G05_03_rekonstrukcios_hiba.py",
+      "modositasok": [],
+      "teljes_futas_masodperc": 1.225,
+      "eredmeny": {
+        "minta_index": 0,
+        "forras": "mellekelt_30_epochas_referencia",
+        "normal_mae": 0.01670224592089653,
+        "rendellenes_mae": 0.071006178855896,
+        "futas": "03_hiba_01",
+        "mentes_ideje": "2026-10-04T21:44:45.619654+04:00"
+      },
+      "futas_mappa": "03_hiba_01"
+    },
+    {
+      "nev": "hiba_3",
+      "fajl": "G05_03_rekonstrukcios_hiba.py",
+      "modositasok": [
+        "minta_index=3"
+      ],
+      "teljes_futas_masodperc": 1.191,
+      "eredmeny": {
+        "minta_index": 3,
+        "forras": "mellekelt_30_epochas_referencia",
+        "normal_mae": 0.010388956405222416,
+        "rendellenes_mae": 0.06787195801734924,
+        "futas": "03_hiba_02",
+        "mentes_ideje": "2026-10-04T21:44:46.798077+04:00"
+      },
+      "futas_mappa": "03_hiba_02"
+    },
+    {
+      "nev": "kuszob_04",
+      "fajl": "G05_04_kuszob.py",
+      "modositasok": [],
+      "teljes_futas_masodperc": 1.64,
+      "eredmeny": {
+        "kuszob": 0.04,
+        "TP": 128,
+        "FN": 0,
+        "FP": 11,
+        "TN": 117,
+        "precision": 0.920863309352518,
+        "recall": 1.0,
+        "forras": "mellekelt_30_epochas_referencia",
+        "pozitiv": "rendellenes",
+        "futas": "04_kuszob_01",
+        "mentes_ideje": "2026-10-04T21:44:48.415797+04:00"
+      },
+      "futas_mappa": "04_kuszob_01"
+    },
+    {
+      "nev": "kuszob_025",
+      "fajl": "G05_04_kuszob.py",
+      "modositasok": [
+        "kuszob=0.025"
+      ],
+      "teljes_futas_masodperc": 1.586,
+      "eredmeny": {
+        "kuszob": 0.025,
+        "TP": 128,
+        "FN": 0,
+        "FP": 49,
+        "TN": 79,
+        "precision": 0.7231638418079096,
+        "recall": 1.0,
+        "forras": "mellekelt_30_epochas_referencia",
+        "pozitiv": "rendellenes",
+        "futas": "04_kuszob_02",
+        "mentes_ideje": "2026-10-04T21:44:48.602008+04:00"
+      },
+      "futas_mappa": "04_kuszob_02"
+    },
+    {
+      "nev": "kuszob_06",
+      "fajl": "G05_04_kuszob.py",
+      "modositasok": [
+        "kuszob=0.06"
+      ],
+      "teljes_futas_masodperc": 1.297,
+      "eredmeny": {
+        "kuszob": 0.06,
+        "TP": 121,
+        "FN": 7,
+        "FP": 6,
+        "TN": 122,
+        "precision": 0.952755905511811,
+        "recall": 0.9453125,
+        "forras": "mellekelt_30_epochas_referencia",
+        "pozitiv": "rendellenes",
+        "futas": "04_kuszob_03",
+        "mentes_ideje": "2026-10-04T21:44:49.605376+04:00"
+      },
+      "futas_mappa": "04_kuszob_03"
+    },
+    {
+      "nev": "kuszob_0",
+      "fajl": "G05_04_kuszob.py",
+      "modositasok": [
+        "kuszob=0.0"
+      ],
+      "teljes_futas_masodperc": 1.13,
+      "eredmeny": {
+        "kuszob": 0.0,
+        "TP": 128,
+        "FN": 0,
+        "FP": 128,
+        "TN": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "forras": "mellekelt_30_epochas_referencia",
+        "pozitiv": "rendellenes",
+        "futas": "04_kuszob_04",
+        "mentes_ideje": "2026-10-04T21:44:49.632844+04:00"
+      },
+      "futas_mappa": "04_kuszob_04"
+    },
+    {
+      "nev": "kuszob_1",
+      "fajl": "G05_04_kuszob.py",
+      "modositasok": [
+        "kuszob=1.0"
+      ],
+      "teljes_futas_masodperc": 1.309,
+      "eredmeny": {
+        "kuszob": 1.0,
+        "TP": 0,
+        "FN": 128,
+        "FP": 0,
+        "TN": 128,
+        "precision": null,
+        "recall": 0.0,
+        "forras": "mellekelt_30_epochas_referencia",
+        "pozitiv": "rendellenes",
+        "futas": "04_kuszob_05",
+        "mentes_ideje": "2026-10-04T21:44:51.018960+04:00"
+      },
+      "futas_mappa": "04_kuszob_05"
+    }
+  ],
+  "ellenorzesek": [
+    "13 programfutás, valamennyi előírt módosítás és opcionális bottleneck",
+    "külön munkakönyvtárból (/tmp) indítás",
+    "TensorFlow CPU, üres GPU-lista",
+    "azonos kezdősúlyok 10/30 epocha",
+    "30 epochás újrafuttatás bitazonos a mellékelt referenciával ebben a környezetben",
+    "diszjunkt 896 forrássor",
+    "referencia küszöbök döntési darabszámai",
+    "nincs riasztás: precision nem értelmezhető",
+    "hibás indexek érthető üzenettel leállnak",
+    "nincs stderr-figyelmeztetés a tesztelt futásokban",
+    "rövid mappanevek külön számlálóval, korábbi tartalom megőrzése",
+    "10/30 epocha összehasonlítás: saját azonos beállítású futáspár; 16-os bottleneck kizárva",
+    "axis=1, precision/recall és összehasonlító ábrák létrejötte és vizuális ellenőrzése"
+  ],
+  "korlat": "Az Innoagent alkalmazás élő beszélgetését ez a program nem teszteli."
+}

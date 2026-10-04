@@ -1,0 +1,6 @@
+# Oktatói előkészítéshez; hallgató és tutor nem telepít óra közben.
+# Tesztelt közvetlen függőségek Linux x86-64 / Python 3.12 alatt.
+numpy==2.3.5
+matplotlib==3.10.8
+tensorflow-cpu==2.20.0
+keras==3.15.1

@@ -1,0 +1,19 @@
+{
+  "forras": "https://storage.googleapis.com/download.tensorflow.org/data/ecg.csv",
+  "forras_sha256": "72ce7b040ca0c6ed36c3368e570c6ac4ddf20100476e47373c63b2395e012df1",
+  "nyers_alak": [
+    4998,
+    141
+  ],
+  "mag": 2026,
+  "tanito_normal": 512,
+  "validacios_normal": 128,
+  "gyakorlo_normal": 128,
+  "gyakorlo_rendellenes": 128,
+  "minimum": -5.3301935,
+  "maximum": 3.279402,
+  "skala": "(x-minimum)/(maximum-minimum), a 512 normal tanitojel alapjan; nincs vagas",
+  "cimke": "forras: 1 normal, 0 rendellenes; a programokban rendellenes=True a pozitiv",
+  "fuggetlen_vegso_teszt": false,
+  "adathalmaz_sha256": "638f2333c6d688b1eb62b44141e7725fba874a2875281879ef2e055762e8b4af"
+}
