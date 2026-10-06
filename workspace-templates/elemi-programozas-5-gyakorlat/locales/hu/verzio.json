@@ -1,0 +1,20 @@
+{
+  "package": "EP_05",
+  "version": "1.2.0",
+  "date": "2026-10-06",
+  "language": "hu",
+  "role": "tanuloi",
+  "previous_package": "EP_04",
+  "template_version": "EP_04 1.1.0",
+  "lesson_duration_minutes": 90,
+  "scope": "local_package_metadata_not_application_configuration",
+  "changes": [
+    "C1–C3 és K5, négy új kezdőprogram és részletes feladatsor",
+    "K3 kiváltása C1–C2-vel; időfüggő választás a tesztek előtt",
+    "Korábbi hat kezdőprogram, HTML és 20 tesztkérdés változatlan"
+  ],
+  "extended_duration_minutes": {
+    "C1_C2": 115,
+    "C1_C2_C3_K5": 135
+  }
+}

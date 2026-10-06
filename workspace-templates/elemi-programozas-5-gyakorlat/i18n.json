@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Elementary Programming 5 — Practice Lab (EP_05)",
+      "description": "Fifth Python practice of a Programming Basics course (lesson EP_05): using a dictionary to link product names with their prices, price lookup with a unified name, validated update of an existing price, filtering affordable products, basket totals and a merged café-block function, then independent code refactoring and a 10+10 question theory and code-knowledge final test — an explanatory tutor, editable starter programs, checking cases, student-written code and runs, with a detailed HTML course.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Elemi programozás 5. gyakorlat",
+      "description": "Programozás alapjai kurzus ötödik Python-gyakorlata (EP_05): szótár használata terméknév és ár összekapcsolására, árkeresés egységesített névvel, meglévő ár ellenőrzött frissítése, megfizethető termékek szűrése, kosárösszegzés és összevont büféblokk-függvény, végül önálló kódátalakítás és 10+10 kérdéses elméleti és kódismereti záró teszt — magyarázó tutor, módosítható minta-programok, ellenőrző esetek, saját kódírás és futtatás, részletes HTML-tananyaggal.",
+      "category": "Programozás"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "elemi-programozas-5-gyakorlat",
+  "name": "Elementary Programming 5 — Practice Lab (EP_05)",
+  "description": "Fifth Python practice of a Programming Basics course (lesson EP_05): using a dictionary to link product names with their prices, price lookup with a unified name, validated update of an existing price, filtering affordable products, basket totals and a merged café-block function, then independent code refactoring and a 10+10 question theory and code-knowledge final test — an explanatory tutor, editable starter programs, checking cases, student-written code and runs, with a detailed HTML course.",
+  "category": "Programming",
+  "icon": "code-2"
+}

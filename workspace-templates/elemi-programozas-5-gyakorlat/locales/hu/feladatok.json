@@ -1,0 +1,400 @@
+{
+  "schema_version": 1,
+  "purpose": "Tutor által olvasható helyi feladattérkép és időterv, nem Inno Agent-konfigurációs séma.",
+  "lesson": "EP_05",
+  "version": "1.2.0",
+  "teaching_mode": "explain_example_student_adapts_codes_runs_reviews",
+  "duration_minutes": 90,
+  "break_included": false,
+  "tasks": [
+    {
+      "id": "A1",
+      "title": "Árkeresés egységesített névvel",
+      "file": "arkereses.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "html_section": "lekerdezes",
+      "concept_ids": [
+        "ep05.dict_lookup",
+        "ep05.normalization",
+        "ep05.missing_key"
+      ],
+      "acceptance": [
+        "A függvény a paraméter szövegét egységesíti, és a paraméter árjegyzékből kérdez le.",
+        "Hiány és 0 nem keveredik: a hívó None-t vizsgál, nem az ár igazságértékét.",
+        "Az árjegyzék változatlan; a függvény visszaad, a hívó kiír."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A1.1",
+        "A1.2",
+        "A1.3"
+      ]
+    },
+    {
+      "id": "A2",
+      "title": "Meglévő ár ellenőrzött frissítése",
+      "file": "arfrissites.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "html_section": "modositas",
+      "concept_ids": [
+        "ep05.dict_update",
+        "ep05.mutation",
+        "ep05.guards"
+      ],
+      "acceptance": [
+        "Csak meglévő kulcs pozitív egész próbaárát módosítja.",
+        "Elutasításkor nem hoz létre új kulcsot, és a régi árat sem írja felül.",
+        "Egységesít és True/False értéket ad vissza; nem printtel jelzi a függvény eredményét."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A2.1",
+        "A2.2",
+        "A2.3",
+        "A2.4"
+      ]
+    },
+    {
+      "id": "A3",
+      "title": "Megfizethető termékek listája",
+      "file": "kinalat.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "html_section": "bejaras",
+      "concept_ids": [
+        "ep05.items",
+        "ep05.filter",
+        "ep05.return_list"
+      ],
+      "acceptance": [
+        "A keret paramétert használja, <= feltétellel; a határértéket is elfogadja.",
+        "Új listát épít nevekkel, a return a teljes bejárás után van.",
+        "Nincs kiírás a függvényben és nem változtatja az arak szótárat."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A3.1",
+        "A3.2",
+        "A3.3",
+        "A3.4"
+      ]
+    },
+    {
+      "id": "B1",
+      "title": "Kosárból összeg, fizetés nélkül",
+      "file": "osszegzes.py",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 10,
+      "html_section": "lista-egyutt",
+      "concept_ids": [
+        "ep05.list_dict",
+        "ep05.sum",
+        "ep05.parameters"
+      ],
+      "acceptance": [
+        "A kosár listáját járja be, nem az összes kínált terméket.",
+        "Az árat a paraméter szótárból kéri, nincs beégetett árlánc vagy visszatérés az első körben.",
+        "Ismétlődő termék minden alkalommal számít; üres kosárra 0.",
+        "A blokk az adott árjegyzékből mutat árat; ebben a fájlban nincs fizetés."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "B1.1",
+        "B1.2",
+        "B1.3",
+        "B1.4"
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Rövid összegzés",
+      "file": null,
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "html_section": "osszegzes",
+      "concept_ids": [
+        "ep05.reflection"
+      ],
+      "acceptance": [
+        "Valós folytatási pont; részleges válasz esetén rövid pontosítás."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": []
+    },
+    {
+      "id": "B2",
+      "title": "A szótáras árjegyzék bekapcsolása a büfébe",
+      "file": "bufe_05.py",
+      "required": true,
+      "block": "1–2",
+      "planned_minutes": 17,
+      "html_section": "bufe-terv",
+      "concept_ids": [
+        "ep05.composition",
+        "ep05.single_source",
+        "ep05.payment"
+      ],
+      "acceptance": [
+        "Az árjegyzék az egyetlen kézzel karbantartott kínálati és áradat a bufe_05.py-ban.",
+        "Saját B1-függvényeket hív, mindkettőnek átadja az árjegyzéket.",
+        "Az ürességet a kosár alapján ellenőrzi; üres kosárnál nincs diákkérdés vagy pénzkérdés.",
+        "Ismeretlen és üres bevitel nem kerül a kosárba; a mégse biztonságosan visszavon.",
+        "Az új ár és termék megjelenik a blokkban és a számításban. A pénzpótlás előtt nincs visszajárós sor."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "B2.1",
+        "B2.2",
+        "B2.3",
+        "B2.4",
+        "B2.5"
+      ],
+      "parts": [
+        "B2.a – saját definíciók és három kapcsolódás (9 perc, első blokk)",
+        "B2.b – működés, határesetek és adatmódosítás (8 perc, második blokk)"
+      ],
+      "block_minutes": {
+        "1": 9,
+        "2": 8
+      }
+    },
+    {
+      "id": "Z1",
+      "title": "Önálló átalakítás: drága tételek száma",
+      "file": "onallo.py",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 10,
+      "html_section": "onallo",
+      "concept_ids": [
+        "ep05.counting",
+        "ep05.transfer",
+        "ep05.boundary"
+      ],
+      "acceptance": [
+        "Saját feltételes számláló ciklust ír a kosárra, az árakat a paraméter szótárból olvassa.",
+        "Szigorúan >, nem >=; ismétlődések is külön tételként számítanak.",
+        "Üres listára 0; nincs input, print vagy bemenetmódosítás a függvényben."
+      ],
+      "instructions": "zaro_feladatok.md",
+      "tests": [
+        "Z1.1",
+        "Z1.2",
+        "Z1.3",
+        "Z1.4"
+      ]
+    },
+    {
+      "id": "C1",
+      "title": "Darabszámok szótárban",
+      "file": "darabszamok.py",
+      "required": false,
+      "planned_minutes": 10,
+      "instructions": "bufe_bovitesek.md",
+      "requires": [
+        "B1"
+      ],
+      "selection": "C1–C2 elsődleges időfüggő bővítés; C3 és K5 további elmélyítés",
+      "tests": [
+        "C1.1",
+        "C1.2",
+        "C1.3",
+        "C1.4"
+      ],
+      "acceptance": [
+        "Új szótár, pontos gyakoriságok, üres kosárra üres szótár.",
+        "A kosár változatlan, nincs kiírás a függvényben."
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Összevont büféblokk",
+      "file": "osszevont_blokk.py",
+      "required": false,
+      "planned_minutes": 15,
+      "instructions": "bufe_bovitesek.md",
+      "requires": [
+        "C1"
+      ],
+      "selection": "C1–C2 elsődleges időfüggő bővítés; C3 és K5 további elmélyítés",
+      "tests": [
+        "C2.1",
+        "C2.2",
+        "C2.3",
+        "C2.4"
+      ],
+      "acceptance": [
+        "Saját C1-definíció, külön számoló és megjelenítő függvény.",
+        "Termékenként egy sor darabszámmal, egységárral, részösszeggel és helyes végösszeggel.",
+        "Árváltozás, üres kosár és két azonos árú termék megfelelő kezelése."
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "Legnagyobb részösszeg",
+      "file": "reszosszeg.py",
+      "required": false,
+      "planned_minutes": 10,
+      "instructions": "bufe_bovitesek.md",
+      "requires": [
+        "C2"
+      ],
+      "selection": "C1–C2 elsődleges időfüggő bővítés; C3 és K5 további elmélyítés",
+      "tests": [
+        "C3.1",
+        "C3.2",
+        "C3.3",
+        "C3.4",
+        "C3.5"
+      ],
+      "acceptance": [
+        "Darabszám szorozva egységárral alapján választott név.",
+        "Üres adatra None, holtversenynél első bejárt termék; nincs bemenetmódosítás."
+      ]
+    },
+    {
+      "id": "K5",
+      "title": "Új árjegyzék árkorrekcióval",
+      "file": "arkorrekcio.py",
+      "required": false,
+      "planned_minutes": 10,
+      "instructions": "bufe_bovitesek.md",
+      "requires": [
+        "A2",
+        "A3"
+      ],
+      "selection": "C1–C2 elsődleges időfüggő bővítés; C3 és K5 további elmélyítés",
+      "tests": [
+        "K5.1",
+        "K5.2",
+        "K5.3",
+        "K5.4"
+      ],
+      "acceptance": [
+        "Minden kulcs megmarad; az emeles paraméter alapján új árak.",
+        "Új szótár, változatlan eredeti; nulla emelésnél is külön szótár."
+      ]
+    },
+    {
+      "id": "T1",
+      "title": "Elméleti teszt",
+      "file": "teszt_elmelet.md",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 10,
+      "instructions": "teszt_elmelet.md",
+      "question_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10"
+      ],
+      "max_points": 10,
+      "acceptance": [
+        "Minden kérdésre konkrét válasz vagy kimondott kihagyás érkezett.",
+        "Első válasz, segítség és utólagos javítás elkülönítve; pontozás a megoldókulcs alapján."
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Kódismereti teszt",
+      "file": "teszt_kodismeret.md",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 15,
+      "instructions": "teszt_kodismeret.md",
+      "question_ids": [
+        "KÓD1",
+        "KÓD2",
+        "KÓD3",
+        "KÓD4",
+        "KÓD5",
+        "KÓD6",
+        "KÓD7",
+        "KÓD8",
+        "KÓD9",
+        "KÓD10"
+      ],
+      "max_points": 10,
+      "acceptance": [
+        "Minden kérdésre konkrét válasz vagy kimondott kihagyás érkezett.",
+        "Első válasz, segítség és utólagos javítás elkülönítve; pontozás a megoldókulcs alapján."
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Lezárás és folytatási pont",
+      "file": null,
+      "required": true,
+      "block": 2,
+      "planned_minutes": 2,
+      "html_section": "osszegzes",
+      "concept_ids": [
+        "ep05.reflection"
+      ],
+      "acceptance": [
+        "Nincs megalapozatlan teljesítésállítás; a segítség és a saját átalakítás megnevezése pontos.",
+        "Az óra vége egyértelmű; nincs automatikusan indított kötelező pluszfeladat vagy házi feladat."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": []
+    },
+    {
+      "id": "K1",
+      "title": "Árjegyzék törlése és frissítése",
+      "file": "arfrissites.py",
+      "required": false,
+      "planned_minutes": 10,
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K2",
+      "title": "Legdrágább kosártétel",
+      "file": "onallo.py",
+      "required": false,
+      "planned_minutes": 12,
+      "instructions": "tovabbi_gyakorlas.md"
+    },
+    {
+      "id": "K4",
+      "title": "Napi forgalom több kosárból",
+      "file": "onallo.py",
+      "required": false,
+      "planned_minutes": 20,
+      "instructions": "tovabbi_gyakorlas.md"
+    }
+  ],
+  "assessment_note": "A T2 KÓD1–KÓD10 azonosítói tesztkérdések. A bővítések C1–C3, K5; a korábbi K3 helyét C1–C2 vette át.",
+  "retired_task_aliases": {
+    "K3": [
+      "C1",
+      "C2"
+    ]
+  },
+  "extension_routes": {
+    "base_minutes": 90,
+    "with_C1_C2_minutes": 115,
+    "with_C1_C2_C3_K5_minutes": 135,
+    "quiz_reserved_minutes": 25,
+    "closing_reserved_minutes": 2,
+    "selected_extensions_before": "T1",
+    "optional_old_tasks": [
+      "K1",
+      "K2",
+      "K4"
+    ]
+  }
+}
