@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Deep Learning 7 — Practice Lab",
+      "description": "Guided learner workspace for the seventh lab of a Deep Learning course (1.0 edition, run in Google Colab), with three tasks: housing-price regression on a real target, MNIST digit recognition with a one-hot target, and an autoencoder trained input=target for reconstruction-based anomaly detection. The Inno Agent side is a conversational tutor: the learner edits and runs the cells of PTE_DL7_FELADATOK.ipynb in Google Colab (E01, R01–R10, M01–M10, A01–A10, Z01), one cell at a time, sending back the requested short output. For ready-made cells the work is understanding and interpreting the result; in the fifteen designated cells (R04–R06, R10, M03–M06, M09, A03–A05, A07–A09) the learner writes short code of their own, and the tutor helps step by step instead of handing over the full solution. Named checkpoints: the R03 split (303/101/102), the M09 test set, and the A08 threshold fixed at the 97th percentile of the normal calibration errors before the test, with no tuning on the test set afterwards. The lab closes with three oral questions; no homework. Internet access and a personal Colab session are required, GPU is optional.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Deep Learning 7. gyakorlat",
+      "description": "Deep Learning kurzus 7. gyakorlatának (1.0, Colabban vezetett) hallgatói munkaterülete három feladattal: lakásár-regresszió valós céllal, MNIST-számjegyfelismerés one-hot céllal, autoencoder bemenet=cél rekonstrukcióval anomáliadetektálásra. Az Innoagent beszélgető tutor: a hallgató a Google Colabban szerkeszti és futtatja a PTE_DL7_FELADATOK.ipynb celláit (E01, R01–R10, M01–M10, A01–A10, Z01), egyszerre egy cellával, a kért rövid kimenetet visszaküldve. A kész celláknál a megértés és az értelmezés a feladat, a tizenöt kijelölt cellában (R04–R06, R10, M03–M06, M09, A03–A05, A07–A09) rövid saját kódot kell írni; a tutor fokozatosan segít, a teljes megoldást nem adja előre. Nevesített ellenőrzési pontok: R03 felosztás (303/101/102), M09 teszt, A08 rögzített 97%-os kalibrációs küszöb, a tesztből nem hangolunk. A zárás három szóbeli kérdés; nincs házi feladat. Internet és saját Colab-hozzáférés szükséges, GPU opcionális.",
+      "category": "Programozás"
+    }
+  }
+}

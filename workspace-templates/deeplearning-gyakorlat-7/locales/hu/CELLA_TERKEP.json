@@ -1,0 +1,305 @@
+{
+  "version": "1.0",
+  "source": "PTE_DL7_FELADATOK.ipynb",
+  "target": "PTE_DL7_FELADATOK.ipynb",
+  "indexing": "original_cell_indices are zero-based, as in notebook JSON",
+  "steps": [
+    {
+      "step_id": "E01",
+      "title": "Környezet és munkamód",
+      "mode": "kész",
+      "original_cell_indices": [
+        1
+      ],
+      "required_previous": null
+    },
+    {
+      "step_id": "R01",
+      "title": "Lakásadatok betöltése",
+      "mode": "kész",
+      "original_cell_indices": [
+        3
+      ],
+      "required_previous": "E01"
+    },
+    {
+      "step_id": "R02",
+      "title": "Az adatok ellenőrzése",
+      "mode": "kész",
+      "original_cell_indices": [
+        4,
+        5
+      ],
+      "required_previous": "R01"
+    },
+    {
+      "step_id": "R03",
+      "title": "Tanító-, validációs és teszthalmaz",
+      "mode": "kész",
+      "original_cell_indices": [
+        6
+      ],
+      "required_previous": "R02"
+    },
+    {
+      "step_id": "R04",
+      "title": "Skálázás adatszivárgás nélkül",
+      "mode": "önálló",
+      "original_cell_indices": [
+        7
+      ],
+      "required_previous": "R03"
+    },
+    {
+      "step_id": "R05",
+      "title": "Regressziós modell",
+      "mode": "önálló",
+      "original_cell_indices": [
+        8
+      ],
+      "required_previous": "R04"
+    },
+    {
+      "step_id": "R06",
+      "title": "Veszteség és korai leállítás",
+      "mode": "önálló",
+      "original_cell_indices": [
+        9
+      ],
+      "required_previous": "R05"
+    },
+    {
+      "step_id": "R07",
+      "title": "Regresszió tanítása",
+      "mode": "kész",
+      "original_cell_indices": [
+        9
+      ],
+      "required_previous": "R06"
+    },
+    {
+      "step_id": "R08",
+      "title": "Tanulási görbék értelmezése",
+      "mode": "kész",
+      "original_cell_indices": [
+        9
+      ],
+      "required_previous": "R07"
+    },
+    {
+      "step_id": "R09",
+      "title": "Végső teszt és alapbecslés",
+      "mode": "kész",
+      "original_cell_indices": [],
+      "required_previous": "R08"
+    },
+    {
+      "step_id": "R10",
+      "title": "Új adat és ugyanaz a skálázó",
+      "mode": "önálló",
+      "original_cell_indices": [],
+      "required_previous": "R09"
+    },
+    {
+      "step_id": "M01",
+      "title": "MNIST és egy gyorsabb tanító részhalmaz",
+      "mode": "kész",
+      "original_cell_indices": [
+        11,
+        12
+      ],
+      "required_previous": "R10"
+    },
+    {
+      "step_id": "M02",
+      "title": "Egy kép és a valódi címkéje",
+      "mode": "kész",
+      "original_cell_indices": [
+        23
+      ],
+      "required_previous": "M01"
+    },
+    {
+      "step_id": "M03",
+      "title": "Normalizálás és kilapítás",
+      "mode": "önálló",
+      "original_cell_indices": [
+        11,
+        17,
+        18,
+        19
+      ],
+      "required_previous": "M02"
+    },
+    {
+      "step_id": "M04",
+      "title": "One-hot célvektorok",
+      "mode": "önálló",
+      "original_cell_indices": [
+        14,
+        15,
+        16
+      ],
+      "required_previous": "M03"
+    },
+    {
+      "step_id": "M05",
+      "title": "Számjegyosztályozó hálózat",
+      "mode": "önálló",
+      "original_cell_indices": [
+        20
+      ],
+      "required_previous": "M04"
+    },
+    {
+      "step_id": "M06",
+      "title": "Osztályozási veszteség",
+      "mode": "önálló",
+      "original_cell_indices": [
+        21
+      ],
+      "required_previous": "M05"
+    },
+    {
+      "step_id": "M07",
+      "title": "Az osztályozó tanítása",
+      "mode": "kész",
+      "original_cell_indices": [
+        21
+      ],
+      "required_previous": "M06"
+    },
+    {
+      "step_id": "M08",
+      "title": "Veszteség és accuracy külön ábrán",
+      "mode": "kész",
+      "original_cell_indices": [
+        22
+      ],
+      "required_previous": "M07"
+    },
+    {
+      "step_id": "M09",
+      "title": "Teszteredmény és egyetlen számjegy jóslata",
+      "mode": "önálló",
+      "original_cell_indices": [
+        22,
+        24,
+        25
+      ],
+      "required_previous": "M08"
+    },
+    {
+      "step_id": "M10",
+      "title": "Tévesztések vizsgálata",
+      "mode": "kész",
+      "original_cell_indices": [
+        24,
+        25
+      ],
+      "required_previous": "M09"
+    },
+    {
+      "step_id": "A01",
+      "title": "Szintetikus tranzakciók és a címkék",
+      "mode": "kész",
+      "original_cell_indices": [
+        28,
+        29
+      ],
+      "required_previous": "M10"
+    },
+    {
+      "step_id": "A02",
+      "title": "Felosztás a skálázás előtt",
+      "mode": "kész",
+      "original_cell_indices": [
+        31
+      ],
+      "required_previous": "A01"
+    },
+    {
+      "step_id": "A03",
+      "title": "Csak normál tanítóadat és külön kalibráció",
+      "mode": "önálló",
+      "original_cell_indices": [
+        1,
+        33
+      ],
+      "required_previous": "A02"
+    },
+    {
+      "step_id": "A04",
+      "title": "A normál működés skálázása",
+      "mode": "önálló",
+      "original_cell_indices": [
+        30
+      ],
+      "required_previous": "A03"
+    },
+    {
+      "step_id": "A05",
+      "title": "Autoencoder szűk keresztmetszettel",
+      "mode": "önálló",
+      "original_cell_indices": [
+        34
+      ],
+      "required_previous": "A04"
+    },
+    {
+      "step_id": "A06",
+      "title": "A bemenet tanítása önmagára",
+      "mode": "kész",
+      "original_cell_indices": [
+        36
+      ],
+      "required_previous": "A05"
+    },
+    {
+      "step_id": "A07",
+      "title": "Mintánkénti kalibrációs hiba",
+      "mode": "önálló",
+      "original_cell_indices": [
+        37
+      ],
+      "required_previous": "A06"
+    },
+    {
+      "step_id": "A08",
+      "title": "Küszöb meghatározása a teszt előtt",
+      "mode": "önálló",
+      "original_cell_indices": [
+        38
+      ],
+      "required_previous": "A07"
+    },
+    {
+      "step_id": "A09",
+      "title": "Vegyes teszt: döntések és metrikák",
+      "mode": "önálló",
+      "original_cell_indices": [
+        37,
+        38
+      ],
+      "required_previous": "A08"
+    },
+    {
+      "step_id": "A10",
+      "title": "Hibaeloszlás és tévesztések",
+      "mode": "kész",
+      "original_cell_indices": [
+        39,
+        40,
+        41
+      ],
+      "required_previous": "A09"
+    },
+    {
+      "step_id": "Z01",
+      "title": "Eredmények mentése és lezárás",
+      "mode": "kész",
+      "original_cell_indices": [],
+      "required_previous": "A10"
+    }
+  ]
+}
