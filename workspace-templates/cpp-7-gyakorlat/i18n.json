@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ 7 — Practice Lab",
+      "description": "Guided learner workspace for the seventh lab of a beginner C++ course (3×45 min) on structures, unions and scope. First block — fundamentals: defining your own struct and making an independent copy (G07_01), a structure passed by value, returned and reached through a pointer (G07_02), a tagged union (G07_03), inner blocks, name hiding and the loop variable (G07_04). Second block — project: the valid-measurement analyser (P07_meresek.cpp) built up in six steps, P1–P6 (printing one measurement with its nested date, printing the whole series, counting the valid records, averaging the valid values, counting strictly above a threshold, modifying the original record through a pointer). Third block — summary test: 10 multiple-choice questions (T1) and 10 code-comprehension tasks (T2) with output prediction and debugging. Before every part the tutor shows a short analogous sample from the MINTAKODOK collection; the learner writes, saves, compiles and runs the code (RUN button or g++ -std=c++20), and progress is tracked in HALADAS.json. No homework; for fast progress a single X1 extension may be assigned.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ 7. gyakorlat",
+      "description": "Kezdő C++ kurzus 7. gyakorlatának (3×45 perc) vezetett hallgatói munkaterülete a struktúrák, az unió és a hatókör témájában. Első blokk – alapozás: saját struktúra és önálló másolat (G07_01), érték szerint kapott struktúra, visszaadás és mutatós elérés (G07_02), jelzővel követett unió (G07_03), belső blokk, névelrejtés és ciklusváltozó (G07_04). Második blokk – projekt: az érvényes mérési adatok elemzője (P07_meresek.cpp) hat lépésben, P1–P6 (beágyazott dátummal kiírás, teljes adatsor, érvényes darabszám, érvényes átlag, küszöb feletti darabszám, eredeti rekord módosítása mutatóval). Harmadik blokk – összefoglaló ellenőrzés: 10 feleletválasztós kérdés (T1) és 10 kódértési feladat (T2) kimenetjóslással és hibakereséssel. Minden rész előtt a tutor rövid analóg mintát mutat a MINTAKODOK gyűjteményből; a hallgató írja, menti, fordítja és futtatja a kódot (RUN gomb vagy g++ -std=c++20), a haladást a HALADAS.json követi. Nincs házi feladat; gyors haladásnál egyetlen X1 kiegészítés adható.",
+      "category": "Programozás"
+    }
+  }
+}

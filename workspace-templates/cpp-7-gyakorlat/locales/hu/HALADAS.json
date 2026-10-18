@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "lesson": "CPP_07",
+  "status": "not_started",
+  "started_at": null,
+  "last_updated_at": null,
+  "coding_minutes_net": null,
+  "current_step": "G07_01_A",
+  "completed_steps": [],
+  "extra_assigned": false,
+  "extra_completed": false,
+  "quiz": {
+    "next_question": "T1/1",
+    "first_answers": [],
+    "t1_score": 0,
+    "t2_score": 0
+  },
+  "resume_note": "",
+  "help_level": 0,
+  "timing_segments": []
+}
