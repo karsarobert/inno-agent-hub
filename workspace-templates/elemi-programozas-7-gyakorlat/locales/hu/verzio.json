@@ -1,0 +1,28 @@
+{
+  "package": "EP_07",
+  "version": "1.0.0",
+  "date": "2026-10-20",
+  "language": "hu",
+  "role": "tanuloi",
+  "methodological_base": "EP_05 1.2.0, a csatolt Ep_05_innoagent(1).zip alapján",
+  "previous_teaching_lesson": "EP_05",
+  "session_06": "egész órás ZH",
+  "lesson_duration_minutes": 90,
+  "extended_duration_with_C1_minutes": 105,
+  "scope": "local_package_metadata_not_application_configuration",
+  "main_programming_tasks": [
+    "A1",
+    "A2",
+    "A3",
+    "B1",
+    "Z1"
+  ],
+  "optional_programming_task": "C1",
+  "assessment": {
+    "theory_questions": 10,
+    "code_interpretation_questions": 5,
+    "debugging_questions": 5,
+    "total_points": 20
+  },
+  "html_source": "A beszélgetésben véglegesített EP_07.html, a 27 kódpéldás változat."
+}

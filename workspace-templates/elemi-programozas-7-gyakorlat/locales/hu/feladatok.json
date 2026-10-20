@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "purpose": "Helyi tartalmi feladattérkép és időterv, nem alkalmazáskonfiguráció.",
+  "lesson": "EP_07",
+  "version": "1.0.0",
+  "language": "hu",
+  "duration_minutes": 90,
+  "break_included": false,
+  "teaching_mode": "explain_analog_example_student_edits_runs_reviews",
+  "previous_teaching_lesson": "EP_05",
+  "session_06": "ZH, nincs új lecke",
+  "reserve_tests_and_closure_minutes": 27,
+  "extended_duration_with_C1_minutes": 105,
+  "tasks": [
+    {
+      "id": "START",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "title": "Bemutatkozás és érdemi A1-kezdés",
+      "file": null,
+      "instructions": "agent.md",
+      "concept_ids": [
+        "ep07.reflection"
+      ]
+    },
+    {
+      "id": "A1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "title": "Rendelési tételek tuple-ben",
+      "file": "tetelek.py",
+      "html_section": "kicsomagolas",
+      "concept_ids": [
+        "ep07.tuple",
+        "ep07.unpacking",
+        "ep07.iteration"
+      ],
+      "acceptance": [
+        "Minden tétel külön sorban szerepel, a három mező jelentése helyes.",
+        "A részösszeg az aktuális adatokból származik, nem beírt állandó.",
+        "Üres listánál nincs tételsor; a bemenet nem módosul."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A1.1",
+        "A1.2",
+        "A1.3",
+        "A1.4"
+      ]
+    },
+    {
+      "id": "A2",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 10,
+      "title": "Mit mond el a kosár?",
+      "file": "kosar_adatok.py",
+      "html_section": "valasztas",
+      "concept_ids": [
+        "ep07.list_set",
+        "ep07.count",
+        "ep07.return_tuple"
+      ],
+      "acceptance": [
+        "A visszatérési érték három egész számot tartalmazó tuple, a rögzített sorrendben.",
+        "Külön kezeli az összes darabot, a termékfajtákat és a keresett terméket.",
+        "Az eredeti kosár megőrzi sorrendjét és ismétlődéseit. A hívó jelenít meg."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A2.1",
+        "A2.2",
+        "A2.3",
+        "A2.4"
+      ]
+    },
+    {
+      "id": "A3.a",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 5,
+      "title": "Unió és metszet",
+      "file": "kosarak.py",
+      "html_section": "halmazmuveletek",
+      "concept_ids": [
+        "ep07.union",
+        "ep07.intersection",
+        "ep07.difference",
+        "ep07.symmetric_difference",
+        "ep07.subset",
+        "ep07.sorted_display"
+      ],
+      "acceptance": [
+        "A3.1 osszes és kozos eredménye helyes set; az eredeti listák megmaradnak."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A3.1"
+      ],
+      "test_scope_fields": [
+        "osszes",
+        "kozos"
+      ]
+    },
+    {
+      "id": "A3.b",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 5,
+      "title": "Kétirányú és szimmetrikus különbség",
+      "file": "kosarak.py",
+      "html_section": "halmazmuveletek",
+      "concept_ids": [
+        "ep07.union",
+        "ep07.intersection",
+        "ep07.difference",
+        "ep07.symmetric_difference",
+        "ep07.subset",
+        "ep07.sorted_display"
+      ],
+      "acceptance": [
+        "A3.1 mind az öt halmazeredménye helyes; részhalmaz mező még nem kész."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A3.1"
+      ],
+      "test_scope_fields": [
+        "osszes",
+        "kozos",
+        "csak_elso",
+        "csak_masodik",
+        "csak_egyik"
+      ]
+    },
+    {
+      "id": "A3.c",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 5,
+      "title": "Részhalmaz és teljes ellenőrzés",
+      "file": "kosarak.py",
+      "html_section": "halmazmuveletek",
+      "concept_ids": [
+        "ep07.union",
+        "ep07.intersection",
+        "ep07.difference",
+        "ep07.symmetric_difference",
+        "ep07.subset",
+        "ep07.sorted_display"
+      ],
+      "acceptance": [
+        "Az első öt eredmény set; az elso_reszhalmaz bool.",
+        "A különbség irányai és a szimmetrikus különbség jelentése helyes.",
+        "Azonos termékfajták eltérő darabszámmal is részhalmazviszonyt adhatnak.",
+        "Az üres bal oldali halmaz részhalmaz; minden kötelező próba ismert, a bemenetek változatlanok."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "A3.1",
+        "A3.2",
+        "A3.3",
+        "A3.4",
+        "A3.5"
+      ],
+      "test_scope_fields": [
+        "osszes",
+        "kozos",
+        "csak_elso",
+        "csak_masodik",
+        "csak_egyik",
+        "elso_reszhalmaz"
+      ]
+    },
+    {
+      "id": "B1.a",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "title": "Új kosár az eredeti megőrzésével",
+      "file": "modositas.py",
+      "html_section": "modositas",
+      "concept_ids": [
+        "ep07.parameter_binding",
+        "ep07.rebinding",
+        "ep07.copy",
+        "ep07.return_value"
+      ],
+      "acceptance": [
+        "Új lista tér vissza; az eredeti tartalma és objektuma megmarad.",
+        "Az új termék az új lista végére kerül; az ismétlődés megengedett.",
+        "Az is összehasonlítás False; minden előírt próba ismert."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "B1.a.1",
+        "B1.a.2",
+        "B1.a.3"
+      ]
+    },
+    {
+      "id": "S1",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "title": "Rövid összegzés, B1.b folytatási pont",
+      "file": null,
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep07.reflection"
+      ]
+    },
+    {
+      "id": "B1.b",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 6,
+      "title": "Törzsvásárló szándékos felvétele",
+      "file": "modositas.py",
+      "html_section": "halmaz-modositas",
+      "concept_ids": [
+        "ep07.mutation",
+        "ep07.set_add",
+        "ep07.boolean_return"
+      ],
+      "acceptance": [
+        "Új névnél a hívó halmaza bővül és True tér vissza.",
+        "Meglévő névnél semmilyen név nem vész el, az elemszám nem nő és False tér vissza.",
+        "A működés megkülönböztethető a B1.a új listát készítő működésétől."
+      ],
+      "instructions": "tanulo_lap.md",
+      "tests": [
+        "B1.b.1",
+        "B1.b.2",
+        "B1.b.3"
+      ]
+    },
+    {
+      "id": "Z1",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 12,
+      "title": "Teljesíthető-e a rendelés?",
+      "file": "onallo.py",
+      "html_section": "atvitel",
+      "concept_ids": [
+        "ep07.independent_transfer",
+        "ep07.dict_keys",
+        "ep07.difference",
+        "ep07.function_responsibility"
+      ],
+      "acceptance": [
+        "Új set az eredmény, a hiányzó termékfajták helyesek és egyediek.",
+        "A függvény paraméterekből dolgozik, nem globális kosárból/árjegyzékből.",
+        "A két bemenet változatlan; a döntés és megjelenítés a hívóban van.",
+        "Az összes előírt próba eredménye ismert; az üres eredmény nem None."
+      ],
+      "instructions": "zaro_feladatok.md",
+      "tests": [
+        "Z1.1",
+        "Z1.2",
+        "Z1.3",
+        "Z1.4",
+        "Z1.5"
+      ]
+    },
+    {
+      "id": "T1",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 10,
+      "title": "10 elméleti kérdés",
+      "file": null,
+      "instructions": "teszt_elmelet.md",
+      "concept_ids": [
+        "ep07.assessment"
+      ],
+      "question_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10"
+      ]
+    },
+    {
+      "id": "T2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 15,
+      "title": "5 kódértelmezés és 5 hibakeresés",
+      "file": null,
+      "instructions": "teszt_kodismeret.md",
+      "concept_ids": [
+        "ep07.assessment"
+      ],
+      "question_ids": [
+        "KÓD1",
+        "KÓD2",
+        "KÓD3",
+        "KÓD4",
+        "KÓD5",
+        "KÓD6",
+        "KÓD7",
+        "KÓD8",
+        "KÓD9",
+        "KÓD10"
+      ]
+    },
+    {
+      "id": "S2",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 2,
+      "title": "Értékelés és egyértelmű lezárás",
+      "file": null,
+      "instructions": "agent.md",
+      "concept_ids": [
+        "ep07.reflection"
+      ]
+    },
+    {
+      "id": "C1",
+      "title": "Két kosár összesített riportja",
+      "required": false,
+      "file": "riport.py",
+      "planned_minutes": 15,
+      "placement": "Z1 után, T1 előtt, csak ténylegesen elegendő időben",
+      "prerequisites": [
+        "A1",
+        "A2",
+        "A3.c",
+        "Z1"
+      ],
+      "remaining_minutes_minimum": 42,
+      "reserve_tests_and_closure_minutes": 27,
+      "instructions": "bovites.md",
+      "tests": [
+        "C1.1",
+        "C1.2",
+        "C1.3",
+        "C1.4"
+      ],
+      "concept_ids": [
+        "ep07.integrated_report",
+        "ep07.return_tuple",
+        "ep07.reuse",
+        "ep07.non_mutating_result"
+      ]
+    }
+  ]
+}

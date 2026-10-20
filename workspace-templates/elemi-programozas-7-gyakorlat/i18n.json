@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Elementary Programming 7 — Practice Lab (EP_07)",
+      "description": "Seventh Python practice of a Programming Basics course (lesson EP_07): storing related fields in a tuple, telling a quantity apart from a product kind, comparing baskets with set operations, building a new list while keeping the original, and using functions deliberately, then an independent order check and a 10+10 question theory and code-knowledge final test — an explanatory tutor, editable starter programs, checking cases, student-written code and runs, with a detailed HTML course.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Elemi programozás 7. gyakorlat",
+      "description": "Programozás alapjai kurzus hetedik Python-gyakorlata (EP_07): összetartozó mezők tárolása tuple-ben, darabszám és termékfajta megkülönböztetése, kosarak összehasonlítása halmazműveletekkel, új lista készítése az eredeti megőrzésével, tudatos függvényhasználat, majd önálló rendelésellenőrzés és 10+10 kérdéses elméleti és kódismereti záró teszt — magyarázó tutor, módosítható minta-programok, ellenőrző esetek, saját kódírás és futtatás, részletes HTML-tananyaggal.",
+      "category": "Programozás"
+    }
+  }
+}
