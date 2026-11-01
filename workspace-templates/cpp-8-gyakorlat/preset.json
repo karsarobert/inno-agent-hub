@@ -1,0 +1,7 @@
+{
+  "id": "cpp-8-gyakorlat",
+  "name": "C++ 8 — Practice Lab (Classes, const Member Functions and private Members)",
+  "description": "Guided learner workspace for the eighth lab of a beginner C++ course (3×45 min) on classes, const member functions and private data members. First block — fundamentals: duration with a member function and persistent state (G08_01), rectangle with const queries and an independent copy (G08_02), lamp with a private brightness and object copying (G08_03), tank rejecting an invalid request before any state change (G08_04). Second block — project: the library borrowing program (P08_library.cpp) built up in six steps, P1–P6 (book type and stock, computed available copies and a const snapshot, borrowing and returning with available/borrowed checks, an array of six book types with aggregating free functions, trial borrowing on a copy and on the original, then why available copies must not be a stored member). Third block — summary test: 10 multiple-choice questions (T1) and 10 code-comprehension tasks (T2) with output prediction and debugging. Before every part the tutor shows a short analogous sample from the EXAMPLES.md collection; the learner writes, saves, compiles and runs the code (RUN button or g++ -std=c++20), and progress is tracked in PROGRESS.json. No homework; for fast progress a single X1 extension may be assigned.",
+  "category": "Programming",
+  "icon": "code-2"
+}
