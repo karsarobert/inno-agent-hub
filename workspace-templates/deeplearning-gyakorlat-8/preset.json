@@ -1,0 +1,7 @@
+{
+  "id": "deeplearning-gyakorlat-8",
+  "name": "Deep Learning 8 — Practice Lab (Transfer Learning for Flower Classification)",
+  "description": "Guided learner workspace for the eighth lab of a Deep Learning course (1.1 edition, run in Google Colab) on transfer learning: recognising five flower categories with a pretrained MobileNetV2 base. The Inno Agent side is a conversational tutor: the learner runs the cells of PTE_DL8_FLOWERS_EXERCISES.ipynb in their own Colab or Jupyter notebook, one cell at a time (E01–E02, E03 conversation point, D01–D05, F01–F05, T01–T05, V00–V04, Z01–Z02), and sends back the requested short output. All code is provided; the learner's work is interpretation: the 100/40/40 images per class split (500/200/200 in total), the frozen MobileNetV2 base and its own preprocess_input, a five-class softmax head with sparse categorical cross-entropy, then targeted fine-tuning of the block_16_ and Conv_1 layers with a fresh Adam (1e-3 → 1e-5), model selection by the smallest val_loss, and finally evaluation on the untouched test set with accuracy and a 5×5 confusion matrix, one misclassification and one previously unseen image. Named checkpoints: the E01 GPU list, the D04 batch shape/dtype, the F02 head, the T02 trainability rule, the T05 selection and the V02 matrix. The lab closes with three oral questions; no homework and no submission. Internet access and a personal Colab session are required, a GPU is recommended (with an empty GPU list the lab stops at E01).",
+  "category": "Programming",
+  "icon": "brain"
+}

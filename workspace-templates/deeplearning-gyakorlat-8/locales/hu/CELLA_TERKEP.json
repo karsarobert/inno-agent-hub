@@ -1,0 +1,424 @@
+{
+  "version": "1.1",
+  "language": "hu",
+  "notebook": "PTE_DL8_VIRAGOK_FELADATOK.ipynb",
+  "index_convention": "0-based code_cell_index; use visible step ID in conversation",
+  "method": "full code, then interpretation",
+  "notebook_submission_required": false,
+  "steps": [
+    {
+      "id": "E01",
+      "mode": "guided",
+      "title": "Környezet és Colab GPU",
+      "instruction": "A verziósorokat, a környezet nevét és a GPU-listát küldd vissza. Colabban üres GPU-listánál előbb állítsd át a környezetet, majd küldd az új E01-kimenetet.",
+      "evidence": "A verziósorokat, a környezet nevét és a GPU-listát küldd vissza. Colabban üres GPU-listánál előbb állítsd át a környezetet, majd küldd az új E01-kimenetet.",
+      "acceptance": "Colabban csak nem üres GPU-lista fogadható el kész E01-ként. Üres listánál konkrét menüút és ismételt ellenőrzés, nem automatikus CPU-s továbblépés. Helyi Jupyternél külön eszközkörnyezet.",
+      "prerequisites": [],
+      "code_cell_index_0based": 2,
+      "explanation": "A TensorFlow a futtatókörnyezet eszközeit listázza. A GPU: [] üres listát jelent: a TensorFlow jelenleg nem lát GPU-t. Colabban ilyenkor előbb válts GPU-ra: Futtatókörnyezet (Runtime) → Futtatókörnyezet típusának módosítása (Change runtime type) → Hardveres gyorsító (Hardware accelerator) → GPU, például T4 GPU → Mentés (Save), majd csatlakozz újra. Futtasd újra az E01-et, és csak a nem üres GPU-lista után folytasd. A váltás új munkamenetet indíthat, ezért az addigi változók és feltöltött fájlok elveszhetnek. Helyi Jupyterben nincs ilyen Colab-menü; ott az oktató által előkészített eszközkörnyezetet használjuk.",
+      "interpretation_question": "Melyik kiírt adatból állapítod meg, hogy ebben a munkamenetben használható-e GPU?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "E02",
+      "mode": "guided",
+      "title": "Adatok és előre elkészített segédfüggvények",
+      "instruction": "Futtasd a kész cellát, és küldd az adatmappa útvonalát és az E02 OK sort.",
+      "evidence": "Futtasd a kész cellát, és küldd az adatmappa útvonalát és az E02 OK sort.",
+      "acceptance": "Öt osztálymappa elérhető; az adatok betöltődtek. Megérti, hogy a def létrehozza a segédet, a hívás futtatja.",
+      "prerequisites": [
+        "E01"
+      ],
+      "code_cell_index_0based": 4,
+      "explanation": "Ez a hosszabb, készen kapott cella technikai előkészítést végez. Letölti vagy helyi fájlból megnyitja a hivatalos képcsomagot, majd definiál több segédfüggvényt. A def felosztas_elokeszitese(...) sor egy már megírt függvényt hoz létre a memóriában; ettől a felosztás még nem fut le. A D02-ben ezt a függvényt fogjuk meghívni. A tömörítési és hash-kezelési részeket nem kell újraírnod vagy részletesen ismerned.",
+      "interpretation_question": "A függvény definiálása és későbbi meghívása közül melyik indítja majd el ténylegesen a képek felosztását?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "E03",
+      "mode": "reflection",
+      "title": "A látott módszer alkalmazása új helyzetben",
+      "instruction": "Válaszolj röviden a beszélgetésben.",
+      "evidence": "Saját rövid válasz; nincs kötelező írás a notebookba.",
+      "acceptance": "Egy-két helyes lényegi különbség elegendő. A korábbi válaszokat együtt értékeld; ne követeld a teljes fogalomlista vagy egy adott mondat szó szerinti visszaadását.",
+      "prerequisites": [
+        "E02"
+      ],
+      "code_cell_index_0based": null,
+      "explanation": "A bemutatók ételképeket és kutya–macska képeket használtak. Itt más adatok, más modell és öt egész címke szerepel. A transzfer tanulás elve ugyanaz.",
+      "interpretation_question": "Mit változtatunk meg az öt virágkategóriás feladathoz a bemutatókhoz képest? Egy-két lényegi különbség elegendő.",
+      "code_provided": false,
+      "no_submission": true
+    },
+    {
+      "id": "D01",
+      "mode": "guided",
+      "title": "Virágkategóriák és mintaképek",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Az öt osztály képszáma és egy saját képi megfigyelés.",
+      "acceptance": "Öt nem üres osztály és a valóban látott képre vagy a hallgató leírására alapozott megfigyelés.",
+      "prerequisites": [
+        "E03"
+      ],
+      "code_cell_index_0based": 7,
+      "explanation": "A mappanevek a kategóriákat jelölik. A fájlok száma most a teljes forráscsomag méretét mutatja, nem a tanításhoz kiválasztott képek számát. A címkéket később a rögzített osztálysorrend adja.",
+      "interpretation_question": "Milyen tényleges szín-, forma- vagy háttérbeli változatosságot láttál a mintaképeken?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D02",
+      "mode": "guided",
+      "title": "A már megírt felosztófüggvény meghívása",
+      "instruction": "Futtasd a megadott teljes cellát. Küldd a három halmaz kiírt létszámát.",
+      "evidence": "Futtasd a megadott teljes cellát. Küldd a három halmaz kiírt létszámát.",
+      "acceptance": "500/200/200, osztályonként 100/40/40. A segéd már definiált függvény; négy argumentumot és két visszatérési értéket értelmez. Nem kell megírnia a függvényt vagy a számlálást.",
+      "prerequisites": [
+        "D01"
+      ],
+      "code_cell_index_0based": 9,
+      "explanation": "A felosztas_elokeszitese függvény már elkészült az E02 cellában, ezért most csak meghívjuk. Négy bemenetet adunk át sorrendben: az adat_mappa megmondja, hol vannak a képek; a következő három szám az egy osztályból kiválasztandó tanító-, validációs és tesztképek száma. A segéd ellenőrzi a képeket, kizárja a pontos duplikációkat és konfliktusos címkéket, a rögzített seed szerint válogat, majd külön mappákba másolja a kiválasztott képeket. Két eredményt ad vissza: a halmaz_mappa az új mappák gyökere, a jegyzek pedig egy lista, amely képenként rögzíti a halmazt, kategóriát, útvonalat és hash-t. A bal oldali két név ezt a két eredményt veszi át. A kiíró for-ciklus a jegyzék split mezője alapján számolja a képeket; a kódot készen használjuk.",
+      "interpretation_question": "A tanito_osztalyonkent = 100 sor összesen 100 tanítóképet vagy kategóriánként 100 képet kér? Hogyan kapcsolódik ez a saját tanítólétszámodhoz?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D03",
+      "mode": "guided",
+      "title": "A három adathalmaz és az adattöltők létrehozása",
+      "instruction": "Futtasd a cellát. Küldd az átfedéslistát és az osztálysorrendet.",
+      "evidence": "Futtasd a cellát. Küldd az átfedéslistát és az osztálysorrendet.",
+      "acceptance": "Átfedések 0/0/0, közös osztálysorrend. Megkülönbözteti a három Dataset szerepét; a teszt képei és címkéi később ugyanabban a sorrendben kellenek.",
+      "prerequisites": [
+        "D02"
+      ],
+      "code_cell_index_0based": 11,
+      "explanation": "A D02 külön mappákba válogatta a képeket. Ez a cella előbb ellenőrzi, hogy nincs közös fájlhash két halmazban, majd létrehozza a tanito_adatok, validacios_adatok és teszt_adatok adatfolyamokat. Ezek tf.data.Dataset objektumok: azt írják le, hogyan olvassunk és méretezzünk képeket 16-os batch-ekben, nem egyszerre töltik az összes képet a memóriába. Az adatok_letrehozasa(...) a most definiált betöltősegéd. A train, val és test a megfelelő mappát választja. Tanításkor a keveres=True változatos sorrendet ad, a validáció és teszt keveres=False beállítása rögzített sorrendet őriz. A közös OSZTALYNEVEK-lista biztosítja, hogy ugyanaz az egész szám mindenütt ugyanazt a virágot jelentse. Itt még nem végzünk tesztértékelést.",
+      "interpretation_question": "A három új változó közül melyiket adjuk majd a fit tanító bemenetének, melyik segíti a modellválasztást, és miért fontos a teszt rögzített sorrendje?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D04",
+      "mode": "guided",
+      "title": "Egy batch lekérése: iter és next",
+      "instruction": "Futtasd a teljes cellát. Küldd a két alakot, típust, pixeltartományt és a címkéket.",
+      "evidence": "Futtasd a teljes cellát. Küldd a két alakot, típust, pixeltartományt és a címkéket.",
+      "acceptance": "Képek (16,224,224,3), címkék (16,), float32/int32, 0–255 és 0–4. Az iter/next egy teljes batch-et ad, nem egy képet. Nem kell ezt a szintaxist önállóan kitalálnia.",
+      "prerequisites": [
+        "D03"
+      ],
+      "code_cell_index_0based": 13,
+      "explanation": "A kepek, cimkek = next(iter(tanito_adatok)) új művelet, ezért most részekre bontjuk. Az iter(tanito_adatok) létrehoz egy bejáró objektumot az adatfolyamhoz. A next(...) ebből egy következő elemet kér le, ami itt nem egyetlen kép, hanem egy 16 képből és a hozzájuk tartozó 16 címkéből álló pár. A bal oldali kepek, cimkek a pár két tagját veszi át. A kódban ugyanezt két sorban, adag_bejaro változóval mutatjuk meg, és kommentben a rövid alak is látható. A shape az alakot, a dtype az elemtípust, a .numpy() a megjeleníthető NumPy-értékeket adja. A képek ekkor még nyers, 0–255 közötti RGB-pixelek.",
+      "interpretation_question": "A saját képalakod négy száma rendre mit jelent, és a címkék alakjában miért nincs három színcsatorna?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D05",
+      "mode": "guided",
+      "title": "Adatbővítés címkeváltozás nélkül",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Egy konkrét átalakítás és értelmezés; a rövid, helyes megfogalmazás elegendő.",
+      "acceptance": "Az átalakítás megőrzi a virágkategóriát; csak tanításkor aktív. Nem látott ábráról nem állítható konkrétum.",
+      "prerequisites": [
+        "D04"
+      ],
+      "code_cell_index_0based": 15,
+      "explanation": "A kis elforgatás és vízszintes tükrözés más nézetet adhat ugyanarról a virágról. Az adatbővítés a modell része lesz, de csak tanításkor működik; a teszt képeit nem torzítjuk.",
+      "interpretation_question": "Az általad látott átalakítás megváltoztatja-e a virág kategóriáját? Indokold röviden.",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F01",
+      "mode": "guided",
+      "title": "Mit jelent a preprocess_input?",
+      "instruction": "Futtasd a kész próbacellát, és küldd az eredeti és átalakított értékeket.",
+      "evidence": "Futtasd a kész próbacellát, és küldd az eredeti és átalakított értékeket.",
+      "acceptance": "0/127.5/255 → −1/0/1. A teljes modell tartalmazza az egyszeri MobileNetV2-előfeldolgozást; külön /255 vagy újabb preprocess nem kell.",
+      "prerequisites": [
+        "D05"
+      ],
+      "code_cell_index_0based": 17,
+      "explanation": "A preprocess előfeldolgozást jelent: a képpixeleket olyan számtartományba alakítjuk, amilyenre az előtanított modell számít. A MobileNetV2 saját preprocess_input függvénye a pixel / 127.5 - 1 képletnek megfelelően 0–255-ről −1 és 1 közé skáláz. Az import sor a MobileNetV2-hez tartozó függvényt hozza be, nem magát a bázismodellt tölti le. Az np.array(..., dtype=np.float32) itt egy egyszerű próbatömböt készít; nincs szükség négyszeres szögletes zárójelre. A .copy() megőrzi az eredeti tömböt, így kiírhatjuk az előtte–utána értékeket. A valódi modellben ugyanez az előfeldolgozás később egyszer kerül be a képi műveletek közé.",
+      "interpretation_question": "Ha egy új képet majd a teljes modellnek adunk át, a kód melyik részének kell felelnie az előfeldolgozásért, hogy az ne történjen kétszer?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F02",
+      "mode": "guided",
+      "title": "Előtanított bázis befagyasztása",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "A kimeneti alak és a tanítható bázisparaméterek száma.",
+      "acceptance": "ImageNet-súlyok, include_top=False, befagyasztott bázis, (None,7,7,1280), nulla tanítható bázisparaméter.",
+      "prerequisites": [
+        "F01"
+      ],
+      "code_cell_index_0based": 19,
+      "explanation": "A bázis képi mintázatokat alakít jellemzőkké. Az ImageNet 1000 osztályos eredeti fejét elhagyjuk. A trainable=False a bázis súlyainak tanítását tiltja; a később létrehozott fej tanítható marad.",
+      "interpretation_question": "Mit hagy el az include_top=False, és melyik kiírt szám igazolja a bázis befagyasztását?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F03",
+      "mode": "guided",
+      "title": "Öt osztályos fej és veszteség",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "A summary utolsó rétegének alakja és rövid saját értelmezés.",
+      "acceptance": "Öt softmax kimenet; sparse categorical veszteség egész címkékre; nyers RGB-bemenet; egyszeri előfeldolgozás; bázishívás training=False; tanítható fej.",
+      "prerequisites": [
+        "F02"
+      ],
+      "code_cell_index_0based": 21,
+      "explanation": "A GlobalAveragePooling2D a térbeli jellemzőtérképekből egy vektort készít. A softmax öt osztályra ad eloszlást. A címkék egész számok, így sparse categorical crossentropy illik hozzájuk. A training=False a bázis BN-rétegeit inferencia módban tartja, és nem tiltja le a későbbi gradienseket.",
+      "interpretation_question": "A summary utolsó (None,5) alakjában mit jelent az 5, és hogyan illik ehhez az egész címkéket fogadó veszteség?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F04",
+      "mode": "guided",
+      "title": "Mit tanítunk most?",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "A három paraméterszám, vagy a már ellenőrzött azonos F03-kimenet.",
+      "acceptance": "A már F03-ban ellenőrzött számokat ne kérd újra. Csak a fej tanulhat: 6405 tanítható, bázis nulla.",
+      "prerequisites": [
+        "F03"
+      ],
+      "code_cell_index_0based": 23,
+      "explanation": "A fej paraméterszáma a bemeneti jellemzők számából, az osztályszámból és az eltolásokból adódik. A bázisban most nulla tanítható súlyt várunk. Nem kell minden réteget kilistázni.",
+      "interpretation_question": "Ha az F03-ban már ugyanazokat a számokat elküldted, azokat használjuk. A bázis tanítható száma alapján most melyik modellrész tanulhat?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F05",
+      "mode": "guided",
+      "title": "A fej tanítása",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Epochszám, legjobb val_loss, bázisváltozatlanság és saját megfigyelés.",
+      "acceptance": "Véges veszteségek és 1–5 epocha; a bázis lenyomata változatlan. Nincs minimum accuracy.",
+      "prerequisites": [
+        "F04"
+      ],
+      "code_cell_index_0based": 25,
+      "explanation": "A fit a tanítóból frissíti a fej súlyait. A val_loss alapján a legjobb állapotot mentjük, és két javulás nélküli epoch után megállhatunk. Az 5 epocha felső korlát. Egy ellenőrző lenyomat azt is vizsgálja, hogy a bázis valóban változatlan maradt-e.",
+      "interpretation_question": "A saját naplód szerint hogyan változott a tanító és a validációs loss? Ez bizonyítja-e, hogy további epochok mindig javítanának?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T01",
+      "mode": "guided",
+      "title": "Az első fázis állapotának megőrzése",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Checkpoint neve és a visszatöltött validációs eredmény; nem beadandó fájlútvonal.",
+      "acceptance": "A legjobb fejsúlyokat visszatölti és csak validáción értékel. Az első checkpoint megmarad.",
+      "prerequisites": [
+        "F05"
+      ],
+      "code_cell_index_0based": 27,
+      "explanation": "A következő fit ugyanazt a modellobjektumot módosítja. Ezért külön fájlban megőrizzük a legjobb fejállapotot, és abból indulunk tovább. A változatok között így később is visszaléphetünk.",
+      "interpretation_question": "Miért őrizzük meg külön a fejcheckpointot, mielőtt ugyanazt a modellt tovább tanítjuk?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T02A",
+      "mode": "guided",
+      "title": "Rétegek megtekintése és kiválasztásuk bemutatása",
+      "explanation": "Mielőtt bármit taníthatóvá tennénk, nézzük meg a bázis végét. A bazis.layers a rétegobjektumok listája, a [-25:] az utolsó 25 elemet választja ki. A reteg.name a nevet, a type(reteg).__name__ a réteg fajtáját adja; a trainable az aktuális taníthatóság. A startswith(\"block_16_\") azt kérdezi, ezzel az előtaggal kezdődik-e a név, a == \"Conv_1\" pedig pontos névegyezést vizsgál. Az isinstance(reteg, layers.BatchNormalization) a réteg típusát ellenőrzi. A második ciklus ezeket csak kiírja: itt még nem változtatjuk a súlyokat vagy a taníthatóságot. A következő cellában a kijelölt név és a nem BN típus együtt dönti el a taníthatóságot.",
+      "instruction": "Futtasd a rétegbemutató cellát, és küldd a kijelölt jelöltek listáját.",
+      "interpretation_question": "Nevezz meg a saját listádból egy kijelölt konvolúciós réteget és egy BN-réteget, amelynek befagyasztva kell maradnia.",
+      "evidence": "Futtasd a rétegbemutató cellát, és küldd a kijelölt jelöltek listáját.",
+      "acceptance": "A listában szerepelnek a block_16_ rétegek és a Conv_1. A block_16_*_BN és Conv_1_bn típus alapján kimarad; a bemutató cella nem módosít trainable állapotot.",
+      "prerequisites": [
+        "T01"
+      ],
+      "code_cell_index_0based": 29,
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T02",
+      "mode": "guided",
+      "title": "A bemutatott szabállyal kiválasztott rétegek feloldása",
+      "instruction": "Futtasd a teljes megadott cellát. Küldd a tanítható réteglistát, a BN-darabszámot és a paraméterszámot.",
+      "evidence": "Futtasd a teljes megadott cellát. Küldd a tanítható réteglistát, a BN-darabszámot és a paraméterszámot.",
+      "acceptance": "Csak a kijelölt nem BN-rétegek taníthatók, BN száma 0; modellparaméter 885445. A kódot készen használja és a feltétel hatását értelmezi.",
+      "prerequisites": [
+        "T02A"
+      ],
+      "code_cell_index_0based": 31,
+      "explanation": "Most a T02A-ban megismert szűrést alkalmazzuk. A bazis.trainable=True először engedélyezi a szülőmodell taníthatóságát. Ezután minden rétegen végigmegyünk: a kijelolt_nev logikai érték a névszabályt, a bn_reteg a BatchNormalization típust jelzi. Az if kijelolt_nev and not bn_reteg csak a megfelelő nem BN-rétegeknek állít True értéket, az else minden mást visszafagyaszt. A végén készen kapott ellenőrzők kiírják a tanítható neveket, a tanítható BN-rétegek számát és a paraméterszámot. Ezzel még nem tanítunk; a következő pontban újrakompilálunk.",
+      "interpretation_question": "A saját T02A és T02 listádat összevetve melyik szabály akadályozta meg, hogy a block_16_ névvel kezdődő BN-rétegek is taníthatók legyenek?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T03",
+      "mode": "guided",
+      "title": "Újrakompilálás kisebb lépésekkel",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Az új learning_rate és a kód szerepének rövid értelmezése.",
+      "acceptance": "Új Adam 1e−5, helyes sparse veszteség, compile a rétegmódosítás után. Csak a learning_rate átírása nem elég.",
+      "prerequisites": [
+        "T02"
+      ],
+      "code_cell_index_0based": 33,
+      "explanation": "A taníthatóság megváltoztatása után új compile kell. Új Adam optimalizálót hozunk létre 1e-5 tanulási rátával; a veszteség és a metrika változatlan. A kisebb lépés óvatosan igazítja az előtanított jellemzőket.",
+      "interpretation_question": "Miért kell a trainable állapot módosítása után új compile, és miért kisebb a második tanulási ráta?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T04",
+      "mode": "guided",
+      "title": "Óvatos finomhangolás",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Epochok, legjobb val_loss, BN- és Conv_1-ellenőrzés.",
+      "acceptance": "A bázis rétegszabályát T02 igazolja. A BN-lenyomat változatlan és a Conv_1 módosult, de ez a két ellenőrzés önmagában nem bizonyítja az összes többi réteg változatlanságát. A végső epocha val_accuracy értéke nem feltétlenül a visszatöltött legjobb val_loss állapotáé.",
+      "prerequisites": [
+        "T03"
+      ],
+      "code_cell_index_0based": 35,
+      "explanation": "A tanító- és validációs halmaz és az adatbővítés szabálya ugyanaz marad. A BN-rétegek ellenőrzése azt vizsgálja, hogy mozgóátlagaik és súlyaik változatlanok-e. A kijelölt konvolúciós súlyoknak viszont változhat az értéke.",
+      "interpretation_question": "A két True ellenőrzés pontosan mit igazol, és mi az, amit ezek önmagukban még nem bizonyítanak minden bázisrétegről?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T05",
+      "mode": "guided",
+      "title": "Modellválasztás validáción",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Két validációs sor és a kiválasztott fázis. A tesztet itt még ne használd.",
+      "acceptance": "Csak a val_loss alapján választ, a legjobb kiválasztott súlyokat betölti, a döntést teszt előtt menti.",
+      "prerequisites": [
+        "T04"
+      ],
+      "code_cell_index_0based": 37,
+      "explanation": "A val_loss és az accuracy eltérő dolgot mér, ezért egyszerre változhatnak különböző irányba. Az előre rögzített döntési szabály a kisebb val_loss; döntetlenben a befagyasztott változatot választjuk. A tesztet még nem használjuk.",
+      "interpretation_question": "A saját két validációs sorod alapján miért ezt a fázist választotta a kód?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V00",
+      "mode": "guided",
+      "title": "Argmax, axis és összefűzés kis tömbökön",
+      "explanation": "A végső teszt előtt kis, mesterséges tömbön nézzük meg az új műveleteket; ez nem tesztadat. A példában két minta három-három osztályértéket kap. Egy sor egy minta, egy oszlop egy kategória. Az np.argmax(..., axis=1) minden soron belül a legnagyobb érték indexét adja, nem magát az értéket. A Python-index 0-tól indul. Az np.concatenate(...) több kisebb tömböt fűz össze a megadott sorrendben. A valódi tesztadatok címkéi is batch-enként érkeznek, ezért ezeket egyetlen címketömbbé kell majd összefűzni.",
+      "instruction": "Futtasd a kis példát. Küldd a soronkénti osztályindexeket és az összefűzött címkéket.",
+      "interpretation_question": "Az első sorhoz kapott index a sor melyik értékére mutat? Miért fontos megőrizni a címkebatch-ek sorrendjét?",
+      "evidence": "Futtasd a kis példát. Küldd a soronkénti osztályindexeket és az összefűzött címkéket.",
+      "acceptance": "Indexek [1,0], összefűzve [0,2,1]. Az index pozíció, nem valószínűség. A sorrendnek a képek becsléseivel egyeznie kell.",
+      "prerequisites": [
+        "T05"
+      ],
+      "code_cell_index_0based": 39,
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V01",
+      "mode": "guided",
+      "title": "Valós tesztbecslések és a címkebatch-ek összefűzése",
+      "instruction": "Futtasd a teljes cellát. Küldd a három shape-et, az első öt becslést és a sorösszegek min/max értékét.",
+      "evidence": "Futtasd a teljes cellát. Küldd a három shape-et, az első öt becslést és a sorösszegek min/max értékét.",
+      "acceptance": "Alakok (200,5), (200,), (200,); indexek 0–4, sorösszeg közel 1. A kép- és címkesorrend azonos. Nem kell listakomprehenziót írnia vagy korábbról ismernie.",
+      "prerequisites": [
+        "V00"
+      ],
+      "code_cell_index_0based": 41,
+      "explanation": "A modellválasztás lezárult; most használjuk először a tesztet. A modell.predict(teszt_adatok) a batch-ek képeire ugyanabban a rögzített sorrendben ad becslést. A valoszinusegek táblában 200 sor és öt oszlop lesz: képenként öt kategóriaérték. Az np.argmax(..., axis=1) minden képhez egy osztályindexet választ. A valódi címkéket most szándékosan egyszerű for-ciklussal gyűjtjük: a batch képrésze most nem kell, az aláhúzás ezt jelzi; az adag_cimkek.numpy() a címkéket teszi NumPy-tömbbé; az append az adagokat listába teszi. Az np.concatenate a V00-hoz hasonlóan egyetlen tömbbé fűzi őket. A sum(axis=1) az egy képhez tartozó öt értéket adja össze. A teszt keverését ezért nem kapcsoljuk be. Az első öt becslés azonossága önmagában nem hiba: a teszt mappasorrendje miatt az első képek azonos kategóriából jöhetnek.",
+      "interpretation_question": "A saját kimenetedben miért lesz egy osztályindexet tartalmazó tömb alakja (200,), miközben a modell közvetlen kimenete (200,5)?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V02",
+      "mode": "guided",
+      "title": "Accuracy és tévesztési mátrix",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Accuracy, teljes mátrix és összeg; saját cellaértelmezés.",
+      "acceptance": "5×5 egész mátrix; összeg 200, sorösszegek 40. Accuracy = főátlóösszeg/200; sor valódi, oszlop becsült.",
+      "prerequisites": [
+        "V01"
+      ],
+      "code_cell_index_0based": 43,
+      "explanation": "Az accuracy az összes helyes osztályozás aránya. A mátrix sorai a valódi, oszlopai a becsült kategóriák. A főátló a helyes találatokat mutatja; az összegnek a tesztmintaszámmal kell egyeznie.",
+      "interpretation_question": "Válassz a saját mátrixodból egy nem nulla, főátlón kívüli cellát, és mondd el, melyik valódi kategóriát minek becsülte. Ha nincs ilyen, értelmezz egy főátlóbeli cellát.",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V03",
+      "mode": "guided",
+      "title": "Egy tévesztés megvizsgálása",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Index, valódi/becsült kategória, valószínűségek és saját megfigyelés.",
+      "acceptance": "A saját képi leírás elfogadható; egy furcsa nézőpont lehetséges ok, de a kimenetből nem állapítható meg a tanítóképek tipikus nézete. Hibamentes esetben ne nevezd tévesztésnek a választott helyes becslést.",
+      "prerequisites": [
+        "V02"
+      ],
+      "code_cell_index_0based": 45,
+      "explanation": "Egy képből nem bizonyítható általános ok, de konkrét hibajelenség megfigyelhető. Ha nincs hibás kép, a legkevésbé magabiztos helyes döntést vizsgáljuk. A tömbindex 0-tól indul.",
+      "interpretation_question": "A megjelenített képen mit figyelsz meg ténylegesen? A lehetséges hibaokot jelöld feltételezésnek, ne bizonyítéknak.",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V04",
+      "mode": "guided",
+      "title": "Egy eddig nem használt kép",
+      "instruction": "Futtasd a megadott teljes kódcellát; önálló kódírás nem szükséges.",
+      "evidence": "Becsült kategória és öt softmax-érték; a mappanév referencia-címke lehet, nem láttatja automatikusan a képet.",
+      "acceptance": "A kód egyszeri előfeldolgozást biztosít. A softmax és a mappanév alapján ne állíts nem látott képi ellenőrzést. Ha van referencia-címke, ahhoz viszonyított egyezés mondható ki.",
+      "prerequisites": [
+        "V03"
+      ],
+      "code_cell_index_0based": 47,
+      "explanation": "A kész betöltő RGB float32 képet ad 0–255 tartományban, egyképes batchként. A modell maga végzi az előfeldolgozást, ezért itt nem szabad ismét preprocess_inputot vagy /255-öt alkalmazni. Egy félretett, eddig nem használt forráskép is megfelel.",
+      "interpretation_question": "Melyik kategóriához tartozik a legnagyobb érték, és miért nem bizonyítja önmagában ez a szám a becslés helyességét?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "Z01",
+      "mode": "reflection",
+      "title": "Saját következtetések",
+      "instruction": "Válaszolj röviden a beszélgetésben.",
+      "evidence": "Három saját válasz a beszélgetésben; a korábban már megértett részeket nem kell újravizsgáztatni.",
+      "acceptance": "Három kérdés egyenként, rövid saját válaszokkal. A korábban már tisztázott részeket számítsd be; csak lényegi félreértésnél kérj további magyarázatot.",
+      "prerequisites": [
+        "V04"
+      ],
+      "code_cell_index_0based": null,
+      "explanation": "A számok mellett a megoldási döntéseket is értékeljük. A finomhangolás nem minden futásban javít. A teszt alapján ezen a gyakorlaton már nem hangolunk újra.",
+      "interpretation_question": "Három rövid kérdést beszélünk meg egyenként: mi változott a bemutatókhoz képest; mely súlyok változhattak a két fázisban és ezt mi igazolja; segített-e a finomhangolás validáción és mire való a teszt?",
+      "code_provided": false,
+      "no_submission": true
+    },
+    {
+      "id": "Z02",
+      "mode": "guided",
+      "title": "Eredmények összefoglalása és a gyakorlat lezárása",
+      "instruction": "Futtasd az összegző cellát. A kiválasztott fázist és a végső tesztpontosságot küldd el az agentnek.",
+      "evidence": "Futtasd az összegző cellát. A kiválasztott fázist és a végső tesztpontosságot küldd el az agentnek.",
+      "acceptance": "Elég a saját összegző kimenet és a megbeszélt értelmezés. Nem kérhető notebook, fájlnév, útvonal, mentési bizonyíték vagy beadás.",
+      "prerequisites": [
+        "Z01"
+      ],
+      "code_cell_index_0based": 50,
+      "explanation": "A cella összegzi a saját mérési eredményeket és helyben results.json fájlba menti őket. A notebookot saját használatra elmentheted, de a gyakorlat végén nem kell beküldened, feltöltened vagy megosztanod. A lezáráshoz elég az itt megbeszélt futási kimenet és a saját értelmezésed.",
+      "interpretation_question": "Mi a saját futásod legfontosabb tanulsága?",
+      "code_provided": true,
+      "no_submission": true
+    }
+  ]
+}
