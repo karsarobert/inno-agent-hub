@@ -1,0 +1,5 @@
+kávé;400
+tea;350
+kávé;450
+víz;0
+szendvics;890

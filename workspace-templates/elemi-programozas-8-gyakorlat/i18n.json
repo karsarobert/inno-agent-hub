@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "Elementary Programming 8 — Practice Lab (EP_08)",
+      "description": "Eighth Python practice of a Programming Basics course (lesson EP_08): reading an order line by line from a file while keeping the order and the duplicates, counting only the searched words in feedback with case folding and edge punctuation, writing a fresh price block in two stages, appending one sales-log record per event and then re-reading the stored prices for a summary, plus an independent product report and a 10+10 question theory and code-knowledge final test — an explanatory tutor, editable starter programs, sample data files, checking cases, student-written code and runs, with a detailed HTML course.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "Elemi programozás 8. gyakorlat",
+      "description": "Programozás alapjai kurzus nyolcadik Python-gyakorlata (EP_08): rendelés soronkénti beolvasása fájlból a sorrend és az ismétlődések megtartásával, csak a keresett szavak számlálása a visszajelzésekben kisbetűsítéssel és szélső írásjel-kezeléssel, friss árblokk mentése két szakaszban, eseményenként egy eladási naplórekord hozzáfűzése, majd a tárolt árak visszaolvasása és összesítése, végül önálló termékjelentés és 10+10 kérdéses elméleti és kódismereti záró teszt — magyarázó tutor, módosítható minta-programok, mintafájlok, ellenőrző esetek, saját kódírás és futtatás, részletes HTML-tananyaggal.",
+      "category": "Programozás"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "id": "elemi-programozas-8-gyakorlat",
+  "name": "Elementary Programming 8 — Practice Lab (EP_08)",
+  "description": "Eighth Python practice of a Programming Basics course (lesson EP_08): reading an order line by line from a file while keeping the order and the duplicates, counting only the searched words in feedback with case folding and edge punctuation, writing a fresh price block in two stages, appending one sales-log record per event and then re-reading the stored prices for a summary, plus an independent product report and a 10+10 question theory and code-knowledge final test — an explanatory tutor, editable starter programs, sample data files, checking cases, student-written code and runs, with a detailed HTML course.",
+  "category": "Programming",
+  "icon": "code-2"
+}

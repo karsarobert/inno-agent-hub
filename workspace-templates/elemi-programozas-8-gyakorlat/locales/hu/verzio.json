@@ -1,0 +1,19 @@
+{
+  "package": "EP_08",
+  "version": "1.0.0",
+  "date": "2026-11-02",
+  "language": "hu",
+  "role": "tanuloi",
+  "previous_package": "EP_07",
+  "template_version": "EP_07 1.0.0 / EP_05 1.2.0",
+  "lesson_duration_minutes": 90,
+  "extended_duration_minutes": 105,
+  "scope": "local_package_metadata_not_application_configuration",
+  "changes": [
+    "Fájlkezelési és szövegfeldolgozási önálló átvitel az EP_08.html után",
+    "Öt fő programozási feladat, két feladat külön szakaszokra bontva, egy választható bővítés",
+    "Kilenc UTF-8 mintafájl, saját napló és friss jelentések elkülönítése",
+    "10 elméleti és 10 kódismereti kérdés",
+    "Tutor: magyarázat, saját szerkesztés/futtatás, fájlnézet-frissítés és ismétlésmentes folytatás"
+  ]
+}

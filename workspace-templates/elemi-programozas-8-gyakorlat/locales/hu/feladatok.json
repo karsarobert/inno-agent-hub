@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "purpose": "Helyi tartalmi feladattérkép, nem alkalmazáskonfiguráció.",
+  "lesson": "EP_08",
+  "version": "1.0.0",
+  "language": "hu",
+  "duration_minutes": 90,
+  "break_included": false,
+  "previous_teaching_lesson": "EP_07",
+  "methodology_source": [
+    "EP_05 1.2.0",
+    "EP_07 1.0.0"
+  ],
+  "reserve_tests_and_closure_minutes": 27,
+  "extended_duration_with_C1_minutes": 105,
+  "teaching_mode": "explain_analog_example_student_edits_runs_reviews_files",
+  "tasks": [
+    {
+      "id": "START",
+      "title": "Bemutatkozás és érdemi A1-kezdés",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "file": null,
+      "instructions": "agent.md",
+      "concept_ids": [
+        "ep08.reflection"
+      ]
+    },
+    {
+      "id": "A1",
+      "title": "Rendelés a szövegfájlból",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "file": "rendeles.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep08.file_read",
+        "ep08.strip",
+        "ep08.order_duplicates"
+      ],
+      "tests": [
+        "A1.1",
+        "A1.2",
+        "A1.3"
+      ],
+      "html_section": "szamadatok",
+      "acceptance": [
+        "Új lista az eredmény; a sorrend és az ismétlődő kávé megmarad.",
+        "A szélső whitespace és az üres sor a kimondott szabály szerint eltűnik.",
+        "Fájlnévparaméterből dolgozik; üres fájlt is kezel; minden szükséges próba ismert."
+      ]
+    },
+    {
+      "id": "A2",
+      "title": "Csak a keresett kulcsszavak gyakorisága",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 12,
+      "file": "velemeny.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep08.split",
+        "ep08.normalization",
+        "ep08.filtered_frequency"
+      ],
+      "tests": [
+        "A2.1",
+        "A2.2",
+        "A2.3",
+        "A2.4"
+      ],
+      "html_section": "szovegstatisztika",
+      "acceptance": [
+        "Pontosan a paraméterként kapott kulcsok szerepelnek az eredményben, egész értékkel; a hiányzó is 0.",
+        "A kis-/nagybetű és a megadott szélső írásjelek kezelése helyes.",
+        "Nem az összes szó gyakoriságát adja; nem égeti be a finom/gyors/olcsó neveket. A bemenetek megmaradnak."
+      ]
+    },
+    {
+      "id": "A3.a",
+      "title": "Blokk tételsorai",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 6,
+      "file": "blokk.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep08.reuse",
+        "ep08.write",
+        "ep08.price_lookup"
+      ],
+      "tests": [
+        "A3.a.1"
+      ],
+      "html_section": "iras",
+      "acceptance": [
+        "Az A1 saját beolvasója dolgozik; négy, helyes sorrendű tételsor készül.",
+        "A mentő a kapott kosárból és árjegyzékből dolgozik, a bemeneteket nem módosítja.",
+        "Külön célfájlt ír, minden tételsor végén van sortörés."
+      ]
+    },
+    {
+      "id": "A3.b",
+      "title": "Blokkösszeg és felülírás ellenőrzése",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 7,
+      "file": "blokk.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep08.sum",
+        "ep08.overwrite",
+        "ep08.empty_data"
+      ],
+      "tests": [
+        "A3.b.1",
+        "A3.b.2",
+        "A3.b.3",
+        "A3.b.4"
+      ],
+      "html_section": "iras",
+      "acceptance": [
+        "Az összeg az aktuális kosár minden darabjának aktuális árából készül.",
+        "A végső összesítő mindig pontosan egy sor; üres kosárnál is elkészül 0 Ft-tal.",
+        "Az ismételt futás nem dupláz, új rendelés után nem marad régi sor. A normatív próbák ismertek."
+      ]
+    },
+    {
+      "id": "B1.a",
+      "title": "Eladási események hozzáfűzése",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "file": "naplo.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep08.append",
+        "ep08.record_format",
+        "ep08.persistent_state"
+      ],
+      "tests": [
+        "B1.a.1",
+        "B1.a.2"
+      ],
+      "html_section": "hozzafuzes",
+      "acceptance": [
+        "Első futáskor létrehozza a naplót; minden darab saját, kétmezős, sortöréssel lezárt rekord.",
+        "A második futás megőrzi a korábbi sorokat és még kettőt hozzáfűz.",
+        "A bemeneti kosár és árjegyzék változatlan; a B1.b kiírása még nem kész eredmény."
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Rövid összegzés és B1.b folytatási pont",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "file": null,
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep08.reflection"
+      ]
+    },
+    {
+      "id": "B1.b",
+      "title": "A napló saját árai alapján összesítünk",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 6,
+      "file": "naplo.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep08.fields",
+        "ep08.int_conversion",
+        "ep08.historical_price"
+      ],
+      "tests": [
+        "B1.b.1",
+        "B1.b.2",
+        "B1.b.3"
+      ],
+      "html_section": "mezok",
+      "acceptance": [
+        "A darabszám minden rekordot számol, a nulla árút is; a bevétel a tárolt árak összege.",
+        "(0,0) az üres eredmény; általánosan két egészből álló tuple tér vissza.",
+        "A függvény csak olvas; nem használ globális árjegyzéket; a kötelező próbák nem változtatják a tesztfájlokat."
+      ]
+    },
+    {
+      "id": "Z1",
+      "title": "Önálló termékjelentés",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 12,
+      "file": "onallo.py",
+      "instructions": "zaro_feladatok.md",
+      "concept_ids": [
+        "ep08.independent_transfer",
+        "ep08.filter",
+        "ep08.function_responsibility",
+        "ep08.write"
+      ],
+      "tests": [
+        "Z1.1",
+        "Z1.2",
+        "Z1.3",
+        "Z1.4",
+        "Z1.5"
+      ],
+      "html_section": "egyuttmukodes",
+      "acceptance": [
+        "Paraméter szerinti termékhez darab és tárolt bevétel tuple.",
+        "A 0 árú eladás is darab; a hiányzó termék és üres fájl eredménye (0,0).",
+        "A főprogram háromsoros friss jelentést ment; a forrás változatlan.",
+        "Minden kötelező próba ismert."
+      ]
+    },
+    {
+      "id": "T1",
+      "title": "10 elméleti MCQ",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 10,
+      "file": null,
+      "instructions": "teszt_elmelet.md",
+      "concept_ids": [
+        "ep08.assessment"
+      ],
+      "question_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "5 kódértelmezés és 5 hibakeresés",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 15,
+      "file": null,
+      "instructions": "teszt_kodismeret.md",
+      "concept_ids": [
+        "ep08.assessment"
+      ],
+      "question_ids": [
+        "KÓD1",
+        "KÓD2",
+        "KÓD3",
+        "KÓD4",
+        "KÓD5",
+        "KÓD6",
+        "KÓD7",
+        "KÓD8",
+        "KÓD9",
+        "KÓD10"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Értékelés és egyértelmű lezárás",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 2,
+      "file": null,
+      "instructions": "agent.md",
+      "concept_ids": [
+        "ep08.reflection"
+      ]
+    },
+    {
+      "id": "C1",
+      "title": "Összes termék napi riportja",
+      "required": false,
+      "block": 2,
+      "planned_minutes": 15,
+      "file": "napi_riport.py",
+      "instructions": "bovites.md",
+      "concept_ids": [
+        "ep08.grouped_aggregation",
+        "ep08.tuple_update",
+        "ep08.sorted_report"
+      ],
+      "tests": [
+        "C1.1",
+        "C1.2",
+        "C1.3"
+      ],
+      "html_section": "mezok",
+      "placement": "Z1 után, T1 előtt, csak ténylegesen elegendő időben",
+      "remaining_minutes_minimum": 42,
+      "reserve_tests_and_closure_minutes": 27,
+      "prerequisites": [
+        "A1",
+        "A2",
+        "A3.b",
+        "B1.b",
+        "Z1"
+      ]
+    }
+  ]
+}
