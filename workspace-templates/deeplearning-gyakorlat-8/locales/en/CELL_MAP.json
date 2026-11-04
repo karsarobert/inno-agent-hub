@@ -1,0 +1,424 @@
+{
+  "version": "1.1",
+  "language": "en",
+  "notebook": "PTE_DL8_FLOWERS_EXERCISES.ipynb",
+  "index_convention": "0-based code_cell_index; use visible step ID in conversation",
+  "method": "full code, then interpretation",
+  "notebook_submission_required": false,
+  "steps": [
+    {
+      "id": "E01",
+      "mode": "guided",
+      "title": "Environment and Colab GPU",
+      "instruction": "Return the versions, environment name, and GPU list. If Colab lists no GPU, change the runtime first and return the new E01 output.",
+      "evidence": "Return the versions, environment name, and GPU list. If Colab lists no GPU, change the runtime first and return the new E01 output.",
+      "acceptance": "In Colab, require a nonempty GPU list before E02. For [], give the menu steps and recheck, rather than automatically continuing on CPU. Handle local Jupyter separately.",
+      "prerequisites": [],
+      "code_cell_index_0based": 2,
+      "explanation": "TensorFlow lists the devices visible to the current runtime. GPU: [] is an empty list: no GPU is currently visible. In Colab, first select Runtime → Change runtime type → Hardware accelerator → GPU, for example T4 GPU → Save, then reconnect. Rerun E01 and continue only after the GPU list is nonempty. Changing runtimes can reset variables and uploaded files. Local Jupyter has no Colab menu; use the device environment prepared by the instructor there.",
+      "interpretation_question": "Which reported value tells you whether a GPU is available to this session?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "E02",
+      "mode": "guided",
+      "title": "Data and already implemented helper functions",
+      "instruction": "Run the provided cell and return the data-directory path and E02 OK.",
+      "evidence": "Run the provided cell and return the data-directory path and E02 OK.",
+      "acceptance": "Five class folders are available and data loading succeeded. Understands that def defines the helper, while the call runs it.",
+      "prerequisites": [
+        "E01"
+      ],
+      "code_cell_index_0based": 4,
+      "explanation": "This longer provided cell performs technical preparation. It downloads or opens the official image archive, then defines several helpers. def prepare_split(...) creates an already implemented function in memory; it does not yet split the images. D02 will call it. You do not need to rewrite or master the archive and hash infrastructure.",
+      "interpretation_question": "Which operation actually starts the image split: defining the function or calling it later?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "E03",
+      "mode": "reflection",
+      "title": "Applying the demonstrations to a new problem",
+      "instruction": "Answer briefly in the conversation.",
+      "evidence": "A short personal response; no notebook writing requirement.",
+      "acceptance": "One or two essential correct differences suffice. Combine prior answers; do not demand every term or a prescribed sentence.",
+      "prerequisites": [
+        "E02"
+      ],
+      "code_cell_index_0based": null,
+      "explanation": "The demonstrations used food images and cats/dogs. This task uses different data, a different model, and five integer labels. The transfer-learning principle stays the same.",
+      "interpretation_question": "What changes when adapting the demonstrations to five flower classes? One or two essential differences are enough.",
+      "code_provided": false,
+      "no_submission": true
+    },
+    {
+      "id": "D01",
+      "mode": "guided",
+      "title": "Flower classes and sample images",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Counts for all five classes and one personal observation.",
+      "acceptance": "Five nonempty classes; observation grounded in image or student description.",
+      "prerequisites": [
+        "E03"
+      ],
+      "code_cell_index_0based": 7,
+      "explanation": "Folder names represent categories. These counts describe the full source archive, not the selected training subset. Labels will follow the fixed class order.",
+      "interpretation_question": "What actual variation in color, shape, or background do you notice in the sample images?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D02",
+      "mode": "guided",
+      "title": "Calling the already implemented split helper",
+      "instruction": "Run the complete provided cell and return the three split counts.",
+      "evidence": "Run the complete provided cell and return the three split counts.",
+      "acceptance": "500/200/200, or100/40/40 per class. Understands four inputs and two returned objects. No function implementation or counting code must be invented.",
+      "prerequisites": [
+        "D01"
+      ],
+      "code_cell_index_0based": 9,
+      "explanation": "prepare_split was already defined in E02, so we only call it now. Supply four inputs in order: data_dir locates the source images; the next three numbers specify training, validation, and test images per class. The helper checks images, removes exact duplicates and conflicting labels, samples using the fixed seed, and copies the chosen images into separate folders. It returns two objects: split_root is the folder root and manifest is a list recording each image’s split, class, path, and hash. The two names on the left receive these results. The final for loop counts the manifest entries by their split field; use the provided code.",
+      "interpretation_question": "Does train_per_class = 100 request 100 training images in total or in each category? How does that explain your total training count?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D03",
+      "mode": "guided",
+      "title": "Creating the three datasets and data loaders",
+      "instruction": "Run the cell and return overlap counts and class order.",
+      "evidence": "Run the cell and return overlap counts and class order.",
+      "acceptance": "Zero overlaps, shared class order. Distinguishes the three Dataset roles and preserves alignment between predictions and labels.",
+      "prerequisites": [
+        "D02"
+      ],
+      "code_cell_index_0based": 11,
+      "explanation": "D02 organized images into separate folders. This cell first checks file-hash overlap, then creates train_ds, val_ds, and test_ds. These are tf.data.Dataset pipelines: they describe how to read and resize images in batches of16, rather than putting every image in memory at once. make_dataset(...) is the loader helper defined in this cell. train, val, and test choose the folder. shuffle=True mixes training order; shuffle=False keeps validation and test order fixed. Shared CLASS_NAMES ensures the same integer always represents the same flower. No test evaluation happens yet.",
+      "interpretation_question": "Which new variable supplies fit’s training input, which supports model selection, and why should test ordering stay fixed?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D04",
+      "mode": "guided",
+      "title": "Fetching a batch: iter and next",
+      "instruction": "Run the complete cell and return shapes, dtypes, pixel range, and labels.",
+      "evidence": "Run the complete cell and return shapes, dtypes, pixel range, and labels.",
+      "acceptance": "Images(16,224,224,3), labels(16,), float32/int32, pixels0–255, labels0–4. iter/next returns one batch. No need to invent this syntax.",
+      "prerequisites": [
+        "D03"
+      ],
+      "code_cell_index_0based": 13,
+      "explanation": "images, labels = next(iter(train_ds)) is a new operation, so we break it down. iter(train_ds) creates an iterator over the pipeline. next(...) requests one item from it: here that is a pair containing16 images and their16 labels, not one image. The two names on the left unpack that pair. The provided code shows two separate lines using batch_iterator, plus the short form in a comment. shape reports dimensions, dtype the element type, and .numpy() exposes values as a NumPy array. Images still contain raw0–255 RGB pixels.",
+      "interpretation_question": "What do the four numbers in your image shape mean, and why does the label shape have no color-channel dimension?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "D05",
+      "mode": "guided",
+      "title": "Augmentation without changing labels",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "One observed transformation and interpretation; a short correct answer is enough.",
+      "acceptance": "Transformation retains flower identity; only training augmented; avoid hallucinating unseen image.",
+      "prerequisites": [
+        "D04"
+      ],
+      "code_cell_index_0based": 15,
+      "explanation": "Small rotations and horizontal flips can give another view of the same flower. Augmentation will be inside the model and active only during training; test images remain unchanged.",
+      "interpretation_question": "Does the transformation you observed change the flower category? Explain briefly.",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F01",
+      "mode": "guided",
+      "title": "What does preprocess_input mean?",
+      "instruction": "Run the provided probe and return the original and transformed values.",
+      "evidence": "Run the provided probe and return the original and transformed values.",
+      "acceptance": "0/127.5/255 maps to−1/0/1. The complete model handles preprocessing once; do not add another /255 or preprocess call.",
+      "prerequisites": [
+        "D05"
+      ],
+      "code_cell_index_0based": 17,
+      "explanation": "Preprocessing transforms pixel values into the range expected by the pretrained model. MobileNetV2 preprocess_input maps0–255 to−1..1 using the equivalent of pixel /127.5 −1. The import retrieves this model-specific function; it does not download the base model. np.array(..., dtype=np.float32) creates a simple probe; four nested brackets are unnecessary. .copy() preserves the original array so before/after values can be printed. The real model will later include this operation exactly once.",
+      "interpretation_question": "When you later pass a new image to the complete model, which part should handle preprocessing so it does not happen twice?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F02",
+      "mode": "guided",
+      "title": "Freezing a pretrained base",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Output shape and base trainable parameter count.",
+      "acceptance": "ImageNet weights, include_top False, frozen, (None,7,7,1280), zero trainable base parameters.",
+      "prerequisites": [
+        "F01"
+      ],
+      "code_cell_index_0based": 19,
+      "explanation": "The base transforms visual patterns into features. Remove the original1000-class ImageNet head. trainable=False freezes the base weights; the new head remains trainable.",
+      "interpretation_question": "What does include_top=False remove, and which reported count confirms that the base is frozen?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F03",
+      "mode": "guided",
+      "title": "Five-class head and loss",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Final output shape and a short interpretation.",
+      "acceptance": "Five softmax outputs; sparse loss for integer labels; raw RGB input; exactly one preprocess; base training=False; head trainable.",
+      "prerequisites": [
+        "F02"
+      ],
+      "code_cell_index_0based": 21,
+      "explanation": "GlobalAveragePooling2D converts spatial feature maps into a vector. Softmax returns a distribution over five classes. Integer labels require sparse categorical crossentropy. training=False keeps base BN layers in inference mode without disabling later gradients.",
+      "interpretation_question": "What does5 mean in the final summary shape(None,5), and how does the loss match integer labels?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F04",
+      "mode": "guided",
+      "title": "What is trainable now?",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Three parameter counts, or the same already verified F03 output.",
+      "acceptance": "Do not request counts already verified in F03 again. Only the head learns:6405 trainable, base0.",
+      "prerequisites": [
+        "F03"
+      ],
+      "code_cell_index_0based": 23,
+      "explanation": "The head parameter count depends on feature dimension, class count, and biases. The base should currently have zero trainable parameters. You do not need to list every layer.",
+      "interpretation_question": "If you already returned these counts in F03, use that evidence. Given the base’s trainable count, which model component can learn now?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "F05",
+      "mode": "guided",
+      "title": "Training the head",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Epoch count, best val_loss, unchanged-base check, and observation.",
+      "acceptance": "Finite losses,1..5epochs; base checksum identical; no minimum accuracy threshold.",
+      "prerequisites": [
+        "F04"
+      ],
+      "code_cell_index_0based": 25,
+      "explanation": "fit updates head weights from training data. Save the best val_loss state and allow stopping after two epochs without improvement. Five epochs is an upper limit. A checksum verifies the base stayed unchanged.",
+      "interpretation_question": "How did training and validation loss change in your log? Does that prove more epochs will always help?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T01",
+      "mode": "guided",
+      "title": "Preserving the first phase",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Checkpoint name and restored validation result; this is not a submission request.",
+      "acceptance": "Loads head weights and evaluates validation only; checkpoint still exists.",
+      "prerequisites": [
+        "F05"
+      ],
+      "code_cell_index_0based": 27,
+      "explanation": "The next fit modifies the same model object. Keep the best head-stage weights in a separate file and start from them. Both variants remain available for comparison.",
+      "interpretation_question": "Why preserve a separate head checkpoint before continuing to train the same model?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T02A",
+      "mode": "guided",
+      "title": "Inspecting layers and demonstrating selection",
+      "explanation": "Before unfreezing anything, inspect the end of the base. base.layers is a list of layer objects; [-25:] selects its last25 entries. layer.name is the name, type(layer).__name__ the type, and trainable its current flag. startswith(\"block_16_\") checks a name prefix, while == \"Conv_1\" checks an exact name. isinstance(layer, layers.BatchNormalization) checks the layer type. The second loop only prints candidate layers: it changes neither weights nor trainability. In the next cell, selection by name and exclusion by BN type jointly determine trainability.",
+      "instruction": "Run this inspection cell and return the candidate-layer list.",
+      "interpretation_question": "Name one selected convolution layer and one BN layer from your output that must stay frozen.",
+      "evidence": "Run this inspection cell and return the candidate-layer list.",
+      "acceptance": "Candidates include block_16_ layers and Conv_1; BN layers are excluded by type in T02. Inspection itself does not mutate trainability.",
+      "prerequisites": [
+        "T01"
+      ],
+      "code_cell_index_0based": 29,
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T02",
+      "mode": "guided",
+      "title": "Unfreezing with the demonstrated selection rule",
+      "instruction": "Run the full provided cell and return the trainable names, BN count, and parameter count.",
+      "evidence": "Run the full provided cell and return the trainable names, BN count, and parameter count.",
+      "acceptance": "Only selected non-BN layers trainable; BN count0; model trainable parameters885445. Interprets the condition rather than writing it from scratch.",
+      "prerequisites": [
+        "T02A"
+      ],
+      "code_cell_index_0based": 31,
+      "explanation": "Apply the rule introduced in T02A. base.trainable=True first enables the parent model. For every layer, selected_name tests its name and is_bn tests its BatchNormalization type. if selected_name and not is_bn keeps only matching non-BN layers trainable; else freezes the rest again. Prepared checks report trainable names, trainable BN count, and parameter count. This does not train yet; recompilation follows in the next step.",
+      "interpretation_question": "Compare your T02A and T02 lists: which condition prevented block_16_ BN layers from becoming trainable?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T03",
+      "mode": "guided",
+      "title": "Recompiling with smaller updates",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "New learning_rate and a short interpretation of the code.",
+      "acceptance": "Fresh Adam1e-5; correct sparse loss; compile after T02; not just optimizer.learning_rate assignment.",
+      "prerequisites": [
+        "T02"
+      ],
+      "code_cell_index_0based": 33,
+      "explanation": "After changing trainability, compile again. Create a new Adam optimizer with learning rate1e-5; keep loss and metric unchanged. Smaller updates cautiously adapt pretrained features.",
+      "interpretation_question": "Why recompile after changing trainable flags, and why use a lower learning rate in stage two?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T04",
+      "mode": "guided",
+      "title": "Careful fine-tuning",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Epochs, best val_loss, BN and Conv_1 checks.",
+      "acceptance": "T02 checks the full layer selection rule. BN stayed unchanged and Conv_1 changed, but those two checks alone do not prove every other layer stayed unchanged. Last-epoch val_accuracy need not belong to the restored best-val_loss checkpoint.",
+      "prerequisites": [
+        "T03"
+      ],
+      "code_cell_index_0based": 35,
+      "explanation": "Keep the same training and validation splits and augmentation rules. Check BN weights and statistics remain unchanged while selected convolutional weights can change.",
+      "interpretation_question": "What exactly do the two True checks establish, and what do they not prove on their own about every base layer?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "T05",
+      "mode": "guided",
+      "title": "Selecting a model using validation",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Both validation results and selected stage; do not use test results yet.",
+      "acceptance": "Choice based on val_loss only; fine checkpoint remains; selected restored; results written before any test evaluation.",
+      "prerequisites": [
+        "T04"
+      ],
+      "code_cell_index_0based": 37,
+      "explanation": "val_loss and accuracy measure different things and may move differently. The predefined selection rule is lower val_loss, with the head-only variant winning a tie. Test data is still unused.",
+      "interpretation_question": "Why did the code select this stage according to your two validation rows?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V00",
+      "mode": "guided",
+      "title": "Argmax, axes, and concatenation on tiny arrays",
+      "explanation": "Before testing the model, inspect new operations on a tiny synthetic array; this is not test data. Two samples receive three class values each. Each row is a sample, each column a category. np.argmax(..., axis=1) returns the index of the largest value within each row, not the value itself. Python indices start at0. np.concatenate(...) joins smaller arrays in their supplied order. Real test labels also arrive in batches, so we will join them into one label array.",
+      "instruction": "Run the tiny example and return row-wise class indices and concatenated labels.",
+      "interpretation_question": "Which value does the first row’s returned index point to? Why preserve label-batch order?",
+      "evidence": "Run the tiny example and return row-wise class indices and concatenated labels.",
+      "acceptance": "Indices[1,0]; joined labels[0,2,1]. Index is a position, not a probability; labels must align with image predictions.",
+      "prerequisites": [
+        "T05"
+      ],
+      "code_cell_index_0based": 39,
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V01",
+      "mode": "guided",
+      "title": "Real test predictions and joining label batches",
+      "instruction": "Run the full provided cell and return all three shapes, the first five predictions, and min/max row sums.",
+      "evidence": "Run the full provided cell and return all three shapes, the first five predictions, and min/max row sums.",
+      "acceptance": "Shapes(200,5),(200,),(200,); class indices0–4, row sums near1. Prediction/label order matches. List comprehensions need not be known or written.",
+      "prerequisites": [
+        "V00"
+      ],
+      "code_cell_index_0based": 41,
+      "explanation": "Model selection is fixed; this is the first test evaluation. model.predict(test_ds) returns predictions in the dataset’s fixed image order. probabilities has200 rows and five columns: five values per image. np.argmax(..., axis=1) chooses one class index for each image. We collect true labels using an explicit for loop: the image part is unused, indicated by an underscore; batch_labels.numpy() converts labels to a NumPy array; append adds each batch to a list. np.concatenate joins them as in V00. sum(axis=1) adds the five values for each image. Test shuffling therefore stays disabled. Five identical initial predictions are not automatically a bug: fixed folder ordering may place the same class first.",
+      "interpretation_question": "Why does the class-index array have shape(200,) while the direct model output has shape(200,5)?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V02",
+      "mode": "guided",
+      "title": "Accuracy and confusion matrix",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Accuracy, complete matrix and total, plus your cell interpretation.",
+      "acceptance": "5x5 integer matrix total200, row sums40; accuracy trace/200; correct row/column interpretation; no minimum threshold.",
+      "prerequisites": [
+        "V01"
+      ],
+      "code_cell_index_0based": 43,
+      "explanation": "Accuracy is the fraction of correct predictions. Matrix rows are true classes and columns are predicted classes. The diagonal contains correct predictions; the total must equal test size.",
+      "interpretation_question": "Select a nonzero off-diagonal cell in your matrix and explain which true class was predicted as which class. If none exists, interpret a diagonal cell.",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V03",
+      "mode": "guided",
+      "title": "Inspecting a prediction error",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Index, true/predicted classes, probabilities, and observation.",
+      "acceptance": "Accept a grounded observation; an unusual viewpoint is a possible cause, not proof about typical training views. With no errors, do not label a selected correct prediction as an error.",
+      "prerequisites": [
+        "V02"
+      ],
+      "code_cell_index_0based": 45,
+      "explanation": "One image cannot prove a general cause, but it can reveal a concrete error pattern. If there are no errors, inspect the least confident correct prediction. Array indices start at0.",
+      "interpretation_question": "What do you actually observe in the displayed image? Mark possible causes as hypotheses rather than proof.",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "V04",
+      "mode": "guided",
+      "title": "A previously unused image",
+      "instruction": "Run the complete provided code cell; no independent code writing is required.",
+      "evidence": "Predicted class and five softmax values; a folder name may be a reference label but does not let the tutor see the image.",
+      "acceptance": "Code ensures one preprocessing pass. Softmax and folder names do not prove a visual check of an unseen image. With a reference label, report agreement with that label.",
+      "prerequisites": [
+        "V03"
+      ],
+      "code_cell_index_0based": 47,
+      "explanation": "The prepared loader returns raw RGB float32 pixels in0–255 as a single-image batch. The model already preprocesses them; do not preprocess or divide again. A held-out source image that has never been used is suitable.",
+      "interpretation_question": "Which class has the largest value, and why does that number alone not prove the prediction is correct?",
+      "code_provided": true,
+      "no_submission": true
+    },
+    {
+      "id": "Z01",
+      "mode": "reflection",
+      "title": "Your conclusions",
+      "instruction": "Answer briefly in the conversation.",
+      "evidence": "Three personal responses in the conversation; do not re-examine concepts already demonstrated.",
+      "acceptance": "Three questions one at a time, with brief personal answers. Credit prior demonstrated understanding; follow up only for material misunderstanding.",
+      "prerequisites": [
+        "V04"
+      ],
+      "code_cell_index_0based": null,
+      "explanation": "Evaluate the reasoning as well as the numbers. Fine-tuning does not improve every run. Do not tune again on the test results in this exercise.",
+      "interpretation_question": "Discuss three short questions one at a time: what changed from the demonstrations; which weights could change in each stage and what checks support this; whether validation improved and what the test is for.",
+      "code_provided": false,
+      "no_submission": true
+    },
+    {
+      "id": "Z02",
+      "mode": "guided",
+      "title": "Summarize results and finish",
+      "instruction": "Run the summary and return the selected stage and final test accuracy to the tutor.",
+      "evidence": "Run the summary and return the selected stage and final test accuracy to the tutor.",
+      "acceptance": "Actual summary and discussed interpretation are sufficient. Do not request the notebook, a file name/path, proof of saving, or submission.",
+      "prerequisites": [
+        "Z01"
+      ],
+      "code_cell_index_0based": 50,
+      "explanation": "The cell summarizes your measurements and saves results.json locally. You may save the notebook for yourself, but you do not need to submit, upload, or share it at the end. Completion is based on the outputs and interpretations already discussed here.",
+      "interpretation_question": "What is the most important lesson from your run?",
+      "code_provided": true,
+      "no_submission": true
+    }
+  ]
+}
