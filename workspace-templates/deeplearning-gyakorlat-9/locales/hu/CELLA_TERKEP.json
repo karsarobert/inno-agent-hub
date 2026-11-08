@@ -1,0 +1,198 @@
+[
+  {
+    "id": "E01",
+    "title": "Környezet és GPU",
+    "kind": "code",
+    "markdown_cell": 1,
+    "code_cell": 2
+  },
+  {
+    "id": "B01",
+    "title": "Megfigyelés az új BN-bemutatóban",
+    "kind": "discussion",
+    "markdown_cell": 3,
+    "code_cell": null
+  },
+  {
+    "id": "B02",
+    "title": "Minták és jellemzők: axis=0",
+    "kind": "code",
+    "markdown_cell": 4,
+    "code_cell": 5
+  },
+  {
+    "id": "B03",
+    "title": "Gamma és beta jellemzőnként",
+    "kind": "code",
+    "markdown_cell": 6,
+    "code_cell": 7
+  },
+  {
+    "id": "B04",
+    "title": "Valódi Keras BN: súlyok és mozgóstatisztikák",
+    "kind": "code",
+    "markdown_cell": 8,
+    "code_cell": 9
+  },
+  {
+    "id": "B05",
+    "title": "Ugyanaz a minta más batch-társakkal",
+    "kind": "code",
+    "markdown_cell": 10,
+    "code_cell": 11
+  },
+  {
+    "id": "B06",
+    "title": "BN befagyasztása: kapcsolat a 8. leckével",
+    "kind": "code",
+    "markdown_cell": 12,
+    "code_cell": 13
+  },
+  {
+    "id": "P01",
+    "title": "Lokális és globális pooling",
+    "kind": "code",
+    "markdown_cell": 14,
+    "code_cell": 15
+  },
+  {
+    "id": "P02",
+    "title": "Flatten-fej és GAP-fej paraméterszáma",
+    "kind": "code",
+    "markdown_cell": 16,
+    "code_cell": 17
+  },
+  {
+    "id": "C01",
+    "title": "1×1 konvolúció: csatornakeverés",
+    "kind": "code",
+    "markdown_cell": 18,
+    "code_cell": 19
+  },
+  {
+    "id": "R00",
+    "title": "Megfigyelés a skip connection-bemutatóban",
+    "kind": "discussion",
+    "markdown_cell": 20,
+    "code_cell": null
+  },
+  {
+    "id": "R01",
+    "title": "Valódi reziduális blokk: az összeg és a ReLU",
+    "kind": "code",
+    "markdown_cell": 21,
+    "code_cell": 22
+  },
+  {
+    "id": "R02",
+    "title": "Alakillesztés projekciós skippel",
+    "kind": "code",
+    "markdown_cell": 23,
+    "code_cell": 24
+  },
+  {
+    "id": "R03",
+    "title": "Gradienspróba: segítség, nem garancia",
+    "kind": "code",
+    "markdown_cell": 25,
+    "code_cell": 26
+  },
+  {
+    "id": "G01",
+    "title": "Dropout tanításban és inferenciában",
+    "kind": "code",
+    "markdown_cell": 27,
+    "code_cell": 28
+  },
+  {
+    "id": "G02",
+    "title": "L2: veszteséghez adott büntetés",
+    "kind": "code",
+    "markdown_cell": 29,
+    "code_cell": 30
+  },
+  {
+    "id": "D01",
+    "title": "CIFAR-10: képek és címkék",
+    "kind": "code",
+    "markdown_cell": 31,
+    "code_cell": 32
+  },
+  {
+    "id": "D02",
+    "title": "Kész segédfüggvény: elkülönített halmazok",
+    "kind": "code",
+    "markdown_cell": 33,
+    "code_cell": 34
+  },
+  {
+    "id": "D03",
+    "title": "Közös batch-ek és az első elem lekérése",
+    "kind": "code",
+    "markdown_cell": 35,
+    "code_cell": 36
+  },
+  {
+    "id": "M01",
+    "title": "Két kis CNN egy kész függvényből",
+    "kind": "code",
+    "markdown_cell": 37,
+    "code_cell": 38
+  },
+  {
+    "id": "M02",
+    "title": "Közös inicializálás és külön optimalizálók",
+    "kind": "code",
+    "markdown_cell": 39,
+    "code_cell": 40
+  },
+  {
+    "id": "M03",
+    "title": "A BN nélküli CNN tanítása",
+    "kind": "code",
+    "markdown_cell": 41,
+    "code_cell": 42
+  },
+  {
+    "id": "M04",
+    "title": "A BN-es CNN azonos tanítási kerete",
+    "kind": "code",
+    "markdown_cell": 43,
+    "code_cell": 44
+  },
+  {
+    "id": "M05",
+    "title": "Visszatöltött checkpointok és validációs döntés",
+    "kind": "code",
+    "markdown_cell": 45,
+    "code_cell": 46
+  },
+  {
+    "id": "V01",
+    "title": "Végső teszt a döntés után",
+    "kind": "code",
+    "markdown_cell": 47,
+    "code_cell": 48
+  },
+  {
+    "id": "V02",
+    "title": "Becslések és konfúziós mátrix lépésenként",
+    "kind": "code",
+    "markdown_cell": 49,
+    "code_cell": 50
+  },
+  {
+    "id": "Z01",
+    "title": "Három rövid reflexió, egyenként",
+    "kind": "discussion",
+    "markdown_cell": 51,
+    "code_cell": null
+  },
+  {
+    "id": "Z02",
+    "title": "Helyi összegzés és lezárás",
+    "kind": "code",
+    "markdown_cell": 52,
+    "code_cell": 53
+  }
+]
