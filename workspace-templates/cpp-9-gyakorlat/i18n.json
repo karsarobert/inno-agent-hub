@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ 9 — Practice Lab",
+      "description": "Guided learner workspace for the ninth lab of a beginner C++ course (3×45 min) on constructors, a valid initial state, cooperating classes and composition. First block — fundamentals: a competitor object created three ways (G09_01), brightness with the conditional operator, default state and modification (G09_02), a parcel and a separate fee calculator as two cooperating classes (G09_03), a results sheet with an object array and composition (G09_04). Second block — project: the theatre ticket office (P09_jegypenztar.cpp) built up in six steps, P1–P6 (creating tickets with a valid initial state, an empty box office and adding one ticket, rejecting a double booking, taking a ticket back and closing the gap by moving elements left, listing and the current revenue, then a summary returned as text through cooperating library classes). Third block — summary test: 20 fixed questions (T1 10 multiple-choice, T2 5 output prediction and 5 debugging) with feedback. Before every part the tutor shows a short analogous sample from the MINTAKODOK collection; the learner writes, saves, compiles and runs the code (RUN button or g++ -std=c++20), and progress is tracked in HALADAS.json. No homework and no separate extra exercise set.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ 9. gyakorlat",
+      "description": "Kezdő C++ kurzus 9. gyakorlatának (3×45 perc) vezetett hallgatói munkaterülete a konstruktor, az érvényes kezdőállapot, az együttműködő osztályok és a kompozíció témájában. Első blokk – alapozás: versenyző háromféle létrehozással (G09_01), fényerő feltételes kifejezéssel, kezdőállapottal és módosítással (G09_02), küldemény és külön díjszámító osztály együttműködése (G09_03), eredménylap objektumtömbbel és kompozícióval (G09_04). Második blokk – projekt: a színházi jegypénztár (P09_jegypenztar.cpp) hat lépésben, P1–P6 (jegyek létrehozása érvényes kezdőállapottal, üres pénztár és egy jegy hozzáadása, kettős foglalás elutasítása, visszaváltás és a hely balra mozgatással zárása, lista és aktuális bevétel, majd szövegként visszaadott összefoglaló együttműködő könyvtári osztályokkal). Harmadik blokk – összefoglaló ellenőrzés: 20 rögzített kérdés (T1 10 feleletválasztós, T2 5 kimenetjóslás és 5 hibakeresés) visszajelzéssel. Minden rész előtt a tutor rövid analóg mintát mutat a MINTAKODOK gyűjteményből; a hallgató írja, menti, fordítja és futtatja a kódot (RUN gomb vagy g++ -std=c++20), a haladást a HALADAS.json követi. Nincs házi feladat és nincs külön kiegészítő feladatsor.",
+      "category": "Programozás"
+    }
+  }
+}

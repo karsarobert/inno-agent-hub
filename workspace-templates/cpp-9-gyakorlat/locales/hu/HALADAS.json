@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "lesson": "CPP_09",
+  "language": "HU",
+  "package_revision": 1,
+  "content_track": "theatre_v1",
+  "status": "not_started",
+  "started_at": null,
+  "last_updated_at": null,
+  "coding_minutes_net": null,
+  "current_step": "G09_01_A",
+  "completed_steps": [],
+  "quiz": {
+    "next_question": "T1/1",
+    "first_answers": [],
+    "t1_score": 0,
+    "t2_score": 0,
+    "pending_review": []
+  },
+  "resume_note": "",
+  "help_level": 0,
+  "timing_segments": []
+}
