@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="hu" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Normalization - Interaktív Oktatási Vizualizáció</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+        /* Egyedi csúszka stílusok */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            height: 6px;
+            border-radius: 999px;
+            background: #334155;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #6366f1;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #818cf8;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+        }
+        .step-active {
+            border-color: #6366f1 !important;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(30, 41, 59, 0.85)) !important;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.25);
+        }
+        .neuron-btn-active {
+            border-color: #6366f1 !important;
+            background: rgba(99, 102, 241, 0.22) !important;
+            box-shadow: 0 0 18px rgba(99, 102, 241, 0.35);
+        }
+        .sample-row-highlight {
+            background: rgba(99, 102, 241, 0.25) !important;
+            outline: 1px solid rgba(129, 140, 248, 0.6);
+        }
+        @keyframes flowDash {
+            to {
+                stroke-dashoffset: -24;
+            }
+        }
+        .flow-line {
+            stroke-dasharray: 6 6;
+            animation: flowDash 0.9s linear infinite;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-indigo-500 selection:text-white pb-16">
+
+    <!-- Fejléc / Hero szekció -->
+    <header class="border-b border-slate-800/80 bg-slate-900/60 sticky top-0 z-30 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 font-mono font-bold text-xl text-white">
+                    BN
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+                            Batch Normalization
+                        </h1>
+                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                            Kötegelt normalizálás
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400">
+                        Interaktív laboratórium: Hogyan stabilizálja és gyorsítja fel a mély neurális hálózatok tanulását?
+                    </p>
+                </div>
+            </div>
+
+            <!-- Gyors előbeállítások (Presets) -->
+            <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-medium text-slate-400 mr-1">Szituációk:</span>
+                <button onclick="applyPreset('shifted_high')" id="preset-shifted_high" class="preset-btn text-xs font-medium px-3 py-1.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition">
+                    ⚠️ Elcsúszott + Szétszórt (Problémás)
+                </button>
+                <button onclick="applyPreset('exploding')" id="preset-exploding" class="preset-btn text-xs font-medium px-3 py-1.5 rounded-lg bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 transition">
+                    💥 Túl nagy szórás (Telítődés)
+                </button>
+                <button onclick="applyPreset('collapsed')" id="preset-collapsed" class="preset-btn text-xs font-medium px-3 py-1.5 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/30 hover:bg-sky-500/25 transition">
+                    🔬 Összeszűkült negatív
+                </button>
+                <button onclick="applyPreset('ideal')" id="preset-ideal" class="preset-btn text-xs font-medium px-3 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition">
+                    ✅ Ideális eloszlás
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+
+        <!-- Rövid fogalmi bevezető kártya -->
+        <section class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-indigo-500 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="space-y-1 max-w-3xl">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+                    <span>💡 Mi az alapgondolat, és mik azok az x₁ … x₆ értékek?</span>
+                </h2>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    A neurális hálózatoknak nem egyesével, hanem <strong>kis csomagokban (Mini-batch, itt 6 db minta egyszerre)</strong> mutatjuk meg az adatokat. Amikor ez a 6 minta belép egyetlen kiválasztott neuronba, a neuron kiszámolja mind a 6 mintára a saját súlyozott összegét: <strong>ez a 6 darab szám lesz az $x_1, x_2, \dots, x_6$!</strong> A <strong>Batch Normalization</strong> ezt a 6 számot hangolja össze (átlag = 0, szórás = 1), még mielőtt belemennének az aktivációs függvénybe.
+                </p>
+            </div>
+            <!-- Hol helyezkedik el a hálóban? Mini diagram -->
+            <div class="flex items-center gap-1.5 bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-800 text-xs font-mono shrink-0 self-stretch lg:self-auto justify-center">
+                <span class="px-2 py-1 rounded bg-slate-800 text-slate-300">6 Minta</span>
+                <span class="text-slate-600">→</span>
+                <span class="px-2 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">z = W·in+b (x₁..x₆)</span>
+                <span class="text-slate-600">→</span>
+                <span class="px-2.5 py-1 rounded bg-indigo-600 text-white font-bold shadow shadow-indigo-500/40 ring-2 ring-indigo-400/50">Batch Norm (y₁..y₆)</span>
+                <span class="text-slate-600">→</span>
+                <span class="px-2 py-1 rounded bg-emerald-900/60 text-emerald-300 border border-emerald-700/50">Aktiváció a = f(y)</span>
+            </div>
+        </section>
+
+        <!-- ÚJ 1. SZEKCIÓ: HÁLÓZATI TOPOLÓGIA, NEURON RÖNTGEN & MINI-BATCH MÁTRIX -->
+        <section class="space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-mono">1</span>
+                        Hol vannak az x₁ … x₆ értékek? (Hálózati Topológia & Mini-Batch Mátrix)
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-400">
+                        Kattints a rejtett réteg neuronjaira (<strong>N₁, N₂, N₃</strong>), vagy vidd az egeret bármelyik <strong>$x_i$</strong> mintára a teljes folyamat követéséhez!
+                    </p>
+                </div>
+
+                <!-- Neuron választó gombok -->
+                <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 self-start">
+                    <span class="text-xs font-semibold text-slate-400 px-2">Vizsgált neuron:</span>
+                    <button onclick="selectNeuron(0)" id="neuron-tab-0" class="neuron-btn-active px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-white border border-slate-700 transition flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-400 inline-block"></span> N₁ neuron (Kiemelt)
+                    </button>
+                    <button onclick="selectNeuron(1)" id="neuron-tab-1" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 border border-slate-800 hover:border-slate-700 transition flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block"></span> N₂ neuron
+                    </button>
+                    <button onclick="selectNeuron(2)" id="neuron-tab-2" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 border border-slate-800 hover:border-slate-700 transition flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block"></span> N₃ neuron
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <!-- BAL OLDAL (7 oszlop): Interaktív SVG Topológia + Neuron Röntgen (Nagyító) -->
+                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-400">Neurális Hálózat Topológia & Neuron Röntgen</span>
+                            <h3 id="topology-title" class="text-sm sm:text-base font-bold text-white">
+                                Az N₁ neuron belső felépítése: Súlyozás → Batch Norm → Aktiváció
+                            </h3>
+                        </div>
+                        <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-slate-950 text-emerald-400 border border-slate-800">
+                            Köteg mérete: m = 6 minta egyszerre
+                        </span>
+                    </div>
+
+                    <!-- Interaktív SVG Hálózat Diagram -->
+                    <div class="relative w-full bg-slate-950/80 rounded-xl border border-slate-800/90 p-2 overflow-hidden">
+                        <svg id="topologySvg" viewBox="0 0 760 390" class="w-full h-auto select-none">
+                            <defs>
+                                <linearGradient id="zoomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.95"/>
+                                    <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+                                </linearGradient>
+                                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur stdDeviation="4" result="blur" />
+                                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                </filter>
+                            </defs>
+
+                            <!-- Réteg címkék felül -->
+                            <text x="68" y="24" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">1. BEMENETI RÉTEG</text>
+                            <text x="68" y="38" fill="#64748b" font-size="9.5" text-anchor="middle" font-family="Inter">(3 jellemző / minta)</text>
+
+                            <text x="210" y="24" fill="#818cf8" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">2. REJTETT RÉTEG</text>
+                            <text x="210" y="38" fill="#64748b" font-size="9.5" text-anchor="middle" font-family="Inter">(Kattints: N₁, N₂, N₃)</text>
+
+                            <text x="475" y="24" fill="#c084fc" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">🔍 KIVÁLASZTOTT NEURON RÖNTGEN (BELSEJE)</text>
+                            <text x="475" y="38" fill="#94a3b8" font-size="9.5" text-anchor="middle" font-family="Inter">Minden neuronban ez a 3 állomás fut le a 6 db mintán!</text>
+
+                            <text x="712" y="24" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">3. KIMENET</text>
+                            <text x="712" y="38" fill="#64748b" font-size="9.5" text-anchor="middle" font-family="Inter">(Előrejelzés)</text>
+
+                            <!-- Vezetékek: Bemenet -> Rejtett neuronok -->
+                            <g id="svg-input-wires" stroke="#334155" stroke-width="1.5" opacity="0.75">
+                                <!-- f1 (y=105), f2 (y=195), f3 (y=285) -> N1 (y=105), N2 (y=195), N3 (y=285) -->
+                                <line x1="95" y1="105" x2="182" y2="105" class="wire-to-0 flow-line" stroke="#6366f1" stroke-width="2"/>
+                                <line x1="95" y1="195" x2="182" y2="105" class="wire-to-0 flow-line" stroke="#6366f1" stroke-width="2"/>
+                                <line x1="95" y1="285" x2="182" y2="105" class="wire-to-0 flow-line" stroke="#6366f1" stroke-width="2"/>
+
+                                <line x1="95" y1="105" x2="182" y2="195" class="wire-to-1"/>
+                                <line x1="95" y1="195" x2="182" y2="195" class="wire-to-1"/>
+                                <line x1="95" y1="285" x2="182" y2="195" class="wire-to-1"/>
+
+                                <line x1="95" y1="105" x2="182" y2="285" class="wire-to-2"/>
+                                <line x1="95" y1="195" x2="182" y2="285" class="wire-to-2"/>
+                                <line x1="95" y1="285" x2="182" y2="285" class="wire-to-2"/>
+                            </g>
+
+                            <!-- Nagyító fénysugár a kiválasztott neurontól a Röntgen dobozig -->
+                            <polygon id="svg-zoom-beam" points="238,85 280,55 280,355 238,125" fill="rgba(99, 102, 241, 0.14)" stroke="rgba(129, 140, 248, 0.4)" stroke-dasharray="4 3"/>
+
+                            <!-- Bemeneti csomópontok (f1, f2, f3) -->
+                            <g transform="translate(68, 105)">
+                                <rect x="-38" y="-22" width="76" height="44" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                <text x="0" y="-3" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">f₁ (Méret)</text>
+                                <text x="0" y="12" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="Inter">6 ház adata</text>
+                            </g>
+                            <g transform="translate(68, 195)">
+                                <rect x="-38" y="-22" width="76" height="44" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                <text x="0" y="-3" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">f₂ (Szobák)</text>
+                                <text x="0" y="12" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="Inter">6 ház adata</text>
+                            </g>
+                            <g transform="translate(68, 285)">
+                                <rect x="-38" y="-22" width="76" height="44" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                <text x="0" y="-3" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">f₃ (Életkor)</text>
+                                <text x="0" y="12" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="Inter">6 ház adata</text>
+                            </g>
+
+                            <!-- Rejtett réteg neuronjai (N1, N2, N3) - Kattintható -->
+                            <g id="svg-neuron-0" class="cursor-pointer" onclick="selectNeuron(0)" transform="translate(210, 105)">
+                                <circle r="28" fill="#312e81" stroke="#818cf8" stroke-width="3" filter="url(#glow)"/>
+                                <text x="0" y="-2" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">N₁</text>
+                                <text x="0" y="13" fill="#c7d2fe" font-size="8.5" font-weight="600" text-anchor="middle" font-family="Inter">1. Neuron</text>
+                            </g>
+                            <g id="svg-neuron-1" class="cursor-pointer" onclick="selectNeuron(1)" transform="translate(210, 195)">
+                                <circle r="26" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+                                <text x="0" y="-2" fill="#cbd5e1" font-size="13" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">N₂</text>
+                                <text x="0" y="13" fill="#64748b" font-size="8.5" text-anchor="middle" font-family="Inter">2. Neuron</text>
+                            </g>
+                            <g id="svg-neuron-2" class="cursor-pointer" onclick="selectNeuron(2)" transform="translate(210, 285)">
+                                <circle r="26" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+                                <text x="0" y="-2" fill="#cbd5e1" font-size="13" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">N₃</text>
+                                <text x="0" y="13" fill="#64748b" font-size="8.5" text-anchor="middle" font-family="Inter">3. Neuron</text>
+                            </g>
+
+                            <!-- ===================================================== -->
+                            <!-- NAGYÍTOTT NEURON RÖNTGEN DOBOZ (3 ÁLLOMÁS)            -->
+                            <!-- ===================================================== -->
+                            <rect x="280" y="52" width="388" height="308" rx="16" fill="url(#zoomGrad)" stroke="#6366f1" stroke-width="2"/>
+
+                            <!-- Állomás 1: Lineáris kombináció z = w*input + b -->
+                            <g transform="translate(294, 72)">
+                                <rect x="0" y="0" width="106" height="270" rx="12" fill="rgba(245, 158, 11, 0.08)" stroke="rgba(245, 158, 11, 0.45)" stroke-width="1.5"/>
+                                <text x="53" y="20" fill="#fbbf24" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Inter">A) SÚLYOZÁS</text>
+                                <text x="53" y="34" fill="#fde68a" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">xᵢ = W·f⁽ⁱ⁾ + b</text>
+                                <text x="53" y="48" fill="#94a3b8" font-size="8.5" text-anchor="middle" font-family="Inter">Itt születik x₁..x₆!</text>
+
+                                <!-- Dinamikus x1..x6 értékek listája az A) állomásban -->
+                                <g id="svg-xray-x-list" transform="translate(8, 58)"></g>
+                            </g>
+
+                            <!-- Nyíl A -> B -->
+                            <path d="M 404 205 L 418 205" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrow)"/>
+
+                            <!-- Állomás 2: Batch Normalization (BN) -->
+                            <g transform="translate(420, 72)">
+                                <rect x="0" y="0" width="122" height="270" rx="12" fill="rgba(99, 102, 241, 0.14)" stroke="#818cf8" stroke-width="2"/>
+                                <text x="61" y="20" fill="#c7d2fe" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Inter">B) BATCH NORM</text>
+                                <text x="61" y="34" fill="#a5b4fc" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">yᵢ = γ·x̂ᵢ + β</text>
+                                <text id="svg-bn-stats-label" x="61" y="48" fill="#38bdf8" font-size="8.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">μ=5.60 | σ=2.25</text>
+
+                                <!-- Dinamikus y1..y6 értékek listája a B) állomásban -->
+                                <g id="svg-xray-y-list" transform="translate(10, 58)"></g>
+                            </g>
+
+                            <!-- Nyíl B -> C -->
+                            <path d="M 546 205 L 558 205" stroke="#818cf8" stroke-width="2"/>
+
+                            <!-- Állomás 3: Aktivációs függvény a = f(y) -->
+                            <g transform="translate(560, 72)">
+                                <rect x="0" y="0" width="94" height="270" rx="12" fill="rgba(16, 185, 129, 0.09)" stroke="rgba(16, 185, 129, 0.45)" stroke-width="1.5"/>
+                                <text x="47" y="20" fill="#34d399" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Inter">C) AKTIVÁCIÓ</text>
+                                <text id="svg-act-fn-label" x="47" y="34" fill="#6ee7b7" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">aᵢ = Sigmoid(yᵢ)</text>
+                                <text x="47" y="48" fill="#94a3b8" font-size="8.5" text-anchor="middle" font-family="Inter">Nemlineáris kimenet</text>
+
+                                <!-- Dinamikus a1..a6 értékek listája a C) állomásban -->
+                                <g id="svg-xray-a-list" transform="translate(8, 58)"></g>
+                            </g>
+
+                            <!-- Vezetékek a Kimeneti neuronhoz -->
+                            <line x1="668" y1="205" x2="688" y2="205" class="flow-line" stroke="#10b981" stroke-width="2.5"/>
+                            <line x1="236" y1="195" x2="688" y2="205" stroke="#334155" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+                            <line x1="236" y1="285" x2="688" y2="205" stroke="#334155" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
+
+                            <!-- Kimeneti réteg csomópont -->
+                            <g transform="translate(714, 205)">
+                                <circle r="25" fill="#064e3b" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="0" y="-2" fill="#ffffff" font-size="11" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">ŷ</text>
+                                <text x="0" y="11" fill="#6ee7b7" font-size="8" text-anchor="middle" font-family="Inter">Kimenet</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Tanári kulcsmagyarázat a topológia alatt -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                        <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5">
+                            <span class="font-bold text-amber-300 block">1. Mik azok az $x_1 \dots x_6$?</span>
+                            <span class="text-slate-300 text-[11px] leading-snug">
+                                Nem maguk a nyers bemenetek, hanem a kiválasztott neuron <strong>súlyozott összegei ($z = W \cdot \text{in} + b$)</strong> a mini-batch 6 különböző adatmintájára!
+                            </span>
+                        </div>
+                        <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-2.5">
+                            <span class="font-bold text-indigo-300 block">2. Miért pont 6 darab van?</span>
+                            <span class="text-slate-300 text-[11px] leading-snug">
+                                Mert a <strong>Mini-batch mérete $m = 6$</strong>. Ha 32 képpel tanítanánk egyszerre, akkor $x_1 \dots x_{32}$ értékeink lennének ugyanebben a neuronban.
+                            </span>
+                        </div>
+                        <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-2.5">
+                            <span class="font-bold text-emerald-300 block">3. Hol van a Batch Norm?</span>
+                            <span class="text-slate-300 text-[11px] leading-snug">
+                                Közvetlenül a <strong>súlyozás ($x_i$) után</strong>, de még az <strong>aktivációs függvény ($f(y_i)$) előtt</strong>, minden neuronban külön-külön!
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JOBB OLDAL (5 oszlop): Mini-Batch és Neuron Mátrix (Miért oszloponként számolunk?) -->
+                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="border-b border-slate-800 pb-2.5">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Mini-Batch (Sorok) vs. Neuronok (Oszlopok)</span>
+                        <h3 class="text-sm sm:text-base font-bold text-white mt-0.5">
+                            Hogyan számol a Batch Norm? <span class="text-indigo-400 underline decoration-indigo-500/50">OSZLOPONKÉNT!</span>
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            Egy sor = 1 konkrét adatminta (pl. egy ház). Egy oszlop = 1 konkrét neuron kimenete a 6 mintán. A Batch Norm <strong>függőlegesen (oszloponként)</strong> számol átlagot ($\mu_B$) és szórást ($\sigma_B$)!
+                        </p>
+                    </div>
+
+                    <!-- Interaktív Mini-batch Mátrix Táblázat -->
+                    <div class="overflow-x-auto bg-slate-950/70 rounded-xl border border-slate-800 p-2">
+                        <table class="w-full text-left border-collapse text-xs font-mono">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-[11px] text-slate-400">
+                                    <th class="py-2 px-2 font-sans">Mini-Batch Minta<br><span class="text-[10px] text-slate-500">(Bemeneti jellemzők)</span></th>
+                                    <th id="matrix-col-header-0" onclick="selectNeuron(0)" class="py-2 px-2.5 text-center cursor-pointer rounded-t-lg bg-indigo-500/20 text-indigo-300 border-x border-t border-indigo-500/40 transition">
+                                        N₁ neuron<br><span class="text-[10px] text-amber-300 font-bold">(x₁ .. x₆)</span>
+                                    </th>
+                                    <th id="matrix-col-header-1" onclick="selectNeuron(1)" class="py-2 px-2 text-center cursor-pointer text-slate-400 hover:text-white transition">
+                                        N₂ neuron<br><span class="text-[10px] text-slate-500">(z₁ .. z₆)</span>
+                                    </th>
+                                    <th id="matrix-col-header-2" onclick="selectNeuron(2)" class="py-2 px-2 text-center cursor-pointer text-slate-400 hover:text-white transition">
+                                        N₃ neuron<br><span class="text-[10px] text-slate-500">(z₁ .. z₆)</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="mini-batch-matrix-body" class="divide-y divide-slate-800/60">
+                                <!-- JS tölti fel a 6 sort + az oszloponkénti μ és σ összesítő sorokat -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Vizuális magyarázat: Batch Norm vs Layer Norm -->
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-1.5">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-indigo-300 flex items-center gap-1.5">
+                                <span>⬇️</span> Függőleges nyíl = Batch Normalization
+                            </span>
+                            <span id="hover-sample-indicator" class="font-mono text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+                                Vidd az egeret egy sorra!
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Minden neuron (<strong>N₁, N₂, N₃</strong>) <strong>saját</strong> $\mu_B$ átlaggal, $\sigma_B$ szórással, valamint saját tanulható $\gamma$ és $\beta$ paraméterrel rendelkezik! Az N₁ neuron csak a saját $x_1 \dots x_6$ oszlopát látja.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SZEKCIÓ: A 4 LÉPÉSES INTERAKTÍV FOLYAMAT -->
+        <section class="space-y-4 pt-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm font-mono">2</span>
+                        A kiválasztott neuron (x₁ … x₆) értékeinek 4 lépéses normalizálása
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-400">
+                        Válts a lépések között, és figyeld meg, hogyan alakulnak át a kiválasztott neuronban lévő $x_1 \dots x_6$ adatpontok a számegyenesen!
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="prevStep()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition">
+                        ◀ Előző lépés
+                    </button>
+                    <button onclick="nextStep()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition shadow shadow-indigo-600/30">
+                        Következő lépés ▶
+                    </button>
+                </div>
+            </div>
+
+            <!-- 4 Lépéses Kártyák (Pipeline Selector) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <!-- 1. Lépés -->
+                <button onclick="setStep(1)" id="step-card-1" class="step-active glass-card text-left p-4 rounded-2xl transition-all duration-200 hover:border-slate-600 relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            1. Lépés
+                        </span>
+                        <span class="font-mono text-xs text-slate-400">Bemenet</span>
+                    </div>
+                    <h3 class="font-bold text-white text-base mb-1">Nyers Mini-Batch ($x_i$)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-3">
+                        Az előző rétegből érkező nyers aktivációk. Átlaguk ($\mu_B$) elcsúszhatott, szórásuk ($\sigma_B$) túl nagy vagy kicsi lehet.
+                    </p>
+                    <div class="mt-auto pt-2 border-t border-slate-800/80 font-mono text-xs text-amber-300 bg-slate-950/50 px-2.5 py-1.5 rounded-lg">
+                        μ<sub>B</sub> = <span id="card-mu">0.00</span> | σ<sub>B</sub> = <span id="card-sigma">1.00</span>
+                    </div>
+                </button>
+
+                <!-- 2. Lépés -->
+                <button onclick="setStep(2)" id="step-card-2" class="glass-card text-left p-4 rounded-2xl transition-all duration-200 hover:border-slate-600 relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                            2. Lépés
+                        </span>
+                        <span class="font-mono text-xs text-slate-400">Eltolás</span>
+                    </div>
+                    <h3 class="font-bold text-white text-base mb-1">Középre tolás ($x_i - \mu_B$)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-3">
+                        Kiszámoljuk a mini-batch átlagát ($\mu_B$), majd minden egyes adatpontból kivonjuk. Az új átlag pontosan <strong>0</strong> lesz.
+                    </p>
+                    <div class="mt-auto pt-2 border-t border-slate-800/80 font-mono text-xs text-sky-300 bg-slate-950/50 px-2.5 py-1.5 rounded-lg">
+                        x'<sub>i</sub> = x<sub>i</sub> - μ<sub>B</sub> &nbsp;(Átlag = 0)
+                    </div>
+                </button>
+
+                <!-- 3. Lépés -->
+                <button onclick="setStep(3)" id="step-card-3" class="glass-card text-left p-4 rounded-2xl transition-all duration-200 hover:border-slate-600 relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            3. Lépés
+                        </span>
+                        <span class="font-mono text-xs text-slate-400">Skálázás</span>
+                    </div>
+                    <h3 class="font-bold text-white text-base mb-1">Normalizálás ($\hat{x}_i$)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-3">
+                        Elosztjuk a középre tolt értékeket a szórással ($\sigma_B$). Így az adatok szélessége (szórása) egységesen <strong>1</strong> lesz.
+                    </p>
+                    <div class="mt-auto pt-2 border-t border-slate-800/80 font-mono text-xs text-emerald-300 bg-slate-950/50 px-2.5 py-1.5 rounded-lg">
+                        x̂<sub>i</sub> = (x<sub>i</sub> - μ<sub>B</sub>) / √(σ²<sub>B</sub> + ε)
+                    </div>
+                </button>
+
+                <!-- 4. Lépés -->
+                <button onclick="setStep(4)" id="step-card-4" class="glass-card text-left p-4 rounded-2xl transition-all duration-200 hover:border-slate-600 relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                            4. Lépés
+                        </span>
+                        <span class="font-mono text-xs text-slate-400">Tanulható</span>
+                    </div>
+                    <h3 class="font-bold text-white text-base mb-1">Skálázás és Eltolás ($y_i$)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-3">
+                        A hálózat nem kényszerül szigorúan a [0, 1] eloszlásba: tanulható $\gamma$ (szórás) és $\beta$ (átlag) paraméterekkel finomhangol.
+                    </p>
+                    <div class="mt-auto pt-2 border-t border-slate-800/80 font-mono text-xs text-purple-300 bg-slate-950/50 px-2.5 py-1.5 rounded-lg">
+                        y<sub>i</sub> = γ · x̂<sub>i</sub> + β
+                    </div>
+                </button>
+            </div>
+
+            <!-- Fő interaktív számegyenes és vezérlőpult -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- Bal oldal: Animált Számegyenes & Eloszlás Canvas (8 oszlop) -->
+                <div class="lg:col-span-8 glass-card rounded-2xl p-4 sm:p-6 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div>
+                            <span id="active-step-badge" class="text-xs font-bold uppercase px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                1. Lépés: Nyers Mini-Batch (x_i)
+                            </span>
+                            <h3 id="active-step-title" class="text-base sm:text-lg font-bold text-white mt-1">
+                                Bemeneti értékek és eloszlásuk a számegyenesen
+                            </h3>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs font-mono bg-slate-950/80 px-3.5 py-2 rounded-xl border border-slate-800">
+                            <div>
+                                <span class="text-slate-400">Aktuális Átlag:</span>
+                                <span id="live-mean" class="font-bold text-white ml-1">0.00</span>
+                            </div>
+                            <div class="h-4 w-px bg-slate-800"></div>
+                            <div>
+                                <span class="text-slate-400">Aktuális Szórás:</span>
+                                <span id="live-std" class="font-bold text-white ml-1">1.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Számegyenes és Haranggörbe Canvas -->
+                    <div class="relative w-full h-72 sm:h-80 bg-slate-950/70 rounded-xl border border-slate-800/90 overflow-hidden">
+                        <canvas id="pipelineCanvas"></canvas>
+                    </div>
+
+                    <!-- Dinamikus magyarázat az aktuális lépéshez -->
+                    <div id="step-explanation-box" class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5 text-xs sm:text-sm text-slate-300 flex items-start gap-3">
+                        <div class="text-lg">🔍</div>
+                        <div id="step-explanation-text" class="leading-relaxed">
+                            A felső sávban a <strong>nyers mini-batch (6 minta)</strong> látható, az alsó sávban pedig az <strong>aktuálisan kiválasztott lépés</strong> eredménye. Próbáld végigkattintani a 2., 3. és 4. lépést!
+                        </div>
+                    </div>
+
+                    <!-- Élő Adattáblázat (Minden minta értéke a 4 lépésben) -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs font-mono">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400">
+                                    <th class="py-2 px-2">Minta</th>
+                                    <th class="py-2 px-2 text-amber-400">1. Nyers ($x_i$)</th>
+                                    <th class="py-2 px-2 text-sky-400">2. Középre ($x_i - \mu_B$)</th>
+                                    <th class="py-2 px-2 text-emerald-400">3. Normált ($\hat{x}_i$)</th>
+                                    <th class="py-2 px-2 text-purple-400">4. Kimenet ($y_i = \gamma\hat{x}_i + \beta$)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batch-table-body" class="divide-y divide-slate-800/60">
+                                <!-- JS tölti fel -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Jobb oldal: Interaktív Paraméter Vezérlők (4 oszlop) -->
+                <div class="lg:col-span-4 space-y-4">
+                    
+                    <!-- Tanulható paraméterek (Gamma és Beta) kártya -->
+                    <div class="glass-card rounded-2xl p-5 border border-purple-500/30 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-purple-400">4. Lépés Vezérlői</span>
+                                <h3 class="text-base font-bold text-white">Tanulható paraméterek ($\gamma, \beta$)</h3>
+                            </div>
+                            <button onclick="resetGammaBeta()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                Alaphelyzet ($\gamma=1, \beta=0$)
+                            </button>
+                        </div>
+
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Miért nem elég a 3. lépés ($\mu=0, \sigma=1$)? Mert pl. egy Sigmoid függvény a 0 körül teljesen lineáris! A $\gamma$ és $\beta$ segítségével a hálózat <strong>maga döntheti el</strong> a visszaterjesztés (backpropagation) során, milyen eloszlás a legjobb.
+                        </p>
+
+                        <!-- Gamma slider -->
+                        <div class="space-y-1.5 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between text-xs">
+                                <label for="gamma-slider" class="font-semibold text-purple-300">
+                                    $\gamma$ (Gamma) – Skálázás / Szórás:
+                                </label>
+                                <span id="gamma-val" class="font-mono font-bold text-white">1.00</span>
+                            </div>
+                            <input id="gamma-slider" type="range" min="0.2" max="3.0" step="0.05" value="1.0" class="w-full" oninput="updateGammaBeta()">
+                            <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                                <span>0.2 (Összenyom)</span>
+                                <span>1.0 (Normál)</span>
+                                <span>3.0 (Széthúz)</span>
+                            </div>
+                        </div>
+
+                        <!-- Beta slider -->
+                        <div class="space-y-1.5 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between text-xs">
+                                <label for="beta-slider" class="font-semibold text-purple-300">
+                                    $\beta$ (Beta) – Eltolás / Új átlag:
+                                </label>
+                                <span id="beta-val" class="font-mono font-bold text-white">0.00</span>
+                            </div>
+                            <input id="beta-slider" type="range" min="-4.0" max="4.0" step="0.1" value="0.0" class="w-full" oninput="updateGammaBeta()">
+                            <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                                <span>-4.0 (Balra tol)</span>
+                                <span>0.0 (Középen)</span>
+                                <span>+4.0 (Jobbra tol)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Egyéni Mini-batch minták módosítása -->
+                    <div class="glass-card rounded-2xl p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">1. Lépés Bemenetei</span>
+                                <h3 class="text-base font-bold text-white">Mini-batch minták ($x_1 \dots x_6$)</h3>
+                            </div>
+                            <button onclick="randomizeBatch()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 transition">
+                                🎲 Véletlen
+                            </button>
+                        </div>
+                        <p class="text-xs text-slate-400">
+                            Mozgasd meg bármelyik bemeneti mintát, és figyeld meg, hogyan számolódik újra a középérték ($\mu_B$) és a szórás ($\sigma_B$)!
+                        </p>
+                        <div id="sample-sliders-container" class="space-y-2.5 pt-1">
+                            <!-- JS generálja a 6 csúszkát -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SZEKCIÓ: MIÉRT FONTOS EZ? AKTIVÁCIÓS FÜGGVÉNY TELÍTŐDÉS & TANULÁSI FELSZÍN -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-4">
+            
+            <!-- Bal oldal: Aktivációs függvény és az eltűnő gradiens (7 oszlop) -->
+            <div class="lg:col-span-7 glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-mono">3</span>
+                            Miért áll le a tanulás Batch Norm nélkül? (Telítődés)
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Nézd meg, hova esnek a minták az aktivációs függvényen normalizálás <strong>előtt</strong> és <strong>után</strong>!
+                        </p>
+                    </div>
+                    <!-- Aktivációs függvény választó -->
+                    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 self-start">
+                        <button onclick="setActivation('sigmoid')" id="act-sigmoid" class="px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition">
+                            Sigmoid
+                        </button>
+                        <button onclick="setActivation('tanh')" id="act-tanh" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
+                            Tanh
+                        </button>
+                        <button onclick="setActivation('relu')" id="act-relu" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
+                            ReLU
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Aktivációs Canvas -->
+                <div class="relative w-full h-72 bg-slate-950/70 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="activationCanvas"></canvas>
+                </div>
+
+                <!-- Jelmagyarázat és Gradiens összehasonlítás -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-bold text-amber-300">
+                                <span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
+                                Batch Norm NÉLKÜL ($x_i$)
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Átlagos meredekség (gradiens):</p>
+                        </div>
+                        <div class="text-right">
+                            <span id="raw-grad-stat" class="font-mono text-base font-bold text-amber-300">0.02</span>
+                            <span id="raw-grad-status" class="block text-[10px] text-rose-400 font-semibold">Telítődött!</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 text-xs font-bold text-emerald-300">
+                                <span class="w-3 h-3 rounded-full bg-emerald-400 inline-block"></span>
+                                Batch Norm UTÁN ($y_i$)
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Átlagos meredekség (gradiens):</p>
+                        </div>
+                        <div class="text-right">
+                            <span id="bn-grad-stat" class="font-mono text-base font-bold text-emerald-300">0.23</span>
+                            <span id="bn-grad-status" class="block text-[10px] text-emerald-400 font-semibold">Aktív tanulás!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="activation-insight" class="text-xs text-slate-300 bg-slate-900/90 p-3 rounded-xl border border-slate-800 leading-relaxed">
+                    <strong>Tanulság:</strong> Amikor a bemeneti értékek ($x_i$, sárga pontok) a szélső, piros <em>Telítődési zónába</em> csúsznak, a görbe lapos lesz, a derivált (gradiens) pedig majdnem 0. Ezt hívjuk <strong>eltűnő gradiensnek (Vanishing Gradient)</strong>. A Batch Norm visszahúzza a pontokat (zöld/lila pontok) a középső, meredek <strong>Aktív tanulási zónába</strong>!
+                </p>
+            </div>
+
+            <!-- Jobb oldal: Hiba-felszín (Loss Landscape) és Gradiens ereszkedés szimuláció (5 oszlop) -->
+            <div class="lg:col-span-5 glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-sm font-mono">4</span>
+                            Hiba-felszín simítása (Loss Landscape)
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-0.5">
+                            Miért tanulhatunk nagyobb tanulási rátával (Learning Rate)?
+                        </p>
+                    </div>
+                    <button onclick="restartOptimizationSim()" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition shadow shadow-indigo-500/30 shrink-0">
+                        ▶ Szimuláció indítása
+                    </button>
+                </div>
+
+                <!-- 2D Kontúr Szimuláció Canvas -->
+                <div class="relative w-full h-72 bg-slate-950/70 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="landscapeCanvas"></canvas>
+                </div>
+
+                <!-- Tanulási ráta csúszka a szimulációhoz -->
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-slate-300 font-medium">Szimulált Tanulási ráta (Learning Rate $\eta$):</span>
+                        <span id="lr-val" class="font-mono font-bold text-indigo-400">Magas (0.85)</span>
+                    </div>
+                    <input id="lr-slider" type="range" min="0.3" max="1.05" step="0.05" value="0.85" class="w-full" oninput="updateLR()">
+                    <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                        <span>Óvatos (Lassú)</span>
+                        <span>Optimális</span>
+                        <span>Agresszív (Cikk-cakk)</span>
+                    </div>
+                </div>
+
+                <p class="text-xs text-slate-300 bg-slate-900/90 p-3 rounded-xl border border-slate-800 leading-relaxed">
+                    <strong>Mit látunk itt?</strong> Ha az adatok különböző skálán mozognak, a hiba-felszín egy megnyúlt, keskeny völgy lesz (balra): a gradiens ereszkedés vadul <strong>cikk-cakkozik</strong> a falak között. Batch Normmal a felszín szabályos tál alakúvá válik (jobbra), így a hálózat <strong>egyenesen a minimumba</strong> talál!
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. SZEKCIÓ: TANÁRI ÖSSZEFOGLALÓ ÉS TANÍTÁS VS. KIÉRTÉKELÉS PUSKA -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div class="glass-card rounded-2xl p-5 border-t-2 border-t-emerald-500">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-2">
+                    <span>🚀</span> 4 Fő előny a gyakorlatban
+                </h3>
+                <ul class="text-xs text-slate-300 space-y-2 leading-relaxed">
+                    <li>• <strong>Gyorsabb tanulás:</strong> Sokkal nagyobb tanulási rátát (Learning Rate) használhatunk anélkül, hogy felrobbanna a hiba.</li>
+                    <li>• <strong>Nincs eltűnő gradiens:</strong> Az aktivációk nem ragadnak be a telítődési zónákba.</li>
+                    <li>• <strong>Kevésbé érzékeny a kezdeti súlyokra:</strong> A véletlenszerű súly-inicializálás hibáit azonnal korrigálja.</li>
+                    <li>• <strong>Enyhe regularizáció:</strong> Mivel minden minta a saját mini-batch társaitól függ, kis zajt visz be, ami csökkenti a túltanulást (overfitting).</li>
+                </ul>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5 border-t-2 border-t-amber-500">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-2">
+                    <span>🎓</span> Fontos vizsgakérdés: Tanítás vs. Tesztelés
+                </h3>
+                <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                    Mi történik éles használatkor (Inference / Tesztelés), amikor <strong>csak 1 darab képet</strong> adunk a hálónak? Egyetlen elemnek nem lehet értelmes szórása ($\sigma = 0$)!
+                </p>
+                <div class="bg-slate-950/70 p-2.5 rounded-xl border border-slate-800 text-xs space-y-1">
+                    <div class="text-amber-300 font-semibold">Megoldás: Mozgóátlag (Running Mean & Variance)</div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                        Tanítás közben a hálózat folyamatosan elmenti a látott mini-batchek átlagának és szórásának mozgóátlagát. Teszteléskor már ezeket a <strong>rögzített globális értékeket</strong> használja!
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5 border-t-2 border-t-purple-500">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-2">
+                    <span>📐</span> Matematikai Puska (Jelölések)
+                </h3>
+                <div class="space-y-2 text-xs font-mono">
+                    <div class="flex justify-between bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800">
+                        <span class="text-amber-300">μ<sub>B</sub> = (1/m) Σ x<sub>i</sub></span>
+                        <span class="text-slate-400 font-sans">Köteg átlaga</span>
+                    </div>
+                    <div class="flex justify-between bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800">
+                        <span class="text-sky-300">σ²<sub>B</sub> = (1/m) Σ (x<sub>i</sub> - μ<sub>B</sub>)²</span>
+                        <span class="text-slate-400 font-sans">Köteg varianciája</span>
+                    </div>
+                    <div class="flex justify-between bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800">
+                        <span class="text-emerald-300">ε (epszilon ≈ 10⁻⁵)</span>
+                        <span class="text-slate-400 font-sans">Nullával osztás ellen</span>
+                    </div>
+                    <div class="flex justify-between bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800">
+                        <span class="text-purple-300">γ, β (Gamma, Beta)</span>
+                        <span class="text-slate-400 font-sans">Tanulható súlyok</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ==========================================
+        // ÁLLAPOTTÉR ÉS ADATOK
+        // ==========================================
+        const SAMPLE_COLORS = [
+            '#f43f5e', // x1 - Rose
+            '#f97316', // x2 - Orange
+            '#eab308', // x3 - Yellow
+            '#06b6d4', // x4 - Cyan
+            '#3b82f6', // x5 - Blue
+            '#ec4899'  // x6 - Pink
+        ];
+
+        // Konkrét, kézzelfogható mini-batch példák (6 db ingatlan a kötegben)
+        const MINI_BATCH_META = [
+            { name: '1. Minta (Kis garzon)', features: '42 m², 1 szoba, 45 év' },
+            { name: '2. Minta (Sorház)',     features: '68 m², 2 szoba, 20 év' },
+            { name: '3. Minta (Családi)',    features: '95 m², 3 szoba, 12 év' },
+            { name: '4. Minta (Újépítésű)',  features: '115 m², 4 szoba, 3 év' },
+            { name: '5. Minta (Villa)',      features: '160 m², 5 szoba, 8 év' },
+            { name: '6. Minta (Penthouse)',  features: '210 m², 6 szoba, 1 év' }
+        ];
+
+        // A 3 rejtett neuron (N1, N2, N3) súlyozott összegei a 6 mintára
+        const NEURON_PRESETS = [
+            [2.2, 3.8, 4.9, 6.1, 7.5, 9.1],   // N1: Pozitív irányba elcsúszott és szétszórt
+            [-6.4, -5.8, -5.1, -4.6, -3.9, -3.2], // N2: Negatív tartományba szorult
+            [-7.5, -4.2, -1.1, 2.4, 5.6, 8.4]  // N3: Túl nagy szórású (szétszakadt)
+        ];
+
+        let state = {
+            selectedNeuron: 0, // 0 = N1, 1 = N2, 2 = N3
+            hoveredSample: null, // 0..5 ha a diák ráviszi az egeret valamelyik mintára
+            // Alapértelmezett: elcsúszott és szétszórt mini-batch, hogy látványos legyen a probléma
+            rawSamples: [...NEURON_PRESETS[0]],
+            otherNeurons: [
+                [...NEURON_PRESETS[0]],
+                [...NEURON_PRESETS[1]],
+                [...NEURON_PRESETS[2]]
+            ],
+            currentStep: 1,
+            gamma: 1.0,
+            beta: 0.0,
+            epsilon: 1e-5,
+            activationFn: 'sigmoid',
+            // Animációs interpolációhoz az aktuálisan kirajzolt pozíciók
+            animatedPoints: [2.2, 3.8, 4.9, 6.1, 7.5, 9.1],
+            animatedMean: 5.6,
+            animatedStd: 2.3,
+            learningRate: 0.85
+        };
+
+        // Segédfüggvény egy tetszőleges tömb átlagának és szórásának kiszámításához
+        function calcArrayMeanStd(arr) {
+            const n = arr.length;
+            const mu = arr.reduce((a, b) => a + b, 0) / n;
+            const variance = arr.reduce((a, b) => a + Math.pow(b - mu, 2), 0) / n;
+            const sigma = Math.sqrt(variance + 1e-5);
+            return { mu, sigma };
+        }
+
+        // Statisztikák kiszámítása minden lépéshez
+        function computeBatchStats() {
+            const n = state.rawSamples.length;
+            const mu = state.rawSamples.reduce((a, b) => a + b, 0) / n;
+            const variance = state.rawSamples.reduce((a, b) => a + Math.pow(b - mu, 2), 0) / n;
+            const sigma = Math.sqrt(variance + state.epsilon);
+
+            const centered = state.rawSamples.map(x => x - mu);
+            const normalized = centered.map(c => c / sigma);
+            const output = normalized.map(xHat => state.gamma * xHat + state.beta);
+
+            return {
+                mu,
+                variance,
+                sigma,
+                step1: [...state.rawSamples],
+                step2: centered,
+                step3: normalized,
+                step4: output
+            };
+        }
+
+        // Neuron kiválasztása a topológián vagy a mátrix fejlécében
+        function selectNeuron(neuronIdx) {
+            state.otherNeurons[state.selectedNeuron] = [...state.rawSamples];
+            state.selectedNeuron = neuronIdx;
+            state.rawSamples = [...state.otherNeurons[neuronIdx]];
+
+            // Tab gombok frissítése
+            for (let i = 0; i < 3; i++) {
+                const btn = document.getElementById(`neuron-tab-${i}`);
+                if (i === neuronIdx) {
+                    btn.className = 'neuron-btn-active px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-white border border-slate-700 transition flex items-center gap-1.5';
+                    btn.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-indigo-400 inline-block"></span> N<sub>${i + 1}</sub> neuron (Kiemelt)`;
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 border border-slate-800 hover:border-slate-700 transition flex items-center gap-1.5';
+                    btn.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block"></span> N<sub>${i + 1}</sub> neuron`;
+                }
+            }
+
+            syncSlidersToSamples();
+            updateUI();
+        }
+
+        // Minta kiemelése (Cross-highlighting a mátrix, az SVG röntgen és a számegyenes között)
+        function highlightSample(sampleIdx) {
+            state.hoveredSample = sampleIdx;
+            const indicator = document.getElementById('hover-sample-indicator');
+            if (sampleIdx === null) {
+                indicator.textContent = 'Vidd az egeret egy sorra!';
+                indicator.className = 'font-mono text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300';
+            } else {
+                const xVal = state.rawSamples[sampleIdx].toFixed(2);
+                indicator.innerHTML = `Kiemelve: <strong style="color:${SAMPLE_COLORS[sampleIdx]}">x<sub>${sampleIdx + 1}</sub> = ${xVal}</strong> (${MINI_BATCH_META[sampleIdx].name})`;
+                indicator.className = 'font-mono text-[11px] px-2 py-0.5 rounded bg-indigo-950 text-indigo-200 border border-indigo-500/40';
+            }
+            renderTopologyAndMatrix();
+        }
+
+        // SVG Topológia + Röntgen és Mini-Batch Mátrix kirajzolása
+        function renderTopologyAndMatrix() {
+            const stats = computeBatchStats();
+            state.otherNeurons[state.selectedNeuron] = [...state.rawSamples];
+
+            const neuronName = `N${state.selectedNeuron + 1}`;
+            document.getElementById('topology-title').innerHTML =
+                `Az <span class="text-indigo-400">${neuronName} neuron</span> belső felépítése: Súlyozás (x₁..x₆) → Batch Norm (y₁..y₆) → Aktiváció`;
+
+            // SVG neuron körök és vezetékek kiemelése
+            const neuronYPositions = [105, 195, 285];
+            for (let i = 0; i < 3; i++) {
+                const gNeuron = document.getElementById(`svg-neuron-${i}`);
+                const circle = gNeuron.querySelector('circle');
+                const texts = gNeuron.querySelectorAll('text');
+                const wires = document.querySelectorAll(`.wire-to-${i}`);
+
+                if (i === state.selectedNeuron) {
+                    circle.setAttribute('r', '28');
+                    circle.setAttribute('fill', '#312e81');
+                    circle.setAttribute('stroke', '#818cf8');
+                    circle.setAttribute('stroke-width', '3');
+                    circle.setAttribute('filter', 'url(#glow)');
+                    texts[0].setAttribute('fill', '#ffffff');
+                    texts[1].setAttribute('fill', '#c7d2fe');
+                    wires.forEach(w => {
+                        w.setAttribute('stroke', '#6366f1');
+                        w.setAttribute('stroke-width', '2');
+                        w.classList.add('flow-line');
+                    });
+                } else {
+                    circle.setAttribute('r', '25');
+                    circle.setAttribute('fill', '#1e293b');
+                    circle.setAttribute('stroke', '#475569');
+                    circle.setAttribute('stroke-width', '2');
+                    circle.removeAttribute('filter');
+                    texts[0].setAttribute('fill', '#cbd5e1');
+                    texts[1].setAttribute('fill', '#64748b');
+                    wires.forEach(w => {
+                        w.setAttribute('stroke', '#334155');
+                        w.setAttribute('stroke-width', '1.2');
+                        w.classList.remove('flow-line');
+                    });
+                }
+            }
+
+            // Nagyító fénysugár igazítása a kiválasztott neuron Y pozíciójához
+            const selY = neuronYPositions[state.selectedNeuron];
+            const beam = document.getElementById('svg-zoom-beam');
+            beam.setAttribute('points', `238,${selY - 22} 280,55 280,355 238,${selY + 22}`);
+
+            // Röntgen címkék frissítése
+            document.getElementById('svg-bn-stats-label').textContent =
+                `μ=${stats.mu.toFixed(2)} | σ=${stats.sigma.toFixed(2)}`;
+            const fnLabelMap = { sigmoid: 'Sigmoid', tanh: 'Tanh', relu: 'ReLU' };
+            document.getElementById('svg-act-fn-label').textContent =
+                `aᵢ = ${fnLabelMap[state.activationFn]}(yᵢ)`;
+
+            // Röntgen 3 oszlopának (x_i, y_i, a_i) SVG sorai
+            const xListG = document.getElementById('svg-xray-x-list');
+            const yListG = document.getElementById('svg-xray-y-list');
+            const aListG = document.getElementById('svg-xray-a-list');
+            xListG.innerHTML = '';
+            yListG.innerHTML = '';
+            aListG.innerHTML = '';
+
+            for (let i = 0; i < 6; i++) {
+                const rowY = i * 33;
+                const isHovered = state.hoveredSample === i;
+                const color = SAMPLE_COLORS[i];
+                const xVal = stats.step1[i];
+                const yVal = stats.step4[i];
+                const aVal = evalActivation(yVal, state.activationFn).y;
+
+                const strokeColor = isHovered ? '#ffffff' : 'rgba(148,163,184,0.22)';
+                const strokeW = isHovered ? '2' : '1';
+                const bgOpacity = isHovered ? '0.32' : '0.12';
+
+                // A) x_i elem
+                xListG.innerHTML += `
+                    <g class="cursor-pointer" onmouseenter="highlightSample(${i})" onmouseleave="highlightSample(null)" transform="translate(0, ${rowY})">
+                        <rect x="0" y="0" width="90" height="27" rx="6" fill="${color}" fill-opacity="${bgOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+                        <circle cx="11" cy="13.5" r="4.5" fill="${color}"/>
+                        <text x="20" y="17" fill="#f8fafc" font-size="10" font-weight="700" font-family="JetBrains Mono">x${i + 1}=${xVal >= 0 ? '+' : ''}${xVal.toFixed(1)}</text>
+                    </g>
+                `;
+
+                // B) y_i elem
+                yListG.innerHTML += `
+                    <g class="cursor-pointer" onmouseenter="highlightSample(${i})" onmouseleave="highlightSample(null)" transform="translate(0, ${rowY})">
+                        <rect x="0" y="0" width="102" height="27" rx="6" fill="${color}" fill-opacity="${bgOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+                        <text x="51" y="17" fill="#e0e7ff" font-size="10" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">y${i + 1}=${yVal >= 0 ? '+' : ''}${yVal.toFixed(2)}</text>
+                    </g>
+                `;
+
+                // C) a_i elem
+                aListG.innerHTML += `
+                    <g class="cursor-pointer" onmouseenter="highlightSample(${i})" onmouseleave="highlightSample(null)" transform="translate(0, ${rowY})">
+                        <rect x="0" y="0" width="78" height="27" rx="6" fill="${color}" fill-opacity="${bgOpacity}" stroke="${strokeColor}" stroke-width="${strokeW}"/>
+                        <text x="39" y="17" fill="#6ee7b7" font-size="10" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">a${i + 1}=${aVal.toFixed(2)}</text>
+                    </g>
+                `;
+            }
+
+            // Mini-Batch Mátrix fejléc oszlopok kiemelése
+            for (let c = 0; c < 3; c++) {
+                const th = document.getElementById(`matrix-col-header-${c}`);
+                if (c === state.selectedNeuron) {
+                    th.className = 'py-2 px-2.5 text-center cursor-pointer rounded-t-lg bg-indigo-500/25 text-indigo-200 border-x border-t border-indigo-500/50 transition';
+                    th.innerHTML = `N<sub>${c + 1}</sub> neuron<br><span class="text-[10px] text-amber-300 font-bold">⬇ (x₁ .. x₆) ⬇</span>`;
+                } else {
+                    th.className = 'py-2 px-2 text-center cursor-pointer text-slate-400 hover:text-white transition';
+                    th.innerHTML = `N<sub>${c + 1}</sub> neuron<br><span class="text-[10px] text-slate-500">(z₁ .. z₆)</span>`;
+                }
+            }
+
+            // Mini-Batch Mátrix sorok felépítése
+            const matrixBody = document.getElementById('mini-batch-matrix-body');
+            matrixBody.innerHTML = '';
+
+            for (let r = 0; r < 6; r++) {
+                const isRowHovered = state.hoveredSample === r;
+                const tr = document.createElement('tr');
+                tr.className = `transition cursor-pointer ${isRowHovered ? 'sample-row-highlight' : 'hover:bg-slate-800/50'}`;
+                tr.onmouseenter = () => highlightSample(r);
+                tr.onmouseleave = () => highlightSample(null);
+
+                let colsHtml = `
+                    <td class="py-1.5 px-2 font-sans">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full shrink-0" style="background-color:${SAMPLE_COLORS[r]}"></span>
+                            <div>
+                                <div class="font-bold text-slate-200 text-[11px]">${MINI_BATCH_META[r].name}</div>
+                                <div class="text-[10px] text-slate-500">${MINI_BATCH_META[r].features}</div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+
+                for (let c = 0; c < 3; c++) {
+                    const val = state.otherNeurons[c][r];
+                    const isSelectedCol = c === state.selectedNeuron;
+                    if (isSelectedCol) {
+                        colsHtml += `
+                            <td class="py-1.5 px-2.5 text-center bg-indigo-500/15 border-x border-indigo-500/40 font-bold text-amber-300">
+                                <span class="text-[10px] text-slate-400 mr-0.5">x<sub>${r + 1}</sub>=</span>${val.toFixed(1)}
+                            </td>
+                        `;
+                    } else {
+                        colsHtml += `
+                            <td onclick="selectNeuron(${c})" class="py-1.5 px-2 text-center text-slate-500 hover:text-slate-300">
+                                ${val.toFixed(1)}
+                            </td>
+                        `;
+                    }
+                }
+
+                tr.innerHTML = colsHtml;
+                matrixBody.appendChild(tr);
+            }
+
+            // Összesítő sorok a mátrix alján: Oszloponkénti Átlag (μ_B) és Szórás (σ_B)
+            const statsPerCol = [0, 1, 2].map(c => calcArrayMeanStd(state.otherNeurons[c]));
+
+            const muRow = document.createElement('tr');
+            muRow.className = 'bg-slate-900/95 border-t-2 border-slate-700 font-bold';
+            muRow.innerHTML = `
+                <td class="py-2 px-2 font-sans text-[11px] text-sky-300">
+                    ⬇️ Oszlop Átlag ($\mu_B$):
+                </td>
+                ${[0, 1, 2].map(c => `
+                    <td class="py-2 px-2 text-center ${c === state.selectedNeuron ? 'bg-indigo-500/25 border-x border-indigo-500/40 text-sky-300' : 'text-slate-500'}">
+                        μ = ${statsPerCol[c].mu.toFixed(2)}
+                    </td>
+                `).join('')}
+            `;
+            matrixBody.appendChild(muRow);
+
+            const sigmaRow = document.createElement('tr');
+            sigmaRow.className = 'bg-slate-900/95 font-bold';
+            sigmaRow.innerHTML = `
+                <td class="py-2 px-2 font-sans text-[11px] text-emerald-300">
+                    ⬇️ Oszlop Szórás ($\sigma_B$):
+                </td>
+                ${[0, 1, 2].map(c => `
+                    <td class="py-2 px-2 text-center ${c === state.selectedNeuron ? 'bg-indigo-500/25 border-x border-b border-indigo-500/40 rounded-b-lg text-emerald-300' : 'text-slate-500'}">
+                        σ = ${statsPerCol[c].sigma.toFixed(2)}
+                    </td>
+                `).join('')}
+            `;
+            matrixBody.appendChild(sigmaRow);
+        }
+
+        // Az aktuálisan kiválasztott lépés célpontjai
+        function getTargetStepValues(stats) {
+            if (state.currentStep === 1) return { pts: stats.step1, mean: stats.mu, std: stats.sigma };
+            if (state.currentStep === 2) return { pts: stats.step2, mean: 0, std: stats.sigma };
+            if (state.currentStep === 3) return { pts: stats.step3, mean: 0, std: 1.0 };
+            return { pts: stats.step4, mean: state.beta, std: state.gamma };
+        }
+
+        // ==========================================
+        // INTERAKTÍV VEZÉRLŐK ÉS UI FRISSÍTÉS
+        // ==========================================
+        function buildSampleSliders() {
+            const container = document.getElementById('sample-sliders-container');
+            container.innerHTML = '';
+            state.rawSamples.forEach((val, idx) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center gap-2.5 text-xs';
+                row.innerHTML = `
+                    <span class="w-6 h-6 rounded-full flex items-center justify-center font-mono font-bold text-white shrink-0 shadow" style="background-color: ${SAMPLE_COLORS[idx]}">
+                        x<sub>${idx + 1}</sub>
+                    </span>
+                    <input id="sample-slider-${idx}" type="range" min="-9.0" max="9.0" step="0.1" value="${val.toFixed(1)}"
+                        class="w-full" oninput="updateSample(${idx}, this.value)">
+                    <span id="sample-val-${idx}" class="font-mono font-semibold text-slate-200 w-12 text-right">${val.toFixed(1)}</span>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function updateSample(idx, val) {
+            state.rawSamples[idx] = parseFloat(val);
+            document.getElementById(`sample-val-${idx}`).textContent = state.rawSamples[idx].toFixed(1);
+            updateUI();
+        }
+
+        function updateGammaBeta() {
+            state.gamma = parseFloat(document.getElementById('gamma-slider').value);
+            state.beta = parseFloat(document.getElementById('beta-slider').value);
+            document.getElementById('gamma-val').textContent = state.gamma.toFixed(2);
+            document.getElementById('beta-val').textContent = (state.beta >= 0 ? '+' : '') + state.beta.toFixed(2);
+            if (state.currentStep !== 4) {
+                setStep(4);
+            } else {
+                updateUI();
+            }
+        }
+
+        function resetGammaBeta() {
+            document.getElementById('gamma-slider').value = 1.0;
+            document.getElementById('beta-slider').value = 0.0;
+            updateGammaBeta();
+        }
+
+        function applyPreset(presetName) {
+            if (presetName === 'shifted_high') {
+                state.rawSamples = [2.2, 3.8, 4.9, 6.1, 7.5, 9.1];
+            } else if (presetName === 'exploding') {
+                state.rawSamples = [-8.5, -5.8, -3.2, 3.6, 6.4, 8.8];
+            } else if (presetName === 'collapsed') {
+                state.rawSamples = [-6.2, -5.9, -5.6, -5.3, -5.0, -4.7];
+            } else if (presetName === 'ideal') {
+                state.rawSamples = [-1.5, -0.9, -0.3, 0.3, 0.9, 1.5];
+            }
+            syncSlidersToSamples();
+            updateUI();
+        }
+
+        function randomizeBatch() {
+            const randomCenter = (Math.random() * 10) - 5;
+            const randomSpread = 0.6 + Math.random() * 3.2;
+            state.rawSamples = state.rawSamples.map((_, i) => {
+                let v = randomCenter + (i - 2.5) * randomSpread + (Math.random() - 0.5);
+                return Math.max(-9, Math.min(9, parseFloat(v.toFixed(1))));
+            });
+            syncSlidersToSamples();
+            updateUI();
+        }
+
+        function syncSlidersToSamples() {
+            state.rawSamples.forEach((val, idx) => {
+                const slider = document.getElementById(`sample-slider-${idx}`);
+                const label = document.getElementById(`sample-val-${idx}`);
+                if (slider && label) {
+                    slider.value = val;
+                    label.textContent = val.toFixed(1);
+                }
+            });
+        }
+
+        function setStep(stepNum) {
+            state.currentStep = stepNum;
+            for (let i = 1; i <= 4; i++) {
+                const card = document.getElementById(`step-card-${i}`);
+                if (i === stepNum) {
+                    card.classList.add('step-active');
+                } else {
+                    card.classList.remove('step-active');
+                }
+            }
+            updateUI();
+        }
+
+        function prevStep() {
+            setStep(state.currentStep > 1 ? state.currentStep - 1 : 4);
+        }
+
+        function nextStep() {
+            setStep(state.currentStep < 4 ? state.currentStep + 1 : 1);
+        }
+
+        function setActivation(fnName) {
+            state.activationFn = fnName;
+            ['sigmoid', 'tanh', 'relu'].forEach(name => {
+                const btn = document.getElementById(`act-${name}`);
+                if (name === fnName) {
+                    btn.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition';
+                } else {
+                    btn.className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition';
+                }
+            });
+            updateUI();
+        }
+
+        // UI szövegek és táblázat frissítése
+        function updateUI() {
+            const stats = computeBatchStats();
+
+            // 1. kártya élő μ és σ értékei
+            document.getElementById('card-mu').textContent = stats.mu.toFixed(2);
+            document.getElementById('card-sigma').textContent = stats.sigma.toFixed(2);
+
+            const target = getTargetStepValues(stats);
+            document.getElementById('live-mean').textContent = target.mean.toFixed(2);
+            document.getElementById('live-std').textContent = target.std.toFixed(2);
+
+            // Fejléc badge és leírás
+            const badge = document.getElementById('active-step-badge');
+            const title = document.getElementById('active-step-title');
+            const expText = document.getElementById('step-explanation-text');
+
+            if (state.currentStep === 1) {
+                badge.className = 'text-xs font-bold uppercase px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                badge.textContent = '1. Lépés: Nyers Mini-Batch (x_i)';
+                title.textContent = 'Bemeneti értékek: elcsúszott átlag és szabálytalan szórás';
+                expText.innerHTML = `Jelenleg a nyers adatokat látod. A csomag átlaga <strong>μ<sub>B</sub> = ${stats.mu.toFixed(2)}</strong>, szórása pedig <strong>σ<sub>B</sub> = ${stats.sigma.toFixed(2)}</strong>. Kattints a <strong>2. Lépésre</strong>, hogy kivonjuk az átlagot és 0-ra húzzuk a közepét!`;
+            } else if (state.currentStep === 2) {
+                badge.className = 'text-xs font-bold uppercase px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30';
+                badge.textContent = '2. Lépés: Középre tolás (x_i - μ_B)';
+                title.textContent = 'Minden mintából kivontuk a köteg átlagát (Új átlag = 0.00)';
+                expText.innerHTML = `Minden pontból kivontuk a <strong>μ<sub>B</sub> = ${stats.mu.toFixed(2)}</strong> értéket. Nézd meg az alsó számegyenesen: a pontok alakja és távolsága nem változott, de az eloszlás közepe pontosan a <strong>0.00</strong>-ra ugrott!`;
+            } else if (state.currentStep === 3) {
+                badge.className = 'text-xs font-bold uppercase px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                badge.textContent = '3. Lépés: Normalizálás (x̂_i)';
+                title.textContent = 'Elosztottuk a szórással, így az eloszlás szélessége egységesen σ = 1.00';
+                expText.innerHTML = `A középre tolt értékeket elosztottuk a <strong>σ<sub>B</sub> = ${stats.sigma.toFixed(2)}</strong> szórással. Most minden adatpont kiszámíthatóan a 0 körül, zömében a <strong>[-1.5, +1.5]</strong> zöld zónában helyezkedik el (Standard normális eloszlás).`;
+            } else {
+                badge.className = 'text-xs font-bold uppercase px-2.5 py-1 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30';
+                badge.textContent = '4. Lépés: Tanulható Skálázás és Eltolás (y_i = γ·x̂_i + β)';
+                title.textContent = `Finomhangolás tanulható paraméterekkel (γ = ${state.gamma.toFixed(2)}, β = ${state.beta.toFixed(2)})`;
+                expText.innerHTML = `A jobb oldali <strong>γ (Gamma)</strong> és <strong>β (Beta)</strong> csúszkákkal kipróbálhatod, hogyan tudja a neurális hálózat saját maga beállítani a kívánt szórást és eltolást, ha a szigorú [0, 1] eloszlásnál jobb eredményt ér el máshol.`;
+            }
+
+            // Táblázat frissítése
+            const tbody = document.getElementById('batch-table-body');
+            tbody.innerHTML = '';
+            for (let i = 0; i < state.rawSamples.length; i++) {
+                const tr = document.createElement('tr');
+                const isRowHovered = state.hoveredSample === i;
+                tr.className = `transition cursor-pointer ${isRowHovered ? 'sample-row-highlight' : 'hover:bg-slate-800/40'}`;
+                tr.onmouseenter = () => highlightSample(i);
+                tr.onmouseleave = () => highlightSample(null);
+                tr.innerHTML = `
+                    <td class="py-1.5 px-2 flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full inline-block" style="background-color:${SAMPLE_COLORS[i]}"></span>
+                        <span class="font-bold text-slate-200">x<sub>${i+1}</sub> <span class="text-[10px] text-slate-500 font-normal">(${MINI_BATCH_META[i].name.split('(')[1].replace(')', '')})</span></span>
+                    </td>
+                    <td class="py-1.5 px-2 ${state.currentStep === 1 ? 'font-bold text-amber-300 bg-amber-500/10 rounded' : 'text-slate-400'}">${stats.step1[i].toFixed(2)}</td>
+                    <td class="py-1.5 px-2 ${state.currentStep === 2 ? 'font-bold text-sky-300 bg-sky-500/10 rounded' : 'text-slate-400'}">${stats.step2[i].toFixed(2)}</td>
+                    <td class="py-1.5 px-2 ${state.currentStep === 3 ? 'font-bold text-emerald-300 bg-emerald-500/10 rounded' : 'text-slate-400'}">${stats.step3[i].toFixed(2)}</td>
+                    <td class="py-1.5 px-2 ${state.currentStep === 4 ? 'font-bold text-purple-300 bg-purple-500/10 rounded' : 'text-slate-400'}">${stats.step4[i].toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            // Topológia és Mini-Batch mátrix szinkronizálása
+            renderTopologyAndMatrix();
+        }
+
+        // ==========================================
+        // 1. CANVAS: SZÁMEGYENES ÉS HARANGGÖRBE ANIMÁCIÓ
+        // ==========================================
+        const pipelineCanvas = document.getElementById('pipelineCanvas');
+        const pCtx = pipelineCanvas.getContext('2d');
+
+        function resizeCanvas(canvas) {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            if (canvas.width !== rect.width * dpr || canvas.height !== rect.height * dpr) {
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+            }
+        }
+
+        function drawPipelineCanvas() {
+            resizeCanvas(pipelineCanvas);
+            const dpr = window.devicePixelRatio || 1;
+            const w = pipelineCanvas.width / dpr;
+            const h = pipelineCanvas.height / dpr;
+
+            pCtx.save();
+            pCtx.scale(dpr, dpr);
+            pCtx.clearRect(0, 0, w, h);
+
+            const stats = computeBatchStats();
+            const target = getTargetStepValues(stats);
+
+            // Sima interpoláció a célpozíciók felé
+            const lerpSpeed = 0.14;
+            for (let i = 0; i < state.animatedPoints.length; i++) {
+                state.animatedPoints[i] += (target.pts[i] - state.animatedPoints[i]) * lerpSpeed;
+            }
+            state.animatedMean += (target.mean - state.animatedMean) * lerpSpeed;
+            state.animatedStd += (target.std - state.animatedStd) * lerpSpeed;
+
+            const padX = 45;
+            const plotW = w - padX * 2;
+            const minVal = -10;
+            const maxVal = 10;
+            const valToX = (v) => padX + ((v - minVal) / (maxVal - minVal)) * plotW;
+
+            // Ideális [-1, +1] aktív zóna háttérkiemelése
+            const zoneLeft = valToX(-1);
+            const zoneRight = valToX(1);
+            pCtx.fillStyle = 'rgba(16, 185, 129, 0.07)';
+            pCtx.fillRect(zoneLeft, 20, zoneRight - zoneLeft, h - 40);
+            pCtx.strokeStyle = 'rgba(16, 185, 129, 0.25)';
+            pCtx.setLineDash([4, 4]);
+            pCtx.beginPath();
+            pCtx.moveTo(zoneLeft, 20);
+            pCtx.lineTo(zoneLeft, h - 20);
+            pCtx.moveTo(zoneRight, 20);
+            pCtx.lineTo(zoneRight, h - 20);
+            pCtx.stroke();
+            pCtx.setLineDash([]);
+
+            // Középső 0 tengely
+            const zeroX = valToX(0);
+            pCtx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+            pCtx.lineWidth = 1.5;
+            pCtx.beginPath();
+            pCtx.moveTo(zeroX, 15);
+            pCtx.lineTo(zeroX, h - 20);
+            pCtx.stroke();
+
+            pCtx.fillStyle = '#10b981';
+            pCtx.font = '600 10px Inter';
+            pCtx.textAlign = 'center';
+            pCtx.fillText('Célzóna [-1, +1]', zeroX, 16);
+
+            // Felső sáv: Eredeti Nyers Bemenet (Referencia)
+            const topY = 72;
+            const botY = h - 68;
+
+            // Számegyenesek kirajzolása
+            [
+                { y: topY, label: '1. Nyers bemenet (x_i) – Referencia', color: '#94a3b8' },
+                { y: botY, label: `${state.currentStep}. Lépés eredménye (Animált)`, color: '#e2e8f0' }
+            ].forEach((axis, idx) => {
+                pCtx.strokeStyle = idx === 0 ? '#334155' : '#475569';
+                pCtx.lineWidth = 2;
+                pCtx.beginPath();
+                pCtx.moveTo(padX, axis.y);
+                pCtx.lineTo(w - padX, axis.y);
+                pCtx.stroke();
+
+                pCtx.fillStyle = axis.color;
+                pCtx.font = '600 11px Inter';
+                pCtx.textAlign = 'left';
+                pCtx.fillText(axis.label, padX, axis.y - 28);
+
+                // Beosztások -10-től +10-ig
+                pCtx.font = '500 10px JetBrains Mono';
+                pCtx.textAlign = 'center';
+                for (let t = -10; t <= 10; t += 2) {
+                    const tx = valToX(t);
+                    pCtx.strokeStyle = '#475569';
+                    pCtx.lineWidth = 1;
+                    pCtx.beginPath();
+                    pCtx.moveTo(tx, axis.y - 4);
+                    pCtx.lineTo(tx, axis.y + 4);
+                    pCtx.stroke();
+                    if (idx === 1) {
+                        pCtx.fillStyle = t === 0 ? '#f8fafc' : '#64748b';
+                        pCtx.fillText(t.toString(), tx, axis.y + 18);
+                    }
+                }
+            });
+
+            // Haranggörbe (Gauss-eloszlás) az alsó tengely fölé
+            const curveStd = Math.max(0.25, state.animatedStd);
+            const curveMean = state.animatedMean;
+            const stepColors = ['#f59e0b', '#38bdf8', '#10b981', '#a855f7'];
+            const activeColor = stepColors[state.currentStep - 1];
+
+            pCtx.save();
+            pCtx.beginPath();
+            const maxCurveHeight = 62;
+            for (let px = padX; px <= w - padX; px += 3) {
+                const xv = minVal + ((px - padX) / plotW) * (maxVal - minVal);
+                const gauss = Math.exp(-0.5 * Math.pow((xv - curveMean) / curveStd, 2));
+                const py = botY - gauss * maxCurveHeight;
+                if (px === padX) pCtx.moveTo(px, botY);
+                pCtx.lineTo(px, py);
+            }
+            pCtx.lineTo(w - padX, botY);
+            pCtx.closePath();
+            pCtx.fillStyle = activeColor + '22';
+            pCtx.fill();
+            pCtx.strokeStyle = activeColor;
+            pCtx.lineWidth = 2;
+            pCtx.stroke();
+            pCtx.restore();
+
+            // Aktuális Átlag (Mean) zászló az alsó tengelyen
+            const meanX = valToX(curveMean);
+            pCtx.strokeStyle = activeColor;
+            pCtx.lineWidth = 2;
+            pCtx.beginPath();
+            pCtx.moveTo(meanX, botY - maxCurveHeight - 6);
+            pCtx.lineTo(meanX, botY + 6);
+            pCtx.stroke();
+
+            pCtx.fillStyle = activeColor;
+            pCtx.font = 'bold 11px JetBrains Mono';
+            pCtx.textAlign = 'center';
+            pCtx.fillText(`Átlag: ${curveMean.toFixed(2)}`, meanX, botY - maxCurveHeight - 12);
+
+            // Összekötő nyilak a felső (nyers) és alsó (transzformált) pontok között
+            for (let i = 0; i < state.rawSamples.length; i++) {
+                const x1 = valToX(state.rawSamples[i]);
+                const x2 = valToX(state.animatedPoints[i]);
+                const isHovered = state.hoveredSample === i;
+
+                // Szaggatott összekötő ív
+                pCtx.strokeStyle = isHovered ? '#ffffff' : SAMPLE_COLORS[i] + '66';
+                pCtx.lineWidth = isHovered ? 2.5 : 1.5;
+                pCtx.setLineDash(isHovered ? [] : [3, 3]);
+                pCtx.beginPath();
+                pCtx.moveTo(x1, topY + 10);
+                pCtx.bezierCurveTo(x1, (topY + botY) / 2, x2, (topY + botY) / 2, x2, botY - 10);
+                pCtx.stroke();
+                pCtx.setLineDash([]);
+
+                // Felső (nyers) pont
+                pCtx.fillStyle = SAMPLE_COLORS[i];
+                pCtx.beginPath();
+                pCtx.arc(x1, topY, isHovered ? 9 : 6, 0, Math.PI * 2);
+                pCtx.fill();
+                pCtx.strokeStyle = isHovered ? '#ffffff' : '#0f172a';
+                pCtx.lineWidth = isHovered ? 2.5 : 1.5;
+                pCtx.stroke();
+
+                // Alsó (animált aktuális lépés) pont
+                pCtx.fillStyle = SAMPLE_COLORS[i];
+                pCtx.beginPath();
+                pCtx.arc(x2, botY, isHovered ? 12 : 8.5, 0, Math.PI * 2);
+                pCtx.fill();
+                pCtx.strokeStyle = '#ffffff';
+                pCtx.lineWidth = isHovered ? 3 : 2;
+                pCtx.stroke();
+
+                // Felirat a pontokhoz
+                pCtx.fillStyle = isHovered ? '#fbbf24' : '#f8fafc';
+                pCtx.font = isHovered ? 'bold 12px JetBrains Mono' : 'bold 10px JetBrains Mono';
+                pCtx.textAlign = 'center';
+                pCtx.fillText(`x${i + 1}`, x2, botY + 33);
+            }
+
+            pCtx.restore();
+        }
+
+        // ==========================================
+        // 2. CANVAS: AKTIVÁCIÓS FÜGGVÉNY ÉS TELÍTŐDÉSI ZÓNÁK
+        // ==========================================
+        const activationCanvas = document.getElementById('activationCanvas');
+        const aCtx = activationCanvas.getContext('2d');
+
+        function evalActivation(x, fn) {
+            if (fn === 'sigmoid') {
+                const s = 1 / (1 + Math.exp(-x));
+                return { y: s, dy: s * (1 - s) };
+            } else if (fn === 'tanh') {
+                const t = Math.tanh(x);
+                return { y: t, dy: 1 - t * t };
+            } else {
+                // ReLU
+                return { y: Math.max(0, x), dy: x > 0 ? 1 : 0 };
+            }
+        }
+
+        function drawActivationCanvas() {
+            resizeCanvas(activationCanvas);
+            const dpr = window.devicePixelRatio || 1;
+            const w = activationCanvas.width / dpr;
+            const h = activationCanvas.height / dpr;
+
+            aCtx.save();
+            aCtx.scale(dpr, dpr);
+            aCtx.clearRect(0, 0, w, h);
+
+            const padX = 42;
+            const padY = 28;
+            const plotW = w - padX * 2;
+            const plotH = h - padY * 2;
+
+            const minX = -8;
+            const maxX = 8;
+            let minY = -0.1, maxY = 1.1;
+            if (state.activationFn === 'tanh') { minY = -1.2; maxY = 1.2; }
+            if (state.activationFn === 'relu') { minY = -0.5; maxY = 6.0; }
+
+            const xToPx = (x) => padX + ((x - minX) / (maxX - minX)) * plotW;
+            const yToPx = (y) => padY + plotH - ((y - minY) / (maxY - minY)) * plotH;
+
+            // Telítődési zónák vs. Aktív tanulási zóna színezése
+            if (state.activationFn === 'sigmoid' || state.activationFn === 'tanh') {
+                const activeLimit = state.activationFn === 'sigmoid' ? 2.5 : 1.8;
+                const leftSatX = xToPx(-activeLimit);
+                const rightSatX = xToPx(activeLimit);
+
+                // Bal telítődési zóna
+                aCtx.fillStyle = 'rgba(244, 63, 94, 0.11)';
+                aCtx.fillRect(padX, padY, leftSatX - padX, plotH);
+
+                // Jobb telítődési zóna
+                aCtx.fillRect(rightSatX, padY, (w - padX) - rightSatX, plotH);
+
+                // Középső aktív tanulási zóna
+                aCtx.fillStyle = 'rgba(16, 185, 129, 0.10)';
+                aCtx.fillRect(leftSatX, padY, rightSatX - leftSatX, plotH);
+
+                // Zóna címkék
+                aCtx.font = 'bold 10px Inter';
+                aCtx.textAlign = 'center';
+                aCtx.fillStyle = '#fb7185';
+                aCtx.fillText('⚠️ Telítődési zóna (f\' ≈ 0)', (padX + leftSatX) / 2, padY + 16);
+                aCtx.fillText('⚠️ Telítődési zóna (f\' ≈ 0)', (rightSatX + w - padX) / 2, padY + 16);
+
+                aCtx.fillStyle = '#34d399';
+                aCtx.fillText('⚡ Aktív tanulási zóna (Erős gradiens)', (leftSatX + rightSatX) / 2, padY + 16);
+            } else {
+                // ReLU esetén x < 0 a "Halott neuron" zóna
+                const zeroPx = xToPx(0);
+                aCtx.fillStyle = 'rgba(244, 63, 94, 0.11)';
+                aCtx.fillRect(padX, padY, zeroPx - padX, plotH);
+                aCtx.fillStyle = 'rgba(16, 185, 129, 0.10)';
+                aCtx.fillRect(zeroPx, padY, (w - padX) - zeroPx, plotH);
+
+                aCtx.font = 'bold 10px Inter';
+                aCtx.textAlign = 'center';
+                aCtx.fillStyle = '#fb7185';
+                aCtx.fillText('💀 Halott ReLU zóna (Gradiens = 0)', (padX + zeroPx) / 2, padY + 16);
+                aCtx.fillStyle = '#34d399';
+                aCtx.fillText('⚡ Aktív tartomány (Gradiens = 1)', (zeroPx + w - padX) / 2, padY + 16);
+            }
+
+            // Koordináta tengelyek
+            const zeroX = xToPx(0);
+            const zeroY = yToPx(0);
+            aCtx.strokeStyle = '#334155';
+            aCtx.lineWidth = 1.5;
+            aCtx.beginPath();
+            aCtx.moveTo(padX, zeroY);
+            aCtx.lineTo(w - padX, zeroY);
+            aCtx.moveTo(zeroX, padY);
+            aCtx.lineTo(zeroX, h - padY);
+            aCtx.stroke();
+
+            // Derivált (gradiens) görbe szaggatott vonallal
+            aCtx.strokeStyle = 'rgba(148, 163, 184, 0.4)';
+            aCtx.lineWidth = 1.5;
+            aCtx.setLineDash([4, 4]);
+            aCtx.beginPath();
+            for (let px = padX; px <= w - padX; px += 3) {
+                const xv = minX + ((px - padX) / plotW) * (maxX - minX);
+                const { dy } = evalActivation(xv, state.activationFn);
+                const py = yToPx(dy);
+                if (px === padX) aCtx.moveTo(px, py);
+                else aCtx.lineTo(px, py);
+            }
+            aCtx.stroke();
+            aCtx.setLineDash([]);
+
+            // Aktivációs függvény fő görbéje
+            aCtx.strokeStyle = '#6366f1';
+            aCtx.lineWidth = 3;
+            aCtx.beginPath();
+            for (let px = padX; px <= w - padX; px += 2) {
+                const xv = minX + ((px - padX) / plotW) * (maxX - minX);
+                const { y } = evalActivation(xv, state.activationFn);
+                const clampedY = Math.min(maxY, Math.max(minY, y));
+                const py = yToPx(clampedY);
+                if (px === padX) aCtx.moveTo(px, py);
+                else aCtx.lineTo(px, py);
+            }
+            aCtx.stroke();
+
+            const stats = computeBatchStats();
+
+            // 1. Nyers pontok (Batch Norm NÉLKÜL) - Sárga körök
+            let rawGradSum = 0;
+            stats.step1.forEach(xVal => {
+                const clampedX = Math.max(minX, Math.min(maxX, xVal));
+                const { y, dy } = evalActivation(xVal, state.activationFn);
+                rawGradSum += dy;
+                const px = xToPx(clampedX);
+                const py = yToPx(Math.min(maxY, Math.max(minY, y)));
+
+                aCtx.fillStyle = '#fbbf24';
+                aCtx.beginPath();
+                aCtx.arc(px, py, 6, 0, Math.PI * 2);
+                aCtx.fill();
+                aCtx.strokeStyle = '#0f172a';
+                aCtx.lineWidth = 1.5;
+                aCtx.stroke();
+            });
+
+            // 2. Batch Norm utáni pontok (y_i) - Zöld körök
+            let bnGradSum = 0;
+            stats.step4.forEach(yVal => {
+                const clampedX = Math.max(minX, Math.min(maxX, yVal));
+                const { y, dy } = evalActivation(yVal, state.activationFn);
+                bnGradSum += dy;
+                const px = xToPx(clampedX);
+                const py = yToPx(Math.min(maxY, Math.max(minY, y)));
+
+                aCtx.fillStyle = '#10b981';
+                aCtx.beginPath();
+                aCtx.arc(px, py, 7.5, 0, Math.PI * 2);
+                aCtx.fill();
+                aCtx.strokeStyle = '#ffffff';
+                aCtx.lineWidth = 2;
+                aCtx.stroke();
+            });
+
+            // Átlagos gradiens mutatók frissítése
+            const avgRawGrad = rawGradSum / stats.step1.length;
+            const avgBnGrad = bnGradSum / stats.step4.length;
+
+            document.getElementById('raw-grad-stat').textContent = avgRawGrad.toFixed(3);
+            const rawStatusEl = document.getElementById('raw-grad-status');
+            if (avgRawGrad < 0.08) {
+                rawStatusEl.textContent = '⚠️ Telítődött (Lassú tanulás)';
+                rawStatusEl.className = 'block text-[10px] text-rose-400 font-semibold';
+            } else {
+                rawStatusEl.textContent = '✓ Megfelelő gradiens';
+                rawStatusEl.className = 'block text-[10px] text-amber-300 font-semibold';
+            }
+
+            document.getElementById('bn-grad-stat').textContent = avgBnGrad.toFixed(3);
+            const bnStatusEl = document.getElementById('bn-grad-status');
+            if (avgBnGrad >= 0.12) {
+                bnStatusEl.textContent = '⚡ Optimális, gyors tanulás!';
+                bnStatusEl.className = 'block text-[10px] text-emerald-400 font-semibold';
+            } else {
+                bnStatusEl.textContent = '⚠️ Figyelem: eltolt γ/β!';
+                bnStatusEl.className = 'block text-[10px] text-amber-400 font-semibold';
+            }
+
+            pCtx.restore();
+            aCtx.restore();
+        }
+
+        // ==========================================
+        // 3. CANVAS: HIBA-FELSZÍN (LOSS LANDSCAPE) SZIMULÁCIÓ
+        // ==========================================
+        const landscapeCanvas = document.getElementById('landscapeCanvas');
+        const lCtx = landscapeCanvas.getContext('2d');
+
+        let simProgress = 1.0;
+        let rawPath = [];
+        let bnPath = [];
+
+        function computeTrajectories() {
+            const lr = state.learningRate;
+            // Bal oldal: megnyúlt ellipszis (L = 0.5 * (1.2*w1^2 + 18*w2^2)) -> erős cikk-cakk
+            rawPath = [];
+            let x = -0.85, y = -0.75;
+            rawPath.push({ x, y });
+            for (let step = 0; step < 26; step++) {
+                const gx = 0.22 * x;
+                const gy = 2.15 * y;
+                x = x - lr * gx;
+                y = y - lr * gy;
+                // Korlátozzuk, hogy a képernyőn maradjon
+                x = Math.max(-0.95, Math.min(0.95, x));
+                y = Math.max(-0.95, Math.min(0.95, y));
+                rawPath.push({ x, y });
+            }
+
+            // Jobb oldal: Batch Norm utáni szimmetrikus hiba-felszín (L = 0.5 * (w1^2 + w2^2))
+            bnPath = [];
+            let bx = -0.85, by = -0.75;
+            bnPath.push({ x: bx, y: by });
+            for (let step = 0; step < 26; step++) {
+                const gx = 0.45 * bx;
+                const gy = 0.45 * by;
+                bx = bx - lr * gx;
+                by = by - lr * gy;
+                bnPath.push({ x: bx, y: by });
+            }
+        }
+
+        function updateLR() {
+            state.learningRate = parseFloat(document.getElementById('lr-slider').value);
+            const label = state.learningRate > 0.9 ? 'Agresszív' : (state.learningRate < 0.55 ? 'Óvatos' : 'Magas');
+            document.getElementById('lr-val').textContent = `${label} (${state.learningRate.toFixed(2)})`;
+            restartOptimizationSim();
+        }
+
+        function restartOptimizationSim() {
+            computeTrajectories();
+            simProgress = 0.0;
+        }
+
+        function drawLandscapeCanvas() {
+            resizeCanvas(landscapeCanvas);
+            const dpr = window.devicePixelRatio || 1;
+            const w = landscapeCanvas.width / dpr;
+            const h = landscapeCanvas.height / dpr;
+
+            lCtx.save();
+            lCtx.scale(dpr, dpr);
+            lCtx.clearRect(0, 0, w, h);
+
+            if (simProgress < 1.0) {
+                simProgress = Math.min(1.0, simProgress + 0.018);
+            }
+
+            const halfW = w / 2;
+            const centerY = h / 2 + 12;
+            const radius = Math.min(halfW * 0.78, (h - 55) * 0.45);
+
+            // Elválasztó vonal
+            lCtx.strokeStyle = '#1e293b';
+            lCtx.lineWidth = 1.5;
+            lCtx.beginPath();
+            lCtx.moveTo(halfW, 12);
+            lCtx.lineTo(halfW, h - 12);
+            lCtx.stroke();
+
+            // --- BAL OLDAL: BATCH NORM NÉLKÜL (Megnyúlt kontúrok) ---
+            const leftCX = halfW * 0.5;
+            lCtx.fillStyle = '#fbbf24';
+            lCtx.font = 'bold 11px Inter';
+            lCtx.textAlign = 'center';
+            lCtx.fillText('❌ Batch Norm NÉLKÜL', leftCX, 22);
+            lCtx.fillStyle = '#94a3b8';
+            lCtx.font = '10px Inter';
+            lCtx.fillText('Megnyúlt völgy → Cikk-cakk', leftCX, 36);
+
+            for (let k = 1; k <= 5; k++) {
+                const rx = radius * (k / 5);
+                const ry = radius * (k / 5) * 0.36;
+                lCtx.strokeStyle = `rgba(251, 191, 36, ${0.42 - k * 0.06})`;
+                lCtx.lineWidth = 1.2;
+                lCtx.beginPath();
+                lCtx.ellipse(leftCX, centerY, rx, ry, 0, 0, Math.PI * 2);
+                lCtx.stroke();
+            }
+
+            // Minimum csillag bal
+            lCtx.fillStyle = '#fbbf24';
+            lCtx.beginPath();
+            lCtx.arc(leftCX, centerY, 4, 0, Math.PI * 2);
+            lCtx.fill();
+
+            // --- JOBB OLDAL: BATCH NORMMAL (Kör alakú kontúrok) ---
+            const rightCX = halfW * 1.5;
+            lCtx.fillStyle = '#34d399';
+            lCtx.font = 'bold 11px Inter';
+            lCtx.textAlign = 'center';
+            lCtx.fillText('✅ Batch Normalizationnel', rightCX, 22);
+            lCtx.fillStyle = '#94a3b8';
+            lCtx.font = '10px Inter';
+            lCtx.fillText('Szabályos tál → Egyenes út', rightCX, 36);
+
+            for (let k = 1; k <= 5; k++) {
+                const r = radius * (k / 5) * 0.85;
+                lCtx.strokeStyle = `rgba(16, 185, 129, ${0.42 - k * 0.06})`;
+                lCtx.lineWidth = 1.2;
+                lCtx.beginPath();
+                lCtx.arc(rightCX, centerY, r, 0, Math.PI * 2);
+                lCtx.stroke();
+            }
+
+            // Minimum csillag jobb
+            lCtx.fillStyle = '#10b981';
+            lCtx.beginPath();
+            lCtx.arc(rightCX, centerY, 4, 0, Math.PI * 2);
+            lCtx.fill();
+
+            // Gradiens ereszkedés útvonalak kirajzolása
+            const maxStepsToDraw = Math.max(1, Math.floor(simProgress * (rawPath.length - 1)));
+
+            // Bal útvonal (Cikk-cakk)
+            lCtx.strokeStyle = '#f43f5e';
+            lCtx.lineWidth = 2;
+            lCtx.beginPath();
+            for (let i = 0; i <= maxStepsToDraw; i++) {
+                const px = leftCX + rawPath[i].x * radius;
+                const py = centerY + rawPath[i].y * (radius * 0.45);
+                if (i === 0) lCtx.moveTo(px, py);
+                else lCtx.lineTo(px, py);
+            }
+            lCtx.stroke();
+
+            const lastRaw = rawPath[maxStepsToDraw];
+            lCtx.fillStyle = '#f43f5e';
+            lCtx.beginPath();
+            lCtx.arc(leftCX + lastRaw.x * radius, centerY + lastRaw.y * (radius * 0.45), 5, 0, Math.PI * 2);
+            lCtx.fill();
+
+            // Jobb útvonal (Simított Batch Norm)
+            lCtx.strokeStyle = '#10b981';
+            lCtx.lineWidth = 2.5;
+            lCtx.beginPath();
+            for (let i = 0; i <= maxStepsToDraw; i++) {
+                const px = rightCX + bnPath[i].x * (radius * 0.85);
+                const py = centerY + bnPath[i].y * (radius * 0.85);
+                if (i === 0) lCtx.moveTo(px, py);
+                else lCtx.lineTo(px, py);
+            }
+            lCtx.stroke();
+
+            const lastBn = bnPath[maxStepsToDraw];
+            lCtx.fillStyle = '#10b981';
+            lCtx.beginPath();
+            lCtx.arc(rightCX + lastBn.x * (radius * 0.85), centerY + lastBn.y * (radius * 0.85), 5.5, 0, Math.PI * 2);
+            lCtx.fill();
+            lCtx.strokeStyle = '#ffffff';
+            lCtx.lineWidth = 1.5;
+            lCtx.stroke();
+
+            lCtx.restore();
+        }
+
+        // ==========================================
+        // FŐ ANIMÁCIÓS CIKLUS INDÍTÁSA
+        // ==========================================
+        function animateLoop() {
+            drawPipelineCanvas();
+            drawActivationCanvas();
+            drawLandscapeCanvas();
+            requestAnimationFrame(animateLoop);
+        }
+
+        window.onload = function () {
+            buildSampleSliders();
+            computeTrajectories();
+            updateUI();
+            animateLoop();
+        };
+    </script>
+</body>
+</html>

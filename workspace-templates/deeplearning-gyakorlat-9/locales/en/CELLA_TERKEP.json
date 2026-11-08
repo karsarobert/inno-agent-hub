@@ -1,0 +1,198 @@
+[
+  {
+    "id": "E01",
+    "title": "Environment and GPU",
+    "kind": "code",
+    "markdown_cell": 1,
+    "code_cell": 2
+  },
+  {
+    "id": "B01",
+    "title": "Observe the updated BN demonstration",
+    "kind": "discussion",
+    "markdown_cell": 3,
+    "code_cell": null
+  },
+  {
+    "id": "B02",
+    "title": "Samples and features: axis=0",
+    "kind": "code",
+    "markdown_cell": 4,
+    "code_cell": 5
+  },
+  {
+    "id": "B03",
+    "title": "Gamma and beta per feature",
+    "kind": "code",
+    "markdown_cell": 6,
+    "code_cell": 7
+  },
+  {
+    "id": "B04",
+    "title": "Real Keras BN: weights and moving statistics",
+    "kind": "code",
+    "markdown_cell": 8,
+    "code_cell": 9
+  },
+  {
+    "id": "B05",
+    "title": "The same sample with different batch peers",
+    "kind": "code",
+    "markdown_cell": 10,
+    "code_cell": 11
+  },
+  {
+    "id": "B06",
+    "title": "Freezing BN: link to lesson8",
+    "kind": "code",
+    "markdown_cell": 12,
+    "code_cell": 13
+  },
+  {
+    "id": "P01",
+    "title": "Local and global pooling",
+    "kind": "code",
+    "markdown_cell": 14,
+    "code_cell": 15
+  },
+  {
+    "id": "P02",
+    "title": "Flatten head and GAP head parameter counts",
+    "kind": "code",
+    "markdown_cell": 16,
+    "code_cell": 17
+  },
+  {
+    "id": "C01",
+    "title": "1×1 convolution: channel mixing",
+    "kind": "code",
+    "markdown_cell": 18,
+    "code_cell": 19
+  },
+  {
+    "id": "R00",
+    "title": "Observe the skip connection demonstration",
+    "kind": "discussion",
+    "markdown_cell": 20,
+    "code_cell": null
+  },
+  {
+    "id": "R01",
+    "title": "A real residual block: sum and ReLU",
+    "kind": "code",
+    "markdown_cell": 21,
+    "code_cell": 22
+  },
+  {
+    "id": "R02",
+    "title": "Match shapes with a projection skip",
+    "kind": "code",
+    "markdown_cell": 23,
+    "code_cell": 24
+  },
+  {
+    "id": "R03",
+    "title": "Gradient probe: help, not a guarantee",
+    "kind": "code",
+    "markdown_cell": 25,
+    "code_cell": 26
+  },
+  {
+    "id": "G01",
+    "title": "Dropout in training and inference",
+    "kind": "code",
+    "markdown_cell": 27,
+    "code_cell": 28
+  },
+  {
+    "id": "G02",
+    "title": "L2: a penalty added to the loss",
+    "kind": "code",
+    "markdown_cell": 29,
+    "code_cell": 30
+  },
+  {
+    "id": "D01",
+    "title": "CIFAR-10 images and labels",
+    "kind": "code",
+    "markdown_cell": 31,
+    "code_cell": 32
+  },
+  {
+    "id": "D02",
+    "title": "Provided helper: disjoint splits",
+    "kind": "code",
+    "markdown_cell": 33,
+    "code_cell": 34
+  },
+  {
+    "id": "D03",
+    "title": "Shared batches and retrieving the first element",
+    "kind": "code",
+    "markdown_cell": 35,
+    "code_cell": 36
+  },
+  {
+    "id": "M01",
+    "title": "Two small CNNs from one provided function",
+    "kind": "code",
+    "markdown_cell": 37,
+    "code_cell": 38
+  },
+  {
+    "id": "M02",
+    "title": "Shared initialization and separate optimizers",
+    "kind": "code",
+    "markdown_cell": 39,
+    "code_cell": 40
+  },
+  {
+    "id": "M03",
+    "title": "Train the CNN without BN",
+    "kind": "code",
+    "markdown_cell": 41,
+    "code_cell": 42
+  },
+  {
+    "id": "M04",
+    "title": "Train the BN CNN with the same budget",
+    "kind": "code",
+    "markdown_cell": 43,
+    "code_cell": 44
+  },
+  {
+    "id": "M05",
+    "title": "Restored checkpoints and validation selection",
+    "kind": "code",
+    "markdown_cell": 45,
+    "code_cell": 46
+  },
+  {
+    "id": "V01",
+    "title": "Final test after selection",
+    "kind": "code",
+    "markdown_cell": 47,
+    "code_cell": 48
+  },
+  {
+    "id": "V02",
+    "title": "Predictions and confusion matrix step by step",
+    "kind": "code",
+    "markdown_cell": 49,
+    "code_cell": 50
+  },
+  {
+    "id": "Z01",
+    "title": "Three short reflections, one at a time",
+    "kind": "discussion",
+    "markdown_cell": 51,
+    "code_cell": null
+  },
+  {
+    "id": "Z02",
+    "title": "Local summary and completion",
+    "kind": "code",
+    "markdown_cell": 52,
+    "code_cell": 53
+  }
+]
