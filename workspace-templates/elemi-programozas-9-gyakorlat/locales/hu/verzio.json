@@ -1,0 +1,19 @@
+{
+  "package": "EP_09",
+  "version": "1.0.0",
+  "date": "2026-11-08",
+  "language": "hu",
+  "role": "tanuloi",
+  "previous_package": "EP_08",
+  "template_version": "EP_08 1.0.0 / EP_07 1.0.0 / EP_05 1.2.0",
+  "lesson_duration_minutes": 90,
+  "extended_duration_minutes": 105,
+  "scope": "local_package_metadata_not_application_configuration",
+  "changes": [
+    "Öt fő programozási feladat célzott hibakezeléssel, egy összetett bővítés",
+    "Hárommezős eladási napló: termék, mennyiség, történeti egységár",
+    "Jelzett részleges riport és teljes kosárellenőrzési döntés megkülönböztetése",
+    "Öt UTF-8 bemeneti fájl, aktuális EP_09.html, 10+10 zárókérdés",
+    "Saját kódírás és futtatás, fájlnézet-frissítés, bizonyíték és ismétlésmentes folytatás"
+  ]
+}

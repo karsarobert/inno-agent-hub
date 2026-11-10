@@ -1,0 +1,7 @@
+{
+  "id": "elemi-programozas-9-gyakorlat",
+  "name": "Elementary Programming 9 — Practice Lab (EP_09)",
+  "description": "Ninth Python practice of a Programming Basics course (lesson EP_09): re-requesting the payment amount until it is a whole sum, raising an error for an unknown or non-positive item, validating three-field sales-log records and then processing them line by line with a numbered error list, file-level error handling in a report that saves only after full validation, an independent basket check that refuses any partial payment for an invalid basket, and a 10+10 question theory and code-knowledge final test — an explanatory tutor, editable starter programs, sample data files, checking cases, student-written code and runs, with a detailed HTML course.",
+  "category": "Programming",
+  "icon": "code-2"
+}

@@ -1,0 +1,10 @@
+kávé;2;450
+hibas sor
+
+tea;1;350
+víz;3;0
+szendvics;0;890
+kávé;1;500
+tea;ketto;350
+;1;100
+üdítő;1;-50

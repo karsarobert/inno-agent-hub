@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "purpose": "Helyi tartalmi feladattérkép, nem alkalmazáskonfiguráció.",
+  "lesson": "EP_09",
+  "version": "1.0.0",
+  "language": "hu",
+  "duration_minutes": 90,
+  "break_included": false,
+  "previous_teaching_lesson": "EP_08",
+  "methodology_source": [
+    "EP_08 1.0.0",
+    "EP_07 1.0.0",
+    "EP_05 1.2.0"
+  ],
+  "reserve_tests_and_closure_minutes": 27,
+  "extended_duration_with_C1_minutes": 105,
+  "teaching_mode": "explain_analog_example_student_edits_runs_reviews_files",
+  "shared_evidence": [
+    {
+      "source_test": "B1.2",
+      "also_satisfies": "A3.b.5",
+      "condition": "A B1 ugyanazt a saját A3-beolvasót használja; a viselkedés ismert."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "START",
+      "title": "Bemutatkozás és érdemi A1-kezdés",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "file": null,
+      "instructions": "agent.md",
+      "concept_ids": [
+        "ep09.reflection"
+      ]
+    },
+    {
+      "id": "A1",
+      "title": "Fizetés újrakérése hibás összeg után",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 8,
+      "file": "fizetes.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep09.retry",
+        "ep09.conversion",
+        "ep09.payment_condition"
+      ],
+      "tests": [
+        "A1.1",
+        "A1.2",
+        "A1.3"
+      ],
+      "html_section": "bekeres",
+      "acceptance": [
+        "Konverziós és elégtelen összeghez eltérő, értelmes üzenet tartozik.",
+        "Csak megfelelő egész összeg tér vissza; a pontos összeg és a 0 fizetendő is helyes.",
+        "A fizetendő valódi paraméter; nincs beégetett 800 vagy rejtett részfizetés."
+      ]
+    },
+    {
+      "id": "A2",
+      "title": "Érvénytelen tétel jelzése raise segítségével",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 10,
+      "file": "tetel.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep09.raise",
+        "ep09.caller_handler",
+        "ep09.zero_value"
+      ],
+      "tests": [
+        "A2.1",
+        "A2.2",
+        "A2.3",
+        "A2.4",
+        "A2.5"
+      ],
+      "html_section": "raise",
+      "acceptance": [
+        "Érvényes adatra egész összeget ad, tiltott értékre ValueError-t jelez; nincs hibajelző szöveg vagy 0-ra álcázott hiba.",
+        "A hívó érthető üzenetet ad, és nem állít sikeres tételösszeget hiba után.",
+        "Az árjegyzékparamétert használja, az adatokat megőrzi; a 0 ár helyes."
+      ]
+    },
+    {
+      "id": "A3.a",
+      "title": "Hárommezős eladási sor értelmezése",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 9,
+      "file": "naplo.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep09.record_validation",
+        "ep09.int_conversion",
+        "ep09.domain_rules"
+      ],
+      "tests": [
+        "A3.a.1",
+        "A3.a.2",
+        "A3.a.3",
+        "A3.a.4"
+      ],
+      "html_section": "rekordok",
+      "acceptance": [
+        "Három mező jelentése és típusa helyes; a whitespace és a hiányzó végső sortörés megfelelően kezelt.",
+        "Mezőszám, üres név, hibás konverzió és tiltott számtartomány ValueError-t okoz.",
+        "A 0 egységár megengedett, a 0 darab tiltott; a függvény nem ír ki."
+      ]
+    },
+    {
+      "id": "A3.b",
+      "title": "Sérült napló feldolgozása sorszámos hibákkal",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 14,
+      "file": "naplo.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep09.per_record_error",
+        "ep09.line_number",
+        "ep09.io_propagation"
+      ],
+      "tests": [
+        "A3.b.1",
+        "A3.b.2",
+        "A3.b.3",
+        "A3.b.4",
+        "A3.b.5"
+      ],
+      "html_section": "hibas-sorok",
+      "acceptance": [
+        "Az érvényes rekordok sorrendje, ismétlődése és eladási mennyisége megmarad.",
+        "A hibák fizikai sorszáma és nem üres oka megvan, az üres sor külön kategória.",
+        "Hiányzó fájl hibája továbbterjed; nincs kitalált jó 0 árú rekord vagy csendes except: pass."
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Rövid összegzés és B1 folytatási pont",
+      "required": true,
+      "block": 1,
+      "planned_minutes": 2,
+      "file": null,
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep09.reflection"
+      ]
+    },
+    {
+      "id": "B1",
+      "title": "Fájlszintű hibák és őszinte riportüzenetek",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 6,
+      "file": "riport.py",
+      "instructions": "tanulo_lap.md",
+      "concept_ids": [
+        "ep09.io_handlers",
+        "ep09.finally",
+        "ep09.truthful_report"
+      ],
+      "tests": [
+        "B1.1",
+        "B1.2",
+        "B1.3",
+        "B1.4",
+        "B1.5"
+      ],
+      "html_section": "meresi-alkalmazas",
+      "acceptance": [
+        "A fájlhibák és a sorhibák eltérő szinten kezeltek. Hiányzó/olvashatatlan forrás után nem indul mentés.",
+        "Mentési hiba False és célzott üzenet; sikerüzenet csak rendes mentés után van.",
+        "A finally nem állít sikert, a régi cél hiányzó bemenet után változatlan.",
+        "A jó rekordok száma nem azonos az eladott darabszámmal; az előkészített segítők szerepét felismeri."
+      ]
+    },
+    {
+      "id": "Z1",
+      "title": "Önálló kosárellenőrzés részfizetés nélkül",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 12,
+      "file": "onallo.py",
+      "instructions": "zaro_feladatok.md",
+      "concept_ids": [
+        "ep09.independent_transfer",
+        "ep09.all_errors",
+        "ep09.none_vs_zero",
+        "ep09.business_decision"
+      ],
+      "tests": [
+        "Z1.1",
+        "Z1.2",
+        "Z1.3",
+        "Z1.4",
+        "Z1.5"
+      ],
+      "html_section": "raise",
+      "acceptance": [
+        "Minden hibás tétel sorszáma és oka ismert.",
+        "Hibátlan kosárhoz teljes összeg és [], hibáshoz None és hibalista.",
+        "A saját A2-függvényt használja, a paraméterek változatlanok.",
+        "A hívó hibás kosárnál nem indít fizetést és nem ad sikeres részösszeget."
+      ]
+    },
+    {
+      "id": "T1",
+      "title": "10 elméleti MCQ",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 10,
+      "file": null,
+      "instructions": "teszt_elmelet.md",
+      "concept_ids": [
+        "ep09.assessment"
+      ],
+      "question_ids": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "5 kódértelmezés és 5 hibakeresés",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 15,
+      "file": null,
+      "instructions": "teszt_kodismeret.md",
+      "concept_ids": [
+        "ep09.assessment"
+      ],
+      "question_ids": [
+        "KÓD1",
+        "KÓD2",
+        "KÓD3",
+        "KÓD4",
+        "KÓD5",
+        "KÓD6",
+        "KÓD7",
+        "KÓD8",
+        "KÓD9",
+        "KÓD10"
+      ]
+    },
+    {
+      "id": "S2",
+      "title": "Értékelés és egyértelmű lezárás",
+      "required": true,
+      "block": 2,
+      "planned_minutes": 2,
+      "file": null,
+      "instructions": "agent.md",
+      "concept_ids": [
+        "ep09.reflection"
+      ]
+    },
+    {
+      "id": "C1",
+      "title": "Mentés csak teljes adatellenőrzés után",
+      "required": false,
+      "block": 2,
+      "planned_minutes": 15,
+      "file": "mentes.py",
+      "instructions": "bovites.md",
+      "concept_ids": [
+        "ep09.validate_before_write",
+        "ep09.append",
+        "ep09.io_failure"
+      ],
+      "tests": [
+        "C1.1",
+        "C1.2",
+        "C1.3",
+        "C1.4"
+      ],
+      "html_section": "meresi-alkalmazas",
+      "placement": "Z1 után, T1 előtt, csak ténylegesen elegendő időben",
+      "remaining_minutes_minimum": 42,
+      "reserve_tests_and_closure_minutes": 27,
+      "prerequisites": [
+        "A2",
+        "A3.b",
+        "B1",
+        "Z1"
+      ]
+    }
+  ]
+}

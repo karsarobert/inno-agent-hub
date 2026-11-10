@@ -1,0 +1,3 @@
+hibas sor
+tea;-1;350
+kávé;1;drága

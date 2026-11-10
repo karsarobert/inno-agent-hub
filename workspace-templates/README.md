@@ -83,6 +83,7 @@ Inno Agent 的「简单模式」会直接把这些模板渲染成欢迎页的**�
 | [elemi-programozas-3-gyakorlat/](./elemi-programozas-3-gyakorlat/) | Elemi programozás 3. gyakorlat (EP_03) — 循环与购物篮咖啡店程序组装:while 与状态更新、for–range、重复输入校验、break 与累加求和、列表遍历、continue、学生自己写代码并运行、检查用例、详细 HTML 讲义(匈牙利语) | — | ✅ 可用 |
 | [elemi-programozas-4-gyakorlat/](./elemi-programozas-4-gyakorlat/) | Elemi programozás 4. gyakorlat (EP_04) — 字符串与购物篮咖啡店程序组装:文本统一(大小写、首尾空白)、索引与切片、逐字符遍历、列表方法、split/join 与过滤、运行中构建购物篮并接入结账、学生自己写代码并运行、检查用例、详细 HTML 讲义(匈牙利语) | — | ✅ 可用 |
 | [elemi-programozas-5-gyakorlat/](./elemi-programozas-5-gyakorlat/) | Elemi programozás 5. gyakorlat (EP_05) — 字典与咖啡馆扩展程序组装:字典连接商品名与价格、统一名称查价、已有价格的受控更新、可负担商品筛选、购物篮求和与合并咖啡块函数、独立代码改造、10+10 题理论与代码知识结课测验、学生自己写代码并运行、检查用例、详细 HTML 讲义(匈牙利语) | — | ✅ 可用 |
+| [elemi-programozas-9-gyakorlat/](./elemi-programozas-9-gyakorlat/) | Elemi programozás 9. gyakorlat (EP_09) — 异常处理、咖啡馆付款与销售日志组装:整额付款的重复请求、无效商品或非正数量抛出 ValueError、三字段销售日志记录逐行校验与带行号错误清单、报告中文件级异常处理(仅在完整校验后保存)、购物篮整体校验后拒绝部分付款、10+10 题理论与代码知识结课测验、学生自己写代码并运行、检查用例、详细 HTML 讲义(匈牙利语) | — | ✅ 可用 |
 | [diszkret-matematika-1/](./diszkret-matematika-1/) | Diszkrét matematika 1. 1. 练习课 — 命题逻辑:导师引导、课堂练习(出口卡)、作业、典型误解指南(匈牙利语) | math-tutor | ✅ 可用 |
 | [lesson-plan/](./lesson-plan/) | 结构化教案生成 | — | 🚧 骨架(工作流待细化)|
 | [scenario-explain/](./scenario-explain/) | 情景化讲题 | — | 🚧 骨架(工作流待细化)|
