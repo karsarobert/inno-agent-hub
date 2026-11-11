@@ -1,24 +1,28 @@
 # Concept guide and observation support
 
-## Updated demonstrations and English access
+## The English interactive masterclass
 
-The supplied `forrasok/Batch_Normalization_HU.html` and `forrasok/Skip_Connection_ResNet_HU.html` are unchanged Hungarian originals. The notebook, tutor, questions and this guide are English. The following glossary and self-contained examples make both observation checkpoints possible without Hungarian proficiency or a working HTML/CDN connection.
+Open `sources/deep_learning_masterclass_en.html` in a browser. All three modules, including their controls, diagrams and dynamic labels, are in English. Use the top tabs to switch modules.
 
-| Hungarian screen label | English meaning / action |
-|---|---|
-| Hol vannak az x₁…x₆értékek? | Locate the six weighted values for one selected neuron. |
-| Mini-Batch(Sorok) vs.Neuronok(Oszlopok) | Mini-batch samples are rows; neurons are columns. |
-| Vizsgált neuron; N₁/N₂/N₃ | Selected neuron; click another neuron and inspect its column. |
-| Bemenet / Eltolás / Skálázás / Tanulható | Input / centering / normalization / learned scale and shift. |
-| Következő lépés / Előző lépés | Next step / previous step. |
-| Identitás / Finomhangolás / Jellemző-kiemelés | Identity / small correction / feature enhancement presets. |
-| Skip Connection: BEKAPCSOLVA | Skip connection enabled; toggle to compare. |
-| Bemenet / Korrekció / Összeg / Kimenet | Input x / correction F(x) / sum H=x+F / output y=ReLU(H). |
-| Tanítási hiba / Teszt hiba | Training error / test error. |
+| Checkpoint | Module and section | What to inspect |
+|---|---|---|
+| B01 | 1 Batch Normalization → 1.1, topology and mini-batch matrix | Select N₁, then N₂. Rows are samples; each column is one neuron's pre-activation values across the batch. |
+| B02–B03 support | 1 Batch Normalization → 1.2, the four-step pipeline | Step through centering, normalization and learned scaling/shifting. Change gamma or beta and observe the output. |
+| R00 | 2 Skip Connections (ResNet) → 2.2, residual block and live vector | Select Identity Mapping (F=0). Compare the negative input entry in Input, Sum H and Out ReLU(H). Toggle the shortcut. |
+| R01–R03 support | 2 Skip Connections (ResNet) → 2.2–2.3 | Locate the residual branch, identity path, addition and final ReLU. Distinguish an identity contribution from the full gradient. |
+| G01–G02 support | 3 Dropout & L2 Regularization → 3.2–3.3 | Inspect training versus inference and the penalty example. These support the existing probes; no new checkpoint or extra assignment is added. |
 
-For B01, inspect the topology/matrix panel and switch N1 to N2. A selected column contains one neuron’s weighted values across samples. Then inspect the four BN stages and change one input. Self-contained alternative: [[2,10],[4,18],[6,20],[8,40]], one sample per row and one neuron per column. Column means are 5 and 22. Use this matrix to identify which values contribute to one neuron’s statistic. The notebook’s data and probes are separate from the HTML’s six-sample house illustration.
+For B01, change one input or select another neuron and describe which values determine the selected column's mean. The HTML's six-house illustration is a demonstration; the notebook uses different four-sample, two-feature data.
 
-For R00, select identity(F=0) and inspect the live vector panel. Self-contained alternative: x=[2,4,−1,3],F=[0,0,0,0],H=x+F=x,y=ReLU(H)=[2,4,0,3]. Identify where the negative input survives. The sum preserves it; post-activation does not. Toggle the skip to inspect its contribution if the HTML is available. Degradation curves and landscape animation are prescribed illustrations rather than a measurement from your run. Higher training error can indicate optimization difficulty; overfitting does not require training error near 0.
+For R00, use the live feature-vector table. The negative entry distinguishes the sum H=x+F from the final output y=ReLU(H). Preserving x at the addition node does not mean preserving every negative value after ReLU.
+
+## If the HTML cannot be opened
+
+Keep the observation discussion using these English examples. For BN use [[2,10],[4,18],[6,20],[8,40]], with one sample per row and one neuron per column. The column means are 5 and 22. Ask which entries contribute to one neuron's statistic.
+
+For the skip use x=[2,4,−1,3], F=[0,0,0,0], H=x+F=x and y=ReLU(H)=[2,4,0,3]. Ask where the negative input survives. These alternatives preserve the intended discussion without requiring a particular browser or external styling connection.
+
+The masterclass is supplied by the instructor. Its curve animations and loss landscapes are illustrations, not measurements from the student's model. Apply the precise interpretations below when a visual explanation simplifies BN, gradients, overfitting or weight decay.
 
 ## Precise interpretations
 
@@ -43,4 +47,4 @@ axis=0 reduces rows separately per column in our 2Dexample; axis=1 works across 
 
 Shared8000/2000/2000 split, fixed order, batch 64,6 epochs, separate Adam(1e-3) optimizers. Conv16–optionalBN–ReLU–MaxPool–Conv32–optionalBN–ReLU–GAP–Dense10. Rescaling1/255 once inside each model. No Dropout/L2/skip/augmentation in the two models. Common Conv/Dense starting weights are checked. Restore best val_loss, select on validation, then test. BN improvement is not required. Few epochs and fixed batch order are educational controls, not a universal training recipe. Two90-minute sessions are a planning estimate; discussion may take longer.
 
-Use FOLYTATAS.md for recovery. There is no automatic homework or submission.
+Use RECOVERY.md for recovery. There is no automatic homework or submission.

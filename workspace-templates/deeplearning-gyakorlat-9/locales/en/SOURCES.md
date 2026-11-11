@@ -1,6 +1,6 @@
-# Sources / Források
+# Sources
 
-The two HTML originals were supplied by the instructor and are included unchanged. / A két HTML az oktató által feltöltött, változtatás nélkül mellékelt forrás. The earlier lesson 9 presentation provided the wider CNN/regularization context; it is not redistributed in this package.
+The instructor supplied the English interactive masterclass `sources/deep_learning_masterclass_en.html`, included unchanged. It combines Batch Normalization, ResNet and Dropout/L2 explanations. The earlier lesson 9 presentation supplied the broader CNN context and is not redistributed here.
 
 - [Keras BatchNormalization](https://keras.io/api/layers/normalization_layers/batch_normalization/)
 - [Keras Add](https://keras.io/api/layers/merging_layers/add/)
@@ -13,4 +13,5 @@ The two HTML originals were supplied by the instructor and are included unchange
 - [Ioffe–Szegedy: Batch Normalization, 2015](https://arxiv.org/abs/1502.03167)
 - [Santurkar et al.: How Does Batch Normalization Help Optimization?, 2018](https://arxiv.org/abs/1805.11604)
 
-Checked / Ellenőrizve: 2026-11-08. Claims in the teaching guide distinguish illustrative simplifications from executable observations. / Az útmutató elkülöníti a szemléltető egyszerűsítéseket a tényleges méréstől.
+
+The conceptual interpretations were checked when the original practice was prepared on 2026-11-08. This English packaging update is dated 2026-11-11. The supplied animations remain illustrative; the notebook records actual model measurements.

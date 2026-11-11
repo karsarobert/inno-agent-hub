@@ -1,0 +1,2294 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning Interactive Masterclass: Batch Norm, ResNet & Regularization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #090d16;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.78);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            height: 6px;
+            border-radius: 999px;
+            background: #334155;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #6366f1;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.7);
+            transition: transform 0.15s ease, background-color 0.15s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #818cf8;
+        }
+        @keyframes flowDash {
+            to { stroke-dashoffset: -28; }
+        }
+        .flow-line {
+            stroke-dasharray: 7 7;
+            animation: flowDash 0.85s linear infinite;
+        }
+        .flow-line-slow {
+            stroke-dasharray: 6 6;
+            animation: flowDash 1.3s linear infinite;
+        }
+        .main-tab-active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(56, 189, 248, 0.2)) !important;
+            border-color: #6366f1 !important;
+            color: #ffffff !important;
+            box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.35);
+        }
+        .step-active {
+            border-color: #6366f1 !important;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(30, 41, 59, 0.85)) !important;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.28);
+        }
+        .pill-active {
+            border-color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.22) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+        }
+        .sample-row-highlight {
+            background: rgba(99, 102, 241, 0.28) !important;
+            outline: 1px solid rgba(129, 140, 248, 0.65);
+        }
+        .branch-highlight {
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.8));
+        }
+        .math-var {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-indigo-500 selection:text-white pb-16">
+
+    <!-- STICKY MASTER NAVIGATION HEADER -->
+    <header class="border-b border-slate-800/90 bg-slate-950/85 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+            <!-- Brand Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 via-sky-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/25 font-mono font-extrabold text-base text-white shrink-0">
+                    DL
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-white">
+                            Deep Learning Interactive Lab
+                        </h1>
+                        <span class="hidden sm:inline-block text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                            3-in-1 Visual Masterclass
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        Interactive Neural Network Topology, Mathematical X-Rays & Optimization Landscapes
+                    </p>
+                </div>
+            </div>
+
+            <!-- Master Module Switcher Tabs -->
+            <nav class="flex flex-wrap items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800" aria-label="Module Navigation">
+                <button onclick="switchModule('bn')" id="tab-btn-bn" class="main-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-300 border border-transparent transition flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-md bg-indigo-500/30 text-indigo-300 flex items-center justify-center font-mono text-xs">1</span>
+                    <span>Batch Normalization</span>
+                </button>
+                <button onclick="switchModule('resnet')" id="tab-btn-resnet" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-300 border border-transparent hover:text-white transition flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-md bg-sky-500/30 text-sky-300 flex items-center justify-center font-mono text-xs">2</span>
+                    <span>Skip Connections (ResNet)</span>
+                </button>
+                <button onclick="switchModule('reg')" id="tab-btn-reg" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-300 border border-transparent hover:text-white transition flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-md bg-purple-500/30 text-purple-300 flex items-center justify-center font-mono text-xs">3</span>
+                    <span>Dropout & L2 Regularization</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 1: BATCH NORMALIZATION (IOFFE & SZEGEDY, 2015)                     -->
+    <!-- ========================================================================= -->
+    <main id="module-bn" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+
+        <!-- Module 1 Hero & Presets Bar -->
+        <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-indigo-500 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="space-y-1 max-w-2xl">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Module 1 • Ioffe & Szegedy (2015)</span>
+                    <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">Internal Covariate Shift</span>
+                </div>
+                <h2 class="text-lg sm:text-xl font-extrabold text-white">
+                    Batch Normalization: Stabilizing & Accelerating Deep Neural Networks
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Neural networks are trained on <strong>Mini-Batches (here <span class="math-var text-indigo-300">m = 6</span> samples at once)</strong>. When these 6 samples enter a single hidden neuron, that neuron computes 6 weighted sums: <strong>these 6 values are <span class="math-var text-amber-300">x₁, x₂, …, x₆</span>!</strong> Batch Normalization standardizes these 6 values (<span class="math-var text-sky-300">μ = 0, σ = 1</span>) <em>before</em> they enter the non-linear activation function.
+                </p>
+            </div>
+
+            <!-- Preset Scenarios -->
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+                <span class="text-xs font-semibold text-slate-400 mr-1">Scenarios:</span>
+                <button onclick="bnApplyPreset('shifted_high')" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 transition">
+                    ⚠️ Shifted + Wide Spread
+                </button>
+                <button onclick="bnApplyPreset('exploding')" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 transition">
+                    💥 High Variance (Saturated)
+                </button>
+                <button onclick="bnApplyPreset('collapsed')" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/30 hover:bg-sky-500/25 transition">
+                    🔬 Collapsed Negative
+                </button>
+                <button onclick="bnApplyPreset('ideal')" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition">
+                    ✅ Ideal Distribution
+                </button>
+            </div>
+        </div>
+
+        <!-- SECTION 1.1: NETWORK TOPOLOGY, NEURON X-RAY & MINI-BATCH MATRIX -->
+        <section class="space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-mono">1.1</span>
+                        <span>Where Are <span class="font-mono text-amber-300">x₁ … x₆</span> Located in the Neural Network? (Topology & Mini-Batch Matrix)</span>
+                    </h3>
+                    <p class="text-xs text-slate-400">
+                        Click any hidden neuron (<strong>N₁, N₂, N₃</strong>) or hover over any sample row (<strong><span class="font-mono text-slate-200">x₁ … x₆</span></strong>) to cross-highlight its path across the network!
+                    </p>
+                </div>
+
+                <!-- Hidden Neuron Selector -->
+                <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 self-start">
+                    <span class="text-xs font-semibold text-slate-400 px-2">Inspect Neuron:</span>
+                    <button onclick="bnSelectNeuron(0)" id="bn-neuron-tab-0" class="pill-active px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-white border border-slate-700 transition">
+                        ● N₁ Neuron (Active)
+                    </button>
+                    <button onclick="bnSelectNeuron(1)" id="bn-neuron-tab-1" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 border border-slate-800 hover:border-slate-700 transition">
+                        ● N₂ Neuron
+                    </button>
+                    <button onclick="bnSelectNeuron(2)" id="bn-neuron-tab-2" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 border border-slate-800 hover:border-slate-700 transition">
+                        ● N₃ Neuron
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <!-- Left (7 cols): Interactive SVG Topology & Neuron X-Ray -->
+                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-400">Neural Network Topology & Neuron X-Ray</span>
+                            <h4 id="bn-topology-title" class="text-sm sm:text-base font-bold text-white">
+                                Inside Neuron N₁: Weighted Sum (x₁..x₆) → Batch Norm (y₁..y₆) → Activation
+                            </h4>
+                        </div>
+                        <span class="text-xs font-mono px-2.5 py-1 rounded-lg bg-slate-950 text-emerald-400 border border-slate-800">
+                            Mini-Batch Size: m = 6 samples
+                        </span>
+                    </div>
+
+                    <div class="relative w-full bg-slate-950/85 rounded-xl border border-slate-800 p-2 overflow-hidden">
+                        <svg id="bnTopologySvg" viewBox="0 0 760 390" class="w-full h-auto select-none">
+                            <defs>
+                                <linearGradient id="bnZoomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.95"/>
+                                    <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Layer Headers -->
+                            <text x="68" y="24" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">1. INPUT LAYER</text>
+                            <text x="68" y="38" fill="#64748b" font-size="9.5" text-anchor="middle" font-family="Inter">(3 features / house)</text>
+
+                            <text x="210" y="24" fill="#818cf8" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">2. HIDDEN LAYER</text>
+                            <text x="210" y="38" fill="#64748b" font-size="9.5" text-anchor="middle" font-family="Inter">(Click N₁, N₂, N₃)</text>
+
+                            <text x="475" y="24" fill="#c084fc" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">🔍 SELECTED NEURON X-RAY (INTERNAL PIPELINE)</text>
+                            <text x="475" y="38" fill="#94a3b8" font-size="9.5" text-anchor="middle" font-family="Inter">All 6 samples pass through these 3 internal stages!</text>
+
+                            <text x="712" y="24" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">3. OUTPUT</text>
+                            <text x="712" y="38" fill="#64748b" font-size="9.5" text-anchor="middle" font-family="Inter">(Prediction)</text>
+
+                            <!-- Connections: Input -> Hidden -->
+                            <g stroke="#334155" stroke-width="1.5" opacity="0.75">
+                                <line x1="95" y1="105" x2="182" y2="105" class="bn-wire-0 flow-line" stroke="#6366f1" stroke-width="2"/>
+                                <line x1="95" y1="195" x2="182" y2="105" class="bn-wire-0 flow-line" stroke="#6366f1" stroke-width="2"/>
+                                <line x1="95" y1="285" x2="182" y2="105" class="bn-wire-0 flow-line" stroke="#6366f1" stroke-width="2"/>
+
+                                <line x1="95" y1="105" x2="182" y2="195" class="bn-wire-1"/>
+                                <line x1="95" y1="195" x2="182" y2="195" class="bn-wire-1"/>
+                                <line x1="95" y1="285" x2="182" y2="195" class="bn-wire-1"/>
+
+                                <line x1="95" y1="105" x2="182" y2="285" class="bn-wire-2"/>
+                                <line x1="95" y1="195" x2="182" y2="285" class="bn-wire-2"/>
+                                <line x1="95" y1="285" x2="182" y2="285" class="bn-wire-2"/>
+                            </g>
+
+                            <!-- Zoom Beam -->
+                            <polygon id="bn-svg-zoom-beam" points="238,85 280,55 280,355 238,125" fill="rgba(99, 102, 241, 0.14)" stroke="rgba(129, 140, 248, 0.4)" stroke-dasharray="4 3"/>
+
+                            <!-- Input Nodes -->
+                            <g transform="translate(68, 105)">
+                                <rect x="-38" y="-22" width="76" height="44" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                <text x="0" y="-3" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">f₁ (Size)</text>
+                                <text x="0" y="12" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="Inter">6 houses</text>
+                            </g>
+                            <g transform="translate(68, 195)">
+                                <rect x="-38" y="-22" width="76" height="44" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                <text x="0" y="-3" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">f₂ (Rooms)</text>
+                                <text x="0" y="12" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="Inter">6 houses</text>
+                            </g>
+                            <g transform="translate(68, 285)">
+                                <rect x="-38" y="-22" width="76" height="44" rx="10" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                <text x="0" y="-3" fill="#f8fafc" font-size="11" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">f₃ (Age)</text>
+                                <text x="0" y="12" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="Inter">6 houses</text>
+                            </g>
+
+                            <!-- Hidden Layer Neurons (N1, N2, N3) -->
+                            <g id="bn-svg-neuron-0" class="cursor-pointer" onclick="bnSelectNeuron(0)" transform="translate(210, 105)">
+                                <circle r="28" fill="#312e81" stroke="#818cf8" stroke-width="3"/>
+                                <text x="0" y="-2" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">N₁</text>
+                                <text x="0" y="13" fill="#c7d2fe" font-size="8.5" font-weight="600" text-anchor="middle" font-family="Inter">Neuron 1</text>
+                            </g>
+                            <g id="bn-svg-neuron-1" class="cursor-pointer" onclick="bnSelectNeuron(1)" transform="translate(210, 195)">
+                                <circle r="25" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+                                <text x="0" y="-2" fill="#cbd5e1" font-size="13" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">N₂</text>
+                                <text x="0" y="13" fill="#64748b" font-size="8.5" text-anchor="middle" font-family="Inter">Neuron 2</text>
+                            </g>
+                            <g id="bn-svg-neuron-2" class="cursor-pointer" onclick="bnSelectNeuron(2)" transform="translate(210, 285)">
+                                <circle r="25" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+                                <text x="0" y="-2" fill="#cbd5e1" font-size="13" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">N₃</text>
+                                <text x="0" y="13" fill="#64748b" font-size="8.5" text-anchor="middle" font-family="Inter">Neuron 3</text>
+                            </g>
+
+                            <!-- X-RAY BOX -->
+                            <rect x="280" y="52" width="388" height="308" rx="16" fill="url(#bnZoomGrad)" stroke="#6366f1" stroke-width="2"/>
+
+                            <!-- Stage A: Pre-Activation Weighted Sum -->
+                            <g transform="translate(294, 72)">
+                                <rect x="0" y="0" width="106" height="270" rx="12" fill="rgba(245, 158, 11, 0.08)" stroke="rgba(245, 158, 11, 0.45)" stroke-width="1.5"/>
+                                <text x="53" y="20" fill="#fbbf24" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">A) WEIGHTED SUM</text>
+                                <text x="53" y="34" fill="#fde68a" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">xᵢ = W·f⁽ⁱ⁾ + b</text>
+                                <text x="53" y="48" fill="#94a3b8" font-size="8.5" text-anchor="middle" font-family="Inter">x₁..x₆ born here!</text>
+                                <g id="bn-xray-x-list" transform="translate(8, 58)"></g>
+                            </g>
+
+                            <!-- Stage B: Batch Norm -->
+                            <g transform="translate(420, 72)">
+                                <rect x="0" y="0" width="122" height="270" rx="12" fill="rgba(99, 102, 241, 0.14)" stroke="#818cf8" stroke-width="2"/>
+                                <text x="61" y="20" fill="#c7d2fe" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">B) BATCH NORM</text>
+                                <text x="61" y="34" fill="#a5b4fc" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">yᵢ = γ·x̂ᵢ + β</text>
+                                <text id="bn-svg-stats-label" x="61" y="48" fill="#38bdf8" font-size="8.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">μ=5.60 | σ=2.25</text>
+                                <g id="bn-xray-y-list" transform="translate(10, 58)"></g>
+                            </g>
+
+                            <!-- Stage C: Activation -->
+                            <g transform="translate(560, 72)">
+                                <rect x="0" y="0" width="94" height="270" rx="12" fill="rgba(16, 185, 129, 0.09)" stroke="rgba(16, 185, 129, 0.45)" stroke-width="1.5"/>
+                                <text x="47" y="20" fill="#34d399" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">C) ACTIVATION</text>
+                                <text id="bn-svg-act-label" x="47" y="34" fill="#6ee7b7" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">aᵢ = Sigmoid(yᵢ)</text>
+                                <text x="47" y="48" fill="#94a3b8" font-size="8.5" text-anchor="middle" font-family="Inter">Non-linear out</text>
+                                <g id="bn-xray-a-list" transform="translate(8, 58)"></g>
+                            </g>
+
+                            <!-- Output Node -->
+                            <line x1="668" y1="205" x2="688" y2="205" class="flow-line" stroke="#10b981" stroke-width="2.5"/>
+                            <g transform="translate(714, 205)">
+                                <circle r="25" fill="#064e3b" stroke="#10b981" stroke-width="2.5"/>
+                                <text x="0" y="-2" fill="#ffffff" font-size="11" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">ŷ</text>
+                                <text x="0" y="11" fill="#6ee7b7" font-size="8" text-anchor="middle" font-family="Inter">Output</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                        <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5">
+                            <span class="font-bold text-amber-300 block">1. What are <span class="font-mono">x₁ … x₆</span>?</span>
+                            <span class="text-slate-300 text-[11px] leading-snug">
+                                They are the <strong>pre-activation weighted sums (<span class="font-mono">z = W · in + b</span>)</strong> inside a single neuron across the 6 samples in the current mini-batch!
+                            </span>
+                        </div>
+                        <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-2.5">
+                            <span class="font-bold text-indigo-300 block">2. Why 6 values?</span>
+                            <span class="text-slate-300 text-[11px] leading-snug">
+                                Because our <strong>Mini-Batch size is <span class="font-mono">m = 6</span></strong>. If the batch size were 32, this single neuron would process <span class="font-mono">x₁ … x₃₂</span> simultaneously.
+                            </span>
+                        </div>
+                        <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-2.5">
+                            <span class="font-bold text-emerald-300 block">3. Where is Batch Norm placed?</span>
+                            <span class="text-slate-300 text-[11px] leading-snug">
+                                Directly <strong>after the linear weighted sum (<span class="font-mono">xᵢ</span>)</strong> and <strong>before the non-linear activation function (<span class="font-mono">f(yᵢ)</span>)</strong>.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right (5 cols): Mini-Batch Matrix (Column-wise Normalization) -->
+                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="border-b border-slate-800 pb-2.5">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Mini-Batch (Rows) vs. Neurons (Columns)</span>
+                        <h4 class="text-sm sm:text-base font-bold text-white mt-0.5">
+                            How does Batch Norm compute stats? <span class="text-indigo-400 underline">COLUMN-WISE!</span>
+                        </h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            1 Row = 1 data sample (house) in the batch. 1 Column = 1 neuron's activations across all 6 samples. Batch Norm computes mean (<span class="font-mono text-sky-300">μ<sub>B</sub></span>) and std (<span class="font-mono text-emerald-300">σ<sub>B</sub></span>) <strong>vertically per neuron</strong>!
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto bg-slate-950/75 rounded-xl border border-slate-800 p-2">
+                        <table class="w-full text-left border-collapse text-xs font-mono">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-[11px] text-slate-400">
+                                    <th class="py-2 px-2 font-sans">Mini-Batch Sample<br><span class="text-[10px] text-slate-500">(Input features)</span></th>
+                                    <th id="bn-col-hdr-0" onclick="bnSelectNeuron(0)" class="py-2 px-2.5 text-center cursor-pointer rounded-t-lg bg-indigo-500/20 text-indigo-300 border-x border-t border-indigo-500/40">
+                                        N₁ Neuron<br><span class="text-[10px] text-amber-300 font-bold">(x₁ .. x₆)</span>
+                                    </th>
+                                    <th id="bn-col-hdr-1" onclick="bnSelectNeuron(1)" class="py-2 px-2 text-center cursor-pointer text-slate-400 hover:text-white">
+                                        N₂ Neuron<br><span class="text-[10px] text-slate-500">(z₁ .. z₆)</span>
+                                    </th>
+                                    <th id="bn-col-hdr-2" onclick="bnSelectNeuron(2)" class="py-2 px-2 text-center cursor-pointer text-slate-400 hover:text-white">
+                                        N₃ Neuron<br><span class="text-[10px] text-slate-500">(z₁ .. z₆)</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="bn-matrix-body" class="divide-y divide-slate-800/60"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-1.5">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-indigo-300">⬇️ Vertical Axis = Batch Normalization</span>
+                            <span id="bn-hover-indicator" class="font-mono text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">
+                                Hover over a sample row!
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Each neuron (<strong>N₁, N₂, N₃</strong>) maintains its own independent <span class="font-mono text-sky-300">μ<sub>B</sub></span>, <span class="font-mono text-emerald-300">σ<sub>B</sub></span>, and learnable <span class="font-mono text-purple-300">γ, β</span> parameters!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1.2: THE 4-STEP INTERACTIVE PIPELINE -->
+        <section class="space-y-4 pt-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-mono">1.2</span>
+                        The 4-Step Batch Normalization Pipeline on the Number Line
+                    </h3>
+                    <p class="text-xs text-slate-400">
+                        Click through Steps 1 to 4 to watch how the 6 data points (<span class="font-mono text-amber-300">x₁ … x₆</span>) are centered, normalized, and rescaled!
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="bnPrevStep()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition">
+                        ◀ Previous Step
+                    </button>
+                    <button onclick="bnNextStep()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition shadow shadow-indigo-600/30">
+                        Next Step ▶
+                    </button>
+                </div>
+            </div>
+
+            <!-- 4 Step Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <button onclick="bnSetStep(1)" id="bn-step-card-1" class="step-active glass-card text-left p-4 rounded-2xl transition-all">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Step 1</span>
+                        <span class="font-mono text-xs text-slate-400">Raw Input</span>
+                    </div>
+                    <h4 class="font-bold text-white text-sm mb-1">Mini-Batch Mean (<span class="font-mono text-amber-300">μ<sub>B</sub></span>)</h4>
+                    <p class="text-xs text-slate-400 mb-2.5">Raw pre-activations <span class="font-mono">xᵢ</span>. Their mean (<span class="font-mono">μ<sub>B</sub></span>) may be shifted and variance (<span class="font-mono">σ<sub>B</sub>²</span>) unstable.</p>
+                    <div class="font-mono text-xs text-amber-300 bg-slate-950/60 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                        μ<sub>B</sub> = <span id="bn-card-mu">0.00</span> | σ<sub>B</sub> = <span id="bn-card-sigma">1.00</span>
+                    </div>
+                </button>
+
+                <button onclick="bnSetStep(2)" id="bn-step-card-2" class="glass-card text-left p-4 rounded-2xl transition-all">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold uppercase px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">Step 2</span>
+                        <span class="font-mono text-xs text-slate-400">Centering</span>
+                    </div>
+                    <h4 class="font-bold text-white text-sm mb-1">Zero-Center (<span class="font-mono text-sky-300">xᵢ − μ<sub>B</sub></span>)</h4>
+                    <p class="text-xs text-slate-400 mb-2.5">Subtract the mini-batch mean <span class="font-mono">μ<sub>B</sub></span> from every sample so the distribution is centered at <strong>0</strong>.</p>
+                    <div class="font-mono text-xs text-sky-300 bg-slate-950/60 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                        x'<sub>i</sub> = x<sub>i</sub> − μ<sub>B</sub> &nbsp;(Mean = 0)
+                    </div>
+                </button>
+
+                <button onclick="bnSetStep(3)" id="bn-step-card-3" class="glass-card text-left p-4 rounded-2xl transition-all">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Step 3</span>
+                        <span class="font-mono text-xs text-slate-400">Scaling</span>
+                    </div>
+                    <h4 class="font-bold text-white text-sm mb-1">Normalize Variance (<span class="font-mono text-emerald-300">x̂ᵢ</span>)</h4>
+                    <p class="text-xs text-slate-400 mb-2.5">Divide by standard deviation <span class="font-mono">σ<sub>B</sub></span> so the spread becomes unit variance (<strong><span class="font-mono">σ = 1</span></strong>).</p>
+                    <div class="font-mono text-xs text-emerald-300 bg-slate-950/60 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                        x̂<sub>i</sub> = (x<sub>i</sub> − μ<sub>B</sub>) / √(σ²<sub>B</sub> + ε)
+                    </div>
+                </button>
+
+                <button onclick="bnSetStep(4)" id="bn-step-card-4" class="glass-card text-left p-4 rounded-2xl transition-all">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold uppercase px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Step 4</span>
+                        <span class="font-mono text-xs text-slate-400">Learnable</span>
+                    </div>
+                    <h4 class="font-bold text-white text-sm mb-1">Scale & Shift (<span class="font-mono text-purple-300">yᵢ = γ·x̂ᵢ + β</span>)</h4>
+                    <p class="text-xs text-slate-400 mb-2.5">Restore expressive power via learnable scale (<span class="font-mono">γ</span>) and shift (<span class="font-mono">β</span>) parameters updated via backprop.</p>
+                    <div class="font-mono text-xs text-purple-300 bg-slate-950/60 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                        y<sub>i</sub> = γ · x̂<sub>i</sub> + β
+                    </div>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Left (8 cols): Number line & Gaussian Bell Curve -->
+                <div class="lg:col-span-8 glass-card rounded-2xl p-4 sm:p-5 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div>
+                            <span id="bn-active-badge" class="text-xs font-bold uppercase px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                                Step 1: Raw Mini-Batch (x₁ … x₆)
+                            </span>
+                            <h4 id="bn-active-title" class="text-sm sm:text-base font-bold text-white mt-1">
+                                Raw pre-activation values and Gaussian spread on the number line
+                            </h4>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs font-mono bg-slate-950 px-3.5 py-2 rounded-xl border border-slate-800">
+                            <div><span class="text-slate-400">Current Mean:</span> <span id="bn-live-mean" class="font-bold text-white ml-1">0.00</span></div>
+                            <div class="h-4 w-px bg-slate-800"></div>
+                            <div><span class="text-slate-400">Current Std:</span> <span id="bn-live-std" class="font-bold text-white ml-1">1.00</span></div>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full h-72 bg-slate-950/75 rounded-xl border border-slate-800 overflow-hidden">
+                        <canvas id="bnPipelineCanvas"></canvas>
+                    </div>
+
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 leading-relaxed" id="bn-step-exp"></div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs font-mono">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400">
+                                    <th class="py-2 px-2">Sample</th>
+                                    <th class="py-2 px-2 text-amber-400">1. Raw (xᵢ)</th>
+                                    <th class="py-2 px-2 text-sky-400">2. Centered (xᵢ − μ<sub>B</sub>)</th>
+                                    <th class="py-2 px-2 text-emerald-400">3. Normalized (x̂ᵢ)</th>
+                                    <th class="py-2 px-2 text-purple-400">4. Output (yᵢ = γ·x̂ᵢ + β)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bn-table-body" class="divide-y divide-slate-800/60"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right (4 cols): Gamma/Beta & Sample Sliders -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 border border-purple-500/30 space-y-3.5">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-purple-400">Step 4 Controls</span>
+                                <h4 class="text-sm font-bold text-white">Learnable Parameters (<span class="font-mono text-purple-300">γ, β</span>)</h4>
+                            </div>
+                            <button onclick="bnResetGammaBeta()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                Reset (γ=1, β=0)
+                            </button>
+                        </div>
+                        <div class="space-y-1 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between text-xs">
+                                <label for="bn-gamma-slider" class="font-semibold text-purple-300"><span class="font-mono">γ</span> (Gamma) – Scale / Spread:</label>
+                                <span id="bn-gamma-val" class="font-mono font-bold text-white">1.00</span>
+                            </div>
+                            <input id="bn-gamma-slider" type="range" min="0.2" max="3.0" step="0.05" value="1.0" class="w-full" oninput="bnUpdateGammaBeta()">
+                        </div>
+                        <div class="space-y-1 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                            <div class="flex justify-between text-xs">
+                                <label for="bn-beta-slider" class="font-semibold text-purple-300"><span class="font-mono">β</span> (Beta) – Shift / New Mean:</label>
+                                <span id="bn-beta-val" class="font-mono font-bold text-white">0.00</span>
+                            </div>
+                            <input id="bn-beta-slider" type="range" min="-4.0" max="4.0" step="0.1" value="0.0" class="w-full" oninput="bnUpdateGammaBeta()">
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">Step 1 Inputs</span>
+                                <h4 class="text-sm font-bold text-white">Mini-Batch Samples (<span class="font-mono text-amber-300">x₁ … x₆</span>)</h4>
+                            </div>
+                            <button onclick="bnRandomizeBatch()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 transition">
+                                🎲 Randomize
+                            </button>
+                        </div>
+                        <div id="bn-sample-sliders" class="space-y-2 pt-1"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1.3: ACTIVATION SATURATION & LOSS LANDSCAPE -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+            <!-- Left (7 cols): Activation Saturation -->
+            <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-mono">1.3</span>
+                            Why Training Stalls Without Batch Norm (Saturation & Vanishing Gradient)
+                        </h3>
+                    </div>
+                    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 self-start">
+                        <button onclick="bnSetActivation('sigmoid')" id="bn-act-sigmoid" class="px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition">Sigmoid</button>
+                        <button onclick="bnSetActivation('tanh')" id="bn-act-tanh" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">Tanh</button>
+                        <button onclick="bnSetActivation('relu')" id="bn-act-relu" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">ReLU</button>
+                    </div>
+                </div>
+
+                <div class="relative w-full h-64 bg-slate-950/75 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="bnActivationCanvas"></canvas>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-amber-300 block">● WITHOUT Batch Norm (<span class="font-mono">xᵢ</span>)</span>
+                            <span class="text-slate-400 text-[11px]">Mean Derivative (Gradient):</span>
+                        </div>
+                        <div class="text-right">
+                            <span id="bn-raw-grad" class="font-mono text-base font-bold text-amber-300">0.02</span>
+                            <span id="bn-raw-grad-status" class="block text-[10px] text-rose-400 font-semibold">Saturated!</span>
+                        </div>
+                    </div>
+                    <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-emerald-300 block">● WITH Batch Norm (<span class="font-mono">yᵢ</span>)</span>
+                            <span class="text-slate-400 text-[11px]">Mean Derivative (Gradient):</span>
+                        </div>
+                        <div class="text-right">
+                            <span id="bn-norm-grad" class="font-mono text-base font-bold text-emerald-300">0.23</span>
+                            <span id="bn-norm-grad-status" class="block text-[10px] text-emerald-400 font-semibold">Active Learning!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right (5 cols): 2D Loss Landscape -->
+            <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-mono">1.4</span>
+                            Loss Landscape Smoothing
+                        </h3>
+                    </div>
+                    <button onclick="bnRestartSim()" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition">
+                        ▶ Replay Trajectory
+                    </button>
+                </div>
+
+                <div class="relative w-full h-64 bg-slate-950/75 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="bnLandscapeCanvas"></canvas>
+                </div>
+
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 space-y-1">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-slate-300 font-medium">Simulated Learning Rate (<span class="font-mono text-indigo-300">η</span>):</span>
+                        <span id="bn-lr-val" class="font-mono font-bold text-indigo-400">High (0.85)</span>
+                    </div>
+                    <input id="bn-lr-slider" type="range" min="0.3" max="1.05" step="0.05" value="0.85" class="w-full" oninput="bnUpdateLR()">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 2: SKIP CONNECTIONS & RESNET (HE ET AL., 2015)                     -->
+    <!-- ========================================================================= -->
+    <main id="module-resnet" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+
+        <!-- Module 2 Hero Banner -->
+        <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-sky-400 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="space-y-1 max-w-3xl">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Module 2 • He et al. (2015) — CVPR Best Paper</span>
+                </div>
+                <h2 class="text-lg sm:text-xl font-extrabold text-white">
+                    Skip Connections & Residual Networks (ResNet): Training 152+ Layer Networks
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Instead of forcing stacked layers to learn an underlying mapping <span class="font-mono text-emerald-300">H(x)</span> from scratch, a <strong>Skip Connection (Identity Shortcut)</strong> routes the input <span class="font-mono text-sky-300">x</span> directly to the output addition node, so weighted layers only need to learn the <strong>residual difference: <span class="font-mono text-amber-300">F(x) = H(x) − x</span></strong>!
+                </p>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-950/90 px-4 py-3 rounded-xl border border-slate-800 font-mono text-xs sm:text-sm shrink-0">
+                <span class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold">x (Identity)</span>
+                <span class="text-slate-400 font-bold">+</span>
+                <span class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">F(x) (Residual)</span>
+                <span class="text-slate-400 font-bold">=</span>
+                <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">H(x) (Output)</span>
+            </div>
+        </div>
+
+        <!-- SECTION 2.1: THE DEGRADATION PARADOX -->
+        <section class="space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-rose-500/20 text-rose-400 flex items-center justify-center text-xs font-mono">2.1</span>
+                        The Degradation Paradox (He et al., 2015 — Figure 1 CIFAR-10)
+                    </h3>
+                    <p class="text-xs text-slate-400">
+                        Why did a 56-layer Plain Network perform <em>worse</em> than a 20-layer network on both training and test data?
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-1.5 bg-slate-900 p-1.5 rounded-xl border border-slate-800 self-start">
+                    <button onclick="resSetArchMode('plain')" id="res-btn-plain" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white transition">
+                        ❌ Plain Network (No Skip)
+                    </button>
+                    <button onclick="resSetArchMode('resnet')" id="res-btn-resnet" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition">
+                        ✅ ResNet (With Skip Connection)
+                    </button>
+                    <button onclick="resSetArchMode('both')" id="res-btn-both" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition">
+                        ⚖️ Compare 56-Layer
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                        <h4 id="res-deg-title" class="text-sm sm:text-base font-bold text-white">
+                            Plain Network: 56-Layer has HIGHER error than 20-Layer!
+                        </h4>
+                        <button onclick="resReplayChart()" class="text-xs px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition">
+                            🔄 Replay Curves
+                        </button>
+                    </div>
+                    <div class="relative w-full h-64 bg-slate-950/85 rounded-xl border border-slate-800 overflow-hidden">
+                        <canvas id="resDegradationCanvas"></canvas>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
+                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block text-[10px] font-sans">20-Layer (Train Error)</span>
+                            <span id="res-stat-20-tr" class="text-sm font-bold text-amber-300">6.1%</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block text-[10px] font-sans">56-Layer (Train Error)</span>
+                            <span id="res-stat-56-tr" class="text-sm font-bold text-rose-400">10.8% (Worse!)</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block text-[10px] font-sans">20-Layer (Test Error)</span>
+                            <span id="res-stat-20-te" class="text-sm font-bold text-amber-200">8.7%</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block text-[10px] font-sans">56-Layer (Test Error)</span>
+                            <span id="res-stat-56-te" class="text-sm font-bold text-rose-300">13.4% (Worse!)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+                    <h4 class="text-base font-bold text-white border-b border-slate-800 pb-2">
+                        Teacher's Note: Why is this NOT Overfitting?
+                    </h4>
+                    <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-xs space-y-1">
+                        <span class="font-bold text-rose-300 block">⚠️ Crucial Exam Distinction:</span>
+                        <p class="text-slate-300 leading-relaxed">
+                            If this were <em>overfitting</em>, the 56-layer <strong>training error (dashed curve) would drop near 0%</strong> while only test error rose. Here, <strong>training error itself is much higher</strong>! This proves it is an <strong>optimization difficulty (Degradation Problem)</strong>.
+                        </p>
+                    </div>
+                    <div class="bg-sky-500/10 border border-sky-500/30 rounded-xl p-3 text-xs space-y-1.5">
+                        <span class="font-bold text-sky-300 block">🧠 He et al.'s Thought Experiment:</span>
+                        <p class="text-slate-300 leading-relaxed">
+                            Take a trained 20-layer network and stack 36 <strong>Identity Mapping (<span class="font-mono text-sky-300">H(x) = x</span>)</strong> layers on top. In theory, it should have no higher error than the 20-layer net! Standard nonlinear layers struggle to approximate <span class="font-mono">H(x) = x</span>, whereas with <span class="font-mono text-emerald-300">H(x) = F(x) + x</span>, the solver simply drives weights toward zero (<span class="font-mono text-amber-300">F(x) = 0</span>).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2.2: RESIDUAL BLOCK X-RAY & VECTOR CALCULATOR -->
+        <section class="space-y-4 pt-2">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-sky-500/20 text-sky-400 flex items-center justify-center text-xs font-mono">2.2</span>
+                        <span>Network Topology & Residual Block X-Ray (<span class="font-mono text-emerald-300">H(x) = F(x) + x</span>)</span>
+                    </h3>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="resApplyPreset('identity')" id="res-preset-identity" class="pill-active text-xs font-semibold px-3 py-1.5 rounded-xl bg-sky-500/15 text-sky-300 border border-sky-500/30 transition">
+                        🎯 1. Identity Mapping (F(x) = 0)
+                    </button>
+                    <button onclick="resApplyPreset('nudge')" id="res-preset-nudge" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-amber-500/15 text-amber-300 border border-amber-500/30 transition">
+                        🔧 2. Fine-Tuning (Small F(x) Nudge)
+                    </button>
+                    <button onclick="resApplyPreset('sharpen')" id="res-preset-sharpen" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 transition">
+                        ✨ 3. Feature Amplification
+                    </button>
+                    <button onclick="resToggleShortcut()" id="res-btn-wire" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition">
+                        🔌 Skip Connection: ON
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <!-- Left (7 cols): SVG Residual Block X-Ray -->
+                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="relative w-full bg-slate-950/90 rounded-xl border border-slate-800 p-2 overflow-hidden">
+                        <svg id="resnetBlockSvg" viewBox="0 0 780 390" class="w-full h-auto select-none">
+                            <!-- Top Macro Topology Strip -->
+                            <g transform="translate(20, 10)">
+                                <rect x="0" y="0" width="740" height="42" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5"/>
+                                <text x="16" y="25" fill="#94a3b8" font-size="10" font-weight="700" font-family="Inter">MACRO TOPOLOGY:</text>
+                                <rect x="122" y="9" width="64" height="24" rx="6" fill="#1e293b" stroke="#475569"/>
+                                <text x="154" y="24" fill="#e2e8f0" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">Input</text>
+                                <line x1="186" y1="21" x2="210" y2="21" stroke="#475569" stroke-width="2"/>
+                                <rect x="210" y="9" width="82" height="24" rx="6" fill="#1e293b" stroke="#475569"/>
+                                <text x="251" y="24" fill="#94a3b8" font-size="9.5" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">ResBlock 1</text>
+                                <line x1="292" y1="21" x2="320" y2="21" stroke="#38bdf8" stroke-width="2"/>
+                                <rect x="320" y="6" width="128" height="30" rx="7" fill="rgba(56, 189, 248, 0.2)" stroke="#38bdf8" stroke-width="2"/>
+                                <text x="384" y="25" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">🔍 ResBlock l (X-Ray)</text>
+                                <line x1="448" y1="21" x2="476" y2="21" stroke="#10b981" stroke-width="2"/>
+                                <rect x="476" y="9" width="90" height="24" rx="6" fill="#064e3b" stroke="#10b981"/>
+                                <text x="521" y="24" fill="#6ee7b7" font-size="9.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">Classifier</text>
+                            </g>
+
+                            <rect x="16" y="64" width="748" height="314" rx="16" fill="#0b1120" stroke="#1e293b" stroke-width="2"/>
+
+                            <!-- Top Curved Skip Connection -->
+                            <g id="res-svg-skip">
+                                <path id="res-skip-bg" d="M 118 250 L 118 110 Q 118 88 140 88 L 542 88 Q 564 88 564 110 L 564 220" fill="none" stroke="rgba(56, 189, 248, 0.2)" stroke-width="10" stroke-linecap="round"/>
+                                <path id="res-skip-flow" d="M 118 250 L 118 110 Q 118 88 140 88 L 542 88 Q 564 88 564 110 L 564 220" fill="none" stroke="#38bdf8" stroke-width="3.5" class="flow-line"/>
+                                <rect x="210" y="70" width="275" height="36" rx="10" fill="#0c253c" stroke="#38bdf8" stroke-width="1.8"/>
+                                <text x="347" y="86" fill="#7dd3fc" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Inter">⚡ SKIP CONNECTION (Identity Shortcut)</text>
+                                <text id="res-skip-label" x="347" y="100" fill="#e0f2fe" font-size="9.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">Passes unchanged: +x = [+2.0, +4.0, -1.0, +3.0]</text>
+                            </g>
+
+                            <!-- Input x -->
+                            <g transform="translate(68, 250)">
+                                <rect x="-42" y="-32" width="84" height="64" rx="12" fill="#0c253c" stroke="#38bdf8" stroke-width="2.5"/>
+                                <text x="0" y="-10" fill="#38bdf8" font-size="10.5" font-weight="800" text-anchor="middle" font-family="Inter">INPUT</text>
+                                <text x="0" y="8" fill="#ffffff" font-size="16" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">x</text>
+                                <text id="res-x-mini" x="0" y="23" fill="#bae6fd" font-size="9" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">[2.0, 4.0..]</text>
+                            </g>
+                            <line x1="110" y1="250" x2="145" y2="250" stroke="#38bdf8" stroke-width="3"/>
+                            <circle cx="118" cy="250" r="6" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/>
+
+                            <!-- Residual Branch F(x) -->
+                            <g>
+                                <rect x="145" y="175" width="378" height="155" rx="14" fill="rgba(245, 158, 11, 0.06)" stroke="rgba(245, 158, 11, 0.4)" stroke-dasharray="5 4" stroke-width="1.5"/>
+                                <text x="334" y="193" fill="#fbbf24" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">🔧 RESIDUAL BRANCH F(x) — Learns only the correction!</text>
+
+                                <g transform="translate(160, 212)">
+                                    <rect x="0" y="0" width="96" height="74" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                                    <text x="48" y="22" fill="#fde68a" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">Weight Layer 1</text>
+                                    <text x="48" y="37" fill="#cbd5e1" font-size="9" text-anchor="middle" font-family="JetBrains Mono">W₁ · x + b₁</text>
+                                    <rect x="12" y="45" width="72" height="20" rx="5" fill="rgba(99, 102, 241, 0.25)" stroke="#818cf8"/>
+                                    <text x="48" y="58" fill="#c7d2fe" font-size="8.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">+ Batch Norm</text>
+                                </g>
+                                <line x1="256" y1="250" x2="278" y2="250" stroke="#f59e0b" stroke-width="2.5" class="flow-line-slow"/>
+                                <g transform="translate(278, 226)">
+                                    <rect x="0" y="0" width="56" height="48" rx="9" fill="#0f172a" stroke="#fb923c" stroke-width="1.8"/>
+                                    <text x="28" y="21" fill="#fdba74" font-size="10" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">ReLU</text>
+                                    <text x="28" y="35" fill="#94a3b8" font-size="8.5" text-anchor="middle" font-family="Inter">max(0, z)</text>
+                                </g>
+                                <line x1="334" y1="250" x2="356" y2="250" stroke="#f59e0b" stroke-width="2.5" class="flow-line-slow"/>
+                                <g transform="translate(356, 212)">
+                                    <rect x="0" y="0" width="96" height="74" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                                    <text x="48" y="22" fill="#fde68a" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">Weight Layer 2</text>
+                                    <text x="48" y="37" fill="#cbd5e1" font-size="9" text-anchor="middle" font-family="JetBrains Mono">W₂ · a₁ + b₂</text>
+                                    <rect x="12" y="45" width="72" height="20" rx="5" fill="rgba(99, 102, 241, 0.25)" stroke="#818cf8"/>
+                                    <text x="48" y="58" fill="#c7d2fe" font-size="8.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">+ Batch Norm</text>
+                                </g>
+                                <line x1="452" y1="250" x2="536" y2="250" stroke="#f59e0b" stroke-width="3" class="flow-line-slow"/>
+                                <text id="res-fx-label" x="334" y="318" fill="#fcd34d" font-size="10" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">Learned correction: F(x) = [0.0, 0.0, 0.0, 0.0]</text>
+                            </g>
+
+                            <!-- Addition Node -->
+                            <g transform="translate(564, 250)">
+                                <circle r="25" fill="#2e1065" stroke="#c084fc" stroke-width="3"/>
+                                <text x="0" y="8" fill="#ffffff" font-size="22" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">⊕</text>
+                                <text x="0" y="42" fill="#d8b4fe" font-size="9.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">H(x)=F(x)+x</text>
+                            </g>
+                            <line x1="590" y1="250" x2="624" y2="250" stroke="#10b981" stroke-width="3" class="flow-line"/>
+                            <g transform="translate(624, 226)">
+                                <rect x="0" y="0" width="54" height="48" rx="9" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+                                <text x="27" y="21" fill="#6ee7b7" font-size="10" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">ReLU</text>
+                                <text x="27" y="35" fill="#a7f3d0" font-size="8" text-anchor="middle" font-family="Inter">Output</text>
+                            </g>
+                            <line x1="678" y1="250" x2="698" y2="250" stroke="#10b981" stroke-width="3" class="flow-line"/>
+                            <g transform="translate(726, 250)">
+                                <rect x="-30" y="-32" width="60" height="64" rx="12" fill="#064e3b" stroke="#34d399" stroke-width="2.5"/>
+                                <text x="0" y="-10" fill="#6ee7b7" font-size="10" font-weight="800" text-anchor="middle" font-family="Inter">OUTPUT</text>
+                                <text x="0" y="8" fill="#ffffff" font-size="16" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">y</text>
+                                <text id="res-y-mini" x="0" y="23" fill="#a7f3d0" font-size="9" font-weight="600" text-anchor="middle" font-family="JetBrains Mono">[2.0, 4.0..]</text>
+                            </g>
+
+                            <rect x="34" y="340" width="712" height="26" rx="7" fill="#0f172a" stroke="#1e293b"/>
+                            <text id="res-bottom-status" x="390" y="357" fill="#6ee7b7" font-size="10" font-weight="600" text-anchor="middle" font-family="Inter">
+                                💡 Currently in IDENTITY mode (F(x) = 0). Even with zero weights, 100% of input signal x passes through the Skip Connection!
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Right (5 cols): Live Feature Vector Calculator -->
+                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="border-b border-slate-800 pb-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Live Feature Vector X-Ray</span>
+                        <h4 class="text-sm sm:text-base font-bold text-white mt-0.5">
+                            Element-wise Addition: <span class="font-mono text-sky-300">x</span> + <span class="font-mono text-amber-300">F(x)</span> = <span class="font-mono text-purple-300">H(x)</span>
+                        </h4>
+                    </div>
+
+                    <div class="overflow-x-auto bg-slate-950/80 rounded-xl border border-slate-800 p-2">
+                        <table class="w-full text-left border-collapse text-xs font-mono">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-[11px] text-slate-400">
+                                    <th class="py-2 px-2 font-sans">Feature Channel</th>
+                                    <th class="py-2 px-2 text-center text-sky-300">Input (xᵢ)</th>
+                                    <th class="py-2 px-2 text-center text-amber-300">Residual F(xᵢ)</th>
+                                    <th class="py-2 px-2 text-center text-purple-300">Sum H(xᵢ)</th>
+                                    <th class="py-2 px-2 text-center text-emerald-300">Out ReLU(H)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="res-vector-tbody" class="divide-y divide-slate-800/70"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2.5">
+                        <span class="text-xs font-bold text-white block">🎛️ Manual Feature 1 Adjustment (Edges/Contour):</span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-slate-950/70 p-2 rounded-lg border border-sky-500/30">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-sky-300 font-semibold">Input (<span class="font-mono">x₁</span>):</span>
+                                    <span id="res-sl-x0-val" class="font-mono font-bold text-white">+2.0</span>
+                                </div>
+                                <input id="res-sl-x0" type="range" min="-4.0" max="6.0" step="0.2" value="2.0" class="w-full" oninput="resUpdateManualVec()">
+                            </div>
+                            <div class="bg-slate-950/70 p-2 rounded-lg border border-amber-500/30">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-amber-300 font-semibold">Residual (<span class="font-mono">F(x₁)</span>):</span>
+                                    <span id="res-sl-fx0-val" class="font-mono font-bold text-white">0.0</span>
+                                </div>
+                                <input id="res-sl-fx0" type="range" min="-4.0" max="4.0" step="0.2" value="0.0" class="w-full" oninput="resUpdateManualVec()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2.3 & 2.4: GRADIENT HIGHWAY & LOSS LANDSCAPE SMOOTHING -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+            <!-- Left (7 cols): 12-Layer Backprop Gradient Highway -->
+            <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-mono">2.3</span>
+                            <span>The Gradient Highway: Why the <span class="font-mono text-emerald-300">+1</span> Term Prevents Vanishing Gradients</span>
+                        </h3>
+                    </div>
+                    <span class="font-mono text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">
+                        ∂L/∂x = ∂L/∂H · (∂F/∂x + 1)
+                    </span>
+                </div>
+
+                <div class="relative w-full h-64 bg-slate-950/90 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="resHighwayCanvas"></canvas>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="w-full sm:w-2/3 space-y-1">
+                        <div class="flex justify-between text-xs">
+                            <span class="font-bold text-slate-200">Per-Layer Weight Derivative Factor (<span class="font-mono text-sky-300">∂F / ∂x</span>):</span>
+                            <span id="res-grad-factor-val" class="font-mono font-bold text-sky-400">0.45</span>
+                        </div>
+                        <input id="res-grad-slider" type="range" min="0.15" max="0.90" step="0.05" value="0.45" class="w-full" oninput="resUpdateGradHighway()">
+                    </div>
+                    <div class="w-full sm:w-1/3 bg-slate-950 p-2 rounded-lg border border-slate-800 text-[11px] font-mono">
+                        <div class="text-rose-300">Plain (0.45¹²): <strong id="res-plain-pow">0.00007</strong></div>
+                        <div class="text-emerald-300">ResNet (+1 path): <strong>1.0000+</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right (5 cols): Loss Landscape Smoothing (Li et al., 2018) -->
+            <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-mono">2.4</span>
+                            Loss Landscape Smoothing (Li et al., 2018)
+                        </h3>
+                    </div>
+                    <button onclick="resRestartLandscape()" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition">
+                        ▶ Drop Optimization Balls
+                    </button>
+                </div>
+
+                <div class="relative w-full h-64 bg-slate-950/90 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="resLandscapeCanvas"></canvas>
+                </div>
+
+                <p class="text-xs text-slate-300 bg-slate-900/90 p-3 rounded-xl border border-slate-800 leading-relaxed">
+                    <strong>Why does ResNet converge so easily?</strong> Without skip connections (left), a 56-layer loss surface is shattered into chaotic local minima. Adding skip connections (right) smooths the surface into a clean convex bowl!
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- MODULE 3: DROPOUT & L2 REGULARIZATION (WEIGHT DECAY)                      -->
+    <!-- ========================================================================= -->
+    <main id="module-reg" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-8">
+
+        <!-- Module 3 Hero Banner -->
+        <div class="glass-card rounded-2xl p-4 sm:p-5 border-l-4 border-l-purple-500 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="space-y-1 max-w-3xl">
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Module 3 • Srivastava et al. (2014) & Weight Decay</span>
+                <h2 class="text-lg sm:text-xl font-extrabold text-white">
+                    Regularization Masterclass: Fighting Overfitting with Dropout & L2 Penalty
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    High-capacity neural networks easily memorize random training noise (<strong>Overfitting</strong>). We combat this via <strong>Dropout</strong> (randomly deactivating neurons during training to prevent co-adaptation) and <strong>L2 Regularization / Weight Decay</strong> (penalizing large weights in the loss function).
+                </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2 bg-slate-950/90 p-3 rounded-xl border border-slate-800 font-mono text-xs shrink-0">
+                <div class="px-3 py-1.5 rounded-lg bg-sky-500/15 text-sky-300 border border-sky-500/30">
+                    <div class="font-bold">🎲 Inverted Dropout</div>
+                    <div class="text-[10px] text-slate-400">a_drop = (m · a) / (1 - p)</div>
+                </div>
+                <div class="px-3 py-1.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                    <div class="font-bold">⚖️ L2 Weight Decay</div>
+                    <div class="text-[10px] text-slate-400">L_total = L_data + (λ/2)·Σw²</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3.1: INTERACTIVE OVERFITTING SIMULATOR -->
+        <section class="space-y-4">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-rose-500/20 text-rose-400 flex items-center justify-center text-xs font-mono">3.1</span>
+                        Interactive Overfitting & Curve Smoothing Simulator
+                    </h3>
+                </div>
+                <div class="flex flex-wrap items-center gap-1.5 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
+                    <button onclick="regSetFitMode('overfit')" id="reg-btn-overfit" class="pill-active px-3 py-1.5 rounded-lg text-xs font-bold text-rose-300 border border-slate-700 transition">
+                        ❌ 1. No Regularization (Overfit)
+                    </button>
+                    <button onclick="regSetFitMode('dropout')" id="reg-btn-dropout" class="px-3 py-1.5 rounded-lg text-xs font-bold text-sky-300 border border-transparent transition">
+                        🎲 2. Dropout (p = 0.5)
+                    </button>
+                    <button onclick="regSetFitMode('l2')" id="reg-btn-l2" class="px-3 py-1.5 rounded-lg text-xs font-bold text-amber-300 border border-transparent transition">
+                        ⚖️ 3. L2 Regularization (λ = 0.1)
+                    </button>
+                    <button onclick="regSetFitMode('both')" id="reg-btn-both" class="px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-300 border border-transparent transition">
+                        🚀 4. Dropout + L2 Combined
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                        <span id="reg-fit-badge" class="text-xs font-bold uppercase px-2.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                            ❌ Severe Overfitting — Memorizing Training Noise!
+                        </span>
+                        <button onclick="regRegenerateData()" class="text-xs px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+                            🎲 New Noisy Dataset
+                        </button>
+                    </div>
+                    <div class="relative w-full h-64 bg-slate-950/90 rounded-xl border border-slate-800 overflow-hidden">
+                        <canvas id="regOverfitCanvas"></canvas>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 text-xs font-mono">
+                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block text-[10px] font-sans">Training Error (MSE)</span>
+                            <span id="reg-stat-train" class="text-sm font-extrabold text-sky-400">0.008 (Memorized)</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block text-[10px] font-sans">Validation Error (MSE)</span>
+                            <span id="reg-stat-val" class="text-sm font-extrabold text-rose-400">0.842 (Poor!)</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <span class="text-slate-400 block text-[10px] font-sans">Weight L2 Norm (||W||₂)</span>
+                            <span id="reg-stat-norm" class="text-sm font-extrabold text-rose-400">48.6 (Exploded)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="border-b border-slate-800 pb-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-purple-400">Diagnostic Curve (Loss vs. Epochs)</span>
+                        <h4 class="text-sm sm:text-base font-bold text-white">Training vs. Validation Loss</h4>
+                    </div>
+                    <div class="relative w-full h-56 bg-slate-950/90 rounded-xl border border-slate-800 overflow-hidden">
+                        <canvas id="regLossHistCanvas"></canvas>
+                    </div>
+                    <div id="reg-exp-box" class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-xs text-slate-200 leading-relaxed">
+                        <strong>❌ Without Regularization:</strong> Weights grow huge (<span class="font-mono text-rose-300">‖W‖₂ = 48.6</span>) so the curve bends sharply through every noisy blue training point, causing massive errors on unseen orange validation points!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3.2: DROPOUT X-RAY & INVERTED DROPOUT MATH -->
+        <section class="space-y-4 pt-2">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-sky-500/20 text-sky-400 flex items-center justify-center text-xs font-mono">3.2</span>
+                        <span>Technique 1: Dropout Network X-Ray & Inverted Scaling (<span class="font-mono text-sky-300">1 / (1 − p)</span>)</span>
+                    </h3>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
+                    <button onclick="regSetPhase('train')" id="reg-phase-train" class="pill-active px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-200 transition">
+                        🏋️ Training Mode (Dropout ACTIVE)
+                    </button>
+                    <button onclick="regSetPhase('test')" id="reg-phase-test" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition">
+                        🎯 Inference / Test Mode (ALL Neurons ON)
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <!-- Left (7 cols): Interactive Clickable Dropout Network SVG -->
+                <div class="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                        <div class="sm:col-span-6 space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="font-bold text-sky-300">Dropout Probability (<span class="font-mono">p</span>):</span>
+                                <span id="reg-p-label" class="font-mono font-extrabold text-white">p = 0.50 (50%)</span>
+                            </div>
+                            <input id="reg-p-slider" type="range" min="0.0" max="0.8" step="0.1" value="0.5" class="w-full" oninput="regUpdateP(this.value)">
+                        </div>
+                        <div class="sm:col-span-6 flex justify-end gap-2">
+                            <button onclick="regRollMask()" class="px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition">
+                                🎲 New Mini-Batch Mask
+                            </button>
+                            <button onclick="regToggleAutoMask()" id="reg-btn-auto" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition">
+                                ▶ Auto-Step
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full bg-slate-950/90 rounded-xl border border-slate-800 p-2 overflow-hidden">
+                        <svg id="regDropoutSvg" viewBox="0 0 740 350" class="w-full h-auto select-none">
+                            <text x="80" y="24" fill="#94a3b8" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">INPUT LAYER</text>
+                            <text x="275" y="24" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">HIDDEN LAYER 1 (Click Neurons!)</text>
+                            <text x="485" y="24" fill="#818cf8" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">HIDDEN LAYER 2 (Click Neurons!)</text>
+                            <text x="660" y="24" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle" font-family="Inter">OUTPUT</text>
+                            <g id="reg-svg-wires"></g>
+                            <g id="reg-svg-nodes"></g>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Right (5 cols): Inverted Dropout Table -->
+                <div class="lg:col-span-5 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                    <div class="border-b border-slate-800 pb-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Inverted Dropout Scaling</span>
+                        <h4 class="text-sm sm:text-base font-bold text-white mt-0.5">
+                            Why divide by <span class="font-mono text-sky-300">(1 − p)</span> during training?
+                        </h4>
+                        <p class="text-xs text-slate-400 mt-1">
+                            So that the expected sum of activations remains identical between training and testing! At test time, no scaling is needed.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-950/90 p-3 rounded-xl border border-slate-800 font-mono text-xs flex items-center justify-between">
+                        <span id="reg-formula-box" class="text-slate-200 font-bold">aᵢ_drop = (mᵢ · aᵢ) / (1 − p)</span>
+                        <span id="reg-scale-badge" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">×2.00</span>
+                    </div>
+
+                    <div class="overflow-x-auto bg-slate-950/80 rounded-xl border border-slate-800 p-2">
+                        <table class="w-full text-left border-collapse text-xs font-mono">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-[11px] text-slate-400">
+                                    <th class="py-1.5 px-2 font-sans">Hidden Layer 1</th>
+                                    <th class="py-1.5 px-2 text-center">Raw (aᵢ)</th>
+                                    <th class="py-1.5 px-2 text-center text-sky-300">Mask (mᵢ)</th>
+                                    <th class="py-1.5 px-2 text-center text-emerald-300">Scaled (aᵢ_drop)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reg-dropout-tbody" class="divide-y divide-slate-800/60"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 text-xs flex items-center justify-between font-mono">
+                        <span class="font-sans font-bold text-slate-200">Total Layer Signal Sum:</span>
+                        <span id="reg-sum-stat" class="text-emerald-300 font-extrabold">12.40 (Expected: 12.00)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3.3: L2 REGULARIZATION (WEIGHT DECAY) & 2D WEIGHT SPACE GEOMETRY -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+            <!-- Left (6 cols): Weight Decay Math & Bar Chart -->
+            <div class="lg:col-span-6 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                <div class="border-b border-slate-800 pb-2">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-mono">3.3</span>
+                        Technique 2: L2 Regularization (Weight Decay)
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 bg-slate-950/80 p-3 rounded-xl border border-slate-800">
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs">
+                            <span class="font-bold text-amber-300"><span class="font-mono">λ</span> (L2 Penalty Strength):</span>
+                            <span id="reg-lambda-val" class="font-mono font-bold text-white">0.15</span>
+                        </div>
+                        <input id="reg-lambda-slider" type="range" min="0.00" max="0.50" step="0.02" value="0.15" class="w-full" oninput="regUpdateL2()">
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs">
+                            <span class="font-bold text-sky-300"><span class="font-mono">η</span> (Learning Rate):</span>
+                            <span id="reg-eta-val" class="font-mono font-bold text-white">0.20</span>
+                        </div>
+                        <input id="reg-eta-slider" type="range" min="0.05" max="0.50" step="0.05" value="0.20" class="w-full" oninput="regUpdateL2()">
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/95 border border-slate-800 rounded-xl p-3 font-mono text-xs space-y-1">
+                    <div class="text-slate-400 font-sans text-[11px]">Gradient descent update with L2 penalty (<span class="font-mono text-amber-300">∂/∂w (λ/2 · w²) = λ·w</span>):</div>
+                    <div class="text-emerald-300 font-bold text-sm">
+                        w_new = <span id="reg-decay-factor" class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">0.970</span> · w − η · (∂L_data/∂w)
+                    </div>
+                    <p id="reg-decay-text" class="text-[11px] text-slate-400 font-sans">
+                        Every step shrinks weights by <strong>3.0%</strong> before applying the data gradient!
+                    </p>
+                </div>
+
+                <div class="relative w-full h-48 bg-slate-950/90 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="regWeightsBarCanvas"></canvas>
+                </div>
+            </div>
+
+            <!-- Right (6 cols): 2D Weight Space (w1, w2) Contour Geometry -->
+            <div class="lg:col-span-6 glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+                <div class="border-b border-slate-800 pb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-purple-400">2D Weight Space Geometry (w₁, w₂)</span>
+                    <h4 class="text-sm sm:text-base font-bold text-white mt-0.5">
+                        Tug-of-War: Data Loss Ellipses (<span class="font-mono text-rose-400">w*</span>) vs. L2 Constraint Ball (<span class="font-mono text-amber-300">w₁² + w₂² ≤ C</span>)
+                    </h4>
+                </div>
+
+                <div class="relative w-full h-64 bg-slate-950/90 rounded-xl border border-slate-800 overflow-hidden">
+                    <canvas id="regL2ContourCanvas"></canvas>
+                </div>
+
+                <div class="flex items-center justify-between bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-xs font-mono">
+                    <div>
+                        <span class="text-slate-400 font-sans block text-[10px]">Unregularized Minimum (<span class="font-mono">w*</span>):</span>
+                        <span class="text-rose-400 font-bold">w₁* = +3.80, w₂* = +3.20</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-slate-400 font-sans block text-[10px]">L2 Regularized Equilibrium (<span class="font-mono">ŵ</span>):</span>
+                        <span id="reg-eq-coords" class="text-emerald-400 font-extrabold">ŵ₁ = +2.15, ŵ₂ = +1.98</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // =========================================================================
+        // MASTER TAB SWITCHER & HI-DPI CANVAS HELPER
+        // =========================================================================
+        let activeModule = 'bn'; // 'bn' | 'resnet' | 'reg'
+
+        function switchModule(mod) {
+            activeModule = mod;
+            ['bn', 'resnet', 'reg'].forEach(m => {
+                const mainEl = document.getElementById(`module-${m}`);
+                const btnEl = document.getElementById(`tab-btn-${m}`);
+                if (m === mod) {
+                    mainEl.classList.remove('hidden');
+                    btnEl.classList.add('main-tab-active');
+                } else {
+                    mainEl.classList.add('hidden');
+                    btnEl.classList.remove('main-tab-active');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prepCanvas(canvas) {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return null;
+            const dpr = window.devicePixelRatio || 1;
+            const tw = Math.floor(rect.width * dpr);
+            const th = Math.floor(rect.height * dpr);
+            if (canvas.width !== tw || canvas.height !== th) {
+                canvas.width = tw;
+                canvas.height = th;
+            }
+            return { w: rect.width, h: rect.height, dpr };
+        }
+
+        // =========================================================================
+        // MODULE 1 LOGIC: BATCH NORMALIZATION
+        // =========================================================================
+        const BN_COLORS = ['#f43f5e', '#f97316', '#eab308', '#06b6d4', '#3b82f6', '#ec4899'];
+        const BN_HOUSES = [
+            { name: 'Sample 1 (Studio)',    feat: '42 m², 1 rm, 45 yr' },
+            { name: 'Sample 2 (Townhouse)', feat: '68 m², 2 rm, 20 yr' },
+            { name: 'Sample 3 (Family)',    feat: '95 m², 3 rm, 12 yr' },
+            { name: 'Sample 4 (Modern)',    feat: '115 m², 4 rm, 3 yr' },
+            { name: 'Sample 5 (Villa)',     feat: '160 m², 5 rm, 8 yr' },
+            { name: 'Sample 6 (Penthouse)', feat: '210 m², 6 rm, 1 yr' }
+        ];
+        const BN_NEURON_DEFAULTS = [
+            [2.2, 3.8, 4.9, 6.1, 7.5, 9.1],
+            [-6.4, -5.8, -5.1, -4.6, -3.9, -3.2],
+            [-7.5, -4.2, -1.1, 2.4, 5.6, 8.4]
+        ];
+
+        let bnState = {
+            selectedNeuron: 0,
+            hoveredSample: null,
+            rawSamples: [...BN_NEURON_DEFAULTS[0]],
+            neuronCols: BN_NEURON_DEFAULTS.map(arr => [...arr]),
+            step: 1,
+            gamma: 1.0,
+            beta: 0.0,
+            actFn: 'sigmoid',
+            animPts: [...BN_NEURON_DEFAULTS[0]],
+            animMean: 5.6,
+            animStd: 2.3,
+            lr: 0.85,
+            simProg: 1.0,
+            rawPath: [],
+            bnPath: []
+        };
+
+        function bnCalcStats(arr = bnState.rawSamples) {
+            const n = arr.length;
+            const mu = arr.reduce((a, b) => a + b, 0) / n;
+            const variance = arr.reduce((a, b) => a + Math.pow(b - mu, 2), 0) / n;
+            const sigma = Math.sqrt(variance + 1e-5);
+            const step2 = arr.map(x => x - mu);
+            const step3 = step2.map(c => c / sigma);
+            const step4 = step3.map(xh => bnState.gamma * xh + bnState.beta);
+            return { mu, sigma, step1: [...arr], step2, step3, step4 };
+        }
+
+        function bnEvalAct(x, fn) {
+            if (fn === 'sigmoid') {
+                const s = 1 / (1 + Math.exp(-x));
+                return { y: s, dy: s * (1 - s) };
+            } else if (fn === 'tanh') {
+                const t = Math.tanh(x);
+                return { y: t, dy: 1 - t * t };
+            }
+            return { y: Math.max(0, x), dy: x > 0 ? 1 : 0 };
+        }
+
+        function bnSelectNeuron(idx) {
+            bnState.neuronCols[bnState.selectedNeuron] = [...bnState.rawSamples];
+            bnState.selectedNeuron = idx;
+            bnState.rawSamples = [...bnState.neuronCols[idx]];
+            for (let i = 0; i < 3; i++) {
+                const btn = document.getElementById(`bn-neuron-tab-${i}`);
+                if (i === idx) {
+                    btn.className = 'pill-active px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-white border border-slate-700 transition';
+                    btn.textContent = `● N${i + 1} Neuron (Active)`;
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-300 border border-slate-800 hover:border-slate-700 transition';
+                    btn.textContent = `● N${i + 1} Neuron`;
+                }
+            }
+            bnSyncSliders();
+            bnUpdateUI();
+        }
+
+        function bnHighlightSample(idx) {
+            bnState.hoveredSample = idx;
+            const ind = document.getElementById('bn-hover-indicator');
+            if (idx === null) {
+                ind.textContent = 'Hover over a sample row!';
+            } else {
+                ind.innerHTML = `Highlighted: <strong style="color:${BN_COLORS[idx]}">x<sub>${idx + 1}</sub> = ${bnState.rawSamples[idx].toFixed(2)}</strong>`;
+            }
+            bnUpdateUI();
+        }
+
+        function bnBuildSliders() {
+            const c = document.getElementById('bn-sample-sliders');
+            c.innerHTML = '';
+            bnState.rawSamples.forEach((v, i) => {
+                c.innerHTML += `
+                    <div class="flex items-center gap-2 text-xs">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-white shrink-0" style="background:${BN_COLORS[i]}">x<sub>${i+1}</sub></span>
+                        <input id="bn-sl-${i}" type="range" min="-9" max="9" step="0.1" value="${v.toFixed(1)}" class="w-full" oninput="bnUpdateSample(${i}, this.value)">
+                        <span id="bn-sl-val-${i}" class="font-mono font-semibold text-slate-200 w-10 text-right">${v.toFixed(1)}</span>
+                    </div>
+                `;
+            });
+        }
+
+        function bnUpdateSample(i, val) {
+            bnState.rawSamples[i] = parseFloat(val);
+            document.getElementById(`bn-sl-val-${i}`).textContent = bnState.rawSamples[i].toFixed(1);
+            bnUpdateUI();
+        }
+
+        function bnSyncSliders() {
+            bnState.rawSamples.forEach((v, i) => {
+                const sl = document.getElementById(`bn-sl-${i}`);
+                const lb = document.getElementById(`bn-sl-val-${i}`);
+                if (sl && lb) { sl.value = v; lb.textContent = v.toFixed(1); }
+            });
+        }
+
+        function bnApplyPreset(name) {
+            if (name === 'shifted_high') bnState.rawSamples = [2.2, 3.8, 4.9, 6.1, 7.5, 9.1];
+            if (name === 'exploding') bnState.rawSamples = [-8.5, -5.8, -3.2, 3.6, 6.4, 8.8];
+            if (name === 'collapsed') bnState.rawSamples = [-6.2, -5.9, -5.6, -5.3, -5.0, -4.7];
+            if (name === 'ideal') bnState.rawSamples = [-1.5, -0.9, -0.3, 0.3, 0.9, 1.5];
+            bnSyncSliders();
+            bnUpdateUI();
+        }
+
+        function bnRandomizeBatch() {
+            const center = (Math.random() * 10) - 5;
+            const spread = 0.6 + Math.random() * 3.0;
+            bnState.rawSamples = bnState.rawSamples.map((_, i) =>
+                Math.max(-9, Math.min(9, parseFloat((center + (i - 2.5) * spread + (Math.random() - 0.5)).toFixed(1))))
+            );
+            bnSyncSliders();
+            bnUpdateUI();
+        }
+
+        function bnSetStep(s) {
+            bnState.step = s;
+            for (let i = 1; i <= 4; i++) {
+                const card = document.getElementById(`bn-step-card-${i}`);
+                if (i === s) card.classList.add('step-active');
+                else card.classList.remove('step-active');
+            }
+            bnUpdateUI();
+        }
+        function bnPrevStep() { bnSetStep(bnState.step > 1 ? bnState.step - 1 : 4); }
+        function bnNextStep() { bnSetStep(bnState.step < 4 ? bnState.step + 1 : 1); }
+
+        function bnUpdateGammaBeta() {
+            bnState.gamma = parseFloat(document.getElementById('bn-gamma-slider').value);
+            bnState.beta = parseFloat(document.getElementById('bn-beta-slider').value);
+            document.getElementById('bn-gamma-val').textContent = bnState.gamma.toFixed(2);
+            document.getElementById('bn-beta-val').textContent = (bnState.beta >= 0 ? '+' : '') + bnState.beta.toFixed(2);
+            if (bnState.step !== 4) bnSetStep(4);
+            else bnUpdateUI();
+        }
+
+        function bnResetGammaBeta() {
+            document.getElementById('bn-gamma-slider').value = 1.0;
+            document.getElementById('bn-beta-slider').value = 0.0;
+            bnUpdateGammaBeta();
+        }
+
+        function bnSetActivation(fn) {
+            bnState.actFn = fn;
+            ['sigmoid', 'tanh', 'relu'].forEach(name => {
+                document.getElementById(`bn-act-${name}`).className = name === fn
+                    ? 'px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition'
+                    : 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition';
+            });
+            bnUpdateUI();
+        }
+
+        function bnUpdateUI() {
+            const st = bnCalcStats();
+            bnState.neuronCols[bnState.selectedNeuron] = [...bnState.rawSamples];
+
+            document.getElementById('bn-card-mu').textContent = st.mu.toFixed(2);
+            document.getElementById('bn-card-sigma').textContent = st.sigma.toFixed(2);
+
+            const stepMap = [
+                { pts: st.step1, m: st.mu, s: st.sigma, badge: 'Step 1: Raw Mini-Batch (x_i)', exp: `Raw pre-activations have mean <strong>μ<sub>B</sub> = ${st.mu.toFixed(2)}</strong> and standard deviation <strong>σ<sub>B</sub> = ${st.sigma.toFixed(2)}</strong>. Click <strong>Step 2</strong> to subtract the mean!` },
+                { pts: st.step2, m: 0, s: st.sigma, badge: 'Step 2: Zero-Centered (x_i - μ_B)', exp: `Subtracted <strong>μ<sub>B</sub> = ${st.mu.toFixed(2)}</strong> from every sample. The distribution is now centered at <strong>0.00</strong>!` },
+                { pts: st.step3, m: 0, s: 1.0, badge: 'Step 3: Normalized (x̂_i)', exp: `Divided by <strong>σ<sub>B</sub> = ${st.sigma.toFixed(2)}</strong>. The mini-batch now has unit variance (<strong>σ = 1.00</strong>) inside the active zone.` },
+                { pts: st.step4, m: bnState.beta, s: bnState.gamma, badge: 'Step 4: Scaled & Shifted (y_i = γ·x̂_i + β)', exp: `Adjusted by learnable parameters <strong>γ = ${bnState.gamma.toFixed(2)}</strong> and <strong>β = ${bnState.beta.toFixed(2)}</strong>.` }
+            ];
+            const cur = stepMap[bnState.step - 1];
+            document.getElementById('bn-live-mean').textContent = cur.m.toFixed(2);
+            document.getElementById('bn-live-std').textContent = cur.s.toFixed(2);
+            document.getElementById('bn-active-badge').textContent = cur.badge;
+            document.getElementById('bn-step-exp').innerHTML = cur.exp;
+
+            // Update SVG Topology & X-Ray
+            const nY = [105, 195, 285][bnState.selectedNeuron];
+            document.getElementById('bn-svg-zoom-beam').setAttribute('points', `238,${nY - 22} 280,55 280,355 238,${nY + 22}`);
+            document.getElementById('bn-svg-stats-label').textContent = `μ=${st.mu.toFixed(2)} | σ=${st.sigma.toFixed(2)}`;
+
+            const xG = document.getElementById('bn-xray-x-list');
+            const yG = document.getElementById('bn-xray-y-list');
+            const aG = document.getElementById('bn-xray-a-list');
+            xG.innerHTML = ''; yG.innerHTML = ''; aG.innerHTML = '';
+
+            for (let i = 0; i < 6; i++) {
+                const ry = i * 33;
+                const hov = bnState.hoveredSample === i;
+                const c = BN_COLORS[i];
+                const xv = st.step1[i];
+                const yv = st.step4[i];
+                const av = bnEvalAct(yv, bnState.actFn).y;
+                const sw = hov ? '2' : '1';
+                const sc = hov ? '#ffffff' : 'rgba(148,163,184,0.25)';
+
+                xG.innerHTML += `<g class="cursor-pointer" onmouseenter="bnHighlightSample(${i})" onmouseleave="bnHighlightSample(null)" transform="translate(0,${ry})">
+                    <rect width="90" height="27" rx="6" fill="${c}" fill-opacity="${hov?'0.35':'0.14'}" stroke="${sc}" stroke-width="${sw}"/>
+                    <text x="45" y="17" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">x${i+1}=${xv>=0?'+':''}${xv.toFixed(1)}</text>
+                </g>`;
+                yG.innerHTML += `<g class="cursor-pointer" onmouseenter="bnHighlightSample(${i})" onmouseleave="bnHighlightSample(null)" transform="translate(0,${ry})">
+                    <rect width="102" height="27" rx="6" fill="${c}" fill-opacity="${hov?'0.35':'0.14'}" stroke="${sc}" stroke-width="${sw}"/>
+                    <text x="51" y="17" fill="#e0e7ff" font-size="10" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">y${i+1}=${yv>=0?'+':''}${yv.toFixed(2)}</text>
+                </g>`;
+                aG.innerHTML += `<g class="cursor-pointer" onmouseenter="bnHighlightSample(${i})" onmouseleave="bnHighlightSample(null)" transform="translate(0,${ry})">
+                    <rect width="78" height="27" rx="6" fill="${c}" fill-opacity="${hov?'0.35':'0.14'}" stroke="${sc}" stroke-width="${sw}"/>
+                    <text x="39" y="17" fill="#6ee7b7" font-size="10" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">a${i+1}=${av.toFixed(2)}</text>
+                </g>`;
+            }
+
+            // Mini-Batch Matrix Table
+            const mBody = document.getElementById('bn-matrix-body');
+            mBody.innerHTML = '';
+            for (let r = 0; r < 6; r++) {
+                const hov = bnState.hoveredSample === r;
+                let rowHtml = `<td class="py-1.5 px-2 font-sans"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:${BN_COLORS[r]}"></span><div><div class="font-bold text-slate-200 text-[11px]">${BN_HOUSES[r].name}</div><div class="text-[10px] text-slate-500">${BN_HOUSES[r].feat}</div></div></div></td>`;
+                for (let col = 0; col < 3; col++) {
+                    const val = bnState.neuronCols[col][r];
+                    const sel = col === bnState.selectedNeuron;
+                    rowHtml += `<td onclick="bnSelectNeuron(${col})" class="py-1.5 px-2 text-center cursor-pointer ${sel ? 'bg-indigo-500/15 border-x border-indigo-500/40 font-bold text-amber-300' : 'text-slate-500'}">${sel ? `x<sub>${r+1}</sub>=` : ''}${val.toFixed(1)}</td>`;
+                }
+                const tr = document.createElement('tr');
+                tr.className = `transition cursor-pointer ${hov ? 'sample-row-highlight' : 'hover:bg-slate-800/40'}`;
+                tr.onmouseenter = () => bnHighlightSample(r);
+                tr.onmouseleave = () => bnHighlightSample(null);
+                tr.innerHTML = rowHtml;
+                mBody.appendChild(tr);
+            }
+            const colStats = [0, 1, 2].map(c => bnCalcStats(bnState.neuronCols[c]));
+            mBody.innerHTML += `<tr class="bg-slate-900/95 border-t-2 border-slate-700 font-bold"><td class="py-1.5 px-2 font-sans text-[11px] text-sky-300">⬇️ Column Mean (μ<sub>B</sub>):</td>${colStats.map((cs, c) => `<td class="py-1.5 px-2 text-center ${c===bnState.selectedNeuron?'text-sky-300 bg-indigo-500/20':'text-slate-500'}">μ=${cs.mu.toFixed(2)}</td>`).join('')}</tr>`;
+            mBody.innerHTML += `<tr class="bg-slate-900/95 font-bold"><td class="py-1.5 px-2 font-sans text-[11px] text-emerald-300">⬇️ Column Std (σ<sub>B</sub>):</td>${colStats.map((cs, c) => `<td class="py-1.5 px-2 text-center ${c===bnState.selectedNeuron?'text-emerald-300 bg-indigo-500/20':'text-slate-500'}">σ=${cs.sigma.toFixed(2)}</td>`).join('')}</tr>`;
+
+            // Step Table
+            const tBody = document.getElementById('bn-table-body');
+            tBody.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                tBody.innerHTML += `<tr class="hover:bg-slate-800/40 cursor-pointer" onmouseenter="bnHighlightSample(${i})" onmouseleave="bnHighlightSample(null)">
+                    <td class="py-1.5 px-2 font-bold text-slate-200"><span class="inline-block w-2.5 h-2.5 rounded-full mr-1.5" style="background:${BN_COLORS[i]}"></span>x<sub>${i+1}</sub></td>
+                    <td class="py-1.5 px-2 ${bnState.step===1?'font-bold text-amber-300':'text-slate-400'}">${st.step1[i].toFixed(2)}</td>
+                    <td class="py-1.5 px-2 ${bnState.step===2?'font-bold text-sky-300':'text-slate-400'}">${st.step2[i].toFixed(2)}</td>
+                    <td class="py-1.5 px-2 ${bnState.step===3?'font-bold text-emerald-300':'text-slate-400'}">${st.step3[i].toFixed(2)}</td>
+                    <td class="py-1.5 px-2 ${bnState.step===4?'font-bold text-purple-300':'text-slate-400'}">${st.step4[i].toFixed(2)}</td>
+                </tr>`;
+            }
+        }
+
+        function bnDrawCanvases() {
+            // 1. Pipeline Canvas
+            const pCan = document.getElementById('bnPipelineCanvas');
+            const pDim = prepCanvas(pCan);
+            if (pDim) {
+                const ctx = pCan.getContext('2d');
+                const { w, h, dpr } = pDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+
+                const st = bnCalcStats();
+                const targets = [
+                    { pts: st.step1, m: st.mu, s: st.sigma },
+                    { pts: st.step2, m: 0, s: st.sigma },
+                    { pts: st.step3, m: 0, s: 1.0 },
+                    { pts: st.step4, m: bnState.beta, s: bnState.gamma }
+                ][bnState.step - 1];
+
+                for (let i = 0; i < 6; i++) bnState.animPts[i] += (targets.pts[i] - bnState.animPts[i]) * 0.15;
+                bnState.animMean += (targets.m - bnState.animMean) * 0.15;
+                bnState.animStd += (targets.s - bnState.animStd) * 0.15;
+
+                const padX = 42, plotW = w - padX * 2;
+                const valToX = v => padX + ((v + 10) / 20) * plotW;
+
+                // Target zone [-1, +1]
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
+                ctx.fillRect(valToX(-1), 20, valToX(1) - valToX(-1), h - 40);
+
+                const topY = 68, botY = h - 62;
+                [
+                    { y: topY, lbl: '1. Raw Pre-Activations (x_i) — Reference' },
+                    { y: botY, lbl: `Step ${bnState.step} Output Distribution (Animated)` }
+                ].forEach((ax, idx) => {
+                    ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.moveTo(padX, ax.y); ctx.lineTo(w - padX, ax.y); ctx.stroke();
+                    ctx.fillStyle = '#cbd5e1'; ctx.font = '600 11px Inter'; ctx.textAlign = 'left';
+                    ctx.fillText(ax.lbl, padX, ax.y - 26);
+                    ctx.font = '10px JetBrains Mono'; ctx.textAlign = 'center';
+                    for (let t = -10; t <= 10; t += 2) {
+                        const tx = valToX(t);
+                        ctx.beginPath(); ctx.moveTo(tx, ax.y - 4); ctx.lineTo(tx, ax.y + 4); ctx.stroke();
+                        if (idx === 1) { ctx.fillStyle = '#64748b'; ctx.fillText(t.toString(), tx, ax.y + 18); }
+                    }
+                });
+
+                // Bell curve
+                const col = ['#f59e0b', '#38bdf8', '#10b981', '#a855f7'][bnState.step - 1];
+                const cStd = Math.max(0.25, bnState.animStd);
+                ctx.beginPath();
+                for (let px = padX; px <= w - padX; px += 3) {
+                    const xv = -10 + ((px - padX) / plotW) * 20;
+                    const g = Math.exp(-0.5 * Math.pow((xv - bnState.animMean) / cStd, 2));
+                    const py = botY - g * 58;
+                    if (px === padX) ctx.moveTo(px, botY);
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(w - padX, botY); ctx.closePath();
+                ctx.fillStyle = col + '24'; ctx.fill();
+                ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.stroke();
+
+                for (let i = 0; i < 6; i++) {
+                    const x1 = valToX(bnState.rawSamples[i]);
+                    const x2 = valToX(bnState.animPts[i]);
+                    const hov = bnState.hoveredSample === i;
+                    ctx.strokeStyle = hov ? '#ffffff' : BN_COLORS[i] + '66';
+                    ctx.lineWidth = hov ? 2.5 : 1.5;
+                    ctx.setLineDash([3, 3]);
+                    ctx.beginPath(); ctx.moveTo(x1, topY + 8); ctx.bezierCurveTo(x1, (topY+botY)/2, x2, (topY+botY)/2, x2, botY - 8); ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    ctx.fillStyle = BN_COLORS[i];
+                    ctx.beginPath(); ctx.arc(x1, topY, hov ? 8 : 5.5, 0, Math.PI * 2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(x2, botY, hov ? 11 : 8, 0, Math.PI * 2); ctx.fill();
+                    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
+                    ctx.fillStyle = '#f8fafc'; ctx.font = 'bold 10px JetBrains Mono'; ctx.textAlign = 'center';
+                    ctx.fillText(`x${i+1}`, x2, botY + 32);
+                }
+                ctx.restore();
+            }
+
+            // 2. Activation Saturation Canvas
+            const aCan = document.getElementById('bnActivationCanvas');
+            const aDim = prepCanvas(aCan);
+            if (aDim) {
+                const ctx = aCan.getContext('2d');
+                const { w, h, dpr } = aDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+
+                const padX = 38, padY = 24, plotW = w - padX * 2, plotH = h - padY * 2;
+                let minY = -0.1, maxY = 1.1;
+                if (bnState.actFn === 'tanh') { minY = -1.2; maxY = 1.2; }
+                if (bnState.actFn === 'relu') { minY = -0.5; maxY = 6.0; }
+                const xToPx = x => padX + ((x + 8) / 16) * plotW;
+                const yToPx = y => padY + plotH - ((y - minY) / (maxY - minY)) * plotH;
+
+                if (bnState.actFn !== 'relu') {
+                    const lim = bnState.actFn === 'sigmoid' ? 2.5 : 1.8;
+                    ctx.fillStyle = 'rgba(244, 63, 94, 0.11)';
+                    ctx.fillRect(padX, padY, xToPx(-lim) - padX, plotH);
+                    ctx.fillRect(xToPx(lim), padY, (w - padX) - xToPx(lim), plotH);
+                    ctx.fillStyle = 'rgba(16, 185, 129, 0.10)';
+                    ctx.fillRect(xToPx(-lim), padY, xToPx(lim) - xToPx(-lim), plotH);
+                }
+
+                ctx.strokeStyle = '#334155'; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.moveTo(padX, yToPx(0)); ctx.lineTo(w - padX, yToPx(0)); ctx.moveTo(xToPx(0), padY); ctx.lineTo(xToPx(0), h - padY); ctx.stroke();
+
+                ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 3; ctx.beginPath();
+                for (let px = padX; px <= w - padX; px += 2) {
+                    const xv = -8 + ((px - padX) / plotW) * 16;
+                    const { y } = bnEvalAct(xv, bnState.actFn);
+                    const py = yToPx(Math.min(maxY, Math.max(minY, y)));
+                    if (px === padX) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                const st = bnCalcStats();
+                let rawG = 0, normG = 0;
+                st.step1.forEach(xv => {
+                    const { y, dy } = bnEvalAct(xv, bnState.actFn); rawG += dy;
+                    ctx.fillStyle = '#fbbf24'; ctx.beginPath();
+                    ctx.arc(xToPx(Math.max(-8, Math.min(8, xv))), yToPx(Math.min(maxY, Math.max(minY, y))), 6, 0, Math.PI * 2); ctx.fill();
+                });
+                st.step4.forEach(yv => {
+                    const { y, dy } = bnEvalAct(yv, bnState.actFn); normG += dy;
+                    ctx.fillStyle = '#10b981'; ctx.beginPath();
+                    ctx.arc(xToPx(Math.max(-8, Math.min(8, yv))), yToPx(Math.min(maxY, Math.max(minY, y))), 7, 0, Math.PI * 2); ctx.fill();
+                });
+                document.getElementById('bn-raw-grad').textContent = (rawG / 6).toFixed(3);
+                document.getElementById('bn-norm-grad').textContent = (normG / 6).toFixed(3);
+                ctx.restore();
+            }
+
+            // 3. Landscape Canvas
+            const lCan = document.getElementById('bnLandscapeCanvas');
+            const lDim = prepCanvas(lCan);
+            if (lDim) {
+                const ctx = lCan.getContext('2d');
+                const { w, h, dpr } = lDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                if (bnState.simProg < 1.0) bnState.simProg = Math.min(1.0, bnState.simProg + 0.02);
+
+                const hw = w / 2, cy = h / 2 + 10, rad = Math.min(hw * 0.75, (h - 50) * 0.45);
+                ctx.fillStyle = '#fbbf24'; ctx.font = 'bold 11px Inter'; ctx.textAlign = 'center';
+                ctx.fillText('❌ Without Batch Norm (Zig-Zag)', hw * 0.5, 22);
+                ctx.fillStyle = '#34d399';
+                ctx.fillText('✅ With Batch Norm (Direct)', hw * 1.5, 22);
+
+                for (let k = 1; k <= 4; k++) {
+                    ctx.strokeStyle = 'rgba(251, 191, 36, 0.25)'; ctx.beginPath();
+                    ctx.ellipse(hw * 0.5, cy, rad * (k/4), rad * (k/4) * 0.35, 0, 0, Math.PI * 2); ctx.stroke();
+                    ctx.strokeStyle = 'rgba(16, 185, 129, 0.25)'; ctx.beginPath();
+                    ctx.arc(hw * 1.5, cy, rad * (k/4) * 0.85, 0, Math.PI * 2); ctx.stroke();
+                }
+
+                const maxIdx = Math.max(1, Math.floor(bnState.simProg * (bnState.rawPath.length - 1)));
+                ctx.strokeStyle = '#f43f5e'; ctx.lineWidth = 2; ctx.beginPath();
+                for (let i = 0; i <= maxIdx; i++) {
+                    const px = hw * 0.5 + bnState.rawPath[i].x * rad, py = cy + bnState.rawPath[i].y * rad * 0.45;
+                    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2.5; ctx.beginPath();
+                for (let i = 0; i <= maxIdx; i++) {
+                    const px = hw * 1.5 + bnState.bnPath[i].x * rad * 0.85, py = cy + bnState.bnPath[i].y * rad * 0.85;
+                    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        function bnComputeTrajectories() {
+            bnState.rawPath = []; bnState.bnPath = [];
+            let x = -0.85, y = -0.75, bx = -0.85, by = -0.75;
+            for (let s = 0; s < 25; s++) {
+                bnState.rawPath.push({ x, y });
+                bnState.bnPath.push({ x: bx, y: by });
+                x = Math.max(-0.95, Math.min(0.95, x - bnState.lr * 0.22 * x));
+                y = Math.max(-0.95, Math.min(0.95, y - bnState.lr * 2.15 * y));
+                bx -= bnState.lr * 0.45 * bx;
+                by -= bnState.lr * 0.45 * by;
+            }
+        }
+        function bnUpdateLR() {
+            bnState.lr = parseFloat(document.getElementById('bn-lr-slider').value);
+            document.getElementById('bn-lr-val').textContent = `LR (${bnState.lr.toFixed(2)})`;
+            bnRestartSim();
+        }
+        function bnRestartSim() { bnComputeTrajectories(); bnState.simProg = 0.0; }
+
+        // =========================================================================
+        // MODULE 2 LOGIC: SKIP CONNECTIONS & RESNET
+        // =========================================================================
+        let resState = {
+            archMode: 'plain',
+            chartProg: 1.0,
+            xVec: [2.0, 4.0, -1.0, 3.0],
+            fxVec: [0.0, 0.0, 0.0, 0.0],
+            shortcutOn: true,
+            gradFactor: 0.45,
+            pulseOff: 0,
+            lsProg: 1.0
+        };
+
+        function resSetArchMode(mode) {
+            resState.archMode = mode;
+            resState.chartProg = 0.05;
+            document.getElementById('res-btn-plain').className = mode === 'plain' ? 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white transition' : 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition';
+            document.getElementById('res-btn-resnet').className = mode === 'resnet' ? 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition' : 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition';
+            document.getElementById('res-btn-both').className = mode === 'both' ? 'px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-600 text-white transition' : 'px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition';
+
+            if (mode === 'plain') {
+                document.getElementById('res-deg-title').textContent = 'Plain Network: 56-Layer has HIGHER error than 20-Layer!';
+                document.getElementById('res-stat-56-tr').textContent = '10.8% (Worse!)';
+                document.getElementById('res-stat-56-te').textContent = '13.4% (Worse!)';
+            } else {
+                document.getElementById('res-deg-title').textContent = 'ResNet (With Skip Connections): 56-Layer outperforms 20-Layer!';
+                document.getElementById('res-stat-56-tr').textContent = '2.9% (Better!)';
+                document.getElementById('res-stat-56-te').textContent = '6.2% (Best!)';
+            }
+        }
+        function resReplayChart() { resState.chartProg = 0.02; }
+
+        function resApplyPreset(p) {
+            ['identity', 'nudge', 'sharpen'].forEach(k => {
+                const b = document.getElementById(`res-preset-${k}`);
+                if (k === p) b.classList.add('pill-active'); else b.classList.remove('pill-active');
+            });
+            if (p === 'identity') { resState.xVec = [2.0, 4.0, -1.0, 3.0]; resState.fxVec = [0.0, 0.0, 0.0, 0.0]; }
+            if (p === 'nudge')    { resState.xVec = [2.0, 4.0, -1.0, 3.0]; resState.fxVec = [0.4, -0.3, 1.5, -0.2]; }
+            if (p === 'sharpen')  { resState.xVec = [1.5, 2.5, 0.5, 2.0]; resState.fxVec = [1.5, 2.0, -1.0, 1.2]; }
+            document.getElementById('res-sl-x0').value = resState.xVec[0];
+            document.getElementById('res-sl-fx0').value = resState.fxVec[0];
+            resRenderBlock();
+        }
+
+        function resUpdateManualVec() {
+            resState.xVec[0] = parseFloat(document.getElementById('res-sl-x0').value);
+            resState.fxVec[0] = parseFloat(document.getElementById('res-sl-fx0').value);
+            resRenderBlock();
+        }
+
+        function resToggleShortcut() {
+            resState.shortcutOn = !resState.shortcutOn;
+            const b = document.getElementById('res-btn-wire');
+            b.textContent = resState.shortcutOn ? '🔌 Skip Connection: ON' : '✂️ Skip Connection: OFF (Plain)';
+            b.className = resState.shortcutOn ? 'text-xs font-bold px-3 py-1.5 rounded-xl bg-emerald-600 text-white transition' : 'text-xs font-bold px-3 py-1.5 rounded-xl bg-rose-600 text-white transition';
+            resRenderBlock();
+        }
+
+        function resRenderBlock() {
+            document.getElementById('res-sl-x0-val').textContent = (resState.xVec[0]>=0?'+':'') + resState.xVec[0].toFixed(1);
+            document.getElementById('res-sl-fx0-val').textContent = (resState.fxVec[0]>=0?'+':'') + resState.fxVec[0].toFixed(1);
+
+            const hVec = resState.xVec.map((x, i) => resState.shortcutOn ? (resState.fxVec[i] + x) : resState.fxVec[i]);
+            const yVec = hVec.map(h => Math.max(0, h));
+
+            document.getElementById('res-skip-flow').setAttribute('opacity', resState.shortcutOn ? '1' : '0.2');
+            document.getElementById('res-skip-label').textContent = resState.shortcutOn
+                ? `Passes unchanged: +x = [${resState.xVec.map(v => (v>=0?'+':'')+v.toFixed(1)).join(', ')}]`
+                : '❌ SKIP CONNECTION DISABLED! (+0.0 added)';
+            document.getElementById('res-fx-label').textContent = `Learned correction: F(x) = [${resState.fxVec.map(v => (v>=0?'+':'')+v.toFixed(1)).join(', ')}]`;
+
+            const fNames = ['1. Edges / Contour', '2. Surface Texture', '3. Color Contrast', '4. Shape Curvature'];
+            const tb = document.getElementById('res-vector-tbody');
+            tb.innerHTML = '';
+            for (let i = 0; i < 4; i++) {
+                tb.innerHTML += `<tr class="hover:bg-slate-800/50">
+                    <td class="py-2 px-2 font-sans font-bold text-slate-200">${fNames[i]}</td>
+                    <td class="py-2 px-2 text-center font-bold ${resState.shortcutOn?'text-sky-300':'text-slate-600 line-through'}">${resState.xVec[i].toFixed(1)}</td>
+                    <td class="py-2 px-2 text-center font-bold text-amber-300">${resState.fxVec[i].toFixed(1)}</td>
+                    <td class="py-2 px-2 text-center font-bold text-purple-300">${hVec[i].toFixed(1)}</td>
+                    <td class="py-2 px-2 text-center font-extrabold text-emerald-300">${yVec[i].toFixed(1)}</td>
+                </tr>`;
+            }
+        }
+
+        function resUpdateGradHighway() {
+            resState.gradFactor = parseFloat(document.getElementById('res-grad-slider').value);
+            document.getElementById('res-grad-factor-val').textContent = resState.gradFactor.toFixed(2);
+            document.getElementById('res-plain-pow').textContent = Math.pow(resState.gradFactor, 12).toFixed(6);
+        }
+        function resRestartLandscape() { resState.lsProg = 0.0; }
+
+        function resDrawCanvases() {
+            // 1. Degradation Canvas
+            const dCan = document.getElementById('resDegradationCanvas');
+            const dDim = prepCanvas(dCan);
+            if (dDim) {
+                const ctx = dCan.getContext('2d');
+                const { w, h, dpr } = dDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                if (resState.chartProg < 1.0) resState.chartProg = Math.min(1.0, resState.chartProg + 0.025);
+
+                const padL = 44, padR = 20, padT = 22, padB = 28, plotW = w - padL - padR, plotH = h - padT - padB;
+                for (let e = 0; e <= 25; e += 5) {
+                    const y = padT + plotH - (e / 25) * plotH;
+                    ctx.strokeStyle = '#1e293b'; ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+                    ctx.fillStyle = '#64748b'; ctx.font = '10px JetBrains Mono'; ctx.textAlign = 'right'; ctx.fillText(`${e}%`, padL - 6, y + 3);
+                }
+
+                function plotC(sE, dE, fE, col, dash, lbl) {
+                    const steps = Math.floor(70 * resState.chartProg);
+                    ctx.save(); ctx.strokeStyle = col; ctx.lineWidth = dash ? 2 : 2.8;
+                    if (dash) ctx.setLineDash([5, 4]);
+                    ctx.beginPath();
+                    let lx = padL, ly = padT;
+                    for (let i = 0; i <= steps; i++) {
+                        const t = i / 70;
+                        const err = Math.max(2, fE + (sE - fE) * Math.exp(-3.8 * t) - (t > 0.5 ? dE * (1 - Math.exp(-10 * (t - 0.5))) : 0));
+                        const px = padL + t * plotW, py = padT + plotH - (err / 25) * plotH;
+                        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                        lx = px; ly = py;
+                    }
+                    ctx.stroke(); ctx.restore();
+                    if (lbl && steps > 10) { ctx.fillStyle = col; ctx.font = 'bold 10px Inter'; ctx.textAlign = 'right'; ctx.fillText(lbl, lx - 5, ly - 6); }
+                }
+
+                if (resState.archMode === 'plain') {
+                    plotC(22, 3.2, 11.9, '#fbbf24', false, '20-Layer Plain (8.7%)');
+                    plotC(24.5, 2.5, 15.9, '#f43f5e', false, '56-Layer Plain (13.4% - Worse!)');
+                } else if (resState.archMode === 'resnet') {
+                    plotC(22, 3.4, 11.3, '#fbbf24', false, '20-Layer ResNet (7.9%)');
+                    plotC(21.5, 4.2, 10.4, '#10b981', false, '56-Layer ResNet (6.2% - Best!)');
+                } else {
+                    plotC(24.5, 2.5, 15.9, '#f43f5e', false, '56-Layer Plain (13.4%)');
+                    plotC(21.5, 4.2, 10.4, '#10b981', false, '56-Layer ResNet (6.2%)');
+                }
+                ctx.restore();
+            }
+
+            // 2. Gradient Highway Canvas
+            const hCan = document.getElementById('resHighwayCanvas');
+            const hDim = prepCanvas(hCan);
+            if (hDim) {
+                const ctx = hCan.getContext('2d');
+                const { w, h, dpr } = hDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                resState.pulseOff = (resState.pulseOff + 0.6) % 24;
+
+                const nL = 12, padL = 36, padR = 46, stepX = (w - padL - padR) / nL;
+                const topY = 82, botY = 205;
+
+                ctx.font = 'bold 11px Inter'; ctx.textAlign = 'left';
+                ctx.fillStyle = '#fb7185'; ctx.fillText('❌ Plain Network: Gradients multiply (∂F/∂x)¹² and vanish toward Layer 1', padL, 24);
+                ctx.fillStyle = '#34d399'; ctx.fillText('✅ ResNet Highway: The +1 identity shortcut carries full gradient back to Layer 1', padL, 145);
+
+                for (let i = 0; i < nL; i++) {
+                    const stepsFromEnd = nL - i;
+                    const cx = padL + i * stepX + stepX * 0.4;
+                    const pGrad = Math.pow(resState.gradFactor, stepsFromEnd);
+                    const alpha = Math.max(0.1, Math.min(1, pGrad * 2.2));
+
+                    ctx.fillStyle = `rgba(244, 63, 94, ${alpha * 0.45})`;
+                    ctx.strokeStyle = pGrad < 0.02 ? '#334155' : '#fb7185';
+                    ctx.fillRect(cx - 14, topY - 18, 28, 36); ctx.strokeRect(cx - 14, topY - 18, 28, 36);
+                    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 9px JetBrains Mono'; ctx.textAlign = 'center';
+                    ctx.fillText(`L${i+1}`, cx, topY + 3);
+
+                    // ResNet curved highway
+                    ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2.5; ctx.setLineDash([5, 5]); ctx.lineDashOffset = resState.pulseOff;
+                    ctx.beginPath(); ctx.moveTo(cx + stepX*0.5, botY - 18); ctx.quadraticCurveTo(cx, botY - 40, cx - stepX*0.5, botY - 18); ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    ctx.fillStyle = 'rgba(16, 185, 129, 0.25)'; ctx.strokeStyle = '#34d399';
+                    ctx.fillRect(cx - 14, botY - 18, 28, 36); ctx.strokeRect(cx - 14, botY - 18, 28, 36);
+                    ctx.fillStyle = '#ffffff'; ctx.fillText(`L${i+1}`, cx, botY - 2);
+                    ctx.fillStyle = '#6ee7b7'; ctx.fillText('+1', cx, botY + 11);
+                }
+                ctx.restore();
+            }
+
+            // 3. ResNet Landscape Canvas
+            const lsCan = document.getElementById('resLandscapeCanvas');
+            const lsDim = prepCanvas(lsCan);
+            if (lsDim) {
+                const ctx = lsCan.getContext('2d');
+                const { w, h, dpr } = lsDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                if (resState.lsProg < 1.0) resState.lsProg = Math.min(1.0, resState.lsProg + 0.014);
+
+                const hw = w / 2, baseH = h - 30, pad = 20, lw = hw - pad * 2;
+                const chY = nx => baseH - 20 - Math.pow(nx, 2)*95 - Math.cos(nx*14)*22 - Math.sin(nx*26)*12;
+                const smY = nx => baseH - 16 - Math.pow(nx, 2)*125;
+
+                ctx.font = 'bold 11px Inter'; ctx.textAlign = 'center';
+                ctx.fillStyle = '#fb7185'; ctx.fillText('❌ Without Skip (Rugged)', hw * 0.5, 20);
+                ctx.fillStyle = '#34d399'; ctx.fillText('✅ With Skip (Smooth Funnel)', hw * 1.5, 20);
+
+                ctx.strokeStyle = '#f43f5e'; ctx.lineWidth = 2.5; ctx.beginPath();
+                for (let px = pad; px <= hw - pad; px += 2) {
+                    const nx = ((px - pad) / lw) * 2 - 1;
+                    if (px === pad) ctx.moveTo(px, chY(nx)); else ctx.lineTo(px, chY(nx));
+                }
+                ctx.stroke();
+
+                ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2.8; ctx.beginPath();
+                for (let px = hw + pad; px <= w - pad; px += 2) {
+                    const nx = ((px - (hw + pad)) / lw) * 2 - 1;
+                    if (px === hw + pad) ctx.moveTo(px, smY(nx)); else ctx.lineTo(px, smY(nx));
+                }
+                ctx.stroke();
+
+                // Left ball stuck in local minimum
+                const lNx = -0.85 + (-0.56 - (-0.85)) * Math.min(1, resState.lsProg * 2.2);
+                ctx.fillStyle = '#fbbf24'; ctx.beginPath();
+                ctx.arc(pad + ((lNx + 1)/2)*lw, chY(lNx) - 6, 6.5, 0, Math.PI * 2); ctx.fill();
+
+                // Right ball reaches global minimum 0
+                const rNx = -0.85 * (1 - resState.lsProg);
+                ctx.fillStyle = '#10b981'; ctx.beginPath();
+                ctx.arc(hw + pad + ((rNx + 1)/2)*lw, smY(rNx) - 6, 7, 0, Math.PI * 2); ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // =========================================================================
+        // MODULE 3 LOGIC: DROPOUT & L2 REGULARIZATION
+        // =========================================================================
+        let regState = {
+            fitMode: 'overfit',
+            seed: 1,
+            trainPts: [],
+            valPts: [],
+            phase: 'train',
+            p: 0.5,
+            autoTimer: null,
+            h1Raw: [2.4, 1.8, 3.0, 1.2, 2.6, 1.0],
+            h1Mask: [1, 0, 1, 0, 1, 0],
+            h2Mask: [0, 1, 1, 0, 1, 1],
+            lambda: 0.15,
+            eta: 0.20,
+            rawW: [1.4, -0.9, 4.8, 0.6, -4.3, 1.1]
+        };
+
+        function regTrueFn(x) { return 0.52 + 0.34 * Math.sin(x * Math.PI * 1.65 - 0.3); }
+
+        function regRegenerateData() {
+            regState.seed += 1.37;
+            regState.trainPts = []; regState.valPts = [];
+            for (let i = 0; i < 9; i++) {
+                const x = 0.07 + (i / 8) * 0.86;
+                const y = Math.max(0.08, Math.min(0.92, regTrueFn(x) + Math.sin(i * 3.7 + regState.seed * 1.9) * 0.19));
+                regState.trainPts.push({ x, y });
+            }
+            for (let i = 0; i < 8; i++) {
+                const x = 0.11 + (i / 7) * 0.78;
+                regState.valPts.push({ x, y: regTrueFn(x) + Math.cos(i * 2.3 + regState.seed) * 0.04 });
+            }
+        }
+
+        function regEvalPred(x, mode) {
+            let num = 0, den = 0;
+            regState.trainPts.forEach(pt => {
+                const w = Math.exp(-Math.pow((x - pt.x) / 0.055, 2));
+                num += w * pt.y; den += w;
+            });
+            const over = (den > 1e-8 ? num / den : regTrueFn(x)) + 0.06 * Math.sin(x * 32 + regState.seed);
+            const sm = regTrueFn(x);
+            if (mode === 'overfit') return over;
+            if (mode === 'dropout') return 0.82 * sm + 0.18 * over;
+            if (mode === 'l2')      return 0.86 * sm + 0.14 * over;
+            return 0.96 * sm + 0.04 * over;
+        }
+
+        function regSetFitMode(m) {
+            regState.fitMode = m;
+            ['overfit', 'dropout', 'l2', 'both'].forEach(k => {
+                const b = document.getElementById(`reg-btn-${k}`);
+                if (k === m) b.classList.add('pill-active'); else b.classList.remove('pill-active');
+            });
+            const badge = document.getElementById('reg-fit-badge');
+            const exp = document.getElementById('reg-exp-box');
+            if (m === 'overfit') {
+                badge.textContent = '❌ Severe Overfitting — Memorizing Training Noise!';
+                document.getElementById('reg-stat-train').textContent = '0.008 (Memorized)';
+                document.getElementById('reg-stat-val').textContent = '0.842 (Poor!)';
+                document.getElementById('reg-stat-norm').textContent = '48.6 (Exploded)';
+                exp.innerHTML = '<strong>❌ Without Regularization:</strong> Weights explode (<span class="font-mono text-rose-300">‖W‖₂ = 48.6</span>) to force the curve through every noisy blue point, failing on unseen orange validation points.';
+            } else if (m === 'dropout') {
+                badge.textContent = '🎲 Dropout (p = 0.5) — Sub-Network Ensemble Averaging!';
+                document.getElementById('reg-stat-train').textContent = '0.045 (Healthy)';
+                document.getElementById('reg-stat-val').textContent = '0.128 (Good!)';
+                document.getElementById('reg-stat-norm').textContent = '14.2 (Controlled)';
+                exp.innerHTML = '<strong>🎲 With Dropout:</strong> Random sub-networks (faint blue curves) cannot memorize individual noisy points; their ensemble average smoothly tracks the true green curve!';
+            } else if (m === 'l2') {
+                badge.textContent = '⚖️ L2 Regularization (λ = 0.1) — Penalizing Large Weights!';
+                document.getElementById('reg-stat-train').textContent = '0.041 (Healthy)';
+                document.getElementById('reg-stat-val').textContent = '0.119 (Good!)';
+                document.getElementById('reg-stat-norm').textContent = '4.8 (Compact)';
+                exp.innerHTML = '<strong>⚖️ With L2 Penalty:</strong> Penalizing <span class="font-mono text-amber-300">∑ wᵢ²</span> keeps weights small (<span class="font-mono text-emerald-300">‖W‖₂ = 4.8</span>), making sharp high-frequency oscillations impossible.';
+            } else {
+                badge.textContent = '🚀 Dropout + L2 Combined — Optimal Generalization!';
+                document.getElementById('reg-stat-train').textContent = '0.048 (Optimal)';
+                document.getElementById('reg-stat-val').textContent = '0.084 (Best!)';
+                document.getElementById('reg-stat-norm').textContent = '3.9 (Optimal)';
+                exp.innerHTML = '<strong>🚀 Combined Defense:</strong> Dropout prevents neuron co-adaptation while L2 weight decay constrains weight magnitudes.';
+            }
+        }
+
+        function regSetPhase(ph) {
+            regState.phase = ph;
+            document.getElementById('reg-phase-train').className = ph === 'train' ? 'pill-active px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-200 transition' : 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 transition';
+            document.getElementById('reg-phase-test').className = ph === 'test' ? 'pill-active px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-200 transition' : 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 transition';
+            if (ph === 'test' && regState.autoTimer) regToggleAutoMask();
+            regRenderDropout();
+        }
+
+        function regUpdateP(val) {
+            regState.p = parseFloat(val);
+            document.getElementById('reg-p-label').textContent = `p = ${regState.p.toFixed(2)} (${Math.round(regState.p*100)}%)`;
+            regRollMask();
+        }
+
+        function regRollMask() {
+            if (regState.phase === 'test') regSetPhase('train');
+            regState.h1Mask = regState.h1Raw.map(() => Math.random() >= regState.p ? 1 : 0);
+            regState.h2Mask = [0,1,2,3,4,5].map(() => Math.random() >= regState.p ? 1 : 0);
+            if (regState.h1Mask.every(m => m === 0)) regState.h1Mask[0] = 1;
+            if (regState.h2Mask.every(m => m === 0)) regState.h2Mask[1] = 1;
+            regRenderDropout();
+        }
+
+        function regToggleAutoMask() {
+            const b = document.getElementById('reg-btn-auto');
+            if (regState.autoTimer) {
+                clearInterval(regState.autoTimer); regState.autoTimer = null;
+                b.textContent = '▶ Auto-Step';
+            } else {
+                regSetPhase('train');
+                regState.autoTimer = setInterval(regRollMask, 950);
+                b.textContent = '⏸ Pause';
+            }
+        }
+
+        function regToggleNeuron(layer, idx) {
+            if (regState.phase === 'test') regSetPhase('train');
+            if (layer === 1) regState.h1Mask[idx] = regState.h1Mask[idx] ? 0 : 1;
+            else regState.h2Mask[idx] = regState.h2Mask[idx] ? 0 : 1;
+            regRenderDropout();
+        }
+
+        function regRenderDropout() {
+            const wG = document.getElementById('reg-svg-wires');
+            const nG = document.getElementById('reg-svg-nodes');
+            wG.innerHTML = ''; nG.innerHTML = '';
+
+            const isTr = regState.phase === 'train';
+            const scale = isTr ? (1 / Math.max(0.1, 1 - regState.p)) : 1.0;
+            const act1 = isTr ? regState.h1Mask : [1,1,1,1,1,1];
+            const act2 = isTr ? regState.h2Mask : [1,1,1,1,1,1];
+
+            const inYs = [85, 155, 225, 295], hYs = [62, 114, 166, 218, 270, 322];
+            inYs.forEach(iy => hYs.forEach((hy, j) => {
+                const on = act1[j] === 1;
+                wG.innerHTML += `<line x1="100" y1="${iy}" x2="253" y2="${hy}" stroke="${on?'#38bdf8':'#1e293b'}" stroke-width="${on?'1.5':'1'}" opacity="${on?'0.65':'0.25'}" class="${on?'flow-line':''}"/>`;
+            }));
+            hYs.forEach((y1, i) => hYs.forEach((y2, j) => {
+                const on = act1[i] === 1 && act2[j] === 1;
+                wG.innerHTML += `<line x1="297" y1="${y1}" x2="463" y2="${y2}" stroke="${on?'#818cf8':'#1e293b'}" stroke-width="${on?'1.5':'1'}" opacity="${on?'0.65':'0.2'}" class="${on?'flow-line':''}"/>`;
+            }));
+            hYs.forEach((y2, j) => {
+                const on = act2[j] === 1;
+                wG.innerHTML += `<line x1="507" y1="${y2}" x2="632" y2="192" stroke="${on?'#10b981':'#1e293b'}" stroke-width="${on?'2':'1'}" opacity="${on?'0.8':'0.2'}" class="${on?'flow-line':''}"/>`;
+            });
+
+            inYs.forEach((iy, i) => {
+                nG.innerHTML += `<g transform="translate(80,${iy})"><circle r="19" fill="#0f172a" stroke="#64748b" stroke-width="2"/><text y="4" fill="#f8fafc" font-size="10.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">f${i+1}</text></g>`;
+            });
+            hYs.forEach((hy, i) => {
+                const on = act1[i] === 1;
+                const scVal = on ? (regState.h1Raw[i] * scale) : 0;
+                nG.innerHTML += `<g class="cursor-pointer" onclick="regToggleNeuron(1,${i})" transform="translate(275,${hy})">
+                    <circle r="21" fill="${on?'#0c253c':'#1e1b2e'}" stroke="${on?'#38bdf8':'#f43f5e'}" stroke-width="2"/>
+                    <text y="4" fill="${on?'#ffffff':'#fda4af'}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">${on ? scVal.toFixed(1) : 'OFF'}</text>
+                </g>`;
+            });
+            hYs.forEach((hy, i) => {
+                const on = act2[i] === 1;
+                nG.innerHTML += `<g class="cursor-pointer" onclick="regToggleNeuron(2,${i})" transform="translate(485,${hy})">
+                    <circle r="21" fill="${on?'#1e1b4b':'#1e1b2e'}" stroke="${on?'#818cf8':'#f43f5e'}" stroke-width="2"/>
+                    <text y="4" fill="${on?'#ffffff':'#fda4af'}" font-size="9.5" font-weight="700" text-anchor="middle" font-family="JetBrains Mono">${on ? 'ON' : 'OFF'}</text>
+                </g>`;
+            });
+
+            const curSum = regState.h1Raw.reduce((acc, v, i) => acc + (act1[i] ? v * scale : 0), 0);
+            nG.innerHTML += `<g transform="translate(660,192)"><circle r="26" fill="#064e3b" stroke="#10b981" stroke-width="2.5"/><text y="4" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle" font-family="JetBrains Mono">Σ=${curSum.toFixed(1)}</text></g>`;
+
+            document.getElementById('reg-scale-badge').textContent = isTr ? `×${scale.toFixed(2)}` : '×1.00 (Test)';
+            const tb = document.getElementById('reg-dropout-tbody');
+            tb.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                const m = act1[i];
+                const out = m ? regState.h1Raw[i] * scale : 0;
+                tb.innerHTML += `<tr onclick="regToggleNeuron(1,${i})" class="cursor-pointer ${m?'hover:bg-slate-800/40':'text-slate-600'}">
+                    <td class="py-1.5 px-2 font-sans font-bold ${m?'text-slate-200':'text-rose-400'}">Neuron H₁,${i+1}</td>
+                    <td class="py-1.5 px-2 text-center">${regState.h1Raw[i].toFixed(2)}</td>
+                    <td class="py-1.5 px-2 text-center font-bold">${m}</td>
+                    <td class="py-1.5 px-2 text-center font-extrabold ${m?'text-emerald-300':'text-slate-600'}">${out.toFixed(2)}</td>
+                </tr>`;
+            }
+            document.getElementById('reg-sum-stat').textContent = `${curSum.toFixed(2)} (Expected: 12.00)`;
+        }
+
+        function regUpdateL2() {
+            regState.lambda = parseFloat(document.getElementById('reg-lambda-slider').value);
+            regState.eta = parseFloat(document.getElementById('reg-eta-slider').value);
+            document.getElementById('reg-lambda-val').textContent = regState.lambda.toFixed(2);
+            document.getElementById('reg-eta-val').textContent = regState.eta.toFixed(2);
+            const df = 1 - regState.eta * regState.lambda;
+            document.getElementById('reg-decay-factor').textContent = df.toFixed(3);
+            document.getElementById('reg-decay-text').innerHTML = `Every step shrinks weights by <strong>${(regState.eta*regState.lambda*100).toFixed(1)}%</strong> before applying the data gradient!`;
+        }
+
+        function regDrawCanvases() {
+            // 1. Overfit Curve Canvas
+            const oCan = document.getElementById('regOverfitCanvas');
+            const oDim = prepCanvas(oCan);
+            if (oDim) {
+                const ctx = oCan.getContext('2d');
+                const { w, h, dpr } = oDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                const pad = 30, pw = w - pad*2, ph = h - pad*2;
+                const xPx = x => pad + x * pw, yPx = y => pad + ph - y * ph;
+
+                ctx.strokeStyle = 'rgba(16, 185, 129, 0.6)'; ctx.lineWidth = 2; ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                for (let px = 0; px <= pw; px += 3) {
+                    const x = px / pw;
+                    if (px === 0) ctx.moveTo(xPx(x), yPx(regTrueFn(x))); else ctx.lineTo(xPx(x), yPx(regTrueFn(x)));
+                }
+                ctx.stroke(); ctx.setLineDash([]);
+
+                const col = { overfit: '#f43f5e', dropout: '#38bdf8', l2: '#f59e0b', both: '#10b981' }[regState.fitMode];
+                ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath();
+                for (let px = 0; px <= pw; px += 2) {
+                    const x = px / pw;
+                    const y = Math.max(0.03, Math.min(0.97, regEvalPred(x, regState.fitMode)));
+                    if (px === 0) ctx.moveTo(xPx(x), yPx(y)); else ctx.lineTo(xPx(x), yPx(y));
+                }
+                ctx.stroke();
+
+                regState.valPts.forEach(pt => {
+                    ctx.fillStyle = '#fb923c'; ctx.beginPath(); ctx.arc(xPx(pt.x), yPx(pt.y), 5, 0, Math.PI * 2); ctx.fill();
+                });
+                regState.trainPts.forEach(pt => {
+                    ctx.fillStyle = '#38bdf8'; ctx.beginPath(); ctx.arc(xPx(pt.x), yPx(pt.y), 6, 0, Math.PI * 2); ctx.fill();
+                });
+                ctx.restore();
+            }
+
+            // 2. Loss History Canvas
+            const lhCan = document.getElementById('regLossHistCanvas');
+            const lhDim = prepCanvas(lhCan);
+            if (lhDim) {
+                const ctx = lhCan.getContext('2d');
+                const { w, h, dpr } = lhDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                const pad = 32, pw = w - pad*2, ph = h - pad*2;
+
+                ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.beginPath();
+                for (let i = 0; i <= 50; i++) {
+                    const t = i / 50, trL = 0.05 + 0.8 * Math.exp(-4 * t);
+                    if (i === 0) ctx.moveTo(pad + t*pw, pad + ph - trL*ph); else ctx.lineTo(pad + t*pw, pad + ph - trL*ph);
+                }
+                ctx.stroke(); ctx.setLineDash([]);
+
+                const isOv = regState.fitMode === 'overfit';
+                ctx.strokeStyle = isOv ? '#f43f5e' : '#10b981'; ctx.lineWidth = 2.8; ctx.beginPath();
+                for (let i = 0; i <= 50; i++) {
+                    const t = i / 50;
+                    const vL = isOv ? (0.25 + 0.65*Math.exp(-6*t) + (t>0.25 ? Math.pow(t-0.25, 1.5)*0.9 : 0)) : (0.18 + 0.7*Math.exp(-3.6*t));
+                    if (i === 0) ctx.moveTo(pad + t*pw, pad + ph - Math.min(0.95, vL)*ph); else ctx.lineTo(pad + t*pw, pad + ph - Math.min(0.95, vL)*ph);
+                }
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // 3. Weights Bar Canvas
+            const wbCan = document.getElementById('regWeightsBarCanvas');
+            const wbDim = prepCanvas(wbCan);
+            if (wbDim) {
+                const ctx = wbCan.getContext('2d');
+                const { w, h, dpr } = wbDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                const midY = h / 2, padX = 32, colW = (w - padX*2) / 6;
+                ctx.strokeStyle = '#475569'; ctx.beginPath(); ctx.moveTo(padX, midY); ctx.lineTo(w - padX, midY); ctx.stroke();
+
+                regState.rawW.forEach((rw, i) => {
+                    const regW = rw / (1 + regState.lambda * 4.5 * (1 + 0.35 * Math.abs(rw)));
+                    const cx = padX + i * colW + colW / 2, scY = (h * 0.4) / 5.0;
+                    ctx.fillStyle = 'rgba(244, 63, 94, 0.35)'; ctx.fillRect(cx - 16, midY, 14, -rw * scY);
+                    ctx.fillStyle = '#f59e0b'; ctx.fillRect(cx + 2, midY, 14, -regW * scY);
+                });
+                ctx.restore();
+            }
+
+            // 4. L2 2D Contour Canvas
+            const cCan = document.getElementById('regL2ContourCanvas');
+            const cDim = prepCanvas(cCan);
+            if (cDim) {
+                const ctx = cCan.getContext('2d');
+                const { w, h, dpr } = cDim;
+                ctx.save(); ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+                const ox = w * 0.25, oy = h * 0.76, sc = Math.min(w, h) * 0.14;
+                const toPx = (w1, w2) => ({ x: ox + w1 * sc, y: oy - w2 * sc });
+
+                ctx.strokeStyle = '#334155'; ctx.beginPath(); ctx.moveTo(15, oy); ctx.lineTo(w - 15, oy); ctx.moveTo(ox, 15); ctx.lineTo(ox, h - 15); ctx.stroke();
+
+                const stP = toPx(3.8, 3.2);
+                const eqW1 = (1.0 / (1.0 + regState.lambda * 6.5)) * 3.8;
+                const eqW2 = (2.4 / (2.4 + regState.lambda * 6.5)) * 3.2;
+                const eqP = toPx(eqW1, eqW2);
+                document.getElementById('reg-eq-coords').textContent = `ŵ₁ = +${eqW1.toFixed(2)}, ŵ₂ = +${eqW2.toFixed(2)}`;
+
+                const rad = Math.hypot(eqP.x - ox, eqP.y - oy);
+                ctx.fillStyle = 'rgba(245, 158, 11, 0.12)'; ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.arc(ox, oy, rad, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+                for (let k = 1; k <= 4; k++) {
+                    ctx.strokeStyle = `rgba(56, 189, 248, ${0.55 - k*0.09})`;
+                    ctx.beginPath(); ctx.ellipse(stP.x, stP.y, k*0.7*sc, k*0.45*sc, -0.35, 0, Math.PI * 2); ctx.stroke();
+                }
+
+                ctx.fillStyle = '#f43f5e'; ctx.beginPath(); ctx.arc(stP.x, stP.y, 5.5, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#10b981'; ctx.beginPath(); ctx.arc(eqP.x, eqP.y, 7.5, 0, Math.PI * 2); ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // =========================================================================
+        // MASTER ANIMATION LOOP
+        // =========================================================================
+        function masterLoop() {
+            if (activeModule === 'bn') bnDrawCanvases();
+            else if (activeModule === 'resnet') resDrawCanvases();
+            else if (activeModule === 'reg') regDrawCanvases();
+            requestAnimationFrame(masterLoop);
+        }
+
+        window.onload = function () {
+            // Init Module 1
+            bnBuildSliders();
+            bnComputeTrajectories();
+            bnUpdateUI();
+            // Init Module 2
+            resApplyPreset('identity');
+            resUpdateGradHighway();
+            // Init Module 3
+            regRegenerateData();
+            regSetFitMode('overfit');
+            regRenderDropout();
+            regUpdateL2();
+            // Start Master Loop
+            masterLoop();
+        };
+    </script>
+</body>
+</html>

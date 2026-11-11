@@ -42,7 +42,7 @@ EPSILON = 1e-3
 
 ## [B01] Observe the updated BN demonstration
 
-Open the accompanying BN HTML in a browser. Switch from N1 to N2 in the topology panel and inspect the mini-batch matrix. A row is one sample; a column contains one neuron’s weighted sums across samples. Change one input value and observe the statistics of the selected column. This is a discussion checkpoint, with no code cell.
+Open `sources/deep_learning_masterclass_en.html` in a browser. Select **1 Batch Normalization**, then section **1.1** (topology and mini-batch matrix). Switch from N₁ to N₂ and inspect the matrix. A row is one sample; a column contains one neuron’s weighted sums across samples. Change one input value and observe the selected column’s statistics. This is a discussion checkpoint with no code cell.
 
 **Question / minimal evidence:** Which entries in the matrix contribute to the mean of one selected neuron?
 
@@ -198,7 +198,7 @@ print("Parameters:", mix.count_params())
 
 ## [R00] Observe the skip connection demonstration
 
-Open the skip connection HTML. Select identity mode, F(x)=0. In the live vector panel, focus on the negative−1 input: H=x+F and y=ReLU(H) have separate columns. Toggle the skip off and on. The degradation curves and loss-landscape animation are illustrations, not training measurements from your notebook; deeper models are not guaranteed to improve.
+In `sources/deep_learning_masterclass_en.html`, select **2 Skip Connections (ResNet)**, then section **2.2**. Select **Identity Mapping (F(x)=0)**. In the live vector table, focus on the negative −1 input: **Sum H(xᵢ)** and **Out ReLU(H)** are separate columns. Toggle the skip off and on. The degradation curves and loss-landscape animation are illustrations, not measurements from your notebook; deeper models are not guaranteed to improve.
 
 **Question / minimal evidence:** For the negative input with F(x)=0, where does identity hold: at the sum or after the final ReLU?
 
