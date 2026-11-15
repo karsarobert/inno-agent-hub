@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en": {
+      "name": "C++ 10 — Practice Lab",
+      "description": "Guided learner workspace for the tenth lab of a beginner C++ course (3×45 min) on file handling and the persistent storage of the theatre ticket office. First block — fundamentals: a stock snapshot written with ofstream, buffer and close checked afterwards (G10_01_mentes), appending and summing visitor counts with a read loop (G10_02_latogatok), bad data and the stream state flags eof/fail (G10_03_hibas_adat), then strict validation of one record line through getline and istringstream (G10_04_sor). Second block — project: the ticket office carried over from lesson 9 (P10_jegypenztar.cpp holds the base class operations, the new I/O is the learner's work) built up in six steps, P1–P6 (understanding the base and the shared TICKETS 1 file format, saving with a header, parsing one reservation line, all-or-nothing loading into a temporary object, a text report built with ostringstream, then a save-or-load main driven by S or L plus the bundled broken-file fixtures). Third block — summary test: 20 fixed questions (T1 10 multiple-choice, T2 5 output prediction and 5 debugging) with feedback and no answer key in the learner package. Before every part the tutor shows a short analogous sample from the MINTAKODOK.md collection; the learner writes, saves, compiles and runs the code (RUN button or g++ -std=c++20), and progress is tracked in HALADAS.json. No homework and no separate extra exercise set.",
+      "category": "Programming"
+    },
+    "hu": {
+      "name": "C++ 10. gyakorlat",
+      "description": "Kezdő C++ kurzus 10. gyakorlatának (3×45 perc) vezetett hallgatói munkaterülete a fájlkezelés és a jegypénztár tartós tárolásának témájában. Első blokk – alapozás: raktári pillanatkép ofstream-mel, a megnyitás, a puffer és a close utólagos ellenőrzésével (G10_01_mentes), látogatószámok hozzáfűzése és összegzése olvasóciklussal (G10_02_latogatok), hibás adat és az eof/fail folyamállapotok (G10_03_hibas_adat), majd egy rekordsor szigorú ellenőrzése getline-nal és istringstream-mel (G10_04_sor). Második blokk – projekt: a 9. leckéből ismert jegypénztár (P10_jegypenztar.cpp az alapműveletekkel, az új fájlkezelést a hallgató írja) hat lépésben, P1–P6 (az alap és a közös TICKETS 1 fájlformátum megértése, fejléces mentés, egy helyfoglalási sor feldolgozása, teljes betöltés ideiglenes objektumba vagy változatlan régi állapot, szöveges jelentés ostringstream-mel, majd S vagy L karakterrel vezérelt mentő-betöltő main a mellékelt hibás próbafájlokkal). Harmadik blokk – összefoglaló ellenőrzés: 20 rögzített kérdés (T1 10 feleletválasztós, T2 5 kimenetjóslás és 5 hibakeresés) visszajelzéssel, a hallgatói csomagban megoldókulcs nélkül. Minden rész előtt a tutor rövid analóg mintát mutat a MINTAKODOK.md gyűjteményből; a hallgató írja, menti, fordítja és futtatja a kódot (RUN gomb vagy g++ -std=c++20), a haladást a HALADAS.json követi. Nincs házi feladat és nincs külön kiegészítő feladatsor.",
+      "category": "Programozás"
+    }
+  }
+}
