@@ -1,0 +1,198 @@
+[
+  {
+    "id": "E01",
+    "title": "Environment and workflow",
+    "kind": "code",
+    "markdown_cell": 1,
+    "code_cell": 2
+  },
+  {
+    "id": "K01",
+    "title": "A class or a number?",
+    "kind": "discussion",
+    "markdown_cell": 3,
+    "code_cell": null
+  },
+  {
+    "id": "C01",
+    "title": "Two new sample images",
+    "kind": "code",
+    "markdown_cell": 4,
+    "code_cell": 5
+  },
+  {
+    "id": "C02",
+    "title": "ResNet50 and the preprocessing helper",
+    "kind": "code",
+    "markdown_cell": 6,
+    "code_cell": 7
+  },
+  {
+    "id": "C03",
+    "title": "Logits, softmax and top5",
+    "kind": "code",
+    "markdown_cell": 8,
+    "code_cell": 9
+  },
+  {
+    "id": "C04",
+    "title": "Feature maps and weighted sums",
+    "kind": "code",
+    "markdown_cell": 10,
+    "code_cell": 11
+  },
+  {
+    "id": "C05",
+    "title": "Classic CAM and logit reconstruction",
+    "kind": "code",
+    "markdown_cell": 12,
+    "code_cell": 13
+  },
+  {
+    "id": "C06",
+    "title": "Two target classes, one scale",
+    "kind": "code",
+    "markdown_cell": 14,
+    "code_cell": 15
+  },
+  {
+    "id": "C07",
+    "title": "A fixed occlusion experiment",
+    "kind": "code",
+    "markdown_cell": 16,
+    "code_cell": 17
+  },
+  {
+    "id": "C08",
+    "title": "What does a heatmap not prove?",
+    "kind": "discussion",
+    "markdown_cell": 18,
+    "code_cell": null
+  },
+  {
+    "id": "A01",
+    "title": "Load the age dataset",
+    "kind": "code",
+    "markdown_cell": 19,
+    "code_cell": 20
+  },
+  {
+    "id": "A02",
+    "title": "Data checks and distribution",
+    "kind": "code",
+    "markdown_cell": 21,
+    "code_cell": 22
+  },
+  {
+    "id": "A03",
+    "title": "Call the provided split helper",
+    "kind": "code",
+    "markdown_cell": 23,
+    "code_cell": 24
+  },
+  {
+    "id": "A04",
+    "title": "Data streams and one whole batch",
+    "kind": "code",
+    "markdown_cell": 25,
+    "code_cell": 26
+  },
+  {
+    "id": "A05",
+    "title": "Preprocess once and consistently",
+    "kind": "code",
+    "markdown_cell": 27,
+    "code_cell": 28
+  },
+  {
+    "id": "B01",
+    "title": "What does MAE mean?",
+    "kind": "code",
+    "markdown_cell": 29,
+    "code_cell": 30
+  },
+  {
+    "id": "B02",
+    "title": "An image-free median baseline",
+    "kind": "code",
+    "markdown_cell": 31,
+    "code_cell": 32
+  },
+  {
+    "id": "F01",
+    "title": "Frozen feature extraction",
+    "kind": "code",
+    "markdown_cell": 33,
+    "code_cell": 34
+  },
+  {
+    "id": "F02",
+    "title": "An ordered feature cache",
+    "kind": "code",
+    "markdown_cell": 35,
+    "code_cell": 36
+  },
+  {
+    "id": "M01",
+    "title": "A single linear regression output",
+    "kind": "code",
+    "markdown_cell": 37,
+    "code_cell": 38
+  },
+  {
+    "id": "M02",
+    "title": "Train the small head",
+    "kind": "code",
+    "markdown_cell": 39,
+    "code_cell": 40
+  },
+  {
+    "id": "M03",
+    "title": "Evaluate the restored best state",
+    "kind": "code",
+    "markdown_cell": 41,
+    "code_cell": 42
+  },
+  {
+    "id": "V01",
+    "title": "Final test and individual errors",
+    "kind": "code",
+    "markdown_cell": 43,
+    "code_cell": 44
+  },
+  {
+    "id": "V02",
+    "title": "Group errors and sample counts",
+    "kind": "code",
+    "markdown_cell": 45,
+    "code_cell": 46
+  },
+  {
+    "id": "V03",
+    "title": "Actual samples with small and large errors",
+    "kind": "code",
+    "markdown_cell": 47,
+    "code_cell": 48
+  },
+  {
+    "id": "X01",
+    "title": "A regression contribution map",
+    "kind": "code",
+    "markdown_cell": 49,
+    "code_cell": 50
+  },
+  {
+    "id": "Z01",
+    "title": "Three final connections",
+    "kind": "discussion",
+    "markdown_cell": 51,
+    "code_cell": null
+  },
+  {
+    "id": "Z02",
+    "title": "Personal summary, no submission",
+    "kind": "code",
+    "markdown_cell": 52,
+    "code_cell": 53
+  }
+]
