@@ -1,0 +1,59 @@
+{
+  "megjegyzes": "Helyi tartalomjegyzék; nem alkalmazásimport-séma.",
+  "nyelv": "hu",
+  "ido_perc": 90,
+  "szakaszok": [
+    {
+      "id": "START",
+      "perc": 2,
+      "cim": "Bemutatkozás és teljes cél"
+    },
+    {
+      "id": "A1",
+      "perc": 10,
+      "cim": "Kezdeti példányállapot"
+    },
+    {
+      "id": "A2",
+      "perc": 12,
+      "cim": "Számítás és ellenőrzés"
+    },
+    {
+      "id": "A3",
+      "perc": 12,
+      "cim": "Értékesítés rögzítése"
+    },
+    {
+      "id": "B1",
+      "perc": 16,
+      "cim": "Példányok és megjelenítés"
+    },
+    {
+      "id": "Z1",
+      "perc": 11,
+      "cim": "Fájlos alkalmazás"
+    },
+    {
+      "id": "T1",
+      "perc": 10,
+      "cim": "Elméleti záróteszt"
+    },
+    {
+      "id": "T2",
+      "perc": 15,
+      "cim": "Kódértelmezés és hibakeresés"
+    },
+    {
+      "id": "END",
+      "perc": 2,
+      "cim": "Visszajelzés"
+    }
+  ],
+  "fo_fajl": "bufe.py",
+  "feladatleiras": "tanulo_lap.md",
+  "ellenorzes": "probak.py",
+  "tesztek": [
+    "teszt_elmelet.md",
+    "teszt_kodismeret.md"
+  ]
+}

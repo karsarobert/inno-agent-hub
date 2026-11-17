@@ -1,0 +1,3 @@
+tea;2
+szendvics;1
+viz;3

@@ -1,0 +1,5 @@
+kave;1
+tea;0
+tea;-2
+tea;alma
+hibassor

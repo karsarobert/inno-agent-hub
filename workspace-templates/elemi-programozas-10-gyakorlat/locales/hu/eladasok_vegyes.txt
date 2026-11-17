@@ -1,0 +1,8 @@
+tea;2
+kave;1
+
+szendvics;1
+tea;0
+viz;3
+tea;alma
+hibassor

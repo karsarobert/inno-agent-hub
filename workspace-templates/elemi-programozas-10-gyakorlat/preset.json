@@ -1,0 +1,7 @@
+{
+  "id": "elemi-programozas-10-gyakorlat",
+  "name": "Elementary Programming 10 — Practice Lab (EP_10)",
+  "description": "Tenth Python practice of a Programming Basics course (lesson EP_10): building the learner's own Bufe (buffet) class with its initial price list and its own sales list, self and per-instance state, a query method that leaves the state unchanged, a sell method that changes it and returns the amount, two instances compared through __str__, completing one designated function of a ready-made file-processing frame that reads sales requests line by line from text files with validated and deliberately broken sample data, and a 10+10 question theory and code-knowledge final test — an explanatory tutor, editable starter programs, sample data files, checking cases, student-written code and runs.",
+  "category": "Programming",
+  "icon": "code-2"
+}
