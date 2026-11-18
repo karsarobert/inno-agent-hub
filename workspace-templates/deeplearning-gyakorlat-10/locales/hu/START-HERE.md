@@ -1,10 +1,12 @@
 # Indítás · 10. gyakorlat
 
+**Mielőtt bármelyik kódcellát futtatnád, állítsd be a Colab GPU-ját:** Futtatókörnyezet → Futtatókörnyezet típusának módosítása → Hardveres gyorsító: GPU (például T4) → Mentés. A váltás a már feltöltött fájlokat és változókat törölheti, ezért ezzel kezdj. Helyi Jupyter használatát külön jelezd a tutornak. Ezután jöhet E01 ellenőrzése.
+
 1. Csomagold ki a ZIP-et. Nyisd meg a `PTE_DL10_MAGYARAZHATOSAG.ipynb` fájlt Colabban a notebook megnyitása/feltöltése lehetőséggel, vagy helyi Jupyterben. A kódot ott futtatod, az Innoagenttel megbeszéled.
 2. Colabban válassz GPU-t: Futtatókörnyezet → Futtatókörnyezet típusának módosítása → GPU → Mentés. E01 ténylegesen ellenőrzi; üres GPU-listánál megáll. Helyi CPU működhet, de a teljes képi kinyerés lényegesen lassabb.
 3. Kezdés az oktató magyar tutorjával: „Megnyitottam a 10. gyakorlat notebookját, kezdjük E01-gyel.” Ha már lefutott, a környezet/TF/GPU sorokat küldd el.
 4. Egyszerre csak az aktuális cella. Minden kód teljes; nem kell visszaküldeni változatlanul. Küldd a kért rövid kimenetet és értelmezést. K01, C08, Z01 beszélgetés.
-5. C01 automatikusan letölti a két mintaképet és a JSON-t, ha az assets nincs a notebook mellett. A csomagban helyi másolat is van. A01 a forrás CSV-jét és 239 MB-os képarchívumát tölti le; kicsomagolva további hely kell.
+5. A ZIP kicsomagolása után őrizd meg az innoagent/DL10_assets.zip képcsomagot a számítógépeden. A C01 ezt használja, külső képletöltés nélkül. Colabban a C01 futtatásakor megjelenő feltöltőgombbal ezt az egy fájlt válaszd ki; helyi Jupyterben tedd a notebook munkamappájába. Az assets tartalma ezután automatikusan előáll. Ez nem beadás. Az A01 ettől külön tölti le a forrás CSV-jét és 239 MB-os képadatbázisát.
 
 Az assets, dl10_data, dl10_results mappák a notebook aktuális munkakönyvtárába kerülnek. A F02 gyorsítótára a dl10_results/feature_cache; a kód a valódi kinyerést és cache-találatot külön jelzi. Futtatókörnyezet-váltás Colabban fájlokat és változókat törölhet.
 

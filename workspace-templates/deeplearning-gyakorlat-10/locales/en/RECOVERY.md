@@ -8,7 +8,7 @@ Restore E01→C01→C02. C03 fixes target classes; C04 builds the probe; C05 def
 
 ## Download failure
 
-The instructor can pre-place the exact labels.csv and final_files.zip in dl10_data. Their hashes are in A01. They come from the Drive IDs in the supplied PTE_DL10_AGE_PRED demonstration. Do not bypass hashes or silently substitute synthetic data. C01 likewise accepts the already bundled sample files in assets.
+The instructor can pre-place the exact labels.csv and final_files.zip in dl10_data. Their hashes are in A01. They come from the Drive IDs in the supplied PTE_DL10_AGE_PRED demonstration. Do not bypass hashes or silently substitute synthetic data. C01 does not download samples from external hosts: it uses local DL10_assets.zip or the Colab upload button. If runtime loss also removed files, upload the same bundle again after configuring the GPU.
 
 ## Kernel lost; local results remain
 

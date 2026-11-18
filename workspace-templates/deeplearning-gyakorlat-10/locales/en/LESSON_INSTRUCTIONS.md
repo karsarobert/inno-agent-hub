@@ -5,6 +5,8 @@ One checkpoint, then wait. Ask Z01 questions separately.
 
 ## [E01] Environment and workflow
 
+**Before running any code cell, configure the Colab GPU:** Runtime → Change runtime type → Hardware accelerator: GPU (for example T4) → Save. Changing runtime can discard uploaded files and variables, so do this first. Tell your tutor separately if you use local Jupyter. Then run the E01 check.
+
 All code is provided. Run it in Colab or Jupyter and discuss its meaning with the tutor. Select a GPU in Colab before downloading data. A seed fixes the starting state of random operations. assets holds samples, dl10_data holds data and dl10_results holds local results. The cell installs gdown if missing; TensorFlow and the other packages require a working environment.
 
 ```python
@@ -62,18 +64,44 @@ A classifier returns scores for classes; a regression head approximates a numeri
 
 ## [C01] Two new sample images
 
-The supplied load_rgb helper reads three RGB channels, resizes to 224×224 and returns float32 values. It does not apply ResNet preprocessing yet. SHA-256 verifies file identity, not image semantics or class correctness. These differ from the demonstration images.
+The supplied **DL10_assets.zip** contains both sample images and the ImageNet label index; C01 does not request images from Imgur or another external image host. It reuses valid assets if present; otherwise it reads the ZIP in the notebook working directory. In Colab, a missing ZIP opens an upload button. Select DL10_assets.zip from the extracted course package’s innoagent folder. This upload goes to your Colab runtime for execution, not to Innoagent and not as a submission. In local Jupyter, place the ZIP in the notebook working directory. All code is supplied: it verifies all three SHA-256 values, then load_rgb reads RGB and resizes to 224×224. ResNet preprocessing has not happened yet.
 
 ```python
-asset_specs = {'elephant.png': {'url': 'https://i.imgur.com/Bvro0YD.png', 'sha256': '51f9c798db2cbff325032496d9a54e7ddd9471924d7c57583f12ae16d550919d'}, 'sunflower.jpg': {'url': 'https://storage.googleapis.com/download.tensorflow.org/example_images/592px-Red_sunflower.jpg', 'sha256': 'ff9b4c356d65c2e9708dd0b07cc4c3f2080996cfdb9db7cee259aca7bcedfe6a'}, 'imagenet_class_index.json': {'url': 'https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json', 'sha256': 'a1e7a966a1f601d39e4b43e119b3e7dd4a2ad3ea08cf69847cbaf021013767bc'}}
-for filename, spec in asset_specs.items():
-    path = assets / filename
-    if not path.exists():
-        keras.utils.get_file(fname=filename, origin=spec["url"],
-            cache_dir=str(assets.resolve().parent), cache_subdir=assets.name,
-            file_hash=spec["sha256"], hash_algorithm="sha256")
-    if sha256_file(path) != spec["sha256"]:
-        raise ValueError("Sample file checksum mismatch: " + filename)
+# Use bundled samples; this cell does not download images from external hosts.
+import io
+asset_hashes = {'elephant.png': '51f9c798db2cbff325032496d9a54e7ddd9471924d7c57583f12ae16d550919d', 'imagenet_class_index.json': 'a1e7a966a1f601d39e4b43e119b3e7dd4a2ad3ea08cf69847cbaf021013767bc', 'sunflower.jpg': 'ff9b4c356d65c2e9708dd0b07cc4c3f2080996cfdb9db7cee259aca7bcedfe6a'}
+missing_assets = [filename for filename, expected_hash in asset_hashes.items()
+    if not (assets / filename).exists() or sha256_file(assets / filename) != expected_hash]
+if missing_assets:
+    bundle_path = Path("DL10_assets.zip")
+    if bundle_path.exists():
+        bundle_bytes = bundle_path.read_bytes()
+    elif in_colab:
+        from google.colab import files
+        print("Select DL10_assets.zip from the extracted course package. Upload it to Colab, not to the tutor.")
+        uploaded = files.upload()
+        if len(uploaded) != 1:
+            raise RuntimeError("Select exactly one file: DL10_assets.zip. Rerun C01.")
+        bundle_bytes = next(iter(uploaded.values()))
+    else:
+        raise FileNotFoundError("Place DL10_assets.zip beside the notebook in its working directory, then rerun C01.")
+    with zipfile.ZipFile(io.BytesIO(bundle_bytes)) as archive:
+        verified_assets = {}
+        for filename, expected_hash in asset_hashes.items():
+            if filename not in archive.namelist():
+                raise ValueError("The sample bundle is missing: " + filename)
+            payload = archive.read(filename)
+            if hashlib.sha256(payload).hexdigest() != expected_hash:
+                raise ValueError("Sample checksum mismatch. Use the original DL10_assets.zip: " + filename)
+            verified_assets[filename] = payload
+    assets.mkdir(exist_ok=True)
+    for filename, payload in verified_assets.items():
+        (assets / filename).write_bytes(payload)
+    if not bundle_path.exists():
+        _ = bundle_path.write_bytes(bundle_bytes)
+for filename, expected_hash in asset_hashes.items():
+    assert sha256_file(assets / filename) == expected_hash, filename
+print("Verified bundled samples; no external sample-image download was required.")
 def load_rgb(path):
     image = tf.image.decode_image(tf.io.read_file(str(path) if isinstance(path, Path) else path),
                                   channels=3, expand_animations=False)

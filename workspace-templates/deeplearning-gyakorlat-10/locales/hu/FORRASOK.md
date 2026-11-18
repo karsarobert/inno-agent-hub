@@ -4,7 +4,7 @@ A két oktatói bemutató: PTE_DL10_CAM.ipynb és PTE_DL10_AGE_PRED.ipynb. A fel
 
 A CSV/ZIP a csatolt életkoros notebook nyilvános Drive-azonosítóival érhető el. A kód mindkettő teljes SHA-256 értékét ellenőrzi. A csomag nem tartalmazza a 239 MB-os képarchívumot. A forrás CSV 7591 sort és file_name/real_age oszlopot tartalmaz. A ZIP lapos, sorszámozott képeket tartalmaz, eredeti train/valid/test vagy személyazonosító-metaadat nélkül. A hivatalos APPA-REAL-megfeleltetést nem igazoltuk; a saját 60/20/20-as felosztás nem benchmark-reprodukció. A real_age a forrás által megadott címke, nem a tutor által ellenőrzött egyéni életkor.
 
-Mintaképek: az elefántos kép a Keras Grad-CAM-példájában megadott nyilvános képből; a napraforgós kép a TensorFlow példaképtárából. Az eredeti képfájlok és a nyilvános ImageNet-osztályindex a csomag assets mappájában vannak, forrásazonosítással. A fájlnevek nem igazolt referenciaosztályok.
+Mintaképek: az elefántos kép a Keras Grad-CAM-példájában megadott nyilvános képből; a napraforgós kép a TensorFlow példaképtárából. Az eredeti képfájlok és a nyilvános ImageNet-osztályindex a csomag DL10_assets.zip fájljában vannak, forrásazonosítással. A fájlnevek nem igazolt referenciaosztályok.
 
 - [CAM paper](https://arxiv.org/abs/1512.04150)
 - [Keras Grad-CAM example](https://keras.io/examples/vision/grad_cam/)
@@ -17,3 +17,9 @@ Mintaképek: az elefántos kép a Keras Grad-CAM-példájában megadott nyilván
 - [ImageNet labels](https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json)
 
 2026-11-15.
+
+## 1.1 — megbízható képelérés
+
+Az alábbi forráshivatkozások a képek eredetét dokumentálják. C01 nem hívja meg ezeket: a változatlan, SHA-256-tal ellenőrzött fájlokat a DL10_assets.zip tartalmazza. Colabban ezt a kis csomagot kell feltölteni. A nagy képadatbázis és a ResNet-súlyok külön letöltése továbbra is szükséges.
+
+- [Google Colab files.upload — hivatalos forráskód](https://github.com/googlecolab/colabtools/blob/main/google/colab/files.py)

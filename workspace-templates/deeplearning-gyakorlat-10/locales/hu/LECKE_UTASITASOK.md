@@ -5,6 +5,8 @@ Egy pont, majd várakozás. Z01 három kérdése egyenként.
 
 ## [E01] Környezet és munkamegosztás
 
+**Mielőtt bármelyik kódcellát futtatnád, állítsd be a Colab GPU-ját:** Futtatókörnyezet → Futtatókörnyezet típusának módosítása → Hardveres gyorsító: GPU (például T4) → Mentés. A váltás a már feltöltött fájlokat és változókat törölheti, ezért ezzel kezdj. Helyi Jupyter használatát külön jelezd a tutornak. Ezután jöhet E01 ellenőrzése.
+
 Minden kód készen adott. A notebookot Colabban vagy Jupyterben futtatod, a tutorral a működését értelmezed. Colabban GPU-t válassz még az adatok letöltése előtt. A seed a véletlen műveletek kiindulását rögzíti. Az assets mappa a mintaképeké, a dl10_data az adatoké, a dl10_results a helyi eredményeké. Ha a gdown hiányzik, a cella telepíti; a TensorFlow és a többi csomag már működő környezetet feltételez.
 
 ```python
@@ -62,18 +64,44 @@ A képosztályozó több osztály pontszámát adja; a regressziós fej egyetlen
 
 ## [C01] Két új mintakép
 
-A rgb_betoltese nevű kész segéd képet olvas, három RGB-csatornát kér, 224×224-re méretez és float32 tömböt ad. Itt még nem történik ResNet-előfeldolgozás. A letöltések SHA-256 ellenőrzése azonos fájlt biztosít, nem a kép tartalmának vagy osztályának bizonyítása. A két kép a bemutatótól eltérő.
+A két mintaképet és az ImageNet-címkelistát a tananyaghoz mellékelt **DL10_assets.zip** tartalmazza; C01 nem kér képet az Imgurtól vagy más külső képforrástól. Ha az assets fájljai már helyesek, ezeket használja. Egyébként a notebook munkamappájában lévő ZIP-et bontja ki; Colabban hiányzó ZIP esetén feltöltőgombot nyit. Válaszd ki a kicsomagolt tananyag innoagent mappájából a DL10_assets.zip fájlt. Ezt a Colabba töltöd fel a futtatáshoz, nem az Innoagentnek, és nem beadásként. Helyi Jupyterben tedd a ZIP-et a notebook munkamappájába. A teljes kód készen adott: ellenőrzi mindhárom fájl SHA-256 értékét, majd a kész rgb_betoltese segéd RGB-ként 224×224 méretre alakítja a képeket. ResNet-előfeldolgozás még nincs.
 
 ```python
-kepforrasok = {'elephant.png': {'url': 'https://i.imgur.com/Bvro0YD.png', 'sha256': '51f9c798db2cbff325032496d9a54e7ddd9471924d7c57583f12ae16d550919d'}, 'sunflower.jpg': {'url': 'https://storage.googleapis.com/download.tensorflow.org/example_images/592px-Red_sunflower.jpg', 'sha256': 'ff9b4c356d65c2e9708dd0b07cc4c3f2080996cfdb9db7cee259aca7bcedfe6a'}, 'imagenet_class_index.json': {'url': 'https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json', 'sha256': 'a1e7a966a1f601d39e4b43e119b3e7dd4a2ad3ea08cf69847cbaf021013767bc'}}
-for fajlnev, leiras in kepforrasok.items():
-    utvonal = mintakepek / fajlnev
-    if not utvonal.exists():
-        keras.utils.get_file(fname=fajlnev, origin=leiras["url"],
-            cache_dir=str(mintakepek.resolve().parent), cache_subdir=mintakepek.name,
-            file_hash=leiras["sha256"], hash_algorithm="sha256")
-    if fajl_sha256(utvonal) != leiras["sha256"]:
-        raise ValueError("Sample file checksum mismatch: " + fajlnev)
+# A csomag mintakepeit hasznaljuk, kulso kepforrasrol nem toltunk le.
+import io
+kep_hashek = {'elephant.png': '51f9c798db2cbff325032496d9a54e7ddd9471924d7c57583f12ae16d550919d', 'imagenet_class_index.json': 'a1e7a966a1f601d39e4b43e119b3e7dd4a2ad3ea08cf69847cbaf021013767bc', 'sunflower.jpg': 'ff9b4c356d65c2e9708dd0b07cc4c3f2080996cfdb9db7cee259aca7bcedfe6a'}
+hianyzo_kepek = [fajlnev for fajlnev, elvart_hash in kep_hashek.items()
+    if not (mintakepek / fajlnev).exists() or fajl_sha256(mintakepek / fajlnev) != elvart_hash]
+if hianyzo_kepek:
+    kepcsomag_utvonal = Path("DL10_assets.zip")
+    if kepcsomag_utvonal.exists():
+        kepcsomag_bajtok = kepcsomag_utvonal.read_bytes()
+    elif colabban:
+        from google.colab import files
+        print("Valaszd ki a kicsomagolt tananyag DL10_assets.zip fajljat. A Colabba toltod fel, nem a tutornak.")
+        feltoltott_fajlok = files.upload()
+        if len(feltoltott_fajlok) != 1:
+            raise RuntimeError("Pontosan egy fajlt valassz: DL10_assets.zip. Futtasd ujra a C01 cellat.")
+        kepcsomag_bajtok = next(iter(feltoltott_fajlok.values()))
+    else:
+        raise FileNotFoundError("Tedd a DL10_assets.zip fajlt a notebook munkamappajaba, majd futtasd ujra a C01 cellat.")
+    with zipfile.ZipFile(io.BytesIO(kepcsomag_bajtok)) as archivum:
+        ellenorzott_kepek = {}
+        for fajlnev, elvart_hash in kep_hashek.items():
+            if fajlnev not in archivum.namelist():
+                raise ValueError("A kepcsomagbol hianyzik: " + fajlnev)
+            fajltartalom = archivum.read(fajlnev)
+            if hashlib.sha256(fajltartalom).hexdigest() != elvart_hash:
+                raise ValueError("Hibas kepellenorzo osszeg. Az eredeti DL10_assets.zip szukseges: " + fajlnev)
+            ellenorzott_kepek[fajlnev] = fajltartalom
+    mintakepek.mkdir(exist_ok=True)
+    for fajlnev, fajltartalom in ellenorzott_kepek.items():
+        (mintakepek / fajlnev).write_bytes(fajltartalom)
+    if not kepcsomag_utvonal.exists():
+        _ = kepcsomag_utvonal.write_bytes(kepcsomag_bajtok)
+for fajlnev, elvart_hash in kep_hashek.items():
+    assert fajl_sha256(mintakepek / fajlnev) == elvart_hash, fajlnev
+print("Mintakepek ellenorizve; nem volt szukseg kulso kepforrasrol letoltesre.")
 def rgb_betoltese(utvonal):
     kep = tf.image.decode_image(tf.io.read_file(str(utvonal) if isinstance(utvonal, Path) else utvonal),
                                   channels=3, expand_animations=False)

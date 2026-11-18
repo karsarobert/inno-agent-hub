@@ -4,7 +4,7 @@ Teacher demonstrations: PTE_DL10_CAM.ipynb and PTE_DL10_AGE_PRED.ipynb. This tas
 
 The CSV/ZIP use the public Drive identifiers from the supplied age notebook; complete SHA-256 hashes pin both versions. The 239 MB image archive is not bundled. The source CSV has 7591 rows with file_name/real_age columns. The ZIP is a flat numbered image folder, without original train/valid/test or person-identity metadata. We did not establish the original APPA-REAL mapping; the custom 60/20/20 split is not benchmark reproduction. real_age is the source-provided label, not an individually verified age.
 
-Samples: the elephant image is the public image linked by the Keras Grad-CAM example; the sunflower image comes from TensorFlow’s example-image repository. Original sample files and public ImageNet class-index JSON are bundled in assets with source identifiers. Filenames are not verified reference classes.
+Samples: the elephant image is the public image linked by the Keras Grad-CAM example; the sunflower image comes from TensorFlow’s example-image repository. Original sample files and public ImageNet class-index JSON are bundled in DL10_assets.zip with source identifiers. Filenames are not verified reference classes.
 
 - [CAM paper](https://arxiv.org/abs/1512.04150)
 - [Keras Grad-CAM example](https://keras.io/examples/vision/grad_cam/)
@@ -17,3 +17,9 @@ Samples: the elephant image is the public image linked by the Keras Grad-CAM exa
 - [ImageNet labels](https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json)
 
 2026-11-15.
+
+## 1.1 — reliable sample access
+
+The source links above document provenance. C01 does not request them: DL10_assets.zip contains the unchanged SHA-256-verified sample files. Upload that small bundle in Colab. Downloads for the large image dataset and ResNet weights are still required separately.
+
+- [Google Colab files.upload — official source code](https://github.com/googlecolab/colabtools/blob/main/google/colab/files.py)

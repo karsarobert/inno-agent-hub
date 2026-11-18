@@ -8,7 +8,7 @@ E01→C01→C02 kell. C03 rögzíti a célosztályt; C04 építi az aktivációs
 
 ## Letöltési hiba
 
-Az A01-ben használt labels.csv és final_files.zip pontos referenciafájlját az oktató előre a dl10_data mappába helyezheti. Az ellenőrzőösszegek a lecke A01-kódjában vannak. A két fájl a forrásként adott PTE_DL10_AGE_PRED notebook Drive-azonosítóiból származik. Ne hagyd ki a hash-ellenőrzést és ne használj néma szintetikus helyettesítést. A kész C01 ugyanígy használja az assets mellett már meglévő mintafájlokat.
+Az A01-ben használt labels.csv és final_files.zip pontos referenciafájlját az oktató előre a dl10_data mappába helyezheti. Az ellenőrzőösszegek a lecke A01-kódjában vannak. A két fájl a forrásként adott PTE_DL10_AGE_PRED notebook Drive-azonosítóiból származik. Ne hagyd ki a hash-ellenőrzést és ne használj néma szintetikus helyettesítést. C01 nem tölt le képet külső forrásból: a DL10_assets.zip helyi példányát vagy a Colab feltöltőgombját használja. Kernel-/futásvesztés után, ha a fájlok is eltűntek, ugyanazt a képcsomagot töltsd fel újra; GPU-t előtte állíts be.
 
 ## Elveszett kernel, de a helyi eredményfájlok megvannak
 
