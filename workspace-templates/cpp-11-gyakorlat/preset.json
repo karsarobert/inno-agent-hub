@@ -1,0 +1,7 @@
+{
+  "id": "cpp-11-gyakorlat",
+  "name": "C++ 11 — Practice Lab (Short Exercises Recapping Lessons 7–10)",
+  "description": "Guided learner workspace for the eleventh lab of a beginner C++ course: four blocks of short, self-contained micro-practices that recap lessons 7–10 in 24 small programs, six per block — 07: structure field access, copy, pointer, array, scope and the active union member; 08: query member function, private access error, booking, const object, two instances and object array; 09: two constructors, range limiting, array construction, initializer-list rewrite, removing the last element and the ready-made virtual example; 10: saving, appending, counting negatives, the EOF error, line validation and loading into a temporary list. Each task needs only 1–6 lines added or fixed in the given skeleton, with the exact test cases in FELADATOK.md and CHECKS.json; the tutor runs the code, reviews the source against the stated requirements, then asks the task's 1–2 theory questions (47 in total). Progress is tracked in HALADAS.json. C++17, one .cpp per program with its own main, no homework, no closing test and no project.",
+  "category": "Programming",
+  "icon": "code-2"
+}

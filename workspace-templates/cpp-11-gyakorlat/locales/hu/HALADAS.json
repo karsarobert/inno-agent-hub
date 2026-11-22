@@ -1,0 +1,535 @@
+{
+  "schema_version": 1,
+  "lesson": "CPP_07_10_PRACTICE",
+  "language": "HU",
+  "content_track": "micro_practice_v1",
+  "status": "not_started",
+  "current_task": "G07_01",
+  "phase": "coding",
+  "completed_tasks": [],
+  "resume_note": "",
+  "tasks": {
+    "G07_01": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G07_02": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G07_03": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G07_04": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G07_05": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G07_06": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G08_01": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G08_02": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G08_03": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G08_04": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G08_05": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G08_06": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G09_01": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G09_02": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G09_03": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G09_04": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G09_05": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G09_06": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G10_01": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G10_02": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G10_03": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G10_04": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G10_05": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    },
+    "G10_06": {
+      "code_status": "not_started",
+      "checks": [],
+      "source_review": "not_checked",
+      "verification_method": null,
+      "theory": [
+        {
+          "question": 1,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        },
+        {
+          "question": 2,
+          "status": "not_asked",
+          "response": "",
+          "feedback": ""
+        }
+      ],
+      "help_level": 0,
+      "completed": false
+    }
+  }
+}
