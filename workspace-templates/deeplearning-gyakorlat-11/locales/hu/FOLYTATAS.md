@@ -1,0 +1,15 @@
+# Folytatás hiba vagy megszakítás után
+
+| Helyzet | Következő teendő |
+| --- | --- |
+| E01 vagy T00: `GPU: []` | Colab: **Futtatókörnyezet → Futtatókörnyezet típusának módosítása → GPU → Mentés**. Csatlakozz újra, és ismételd meg az aktuális technikai cellát. Ha nincs kiosztható GPU, egyeztessetek az oktatóval. Ez a pont addig blokkolt. |
+| T00: más a futtatókörnyezet vagy a Keras | A második notebookban az első futtatás előtt válaszd a **2026.04** verziót és a GPU-t. Ha ez a verzió nem elérhető, egyeztess az oktatóval TensorFlow 2.19.x környezetről. Ha már futott TensorFlow vagy másik Keras, a helyreállítást az állapotvesztés jelzésével, új munkamenetben kezdd T00-val. A következő lépéshez a Keras neve `tf_keras` kezdetű legyen. |
+| W01–W02: csomag- vagy importhiba | Kérd az aktív azonosítót és a hiba utolsó 1–3 érdemi sorát. Ha a telepítés csomagfrissítést és újraindítást jelez, csatlakozz vissza, ellenőrizd E01-et, majd próbáld újra az importot. Ismétlődő hibánál oktatói egyeztetés. |
+| W03–W04, T00 vagy T02: letöltési hiba | Várd meg az esetleges folyamatjelzőt. Valódi hibánál kérj egy újrapróbálkozást. Ha ismét nem sikerül, az oktató ellenőrizze az eredeti forrást. A csomagverzió, a modell, a korpusz és az URL változatlan marad. |
+| T19, T30 vagy T36: Keras-hiba | Azonosítsd a pontos cellát és hibát. A T00 kimenetét ellenőrizd, különösen a `tf_keras` modulnevet. A helyreállítás után csak a szükséges előzményeket futtasd újra. Az eredeti modellkódot hagyd meg. |
+| T32 még fut | Várd meg a 30. epochát. Ne indíts még egy tanítást és ne futtasd a következő cellát. A hallgató utána egy rövid összehasonlítást ad az első és utolsó veszteségről. |
+| T33: `None` | Ellenőrizd, hogy T32 végigfutott-e ugyanabban a munkamenetben, és ott vannak-e a mentések a `training_checkpoints` mappában. T34-re csak létező mentési útvonallal lépj. |
+| T34 után csak az optimalizálóhoz kapcsolódó visszatöltési figyelmeztetés | Ha a cella kivétel nélkül végzett, a modell súlyainak betöltése után generálásra lehet használni. A modellbe nem állítjuk vissza a tanítás menetét. Kivétel vagy modellsúlyra vonatkozó eltérés esetén maradj T34-nél. |
+| Elveszett a futási állapot | E01 vagy T00 újra, az aktív notebooknak megfelelően. Futtassátok újra az aktuális cellához szükséges előzményeket sorrendben; a már megértett kérdéseket nem kell megismételni. A két notebook külön munkamenetet használ. |
+| Az állapot elveszett, de a teljes tanítás mentése megmaradt | T00 után állítsátok vissza a szükséges változókat: T01–T06, T17–T18, T30, T33. Ha a helyes mentés útvonala megvan, folytassátok T34-től. Ez súlybetöltés a generáláshoz. |
+| Megszakadt a tanítás vagy elveszett a mentés | Egy részleges checkpoint alapján ne tekintsd befejezettnek a T32-t. Újratanításhoz a szükséges adatcellák után T19-ben új, 64-es batchméretű modellt kell létrehozni, és onnan folytatni a tanítási lépéseket. Új munkamenetnél az előző mentés megléte nem garantált. Ha nincs idő újratanítani, jelezd az oktatónak. |

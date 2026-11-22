@@ -1,0 +1,618 @@
+[
+  {
+    "id": "E01",
+    "title": "Check the GPU",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 1,
+    "code_cell": 2
+  },
+  {
+    "id": "W01",
+    "title": "Install Gensim",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 3,
+    "code_cell": 4
+  },
+  {
+    "id": "W02",
+    "title": "Import the libraries",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 5,
+    "code_cell": 6
+  },
+  {
+    "id": "W03",
+    "title": "Load the GloVe embeddings",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 7,
+    "code_cell": 8
+  },
+  {
+    "id": "W04",
+    "title": "List the available models",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 9,
+    "code_cell": 10
+  },
+  {
+    "id": "W05",
+    "title": "Look up word vectors",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 11,
+    "code_cell": 12
+  },
+  {
+    "id": "W06",
+    "title": "Inspect a single vector",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 13,
+    "code_cell": 14
+  },
+  {
+    "id": "W07",
+    "title": "Define cosine similarity",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 15,
+    "code_cell": 16
+  },
+  {
+    "id": "W08",
+    "title": "Compare two fruits and an animal",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 17,
+    "code_cell": 18
+  },
+  {
+    "id": "W09",
+    "title": "Compare accommodation and other words",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 19,
+    "code_cell": 20
+  },
+  {
+    "id": "W10",
+    "title": "Label the similarity scores",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 21,
+    "code_cell": 22
+  },
+  {
+    "id": "W11",
+    "title": "Compare difference vectors",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 23,
+    "code_cell": 24
+  },
+  {
+    "id": "W12",
+    "title": "King − man + woman",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 26,
+    "code_cell": 27
+  },
+  {
+    "id": "W13",
+    "title": "Transfer a singular-to-plural relation",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 29,
+    "code_cell": 30
+  },
+  {
+    "id": "W14",
+    "title": "Find neighbors of Mozart",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 31,
+    "code_cell": 32
+  },
+  {
+    "id": "W15",
+    "title": "The Messi–Mozart analogy",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 33,
+    "code_cell": 34
+  },
+  {
+    "id": "W16",
+    "title": "Relate sushi to Italy",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 35,
+    "code_cell": 36
+  },
+  {
+    "id": "W17",
+    "title": "Relate sushi to Hungary",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 37,
+    "code_cell": 38
+  },
+  {
+    "id": "W18",
+    "title": "Find neighbors of goulash",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 39,
+    "code_cell": 40
+  },
+  {
+    "id": "W19",
+    "title": "Find the country that does not match",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 41,
+    "code_cell": 42
+  },
+  {
+    "id": "W20",
+    "title": "Find the name that does not match",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 43,
+    "code_cell": 44
+  },
+  {
+    "id": "W21",
+    "title": "Run the repeated cell",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 45,
+    "code_cell": 46
+  },
+  {
+    "id": "W22",
+    "title": "Find the subject that does not match",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 47,
+    "code_cell": 48
+  },
+  {
+    "id": "W23",
+    "title": "Store the results",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
+    "markdown_cell": 49,
+    "code_cell": 50
+  },
+  {
+    "id": "S01",
+    "title": "Switch to the text generation notebook",
+    "kind": "discussion",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "T00",
+    "title": "Check TensorFlow, Keras and GPU",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 3,
+    "code_cell": 4
+  },
+  {
+    "id": "T01",
+    "title": "Import TensorFlow and helper libraries",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 10,
+    "code_cell": 11
+  },
+  {
+    "id": "T02",
+    "title": "Download the corpus",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 13,
+    "code_cell": 14
+  },
+  {
+    "id": "T03",
+    "title": "Decode the text as UTF-8",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 15,
+    "code_cell": 16
+  },
+  {
+    "id": "T04",
+    "title": "Display the first 250 characters",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 17,
+    "code_cell": 18
+  },
+  {
+    "id": "T05",
+    "title": "List the distinct characters",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 19,
+    "code_cell": 20
+  },
+  {
+    "id": "T06",
+    "title": "Map between characters and indices",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 22,
+    "code_cell": 23
+  },
+  {
+    "id": "T07",
+    "title": "Inspect the index mapping",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 24,
+    "code_cell": 25
+  },
+  {
+    "id": "T08",
+    "title": "Encode the first 13 characters",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 26,
+    "code_cell": 27
+  },
+  {
+    "id": "T09",
+    "title": "Build a stream of single characters",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 30,
+    "code_cell": 31
+  },
+  {
+    "id": "T10",
+    "title": "Build chunks of 101 characters",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 32,
+    "code_cell": 33
+  },
+  {
+    "id": "T11",
+    "title": "Split the input and target",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 34,
+    "code_cell": 35
+  },
+  {
+    "id": "T12",
+    "title": "Try the one-character shift",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 36,
+    "code_cell": 37
+  },
+  {
+    "id": "T13",
+    "title": "Build training pairs for the whole dataset",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 38,
+    "code_cell": 39
+  },
+  {
+    "id": "T14",
+    "title": "Inspect one input–target pair",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 40,
+    "code_cell": 41
+  },
+  {
+    "id": "T15",
+    "title": "Match the first five time steps",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 43,
+    "code_cell": 44
+  },
+  {
+    "id": "T16",
+    "title": "Shuffle and group 64 training pairs",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 45,
+    "code_cell": 46
+  },
+  {
+    "id": "T17",
+    "title": "Set three model dimensions",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 49,
+    "code_cell": 50
+  },
+  {
+    "id": "T18",
+    "title": "Define the Embedding, GRU and Dense model",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 51,
+    "code_cell": 52
+  },
+  {
+    "id": "T19",
+    "title": "Build the training model",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 53,
+    "code_cell": 54
+  },
+  {
+    "id": "T20",
+    "title": "Read the model summary",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 56,
+    "code_cell": 57
+  },
+  {
+    "id": "T21",
+    "title": "Try a forward pass on one batch",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 60,
+    "code_cell": 61
+  },
+  {
+    "id": "T22",
+    "title": "Read the model summary again",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 62,
+    "code_cell": 63
+  },
+  {
+    "id": "T23",
+    "title": "Sample from the trial output",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 65,
+    "code_cell": 66
+  },
+  {
+    "id": "T24",
+    "title": "Inspect the sampled indices",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 67,
+    "code_cell": 68
+  },
+  {
+    "id": "T25",
+    "title": "Decode the untrained model's sample",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 69,
+    "code_cell": 70
+  },
+  {
+    "id": "T26",
+    "title": "Set up the loss function",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 73,
+    "code_cell": 74
+  },
+  {
+    "id": "T27",
+    "title": "Inspect the initial mean loss",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 75,
+    "code_cell": 76
+  },
+  {
+    "id": "T28",
+    "title": "Exponentiate the mean loss",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 78,
+    "code_cell": 79
+  },
+  {
+    "id": "T29",
+    "title": "Compile the training model",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 80,
+    "code_cell": 81
+  },
+  {
+    "id": "T30",
+    "title": "Configure weight checkpoints",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 83,
+    "code_cell": 84
+  },
+  {
+    "id": "T31",
+    "title": "Set the epoch count",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 86,
+    "code_cell": 87
+  },
+  {
+    "id": "T32",
+    "title": "Train the character model",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 88,
+    "code_cell": 89
+  },
+  {
+    "id": "T33",
+    "title": "Find the latest checkpoint",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 90,
+    "code_cell": 91
+  },
+  {
+    "id": "T34",
+    "title": "Rebuild with batch size one and restore the weights",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 93,
+    "code_cell": 94
+  },
+  {
+    "id": "T35",
+    "title": "Define the generator",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 97,
+    "code_cell": 98
+  },
+  {
+    "id": "T36",
+    "title": "Generate text from the Azok prefix",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 99,
+    "code_cell": 100
+  },
+  {
+    "id": "T37",
+    "title": "Inspect one generation step",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 102,
+    "code_cell": 103
+  },
+  {
+    "id": "T38",
+    "title": "Remove the one-item batch axis",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 104,
+    "code_cell": 105
+  },
+  {
+    "id": "T39",
+    "title": "Inspect a single character score",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 106,
+    "code_cell": 107
+  },
+  {
+    "id": "T40",
+    "title": "Sample one character index",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 108,
+    "code_cell": 109
+  },
+  {
+    "id": "T41",
+    "title": "Build the next input and collect the character",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
+    "markdown_cell": 110,
+    "code_cell": 111
+  },
+  {
+    "id": "Z01",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z02",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z03",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z04",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z05",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z06",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z07",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z08",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z09",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z10",
+    "title": "Final quiz",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  }
+]

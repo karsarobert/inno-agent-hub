@@ -1,0 +1,618 @@
+[
+  {
+    "id": "E01",
+    "title": "GPU ellenőrzése",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 1,
+    "code_cell": 2
+  },
+  {
+    "id": "W01",
+    "title": "Gensim telepítése",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 3,
+    "code_cell": 4
+  },
+  {
+    "id": "W02",
+    "title": "Könyvtárak betöltése",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 5,
+    "code_cell": 6
+  },
+  {
+    "id": "W03",
+    "title": "A GloVe-vektorok betöltése",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 7,
+    "code_cell": 8
+  },
+  {
+    "id": "W04",
+    "title": "Elérhető modellek listája",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 9,
+    "code_cell": 10
+  },
+  {
+    "id": "W05",
+    "title": "Szavak vektorai",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 11,
+    "code_cell": 12
+  },
+  {
+    "id": "W06",
+    "title": "Egy konkrét szóvektor",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 13,
+    "code_cell": 14
+  },
+  {
+    "id": "W07",
+    "title": "Koszinusz-hasonlóság függvény",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 15,
+    "code_cell": 16
+  },
+  {
+    "id": "W08",
+    "title": "Gyümölcsök és állat összevetése",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 17,
+    "code_cell": 18
+  },
+  {
+    "id": "W09",
+    "title": "Szálláshelyek és más szavak",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 19,
+    "code_cell": 20
+  },
+  {
+    "id": "W10",
+    "title": "Párok névvel kiírva",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 21,
+    "code_cell": 22
+  },
+  {
+    "id": "W11",
+    "title": "Különbségvektorok",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 23,
+    "code_cell": 24
+  },
+  {
+    "id": "W12",
+    "title": "King − man + woman",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 26,
+    "code_cell": 27
+  },
+  {
+    "id": "W13",
+    "title": "Egyes szám és többes szám",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 29,
+    "code_cell": 30
+  },
+  {
+    "id": "W14",
+    "title": "Mozart szomszédai",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 31,
+    "code_cell": 32
+  },
+  {
+    "id": "W15",
+    "title": "A Messi–Mozart analógia",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 33,
+    "code_cell": 34
+  },
+  {
+    "id": "W16",
+    "title": "Sushi és Olaszország",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 35,
+    "code_cell": 36
+  },
+  {
+    "id": "W17",
+    "title": "Sushi és Magyarország",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 37,
+    "code_cell": 38
+  },
+  {
+    "id": "W18",
+    "title": "A goulash közeli szavai",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 39,
+    "code_cell": 40
+  },
+  {
+    "id": "W19",
+    "title": "Kilógó ország",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 41,
+    "code_cell": 42
+  },
+  {
+    "id": "W20",
+    "title": "Kilógó személynév",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 43,
+    "code_cell": 44
+  },
+  {
+    "id": "W21",
+    "title": "Az azonos cella ismétlése",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 45,
+    "code_cell": 46
+  },
+  {
+    "id": "W22",
+    "title": "Kilógó tantárgy",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 47,
+    "code_cell": 48
+  },
+  {
+    "id": "W23",
+    "title": "Eredmény eltárolása",
+    "kind": "code",
+    "notebook": "PTE_DL11_W2V_COLAB.ipynb",
+    "markdown_cell": 49,
+    "code_cell": 50
+  },
+  {
+    "id": "S01",
+    "title": "Váltás a szöveggenerálós notebookra",
+    "kind": "discussion",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "T00",
+    "title": "TensorFlow, Keras és GPU ellenőrzése",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 3,
+    "code_cell": 4
+  },
+  {
+    "id": "T01",
+    "title": "TensorFlow és segédkönyvtárak",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 10,
+    "code_cell": 11
+  },
+  {
+    "id": "T02",
+    "title": "A korpusz letöltése",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 13,
+    "code_cell": 14
+  },
+  {
+    "id": "T03",
+    "title": "UTF-8 szöveg beolvasása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 15,
+    "code_cell": 16
+  },
+  {
+    "id": "T04",
+    "title": "Az első 250 karakter",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 17,
+    "code_cell": 18
+  },
+  {
+    "id": "T05",
+    "title": "A karakterkészlet",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 19,
+    "code_cell": 20
+  },
+  {
+    "id": "T06",
+    "title": "Karakterből azonosító, azonosítóból karakter",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 22,
+    "code_cell": 23
+  },
+  {
+    "id": "T07",
+    "title": "Az indexszótár megtekintése",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 24,
+    "code_cell": 25
+  },
+  {
+    "id": "T08",
+    "title": "Az első 13 karakter kódolása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 26,
+    "code_cell": 27
+  },
+  {
+    "id": "T09",
+    "title": "Karakterenkénti adatfolyam",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 30,
+    "code_cell": 31
+  },
+  {
+    "id": "T10",
+    "title": "101 karakteres darabok",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 32,
+    "code_cell": 33
+  },
+  {
+    "id": "T11",
+    "title": "Bemenet és cél szétválasztása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 34,
+    "code_cell": 35
+  },
+  {
+    "id": "T12",
+    "title": "Az eltolás kipróbálása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 36,
+    "code_cell": 37
+  },
+  {
+    "id": "T13",
+    "title": "Címkepárok a teljes adatfolyamon",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 38,
+    "code_cell": 39
+  },
+  {
+    "id": "T14",
+    "title": "Egy bemeneti–cél pár megtekintése",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 40,
+    "code_cell": 41
+  },
+  {
+    "id": "T15",
+    "title": "Öt időlépés párosítása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 43,
+    "code_cell": 44
+  },
+  {
+    "id": "T16",
+    "title": "Keverés és 64-es batch",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 45,
+    "code_cell": 46
+  },
+  {
+    "id": "T17",
+    "title": "A modell fő méretei",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 49,
+    "code_cell": 50
+  },
+  {
+    "id": "T18",
+    "title": "Embedding, GRU, Dense",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 51,
+    "code_cell": 52
+  },
+  {
+    "id": "T19",
+    "title": "A tanítómodell létrehozása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 53,
+    "code_cell": 54
+  },
+  {
+    "id": "T20",
+    "title": "A modell összefoglalója",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 56,
+    "code_cell": 57
+  },
+  {
+    "id": "T21",
+    "title": "Próba egy batchen",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 60,
+    "code_cell": 61
+  },
+  {
+    "id": "T22",
+    "title": "Második modell-összefoglaló",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 62,
+    "code_cell": 63
+  },
+  {
+    "id": "T23",
+    "title": "Mintavétel a próbakimenetből",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 65,
+    "code_cell": 66
+  },
+  {
+    "id": "T24",
+    "title": "A mintavett karakterindexek",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 67,
+    "code_cell": 68
+  },
+  {
+    "id": "T25",
+    "title": "A tanítatlan modell dekódolt próbája",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 69,
+    "code_cell": 70
+  },
+  {
+    "id": "T26",
+    "title": "A veszteségfüggvény",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 73,
+    "code_cell": 74
+  },
+  {
+    "id": "T27",
+    "title": "Kezdeti átlagos veszteség",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 75,
+    "code_cell": 76
+  },
+  {
+    "id": "T28",
+    "title": "A veszteség exponenciálisa",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 78,
+    "code_cell": 79
+  },
+  {
+    "id": "T29",
+    "title": "A modell konfigurálása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 80,
+    "code_cell": 81
+  },
+  {
+    "id": "T30",
+    "title": "Súlymentés beállítása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 83,
+    "code_cell": 84
+  },
+  {
+    "id": "T31",
+    "title": "Az epochák száma",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 86,
+    "code_cell": 87
+  },
+  {
+    "id": "T32",
+    "title": "A modell tanítása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 88,
+    "code_cell": 89
+  },
+  {
+    "id": "T33",
+    "title": "A legutóbbi checkpoint",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 90,
+    "code_cell": 91
+  },
+  {
+    "id": "T34",
+    "title": "Egyes batch és visszatöltött súlyok",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 93,
+    "code_cell": 94
+  },
+  {
+    "id": "T35",
+    "title": "A generáló függvény",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 97,
+    "code_cell": 98
+  },
+  {
+    "id": "T36",
+    "title": "Szöveg generálása az „Azok” prefixből",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 99,
+    "code_cell": 100
+  },
+  {
+    "id": "T37",
+    "title": "Egy generálási lépés külön",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 102,
+    "code_cell": 103
+  },
+  {
+    "id": "T38",
+    "title": "Az egyes batchtengely eltávolítása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 104,
+    "code_cell": 105
+  },
+  {
+    "id": "T39",
+    "title": "Egyetlen pontszám kiválasztása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 106,
+    "code_cell": 107
+  },
+  {
+    "id": "T40",
+    "title": "Egy karakterazonosító mintavétele",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 108,
+    "code_cell": 109
+  },
+  {
+    "id": "T41",
+    "title": "Új bemenet és a karakter eltárolása",
+    "kind": "code",
+    "notebook": "PTE_DL11_text_generation_COLAB.ipynb",
+    "markdown_cell": 110,
+    "code_cell": 111
+  },
+  {
+    "id": "Z01",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z02",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z03",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z04",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z05",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z06",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z07",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z08",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z09",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  },
+  {
+    "id": "Z10",
+    "title": "Záróteszt",
+    "kind": "discussion",
+    "notebook": null,
+    "markdown_cell": null,
+    "code_cell": null
+  }
+]
