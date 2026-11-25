@@ -1,195 +1,187 @@
 [
   {
-    "id": "E01",
-    "title": "Check the GPU",
+    "id": "W01",
+    "title": "Install Gensim",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 1,
     "code_cell": 2
   },
   {
-    "id": "W01",
-    "title": "Install Gensim",
+    "id": "W02",
+    "title": "Import the libraries",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 3,
     "code_cell": 4
   },
   {
-    "id": "W02",
-    "title": "Import the libraries",
+    "id": "W03",
+    "title": "Load the GloVe embeddings",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 5,
     "code_cell": 6
   },
   {
-    "id": "W03",
-    "title": "Load the GloVe embeddings",
+    "id": "W04",
+    "title": "List the available models",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 7,
     "code_cell": 8
   },
   {
-    "id": "W04",
-    "title": "List the available models",
+    "id": "W05",
+    "title": "Look up word vectors",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 9,
     "code_cell": 10
   },
   {
-    "id": "W05",
-    "title": "Look up word vectors",
+    "id": "W06",
+    "title": "Inspect a single vector",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 11,
     "code_cell": 12
   },
   {
-    "id": "W06",
-    "title": "Inspect a single vector",
+    "id": "W07",
+    "title": "Define cosine similarity",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 13,
     "code_cell": 14
   },
   {
-    "id": "W07",
-    "title": "Define cosine similarity",
+    "id": "W08",
+    "title": "Compare two fruits and an animal",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 15,
     "code_cell": 16
   },
   {
-    "id": "W08",
-    "title": "Compare two fruits and an animal",
+    "id": "W09",
+    "title": "Compare accommodation and other words",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 17,
     "code_cell": 18
   },
   {
-    "id": "W09",
-    "title": "Compare accommodation and other words",
+    "id": "W10",
+    "title": "Label the similarity scores",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 19,
     "code_cell": 20
   },
   {
-    "id": "W10",
-    "title": "Label the similarity scores",
+    "id": "W11",
+    "title": "Compare difference vectors",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
     "markdown_cell": 21,
     "code_cell": 22
   },
   {
-    "id": "W11",
-    "title": "Compare difference vectors",
-    "kind": "code",
-    "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 23,
-    "code_cell": 24
-  },
-  {
     "id": "W12",
     "title": "King − man + woman",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 26,
-    "code_cell": 27
+    "markdown_cell": 24,
+    "code_cell": 25
   },
   {
     "id": "W13",
     "title": "Transfer a singular-to-plural relation",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 29,
-    "code_cell": 30
+    "markdown_cell": 27,
+    "code_cell": 28
   },
   {
     "id": "W14",
     "title": "Find neighbors of Mozart",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 31,
-    "code_cell": 32
+    "markdown_cell": 29,
+    "code_cell": 30
   },
   {
     "id": "W15",
     "title": "The Messi–Mozart analogy",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 33,
-    "code_cell": 34
+    "markdown_cell": 31,
+    "code_cell": 32
   },
   {
     "id": "W16",
     "title": "Relate sushi to Italy",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 35,
-    "code_cell": 36
+    "markdown_cell": 33,
+    "code_cell": 34
   },
   {
     "id": "W17",
     "title": "Relate sushi to Hungary",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 37,
-    "code_cell": 38
+    "markdown_cell": 35,
+    "code_cell": 36
   },
   {
     "id": "W18",
     "title": "Find neighbors of goulash",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 39,
-    "code_cell": 40
+    "markdown_cell": 37,
+    "code_cell": 38
   },
   {
     "id": "W19",
     "title": "Find the country that does not match",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 41,
-    "code_cell": 42
+    "markdown_cell": 39,
+    "code_cell": 40
   },
   {
     "id": "W20",
     "title": "Find the name that does not match",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 43,
-    "code_cell": 44
+    "markdown_cell": 41,
+    "code_cell": 42
   },
   {
     "id": "W21",
     "title": "Run the repeated cell",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 45,
-    "code_cell": 46
+    "markdown_cell": 43,
+    "code_cell": 44
   },
   {
     "id": "W22",
     "title": "Find the subject that does not match",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 47,
-    "code_cell": 48
+    "markdown_cell": 45,
+    "code_cell": 46
   },
   {
     "id": "W23",
     "title": "Store the results",
     "kind": "code",
     "notebook": "PTE_DL11_W2V_COLAB_EN.ipynb",
-    "markdown_cell": 49,
-    "code_cell": 50
+    "markdown_cell": 47,
+    "code_cell": 48
   },
   {
     "id": "S01",
@@ -489,7 +481,7 @@
   },
   {
     "id": "T36",
-    "title": "Generate text from the Azok prefix",
+    "title": "Generate text from the ROMEO: prefix",
     "kind": "code",
     "notebook": "PTE_DL11_text_generation_COLAB_EN.ipynb",
     "markdown_cell": 99,

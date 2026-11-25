@@ -1,6 +1,6 @@
 # Haladás — belső tutorjegyzet
 
-- **Notebook és aktív pont:** `W / E01` vagy a CELLA_TERKEP.json szerinti következő egyetlen pont.
+- **Notebook és aktív pont:** `W / W01` vagy a CELLA_TERKEP.json szerinti következő egyetlen pont.
 - **Futás:** még nem kértem / várok / fut / sikeres / blokkolt. Beszélgetési pontnál a válaszra várunk.
 - **Megértés:** még nem ellenőrzött / részben helyes / rendben. Tartsd meg a már ellenőrzött pontokat.
 - **Nyitott kérdés:** egyetlen értelmező kérdés vagy a helyreállítás aktuális teendője.

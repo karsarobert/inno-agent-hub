@@ -2,40 +2,6 @@
 
 Belső tutoranyag. Mindig csak az aktuális pontot add ki: cél, teljes kód, Colab-futtatás, kérdés, várakozás. A tutor ellenőrzési támpontját ne áruld el előre.
 
-## E01 — GPU ellenőrzése
-
-Ellenőrizzük, hogy a Colab munkamenet valóban kapott-e NVIDIA GPU-t.
-
-```python
-# E01 — Check that the Colab runtime can see a GPU.
-import shutil
-import subprocess
-
-gpu_command = shutil.which("nvidia-smi")
-gpu_result = (
-    subprocess.run(
-        [gpu_command, "--query-gpu=name", "--format=csv,noheader"],
-        capture_output=True,
-        text=True,
-    )
-    if gpu_command
-    else None
-)
-gpu_names = (
-    gpu_result.stdout.strip().splitlines()
-    if gpu_result and gpu_result.returncode == 0
-    else []
-)
-print("GPU:", gpu_names)
-if not gpu_names:
-    raise RuntimeError("Colab: Runtime > Change runtime type > GPU > Save. Then rerun E01.")
-
-```
-
-**Futtasd a meglévő E01 cellát. Futtatás után:** Mit ír ki a GPU: sor a te futásodban?
-
-**Tutor ellenőrzése:** A lista legalább egy GPU nevét tartalmazza.
-
 ## W01 — Gensim telepítése
 
 A cella telepíti a Gensimet, vagy jelzi, hogy már elérhető. Várd meg, amíg a telepítés befejeződik.

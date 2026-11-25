@@ -2,40 +2,6 @@
 
 Internal tutor material. Present only the current step: purpose, full code, run in Colab, question, then wait. Keep the tutor check out of the initial prompt.
 
-## E01 — Check the GPU
-
-Check that the Colab session was assigned an NVIDIA GPU.
-
-```python
-# E01 — Check that the Colab runtime can see a GPU.
-import shutil
-import subprocess
-
-gpu_command = shutil.which("nvidia-smi")
-gpu_result = (
-    subprocess.run(
-        [gpu_command, "--query-gpu=name", "--format=csv,noheader"],
-        capture_output=True,
-        text=True,
-    )
-    if gpu_command
-    else None
-)
-gpu_names = (
-    gpu_result.stdout.strip().splitlines()
-    if gpu_result and gpu_result.returncode == 0
-    else []
-)
-print("GPU:", gpu_names)
-if not gpu_names:
-    raise RuntimeError("Colab: Runtime > Change runtime type > GPU > Save. Then rerun E01.")
-
-```
-
-**Run the existing E01 cell. After it runs:** What appears on the GPU: line in your run?
-
-**Tutor check:** The list contains at least one GPU name.
-
 ## W01 — Install Gensim
 
 This cell asks pip to install Gensim. It may report that the requirement is already satisfied.
@@ -400,16 +366,15 @@ os.environ['TF_USE_LEGACY_KERAS']='1'
 
 ## T02 — Download the corpus
 
-The active line fetches the Hungarian text of Piszkos Fred, a kapitány by Jenő Rejtő. The Shakespeare line is commented out.
+The cell downloads the English Shakespeare corpus from the TensorFlow tutorial and saves the local file path in `path_to_file`.
 
 ```python
-#path_to_file = tf.keras.utils.get_file('shakespeare.txt', 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt')
-path_to_file = tf.keras.utils.get_file('piszkosfred.txt', 'https://raw.githubusercontent.com/karsarobert/DeepLearning2026/main/piszkosfred.txt')
+path_to_file = tf.keras.utils.get_file('shakespeare.txt', 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt')
 ```
 
 **Run the existing T02 cell. After it runs:** Which corpus does this notebook actually load?
 
-**Tutor check:** It loads the Hungarian Rejtő text. The Shakespeare line does not run.
+**Tutor check:** It loads the English Shakespeare corpus, `shakespeare.txt`.
 
 ## T03 — Decode the text as UTF-8
 
@@ -428,7 +393,7 @@ print(f'Length of text: {len(text)} characters')
 
 ## T04 — Display the first 250 characters
 
-The slice gives a small view of the corpus, including spaces, line breaks, accents and punctuation.
+The slice gives a small view of the corpus, including spaces, line breaks and punctuation.
 
 ```python
 # Take a look at the first 250 characters in text
@@ -451,7 +416,7 @@ print(f'{len(vocab)} unique characters')
 
 **Run the existing T05 cell. After it runs:** Does the count describe the length of the entire book or the number of distinct characters?
 
-**Tutor check:** It counts distinct characters; the reference corpus has 98.
+**Tutor check:** It counts distinct characters; the Shakespeare corpus has 65.
 
 ## T06 — Map between characters and indices
 
@@ -693,7 +658,7 @@ for input_example_batch, target_example_batch in dataset.take(1):
 
 **Run the existing T21 cell. After it runs:** What does the last output dimension count?
 
-**Tutor check:** The character classes scored at each time step: 98 for the reference corpus.
+**Tutor check:** The character classes scored at each time step: 65 for the Shakespeare corpus.
 
 ## T22 — Read the model summary again
 
@@ -901,17 +866,17 @@ def generate_text(model, start_string):
 
 **Tutor check:** The index of the character sampled in the previous iteration. State can change; weights are not updated.
 
-## T36 — Generate text from the Azok prefix
+## T36 — Generate text from the ROMEO: prefix
 
-The call prints the prefix and 1,000 generated characters. Sampling means that runs can produce different text. The output is Hungarian in both editions.
+The call prints the prefix and 1,000 generated characters. Sampling means that runs can produce different text. The model generates text from the English Shakespeare corpus.
 
 ```python
-print(generate_text(model, start_string=u"Azok"))
+print(generate_text(model, start_string=u"ROMEO:"))
 ```
 
 **Run the existing T36 cell. After it runs:** Which recognizable pattern or visible flaw do you notice in your generated text?
 
-**Tutor check:** A short example of punctuation, spacing, dialogue patterns, Hungarian-looking fragments or nonsense words is enough.
+**Tutor check:** A short example of punctuation, spacing, dialogue patterns, English-looking fragments or nonsense words is enough.
 
 ## T37 — Inspect one generation step
 
@@ -1024,7 +989,7 @@ What input–target pair does split_input_target make from abcd?
 
 ## Z06 — Final quiz
 
-What does 98 represent in an output shape of (64, 100, 98)?
+What does 65 represent in an output shape of (64, 100, 65)?
 
 - **A.** Training batch size.
 - **B.** The number of training epochs.

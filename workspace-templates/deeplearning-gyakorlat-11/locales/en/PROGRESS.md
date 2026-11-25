@@ -1,6 +1,6 @@
 # Progress — internal tutor notes
 
-- **Notebook and active step:** `W / E01` or the next single step in CELL_MAP.json.
+- **Notebook and active step:** `W / W01` or the next single step in CELL_MAP.json.
 - **Execution:** not requested / waiting / running / passed / blocked. For a discussion, wait for its reply.
 - **Understanding:** unverified / partial / verified. Keep steps already checked.
 - **Open item:** one interpretation question or the current recovery action.
